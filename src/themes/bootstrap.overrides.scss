@@ -1,0 +1,53 @@
+// ## Customize Variables
+// This gets loaded after bootstrap/variables is loaded, so you can refer to bootstrap variables
+
+@import './common-variables.scss';
+@import url(http://fonts.googleapis.com/earlyaccess/notosanstc.css);
+
+$red: $harley-davidson-orange;
+
+// html default styles 
+html {
+  font-size: $font-size-base;
+
+  ::selection { 
+    background: $light-red;
+    color: $white;
+  }
+}
+
+a:link {
+    color: #101010;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #101010;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #101010;
+    text-decoration: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+// Container width
+.container {
+  line-height: $twreporter-line-height;
+}
+
+.inner-max {
+  @media only screen and (min-width: $screen-md-min) {
+    max-width: $article-inner-width;
+  }
+}
+
+.outer-max {
+  @media only screen and (min-width: $screen-md-min) {
+    max-width: $article-outer-width;
+  }
+}
