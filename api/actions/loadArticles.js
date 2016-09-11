@@ -6,30 +6,15 @@ import config from '../config'
 import constants from '../constants'
 import querystring from 'qs'
 
-const { REDIS_PORT, REDIS_HOST } = config
-let redis = require('redis')
-let redisClient = redis.createClient(REDIS_PORT, REDIS_HOST, { no_ready_check: true })
-
-redisClient.on('connect', function () {
-  console.log('Connected to Redis')
-})
-
 export function loadMetaOfArticles(req) {
   return new Promise((resolve, reject) => {
     const query = req.query
     const { API_PROTOCOL, API_PORT, API_HOST } = config
     let url = `${API_PROTOCOL}://${API_HOST}:${API_PORT}/meta`
-    redisClient.get(url, function (err, reply) {
-      if (reply != null) {
-        return JSON.parse(reply)
-      }    
-    })
     superAgent['get'](url)
       .timeout(constants.timeout)
       .query(query)
       .end(function (err, res) {
-        console.log(url)
-        redisClient.set(url, JSON.stringify(res.body))
         if (err) {
           reject(err)
         } else {
@@ -46,11 +31,6 @@ export function loadArticles(req, params = []) {
     let url = `${API_PROTOCOL}://${API_HOST}:${API_PORT}/posts`
     let slug = typeof params[0] === 'string' ? params[0] : null
     url = slug ? `${url}/${slug}` : url
-    redisClient.get(url, function (err, reply) {
-      if (reply != null) {
-        return JSON.parse(reply)
-      }
-    })
     superAgent['get'](url).timeout(constants.timeout)
     .query(query)
     .end(function (err, res) {

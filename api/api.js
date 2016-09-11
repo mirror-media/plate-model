@@ -2,14 +2,29 @@
 
 import { mapUrl } from './utils/url.js'
 import * as actions from './actions/index'
+import apiConfig from '../api/config'
 import config from '../server/config'
 import express from 'express'
 import PrettyError from 'pretty-error'
 
+const { REDIS_PORT, REDIS_HOST } = apiConfig
 const pretty = new PrettyError()
 const app = express()
 
+let redis = require('redis')
+let redisClient = redis.createClient(REDIS_PORT, REDIS_HOST, { no_ready_check: true })
+
+redisClient.on('connect', function () {
+  console.log('Connected to Redis')
+})
+
 app.use((req, res) => {
+  console.log(req.url)
+  redisClient.get(req.url, function (err, reply) {
+    if (!err && reply) {
+      res.json(reply)
+    }
+  })
   const splittedUrlPath = req.url.split('?')[0].split('/').slice(1)
 
   const { action, params } = mapUrl(actions, splittedUrlPath)
