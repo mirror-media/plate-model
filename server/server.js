@@ -36,7 +36,7 @@ server.set('view engine', 'ejs')
 server.use(Compression())
 server.use(Express.static(path.join(__dirname, '../static')))
 server.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://www.twreporter.org/')
+  res.header('Access-Control-Allow-Origin', 'http://www.mirrormedia.mg/')
   res.header('Access-Control-Allow-Headers', 'X-Requested-With')
   next()
 })
@@ -162,25 +162,25 @@ server.get('*', async function (req, res) {
                   <meta http-equiv="Cache-control" content="public">
                   <meta name='viewport' content='width=device-width, user-scalable=no, maximum-scale=1, initial-scale=1'/>
                   <meta name="apple-mobile-web-app-capable" content="yes"/>
-                  <meta name="keywords" content=${SITE_META.KEYWORDS}/>
+                  <meta name="keywords" content="${SITE_META.KEYWORDS}"/>
                   <meta name="description" content=${desc} data-rdm/>
                   <meta property="og:rich_attachment" content="true"/>
-                  <meta property="og:type" content=${ogType}/>
-                  <meta property="og:title" content=${title} data-rdm/>
-                  <meta property="og:site_name" content=${SITE_NAME.SHORT}/>
-                  <meta property="og:image" content=${ogImage} data-rdm/>
+                  <meta property="og:type" content="${ogType}" />
+                  <meta property="og:title" content="${title}" data-rdm/>
+                  <meta property="og:site_name" content="${SITE_NAME.SHORT}" />
+                  <meta property="og:image" content="${ogImage}" data-rdm/>
                   <meta property="og:image:type" content="image/png" />
                   <meta property="og:image:width" content="960" />
                   <meta property="og:image:height" content="720" />
                   <meta name="twitter:card" content="summary_large_image" />
-                  <meta name="twitter:image" content=${ogImage} />
-                  <meta name="twitter:title" content=${title} data-rdm/>
+                  <meta name="twitter:image" content="${ogImage}" />
+                  <meta name="twitter:title" content="${title}" data-rdm/>
                   <meta name="twitter:description" content="" data-rdm/>
                   <meta name="theme-color" content="#E30B20">
-                  <link rel="canonical" href=${canonical} data-rdm/>
-                  <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="https://www.twreporter.org/a/rss2.xml" />
+                  <link rel="canonical" href="${canonical}" data-rdm/>
+                  <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="${SITE_META.URL}article/rss2.xml" />
                   <!-- reset css for cross browser-->
-                  <link rel="stylesheet" async type="text/css" href="https://www.twreporter.org/asset/reset.css">
+                  <link rel="stylesheet" async type="text/css" href="${SITE_META.URL}asset/reset.css" >
                   <!-- debug usage -->
                   <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.3/plugins/debug.addIndicators.js"></script>-->
                   <link href="/asset/favicon.png"  rel="shortcut icon" />

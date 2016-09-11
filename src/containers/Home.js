@@ -1,7 +1,7 @@
 /*eslint no-unused-vars:0, no-console:0 */
 /* global __DEVELOPMENT__ */
 'use strict'
-import { HOME, CATEGORY, REVIEW_CH_STR, SPECIAL_TOPIC_CH_STR } from '../constants/index'
+import { HOME, CATEGORY, REVIEW_CH_STR, SPECIAL_TOPIC_CH_STR, SITE_NAME, SITE_META } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles, getCatId } from '../utils/index'
 import { fetchArticlesByUuidIfNeeded, fetchFeatureArticles } from '../actions/articles'
@@ -106,9 +106,9 @@ class Home extends Component {
     let specialTopicItems = denormalizeArticles(_.get(articlesByUuids, [ this.specialTopicListId, 'items' ], []), entities)
     let reviewItems = denormalizeArticles(_.get(articlesByUuids, [ this.reviewListId, 'items' ], []), entities)
     const meta = {
-      title: '報導者 The Reporter',
-      description: '報導者致力於具有手作質感的深度報導，並勇於探索網路新工具與呈現方式，重視網路的公共性與開放性，結合各種進步價值與公民力量。',
-      canonical: 'https://www.twreporter.org/',
+      title: SITE_NAME.FULL,
+      description: SITE_META.DESC,
+      canonical: SITE_META.URL,
       meta: { property: {} },
       auto: { ograph: true }
     }

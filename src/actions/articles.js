@@ -1,5 +1,5 @@
 'use strict'
-import { CATEGORY, TAG, TOPIC } from '../constants/index'
+import { CATEGORY, SECTION, TAG, TOPIC } from '../constants/index'
 import { InternalServerError, NotFoundError } from '../lib/custom-error'
 import { arrayOf, normalize } from 'normalizr'
 import { article as articleSchema } from '../schemas/index'
@@ -218,6 +218,9 @@ export function fetchArticlesByUuidIfNeeded(uuid = '', type = '', params = {}, i
     }
 
     switch (type) {
+      case SECTION:
+        params = _setupWhereInParam('sections', [ uuid ], params)
+        break
       case CATEGORY:
         params = _setupWhereInParam('categories', [ uuid ], params)
         break

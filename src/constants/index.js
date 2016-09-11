@@ -4,20 +4,20 @@ export * from './action-types'
 export * from './strings'
 
 export const SITE_NAME = {
-  FULL: '報導者The Reporter',
-  SHORT: '報導者',
+  FULL: '鏡傳媒 Mirror Media',
+  SHORT: '鏡傳媒',
   SEPARATOR: ' - '
 }
 
 export const SITE_META = {
-  DESC: '報導者致力於具有手作質感的深度報導，並勇於探索網路新工具與呈現方式，重視網路的公共性與開放性，結合各種進步價值與公民力量。',
-  URL: 'https://www.twreporter.org/',
+  DESC: '鏡傳媒以台灣為基地，是一跨平台綜合媒體，包含《鏡週刊》以及下設五大分眾內容的《鏡傳媒》網站，刊載時事、財經、人物、國際、文化、娛樂、美食旅遊、精品鐘錶等深入報導。我們以「鏡」為名，務求反映事實、時代與人性。',
+  URL: 'https://www.mirrormedia.mg/',
   LOGO: 'https://www.twreporter.org/asset/logo.png',
-  KEYWORDS: '報導者,twreporter,新聞,調查報道,原創報道,深度報道,環境,議題,評論,媒體,新媒體,台灣,兩岸,文化'
+  KEYWORDS: '鏡傳媒,mirror media,新聞,人物,調查報導,娛樂,美食,旅遊,精品,動漫,網路趨勢,趨勢,國際,兩岸,政治,明星,文學,劇本,新詩,散文,小說'
 }
 
 export const LINK_PREFIX = {
-  ARTICLE: '/a/',
+  ARTICLE: '/article/',
   CATEGORY: '/category/',
   TAG: '/tag/',
   TOPIC: '/topic/'
@@ -48,7 +48,7 @@ export const copyrightTypes = {
     image: 'LOGO_CC'
   },
   copyrighted: {
-    string: 'Copyright © 2015-2016 報導者',
+    string: 'Copyright © 2015-2016 鏡傳媒',
     link: null,
     image: null
   },
@@ -88,15 +88,17 @@ export const HOME = 'HOME'
 
 export const CATEGORY = 'CATEGORY'
 
+export const SECTION = 'SECTION'
+
 export const TAG = 'TAG'
 
 export const TOPIC = 'TOPIC'
 
-export const basePath = 'https://www.twreporter.org'
+export const basePath = 'https://www.mirrormedia.mg'
 
 export const appId = 962589903815787
 
-export const donatePath = 'https://twreporter.backme.tw/cashflow/checkout?project_id=175&reward_id=718'
+export const donatePath = ''
 
 export const categoryPath = {
   taiwanPath: '/category/taiwan',

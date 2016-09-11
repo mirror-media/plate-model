@@ -14,7 +14,7 @@ module.exports = Object.assign({
   apiHost: process.env.APIHOST || 'localhost',
   apiPort: parseInt(process.env.APIPORT) || 3030,
   app: {
-    title: '報導者The Reporter',
-    description: '報導者致力於具有手作質感的深度報導，並勇於探索網路新工具與呈現方式，重視網路的公共性與開放性，結合各種進步價值與公民力量。'
+    title: '鏡傳媒 Mirror Media',
+    description: '鏡傳媒以台灣為基地，是一跨平台綜合媒體，包含《鏡週刊》以及下設五大分眾內容的《鏡傳媒》網站，刊載時事、財經、人物、國際、文化、娛樂、美食旅遊、精品鐘錶等深入報導。我們以「鏡」為名，務求反映事實、時代與人性。'
   }
 }, environment)
