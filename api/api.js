@@ -7,12 +7,12 @@ import config from '../server/config'
 import express from 'express'
 import PrettyError from 'pretty-error'
 
-const { REDIS_PORT, REDIS_HOST } = apiConfig
+const { REDIS_PORT, REDIS_HOST, REDIS_AUTH } = apiConfig
 const pretty = new PrettyError()
 const app = express()
 
 let redis = require('redis')
-let redisClient = redis.createClient(REDIS_PORT, REDIS_HOST, { no_ready_check: true })
+let redisClient = redis.createClient(REDIS_PORT, REDIS_HOST, { no_ready_check: true, password: REDIS_AUTH })
 
 redisClient.on('connect', function () {
   console.log('Connected to Redis')

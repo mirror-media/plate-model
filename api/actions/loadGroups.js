@@ -29,3 +29,7 @@ export function loadTags(req) {
 export function loadCategories(req) {
   return loadGroups(req, 'postcategories')
 }
+
+export function loadSections(req) {
+  return loadGroups(req, 'sections')
+}
