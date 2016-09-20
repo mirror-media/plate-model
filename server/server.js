@@ -181,9 +181,13 @@ server.get('*', async function (req, res) {
                   <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="${SITE_META.URL}article/rss2.xml" />
                   <!-- reset css for cross browser-->
                   <link rel="stylesheet" async type="text/css" href="${SITE_META.URL}asset/reset.css" >
+                  <link rel="stylesheet" async type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.css" >
                   <!-- debug usage -->
                   <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.3/plugins/debug.addIndicators.js"></script>-->
                   <link href="/asset/favicon.png"  rel="shortcut icon" />
+                  <link rel="stylesheet" async type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.css" >
+                  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+                  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js"></script>
                   ${styles}
               </head>
               <body>
