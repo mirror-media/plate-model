@@ -3,7 +3,7 @@
 'use strict'
 import { HOME, CATEGORY, REVIEW_CH_STR, SPECIAL_TOPIC_CH_STR, SITE_NAME, SITE_META } from '../constants/index'
 import { connect } from 'react-redux'
-import { denormalizeArticles, getCatId } from '../utils/index'
+import { denormalizeArticles } from '../utils/index'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/articles'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
@@ -31,8 +31,6 @@ class Home extends Component {
 
   constructor(props, context) {
     super(props, context)
-    this.specialTopicListId = getCatId(SPECIAL_TOPIC_CH_STR)
-    this.reviewListId = getCatId(REVIEW_CH_STR)
     this.loadMoreArticles = this._loadMoreArticles.bind(this, this.specialTopicListId)
   }
 
