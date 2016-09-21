@@ -21,7 +21,6 @@ module.exports = {
   entry: {
     'main': [
       './src/index.js',
-      'bootstrap-loader/extractStyles'
     ]
   },
   output: {
