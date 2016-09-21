@@ -1,0 +1,50 @@
+.footer.gradient {
+	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px);
+	background-image: linear-gradient(117deg, #00cfbd, #004ea2);
+	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.footer {
+	padding: 55px 122px;
+}
+
+.footer .item {
+  	padding-top: 10px !important;
+	font-family: serif;
+	font-size: 17px;
+	font-weight: bold;
+	letter-spacing: 1.1px;
+	color: #ffffff;
+}
+
+.footer .item.section {
+	padding-bottom:20px !important;
+	font-family: 'Noto Sans TC';
+	font-size: 20px;
+	font-weight: bold;
+	letter-spacing: 1.9px;
+	color: #ffffff;
+}
+
+.footer .line {
+	margin: 0 auto;
+	margin-top: 13px;
+	margin-bottom: 15px;
+	width: 456px;
+	height: 2px;
+	border: solid 1px rgba(0, 0, 0, 0.15);
+
+}
+
+.footer .share .item {
+	margin-right: 40px;
+}
+
+.footer .share .item:last-child {
+	margin-right: 0px;
+}
+
+.ui.grid>.row {
+	padding: 0;
+}

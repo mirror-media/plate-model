@@ -7,7 +7,12 @@ import { denormalizeArticles } from '../utils/index'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/articles'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
-import Daily from '../components/Daily'
+
+import LatestSections from '../components/LatestSections'
+import Choices from '../components/Choices'
+import LatestArticles from '../components/LatestArticles'
+
+import Tags from '../components/Tags'
 import DocumentMeta from 'react-document-meta'
 import Features from '../components/Features'
 import Footer from '../components/Footer'
@@ -63,9 +68,13 @@ class Home extends Component {
   }
 
   render() {
+    const { device } = this.context
     const { articlesByUuids, entities, indexArticles } = this.props
     const topnews_num = 5
-    let topnewsItems = _.get(indexArticles, 'items.posts.entities.articles', [])
+    let sections = _.get(indexArticles, 'items.sections', {})
+    let choices = _.values( _.get(indexArticles, 'items.choices.entities.articles', []) )
+    let posts = _.values( _.get(indexArticles, 'items.posts.entities.articles', []) )
+    
     const meta = {
       title: SITE_NAME.FULL,
       description: SITE_META.DESC,
@@ -73,11 +82,19 @@ class Home extends Component {
       meta: { property: {} },
       auto: { ograph: true }
     }
-
-    if (topnewsItems) {
+    // console.log(articlesByUuids)
+    // console.log(entities)
+    // console.log(indexArticles)
+    // console.log(_.values(posts))
+    if (posts) {
       return (
         <DocumentMeta {...meta}>
-          <TopNews topnews={topnewsItems} />
+          
+          <LatestSections sections={sections} device={device}/>
+
+          <Choices articles={choices} device={device} />
+
+          <LatestArticles articles={posts} device={device} />
           {
             this.props.children
           }
@@ -96,6 +113,10 @@ function mapStateToProps(state) {
     entities: state.entities || {},
     indexArticles: state.indexArticles || {}
   }
+}
+
+Home.contextTypes = {
+  device: React.PropTypes.string
 }
 
 export { Home }

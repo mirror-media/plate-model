@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 import { setReadProgress } from '../actions/header'
 import { ARTICLE, PHOTOGRAPHY_ARTICLE } from '../constants/index'
 // import NavMenu from '../components/navigation/NavMenu'
+import Header from '../components/Header'
 import HeaderProgress from '../components/navigation/HeaderProgress'
 import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
-import logo from '../../static/asset/logo.svg'
 
-const DEFAULT_HEIGHT = 80
+const DEFAULT_HEIGHT = 110
 
 class NaviBar extends Component {
   constructor(props) {
@@ -51,14 +51,14 @@ class NaviBar extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) { // eslint-disable-line
-    // if(nextState.height !== this.state.height ||
-    //    nextProps.header.readPercent !== this.props.header.readPercent ||
-    //    nextState.isScrolledOver !== this.state.isScrolledOver) {
-    //   return true
-    // }
-    // if (nextProps.path === this.props.path) {
-    //   return false
-    // }
+    if(nextState.height !== this.state.height ||
+       nextProps.header.readPercent !== this.props.header.readPercent ||
+       nextState.isScrolledOver !== this.state.isScrolledOver) {
+      return true
+    }
+    if (nextProps.path === this.props.path) {
+      return false
+    }
     return true
   }
 
@@ -74,27 +74,10 @@ class NaviBar extends Component {
     //   </div>
     // )
     return (
-      <div className="ui borderless menu" style={{ backgroundColor: '#F5F5F5', border: 'none', boxShadow: 'none', margin:'0' }}>
-        <div className="ui text container" style={{ maxWidth: 1024 +'px !important' }}>
-          <a href="/" className="header item">
-            <img className="logo small" src={logo} style={{ width:'128px' }} />
-          </a>
-
-          <div className="right menu">
-            <div className="item">
-              訂閱：
-              <a href="#" ><img src="/asset/icon/line@2x.png"      style={{ width: '56px!important', height: '25px' }}/></a>
-              <a href="#" ><img src="/asset/icon/weibo@2x.png"     style={{ width: '29px!important', height: '25px' }}/></a>
-              <a href="#" ><img src="/asset/icon/facebook@2x.png"  style={{ width: '25px!important', height: '25px' }}/></a>
-              <a href="#" ><img src="/asset/icon/wechat@2x.png"    style={{ width: '29px!important', height: '25px' }}/></a>
-            </div>
-            <div className="item">
-              <div className="ui transparent icon input">
-                <i className="search icon"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div>
+        <Header {...this.props}
+          isScrolledOver={this.state.isScrolledOver}
+        />
       </div>
     )
   }

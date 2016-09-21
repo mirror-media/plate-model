@@ -1,0 +1,39 @@
+.blue-line {
+  width: 300px;
+  height: 5px;
+  background-color: #004ea2;
+}
+
+.hot-topic {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+h2.colorTitle {
+  display:inline-block; 
+  color:#014EA2; 
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  vertical-align: middle;
+}
+
+div.colorBlock {
+  display:inline-block; 
+  border-radius: 2px;
+  background-color:#014EA2; 
+  width:10px; 
+  height:22px; 
+  vertical-align: middle;
+  margin-bottom:2px;
+  margin-right:10px;
+}
+
+div.colorBlock.choice {
+  background-color: #004ea2;
+  margin-left:0;
+  margin-right:20px;
+}
