@@ -2,10 +2,11 @@ import _ from 'lodash'
 import { connect } from 'react-redux'
 import { setReadProgress } from '../actions/header'
 import { ARTICLE, PHOTOGRAPHY_ARTICLE } from '../constants/index'
-import NavMenu from '../components/navigation/NavMenu'
+// import NavMenu from '../components/navigation/NavMenu'
 import HeaderProgress from '../components/navigation/HeaderProgress'
 import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
+import logo from '../../static/asset/logo.svg'
 
 const DEFAULT_HEIGHT = 80
 
@@ -62,14 +63,38 @@ class NaviBar extends Component {
   }
 
   _renderDesktop() {
+    // return (
+    //   <div>
+    //     <NavMenu {...this.props}
+    //       isScrolledOver={this.state.isScrolledOver}
+    //       pageTitle={this.props.header.pageTitle}
+    //       pageTopic={this.props.header.pageTopic}
+    //       articleId={this.props.header.articleId}
+    //       />
+    //   </div>
+    // )
     return (
-      <div>
-        <NavMenu {...this.props}
-          isScrolledOver={this.state.isScrolledOver}
-          pageTitle={this.props.header.pageTitle}
-          pageTopic={this.props.header.pageTopic}
-          articleId={this.props.header.articleId}
-          />
+      <div className="ui borderless menu" style={{ backgroundColor: '#F5F5F5', border: 'none', boxShadow: 'none', margin:'0' }}>
+        <div className="ui text container" style={{ maxWidth: 1024 +'px !important' }}>
+          <a href="/" className="header item">
+            <img className="logo small" src={logo} style={{ width:'128px' }} />
+          </a>
+
+          <div className="right menu">
+            <div className="item">
+              訂閱：
+              <a href="#" ><img src="/asset/icon/line@2x.png"      style={{ width: '56px!important', height: '25px' }}/></a>
+              <a href="#" ><img src="/asset/icon/weibo@2x.png"     style={{ width: '29px!important', height: '25px' }}/></a>
+              <a href="#" ><img src="/asset/icon/facebook@2x.png"  style={{ width: '25px!important', height: '25px' }}/></a>
+              <a href="#" ><img src="/asset/icon/wechat@2x.png"    style={{ width: '29px!important', height: '25px' }}/></a>
+            </div>
+            <div className="item">
+              <div className="ui transparent icon input">
+                <i className="search icon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
