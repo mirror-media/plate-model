@@ -19,9 +19,7 @@ function rewriteAliasUrl(query, content) {
           query['collection'] = collection
           query['name'] = where_obj[collection]['$in'][0]
           query['where'] = undefined
-          if (content == 'meta') {
-            query['content'] = 'meta'
-          }
+          if (content == 'meta') { query['content'] = 'meta' }
         }
       }
     }    
@@ -35,6 +33,24 @@ export function loadMetaOfArticles(req) {
     superAgent['get'](request.url)
       .timeout(constants.timeout)
       .query(request.query)
+      .end(function (err, res) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(res.body)
+        }
+      })
+  })
+}
+
+export function loadCombo(req) {
+  return new Promise((resolve, reject) => {
+    const query = req.query
+    const { API_PROTOCOL, API_PORT, API_HOST } = config
+    let url = `${API_PROTOCOL}://${API_HOST}:${API_PORT}/combo`
+    superAgent['get'](url)
+      .timeout(constants.timeout)
+      .query(query)
       .end(function (err, res) {
         if (err) {
           reject(err)

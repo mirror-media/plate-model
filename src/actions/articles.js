@@ -176,7 +176,8 @@ function _fetchArticles(url) {
 }
 
 export function fetchIndexArticles() {
-  let url = 'http://dev.mirrormedia.mg:8080/combo?endpoint=choices&endpoint=posts&endpoint=sections'
+  let url = formatUrl('combo?endpoint=choices&endpoint=posts&endpoint=sections')
+  url = 'http://dev.mirrormedia.mg:8080/combo?endpoint=choices&endpoint=posts&endpoint=sections'
   let resp_data = {}
   //return (dispatch, getState) => {
   return (dispatch) => {
