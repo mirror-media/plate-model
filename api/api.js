@@ -19,7 +19,6 @@ redisClient.on('connect', function () {
 })
 
 app.use((req, res) => {
-  console.log(req.url)
   redisClient.get(req.url, function (err, reply) {
     if (!err && reply) {
       res.json(reply)

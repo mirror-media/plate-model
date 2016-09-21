@@ -11,6 +11,13 @@ export function loadMetaOfArticles(req) {
     const query = req.query
     const { API_PROTOCOL, API_PORT, API_HOST } = config
     let url = `${API_PROTOCOL}://${API_HOST}:${API_PORT}/meta`
+    let parser = url.split('?')
+    if (parser[1]) {
+      let params = parser[1].split('&')
+      for (let p in params) {
+        console.log('PARAM= ' + p)
+      }
+    }
     superAgent['get'](url)
       .timeout(constants.timeout)
       .query(query)

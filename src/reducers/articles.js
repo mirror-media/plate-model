@@ -93,12 +93,39 @@ export function articlesByUuids(state = {}, action = {}) {
     case types.FETCH_ARTICLES_BY_GROUP_UUID_REQUEST:
     case types.FETCH_ARTICLES_BY_GROUP_UUID_FAILURE:
     case types.FETCH_ARTICLES_BY_GROUP_UUID_SUCCESS:
+    case types.FETCH_INDEX_ARTICLES_REQUEST:
+    case types.FETCH_INDEX_ARTICLES_FAILURE:
+    case types.FETCH_INDEX_ARTICLES_SUCCESS:
       return articles(state, action)
     default:
       return state
   }
 }
 
+export function indexArticles(state = {}, action = {})  {
+  switch (action.type) {
+    case types.FETCH_INDEX_ARTICLES_REQUEST:
+      return _.merge({}, state, {
+        isFetching: true,
+        error: null
+      })
+    case types.FETCH_INDEX_ARTICLES_FAILURE:
+      return _.merge({}, state, {
+        isFetching: false,
+        error: action.error,
+        lastUpdated: action.failedAt
+      })
+    case types.FETCH_INDEX_ARTICLES_SUCCESS:
+      return {
+        isFetching: false,
+        error: null,
+        items: _.get(action, 'response'),
+        lastUpdated: action.receivedAt
+      }
+    default:
+      return state
+  }
+}
 export function featureArticles(state = {}, action = {})  {
   switch (action.type) {
     case types.FETCH_FEATURE_ARTICLES_REQUEST:

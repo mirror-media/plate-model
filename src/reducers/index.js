@@ -1,5 +1,5 @@
 'use strict'
-import { articlesByUuids, featureArticles, relatedArticles } from './articles'
+import { articlesByUuids, featureArticles, relatedArticles, indexArticles } from './articles'
 import { categories, tags } from './groups'
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
@@ -54,6 +54,7 @@ function fatalError(state = null, action) {
 const rootReducer = combineReducers({
   articlesByUuids,
   featureArticles,
+  indexArticles,
   relatedArticles,
   categories,
   fatalError,

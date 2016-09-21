@@ -4,7 +4,7 @@
 import { HOME, CATEGORY, REVIEW_CH_STR, SPECIAL_TOPIC_CH_STR, SITE_NAME, SITE_META } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles, getCatId } from '../utils/index'
-import { fetchArticlesByUuidIfNeeded, fetchFeatureArticles } from '../actions/articles'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/articles'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
 import Daily from '../components/Daily'
@@ -25,41 +25,8 @@ if (process.env.BROWSER) {
 }
 
 class Home extends Component {
-  static fetchData({
-    store
-  }) {
-    let params = {
-      page: PAGE,
-      max_results: MAXRESULT
-    }
-    return new Promise((resolve, reject) => {
-      // load tagged articles in parallel
-      async.parallel([
-        function (callback) {
-          store.dispatch(fetchFeatureArticles())
-            .then(() => {
-              callback(null)
-            })
-        },
-        function (callback) {
-          store.dispatch(fetchArticlesByUuidIfNeeded(getCatId(REVIEW_CH_STR), CATEGORY, params))
-            .then(() => {
-              callback(null)
-            })
-        },
-        function (callback) {
-          store.dispatch(fetchArticlesByUuidIfNeeded(getCatId(SPECIAL_TOPIC_CH_STR), CATEGORY, params))
-            .then(() => {
-              callback(null)
-            })
-        }
-      ], (err, results) => {
-        if (err) {
-          console.warn('fetchData occurs error:', err)
-        }
-        resolve()
-      })
-    })
+  static fetchData({ params, store }) {
+    return store.dispatch(fetchIndexArticles()) 
   }
 
   constructor(props, context) {
@@ -74,14 +41,12 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    const { fetchArticlesByUuidIfNeeded, fetchFeatureArticles } = this.props
+    const { fetchArticlesByUuidIfNeeded, fetchIndexArticles } = this.props
     let params = {
       page: PAGE,
       max_results: MAXRESULT
     }
-    fetchFeatureArticles()
-    fetchArticlesByUuidIfNeeded(this.reviewListId, CATEGORY, params)
-    fetchArticlesByUuidIfNeeded(this.specialTopicListId, CATEGORY, params)
+    fetchIndexArticles()
   }
 
   _loadMoreArticles(catId) {
@@ -100,11 +65,9 @@ class Home extends Component {
   }
 
   render() {
-    const { articlesByUuids, entities, featureArticles } = this.props
+    const { articlesByUuids, entities, indexArticles } = this.props
     const topnews_num = 5
-    let topnewsItems = denormalizeArticles(_.get(featureArticles, 'items', []), entities)
-    let specialTopicItems = denormalizeArticles(_.get(articlesByUuids, [ this.specialTopicListId, 'items' ], []), entities)
-    let reviewItems = denormalizeArticles(_.get(articlesByUuids, [ this.reviewListId, 'items' ], []), entities)
+    let topnewsItems = _.get(indexArticles, 'items.posts.entities.articles', [])
     const meta = {
       title: SITE_NAME.FULL,
       description: SITE_META.DESC,
@@ -117,13 +80,6 @@ class Home extends Component {
       return (
         <DocumentMeta {...meta}>
           <TopNews topnews={topnewsItems} />
-          <Daily daily={reviewItems}
-          />
-          <Features
-            features={specialTopicItems}
-            hasMore={ _.get(articlesByUuids, [ this.specialTopicListId, 'hasMore' ])}
-            loadMore={this.loadMoreArticles}
-          />
           {
             this.props.children
           }
@@ -140,7 +96,7 @@ function mapStateToProps(state) {
   return {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
-    featureArticles: state.featureArticles || {}
+    indexArticles: state.indexArticles || {}
   }
 }
 
@@ -148,6 +104,6 @@ export { Home }
 
 export default connect(mapStateToProps, {
   fetchArticlesByUuidIfNeeded,
-  fetchFeatureArticles,
+  fetchIndexArticles,
   setPageType
 })(Home)

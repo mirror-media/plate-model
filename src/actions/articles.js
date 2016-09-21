@@ -88,6 +88,29 @@ function receiveFeaturedArticles(response) {
   }
 }
 
+function requestIndexArticles(url) {
+  return {
+    type: types.FETCH_INDEX_ARTICLES_REQUEST,
+    url
+  }
+}
+
+function failToReceiveIndexArticles(error) {
+  return {
+    type: types.FETCH_INDEX_ARTICLES_FAILURE,
+    error,
+    failedAt: Date.now()
+  }
+}
+
+function receiveIndexArticles(response) {
+  return {
+    type: types.FETCH_INDEX_ARTICLES_SUCCESS,
+    response,
+    receivedAt: Date.now()
+  }
+}
+
 function _buildQuery(params = {}) {
   let query = {}
   let whitelist = [ 'where', 'embedded', 'max_results', 'page', 'sort' ]
@@ -150,6 +173,36 @@ function _fetchArticles(url) {
       }
       return response.json()
     })
+}
+
+export function fetchIndexArticles() {
+  let url = 'http://dev.mirrormedia.mg:8080/combo?endpoint=choices&endpoint=posts&endpoint=sections'
+  let resp_data = {}
+  //return (dispatch, getState) => {
+  return (dispatch) => {
+   // let articles = _.get(getState(), [ 'entities', 'articles' ], {})
+    dispatch(requestIndexArticles(url))
+    return _fetchArticles(url)
+      .then((response) => {
+        let resp = response['_endpoints']
+        for (let e in resp) {
+          let camelizedJson = camelizeKeys(resp[e])
+          if (e == 'posts' || e == 'choices') {
+            resp_data[e] = normalize(camelizedJson.items, arrayOf(articleSchema))
+          } else if (e == 'sections') {
+            resp_data[e] = {}
+            for (let section in camelizedJson.items) {
+              if (camelizedJson.items[section] != undefined) {
+                resp_data[e][section] = normalize(camelizedJson.items[section], arrayOf(articleSchema))
+              }
+            }
+          }
+        }
+        return dispatch(receiveIndexArticles(resp_data))
+      }, (error) => {
+        return dispatch(failToReceiveIndexArticles(error))
+      })
+  }
 }
 
 /* Fetch related articles' meta of one certain article

@@ -27,7 +27,8 @@ const catENtoCH = {
 
 class Category extends Component {
   static fetchData({ params, store }) {
-    return store.dispatch(fetchArticlesByUuidIfNeeded(getCatId(catENtoCH[params.category]), {
+    return store.dispatch(fetchArticlesByUuidIfNeeded(params.category, {
+    //return store.dispatch(fetchArticlesByUuidIfNeeded(getCatId(catENtoCH[params.category]), {
       page: PAGE,
       max_results: MAXRESULT
     }))

@@ -16,7 +16,7 @@ export default function (history = browserHistory) {
         <Route path="section/:section" component={Section}/>
         <Route path="category/:category" component={Category}/>
         <Route path="tag/:tagId" component={Tag} />
-        <Route path="article/:slug" component={Article}/>
+        <Route path="a/:slug" component={Article}/>
       </Route>
     </Router>
   )
