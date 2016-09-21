@@ -6,21 +6,35 @@ import config from '../config'
 import constants from '../constants'
 import querystring from 'qs'
 
+function rewriteAliasUrl(query, content) {
+  const { API_PROTOCOL, API_PORT, API_HOST, WHERE_REWRITE } = config
+  let url = `${API_PROTOCOL}://${API_HOST}:${API_PORT}/meta`
+  if (query.hasOwnProperty('where')) {
+    let where_obj = JSON.parse(query.where)
+    for (let collection in where_obj) {
+      if (WHERE_REWRITE.indexOf(collection)) {
+        if (where_obj[collection].hasOwnProperty('$in') &&
+            where_obj[collection]['$in'].length == 1) {
+          url = `${API_PROTOCOL}://${API_HOST}:${API_PORT}/posts-alias`       
+          query['collection'] = collection
+          query['name'] = where_obj[collection]['$in'][0]
+          query['where'] = undefined
+          if (content == 'meta') {
+            query['content'] = 'meta'
+          }
+        }
+      }
+    }    
+  }
+  return { 'url': url, 'query': query }
+}
+
 export function loadMetaOfArticles(req) {
   return new Promise((resolve, reject) => {
-    const query = req.query
-    const { API_PROTOCOL, API_PORT, API_HOST } = config
-    let url = `${API_PROTOCOL}://${API_HOST}:${API_PORT}/meta`
-    let parser = url.split('?')
-    if (parser[1]) {
-      let params = parser[1].split('&')
-      for (let p in params) {
-        console.log('PARAM= ' + p)
-      }
-    }
-    superAgent['get'](url)
+    let request = rewriteAliasUrl(req.query, 'meta')
+    superAgent['get'](request.url)
       .timeout(constants.timeout)
-      .query(query)
+      .query(request.query)
       .end(function (err, res) {
         if (err) {
           reject(err)

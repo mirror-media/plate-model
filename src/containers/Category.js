@@ -1,6 +1,6 @@
 import { CATEGORY, CULTURE_CH_STR, INTL_CH_STR, MEDIA_CH_STR, REVIEW_CH_STR, SITE_META, SITE_NAME, TAIWAN_CH_STR } from '../constants/index'
 import { connect } from 'react-redux'
-import { denormalizeArticles, getCatId } from '../utils/index'
+import { denormalizeArticles } from '../utils/index'
 import { fetchArticlesByUuidIfNeeded } from '../actions/articles'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
@@ -38,7 +38,7 @@ class Category extends Component {
     super(props)
     let category = this.props.params.category
     this.state = {
-      catId: getCatId(catENtoCH[category])
+      catId: category
     }
     this.loadMore = this._loadMore.bind(this)
   }
@@ -65,7 +65,7 @@ class Category extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = nextProps
-    let catId = getCatId(catENtoCH[_.get(params, 'category')])
+    let catId = _.get(params, 'category')
 
     // if fetched before, do nothing
     if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0) {
@@ -80,7 +80,7 @@ class Category extends Component {
 
   _loadMore() {
     const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = this.props
-    let catId = getCatId(catENtoCH[_.get(params, 'category')])
+    let catId = _.get(params, 'category')
 
     let articlesByCat = _.get(articlesByUuids, [ catId ], {})
     if (_.get(articlesByCat, 'hasMore') === false) {
@@ -99,7 +99,7 @@ class Category extends Component {
   render() {
     const { device } = this.context
     const { articlesByUuids, entities, params } = this.props
-    const catId = getCatId(catENtoCH[_.get(params, 'category')])
+    const catId = _.get(params, 'category')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
     const category = _.get(params, 'category', null)
     const catName = catENtoCH[category]
