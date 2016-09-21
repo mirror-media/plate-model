@@ -18,7 +18,7 @@
 	margin-right: 10px;
 }
 
-.item.share .vertical.line {
+.item.share div.vertical.line {
 	width: 2px;
 	height: 14px;
 	border: solid 1px #979797;
