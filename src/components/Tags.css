@@ -114,7 +114,7 @@ img.category-itemimage {
     }
 }
 
-@media all and (max-width: 954px) and (min-width: 800px) {
+@media all and (max-width: 954px) and (min-width: 768px) {
     .itemimage-wrap {
         width: 100%;
     }
@@ -123,11 +123,10 @@ img.category-itemimage {
 
 /* 451 * 2 + 52 = 954 */
 
-
 /* 寬度800px 以下*/
 
-@media only screen and (max-device-width: 799px),
-only screen and (max-width: 799px) {
+@media only screen and (max-device-width: 768px),
+only screen and (max-width: 768px) {
     .tag-item {
         width: 100%;
         margin: 0;

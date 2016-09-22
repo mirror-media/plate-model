@@ -1,3 +1,27 @@
 .uh {
     height: 100px;
 }
+
+.ui.menu a.item:hover {
+  background: transparent !important;
+}
+
+.item.share a {
+	margin-right: 15px
+}
+
+.item.share a:last-child {
+	margin-right: 80px
+}
+
+.item.share span {
+	margin-right: 10px;
+}
+
+.item.share div.vertical.line {
+	width: 2px;
+	height: 14px;
+	border: solid 1px #979797;
+	margin-left: 20px;
+	margin-right: 30px;
+}

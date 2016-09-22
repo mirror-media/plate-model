@@ -2,12 +2,13 @@ import _ from 'lodash'
 import { connect } from 'react-redux'
 import { setReadProgress } from '../actions/header'
 import { ARTICLE, PHOTOGRAPHY_ARTICLE } from '../constants/index'
-import NavMenu from '../components/navigation/NavMenu'
+// import NavMenu from '../components/navigation/NavMenu'
+import Header from '../components/Header'
 import HeaderProgress from '../components/navigation/HeaderProgress'
 import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 
-const DEFAULT_HEIGHT = 80
+const DEFAULT_HEIGHT = 110
 
 class NaviBar extends Component {
   constructor(props) {
@@ -50,26 +51,33 @@ class NaviBar extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) { // eslint-disable-line
-    // if(nextState.height !== this.state.height ||
-    //    nextProps.header.readPercent !== this.props.header.readPercent ||
-    //    nextState.isScrolledOver !== this.state.isScrolledOver) {
-    //   return true
-    // }
-    // if (nextProps.path === this.props.path) {
-    //   return false
-    // }
+    if(nextState.height !== this.state.height ||
+       nextProps.header.readPercent !== this.props.header.readPercent ||
+       nextState.isScrolledOver !== this.state.isScrolledOver) {
+      return true
+    }
+    if (nextProps.path === this.props.path) {
+      return false
+    }
     return true
   }
 
   _renderDesktop() {
+    // return (
+    //   <div>
+    //     <NavMenu {...this.props}
+    //       isScrolledOver={this.state.isScrolledOver}
+    //       pageTitle={this.props.header.pageTitle}
+    //       pageTopic={this.props.header.pageTopic}
+    //       articleId={this.props.header.articleId}
+    //       />
+    //   </div>
+    // )
     return (
       <div>
-        <NavMenu {...this.props}
+        <Header {...this.props}
           isScrolledOver={this.state.isScrolledOver}
-          pageTitle={this.props.header.pageTitle}
-          pageTopic={this.props.header.pageTopic}
-          articleId={this.props.header.articleId}
-          />
+        />
       </div>
     )
   }

@@ -1,5 +1,6 @@
 import _ from 'lodash'
-import { ARTICLE, PHOTOGRAPHY, PHOTOGRAPHY_ARTICLE, TOPIC, appId, donatePath, navPath, colors } from '../../constants/index'
+// import { ARTICLE, PHOTOGRAPHY, PHOTOGRAPHY_ARTICLE, TOPIC, appId, donatePath, navPath, colors } from '../../constants/index'
+import { ARTICLE, PHOTOGRAPHY_ARTICLE, TOPIC, appId, donatePath, navPath, colors } from '../../constants/index'
 import { getAbsPath } from '../../utils/index'
 import { Link } from 'react-router'
 import { shortenString } from '../../lib/string-processor'
@@ -7,14 +8,13 @@ import classNames from 'classnames'
 import commonStyles from '../article/Common.scss'
 import donateIcon from '../../../static/asset/icon-donation.svg'
 import logoIcon from '../../../static/asset/logo-navbar-s.svg'
-import logoIconDark from '../../../static/asset/logo-white-s.svg'
 import navCommonStyles from './NavCommon.scss'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import SearchBox from './SearchBox'
 import smallLogo from '../../../static/asset/navbar-fixed-top-logo.svg'
 import styles from './NavMenu.scss'
-import SubNavBar from './SubNavBar'
+// import SubNavBar from './SubNavBar'
 import tocIcon from '../../../static/asset/icon-navbar-toc.svg'
 import TopicPopup from './TopicPopup'
 
@@ -100,10 +100,10 @@ export default class NavMenu extends Component {
   }
 
   _renderAritcleFirst(burgerMenu, logo, navLinks) {
-    const { header } = this.props
-    const pageType = _.get(header, 'pageType', null)
+    // const { header } = this.props
+    // const pageType = _.get(header, 'pageType', null)
     let animateClass = this.state.isDown ? styles['slideDown'] : null
-    let subNavBar = (!pageType || pageType === ARTICLE || pageType === PHOTOGRAPHY_ARTICLE || this.state.open) ? null : <div className={styles['general-subnav']}><SubNavBar {...this.props}/></div>
+    // let subNavBar = (!pageType || pageType === ARTICLE || pageType === PHOTOGRAPHY_ARTICLE || this.state.open) ? null : <div className={styles['general-subnav']}><SubNavBar {...this.props}/></div>
 
     return (
       <div className={classNames(styles.navContainer, animateClass)}>
@@ -118,7 +118,6 @@ export default class NavMenu extends Component {
         <div className={styles.navRight}>
           <Link className={styles.logoRight} to="/"><img src={smallLogo} /></Link>
         </div>
-        {subNavBar}
       </div>
     )
   }
@@ -216,7 +215,8 @@ export default class NavMenu extends Component {
   }
 
   render() {
-    const { path, bgStyle, header, isScrolledOver, pageTopic, articleId } = this.props
+    // const { path, bgStyle, header, isScrolledOver, pageTopic, articleId } = this.props
+    const { path, header, isScrolledOver, pageTopic, articleId } = this.props
     const cUrl = getAbsPath(this.context.location.pathname, this.context.location.search)
     let backgroundColor = colors.whiteBg
     let navTopBackground = isScrolledOver ? colors.superWhite : colors.whiteBg
@@ -252,7 +252,6 @@ export default class NavMenu extends Component {
         <div className={styles.catLinkContainer}>
           {navLinks}
         </div>
-        <SubNavBar onClick={() => {this.setState( { open: !this.state.open } )}} {...this.props}/>
       </div>
 
       // change the color of the navbar
@@ -267,14 +266,6 @@ export default class NavMenu extends Component {
                         <span></span>
                         <span></span>
                       </div>
-
-    if (!this.state.open && (bgStyle === 'dark' || header.pageType === PHOTOGRAPHY || header.pageType === PHOTOGRAPHY_ARTICLE)) {
-      backgroundColor = colors.darkBg
-      navTopBackground = colors.darkBg
-      logo = logoIconDark
-      linkColor = colors.whiteBg
-      photographyClass = styles['photography']
-    }
 
     let menuBar = this._renderAritcleFirst(burgerMenu, logo, navLinks)
     let searchBox =
