@@ -72,7 +72,8 @@ class Home extends Component {
     const { articlesByUuids, entities, sectionsFeatured, choices, latestPosts } = this.props
     const topnews_num = 5
     let sections = sectionsFeatured
-    let posts = latestPosts
+    let choicesPosts = _.filter(entities.articles, (v,k)=>{ return _.indexOf(choices.items, k) > -1 })
+    let posts = _.filter(entities.articles, (v,k)=>{ return _.indexOf(latestPosts.items, k) > -1 })
     
     const meta = {
       title: SITE_NAME.FULL,
@@ -89,9 +90,9 @@ class Home extends Component {
       return (
         <DocumentMeta {...meta}>
           
-          <LatestSections sections={sections} device={device}/>
+          <LatestSections sections={sections} entities={entities} device={device}/>
 
-          <Choices articles={choices} device={device} />
+          <Choices articles={choicesPosts} device={device} />
 
           <LatestArticles articles={posts} device={device} />
           {
@@ -113,7 +114,7 @@ function mapStateToProps(state) {
     indexArticles: state.indexArticles || {},
     choices: state.choices || {},
     latestPosts: state.latestPosts || {},
-    sectionsFeatured: state.sectionFeatured || {}
+    sectionsFeatured: state.sectionsFeatured || {}
   }
 }
 
