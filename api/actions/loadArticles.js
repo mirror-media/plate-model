@@ -12,7 +12,7 @@ function rewriteAliasUrl(query, content) {
   if (_.has(query, 'where')) {
     let where_obj = JSON.parse(query.where)
     for (let collection in where_obj) {
-      if (_.indexOf(WHERE_REWRITE.collection)) {
+      if (_.indexOf(WHERE_REWRITE, collection)) {
         if  (_.has(where_obj[collection], '$in')) {
           url = `${API_PROTOCOL}://${API_HOST}:${API_PORT}/posts-alias`       
           query['collection'] = collection
