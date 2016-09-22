@@ -14,7 +14,7 @@ export default class LatestSections extends Component {
   }
 
   render() {
-    const { sections } = this.props
+    const { sections, entities } = this.props
 
     let styles = [
       'ui',
@@ -27,17 +27,14 @@ export default class LatestSections extends Component {
       <div className="container">
         <div className={classNames(styles)}>
 
-          { _.map(sections, (value, key) => { 
+          { _.map(sections.items, (value, key) => { 
             let sectionTop = []
             let sectionList = []
             if ( value ) { 
-              let articles = _.values( _.get(value, 'entities.articles', {}))
+              let articles = _.filter(entities.articles, (v,k)=>{ return _.indexOf(value, k) > -1 })
               sectionTop = articles.slice(0, 1) //fetch first one
               sectionList = articles.splice(0, 1) //fetch rest
             }
-            // console.log(key)
-            // console.log(sectionTop)
-            // console.log(sectionList)
             return (
               <div className="ui column" key={'section-'+key}>
                 <Link to={ '/news/'+_.get(sectionTop, '[0].slug', '/') }>
