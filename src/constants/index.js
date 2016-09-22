@@ -15,6 +15,14 @@ export const SITE_META = {
   KEYWORDS: '鏡傳媒,mirror media,新聞,人物,調查報導,娛樂,美食,旅遊,精品,動漫,網路趨勢,趨勢,國際,兩岸,政治,明星,文學,劇本,新詩,散文,小說'
 }
 
+export const SECTION_NAME = [
+  { 'title': '漫熱遊', 'name': 'popular' },
+  { 'title': '新聞/人物', 'name': 'news' },
+  { 'title': '美食/旅遊', 'name': 'foodtravel' },
+  { 'title': '鏡鐘錶', 'name': 'fashion' },
+  { 'title': '娛樂', 'name': 'entertainment' }
+]
+
 export const LINK_PREFIX = {
   ARTICLE: '/article/',
   CATEGORY: '/category/',
