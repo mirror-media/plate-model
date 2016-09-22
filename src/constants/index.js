@@ -26,6 +26,7 @@ export const SECTION_NAME = [
 export const LINK_PREFIX = {
   ARTICLE: '/article/',
   CATEGORY: '/category/',
+  SECTION: '/section/',
   TAG: '/tag/',
   TOPIC: '/topic/'
 }

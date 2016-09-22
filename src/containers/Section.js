@@ -1,4 +1,4 @@
-import { CATEGORY, CULTURE_CH_STR, INTL_CH_STR, MEDIA_CH_STR, REVIEW_CH_STR, SITE_META, SITE_NAME, TAIWAN_CH_STR } from '../constants/index'
+import { SECTION, SITE_META, SITE_NAME } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { fetchArticlesByUuidIfNeeded } from '../actions/articles'
@@ -10,20 +10,13 @@ import React, { Component } from 'react'
 import Tags from '../components/Tags'
 
 if (process.env.BROWSER) {
-  require('./Category.css')
+  require('./Section.css')
 }
 
 const MAXRESULT = 10
 const PAGE = 1
 
 // english to chinese of category
-const catENtoCH = {
-  culture: CULTURE_CH_STR,
-  intl: INTL_CH_STR,
-  media: MEDIA_CH_STR,
-  review: REVIEW_CH_STR,
-  taiwan: TAIWAN_CH_STR
-}
 
 class Section extends Component {
   static fetchData({ params, store }) {
@@ -35,9 +28,9 @@ class Section extends Component {
 
   constructor(props) {
     super(props)
-    let category = this.props.params.section
+    let section = this.props.params.section
     this.state = {
-      catId: category
+      catId: section
     }
     this.loadMore = this._loadMore.bind(this)
   }
@@ -51,7 +44,7 @@ class Section extends Component {
       return
     }
 
-    fetchArticlesByUuidIfNeeded(catId, CATEGORY, {
+    fetchArticlesByUuidIfNeeded(catId, SECTION, {
       page: PAGE,
       max_results: MAXRESULT
     })
@@ -59,19 +52,19 @@ class Section extends Component {
   }
 
   componentDidMount() {
-    this.props.setPageType(CATEGORY)
+    this.props.setPageType(SECTION)
   }
 
   componentWillReceiveProps(nextProps) {
     const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = nextProps
-    let catId = _.get(params, 'category')
+    let catId = _.get(params, 'section')
 
     // if fetched before, do nothing
     if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0) {
       return
     }
 
-    fetchArticlesByUuidIfNeeded(catId, CATEGORY, {
+    fetchArticlesByUuidIfNeeded(catId, SECTION, {
       page: PAGE,
       max_results: MAXRESULT
     })
@@ -79,7 +72,7 @@ class Section extends Component {
 
   _loadMore() {
     const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = this.props
-    let catId = _.get(params, 'category')
+    let catId = _.get(params, 'section')
 
     let articlesByCat = _.get(articlesByUuids, [ catId ], {})
     if (_.get(articlesByCat, 'hasMore') === false) {
@@ -89,7 +82,7 @@ class Section extends Component {
     let itemSize = _.get(articlesByCat, 'items.length', 0)
     let page = Math.floor(itemSize / MAXRESULT) + 1
 
-    fetchArticlesByUuidIfNeeded(catId, CATEGORY, {
+    fetchArticlesByUuidIfNeeded(catId, SECTION, {
       page: page,
       max_results: MAXRESULT
     })
@@ -100,13 +93,13 @@ class Section extends Component {
     const { articlesByUuids, entities, params } = this.props
     const catId = _.get(params, 'section')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
-    const category = _.get(params, 'section', null)
-    const catName = catENtoCH[category]
+    const section = _.get(params, 'section', null)
+    const catName = section
     const catBox = catName ? <div className="top-title-outer"><h1 className="top-title"> {catName} </h1></div> : null
     const meta = {
       title: catName ? catName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL,
       description: SITE_META.DESC,
-      canonical: `${SITE_META.URL}category/${category}`,
+      canonical: `${SITE_META.URL}section/${section}`,
       meta: { property: {} },
       auto: { ograph: true }
     }
