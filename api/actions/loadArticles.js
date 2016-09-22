@@ -9,15 +9,17 @@ import querystring from 'qs'
 function rewriteAliasUrl(query, content) {
   const { API_PROTOCOL, API_PORT, API_HOST, WHERE_REWRITE } = config
   let url = `${API_PROTOCOL}://${API_HOST}:${API_PORT}/meta`
-  if (query.hasOwnProperty('where')) {
+  if (_.has(query, 'where')) {
     let where_obj = JSON.parse(query.where)
     for (let collection in where_obj) {
-      if ((WHERE_REWRITE.indexOf(collection)) &&  (_.has(collection, '$in'))) {
-        url = `${API_PROTOCOL}://${API_HOST}:${API_PORT}/posts-alias`       
-        query['collection'] = collection
-        query['name'] = where_obj[collection]['$in'][0]
-        query['where'] = undefined
-        if (content == 'meta') { query['content'] = 'meta' }
+      if (_.indexOf(WHERE_REWRITE.collection)) {
+        if  (_.has(where_obj[collection], '$in')) {
+          url = `${API_PROTOCOL}://${API_HOST}:${API_PORT}/posts-alias`       
+          query['collection'] = collection
+          query['name'] = where_obj[collection]['$in'][0]
+          query['where'] = undefined
+          if (content == 'meta') { query['content'] = 'meta' }
+        }
       }
     }    
   }
