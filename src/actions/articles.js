@@ -103,9 +103,49 @@ function failToReceiveIndexArticles(error) {
   }
 }
 
-function receiveIndexArticles(response) {
+function failToReceiveLatestPosts(error) {
   return {
-    type: types.FETCH_INDEX_ARTICLES_SUCCESS,
+    type: types.FETCH_LATEST_POSTS_FAILURE,
+    error,
+    failedAt: Date.now()
+  }
+}
+
+function receiveSectionsFeatured(response) {
+  return {
+    type: types.FETCH_SECTIONS_FEATURED_SUCCESS,
+    response,
+    receivedAt: Date.now()
+  }
+}
+
+function failToReceiveSectionsFeatured(error) {
+  return {
+    type: types.FETCH_SECTIONS_FEATURED_FAILURE,
+    error,
+    failedAt: Date.now()
+  }
+}
+
+function receiveChoices(response) {
+  return {
+    type: types.FETCH_CHOICES_SUCCESS,
+    response,
+    receivedAt: Date.now()
+  }
+}
+
+function failToReceiveChoices(error) {
+  return {
+    type: types.FETCH_CHOICES_FAILURE,
+    error,
+    failedAt: Date.now()
+  }
+}
+
+function receiveLatestPosts(response) {
+  return {
+    type: types.FETCH_LATEST_POSTS_SUCCESS,
     response,
     receivedAt: Date.now()
   }
@@ -178,28 +218,44 @@ function _fetchArticles(url) {
 export function fetchIndexArticles() {
   let url = formatUrl('combo?endpoint=choices&endpoint=posts&endpoint=sections')
   url = 'http://dev.mirrormedia.mg:8080/combo?endpoint=choices&endpoint=posts&endpoint=sections'
-  let resp_data = {}
   //return (dispatch, getState) => {
   return (dispatch) => {
-   // let articles = _.get(getState(), [ 'entities', 'articles' ], {})
     dispatch(requestIndexArticles(url))
     return _fetchArticles(url)
       .then((response) => {
-        let resp = response['_endpoints']
-        for (let e in resp) {
-          let camelizedJson = camelizeKeys(resp[e])
-          if (e == 'posts' || e == 'choices') {
-            resp_data[e] = normalize(camelizedJson.items, arrayOf(articleSchema))
+        let resp_data = response['_endpoints']
+        for (let e in resp_data) {
+          if (e == 'posts') {
+            if (resp_data.hasOwnProperty(e)) {
+              let camelizedJson = camelizeKeys(resp_data[e])
+              resp_data[e] = normalize(camelizedJson.items, arrayOf(articleSchema))
+              dispatch(receiveLatestPosts(resp_data['posts']))
+            } else {
+              dispatch(failToReceiveLatestPosts('There is no such key in indexArticles'))
+            }
+          } else if (e == 'choices') {
+            if (resp_data.hasOwnProperty(e)) {
+              let camelizedJson = camelizeKeys(resp_data[e])
+              resp_data[e] = normalize(camelizedJson.items, arrayOf(articleSchema))
+              dispatch(receiveChoices(resp_data['choices']))
+            } else {
+              dispatch(failToReceiveChoices('There is no such key in indexArticles'))
+            }
           } else if (e == 'sections') {
-            resp_data[e] = {}
-            for (let section in camelizedJson.items) {
-              if (camelizedJson.items[section] != undefined) {
-                resp_data[e][section] = normalize(camelizedJson.items[section], arrayOf(articleSchema))
+            if (resp_data.hasOwnProperty(e)) {
+              let camelizedJson = camelizeKeys(resp_data[e])
+              resp_data[e] = {}
+              for (let section in camelizedJson.items) {
+                if (camelizedJson.items[section] != undefined) {
+                  resp_data[e][section] = normalize(camelizedJson.items[section], arrayOf(articleSchema))
+                }
               }
+              dispatch(receiveSectionsFeatured(resp_data['sections']))
+            } else {
+              dispatch(failToReceiveSectionsFeatured('There is no such key in indexArticles'))
             }
           }
         }
-        return dispatch(receiveIndexArticles(resp_data))
       }, (error) => {
         return dispatch(failToReceiveIndexArticles(error))
       })

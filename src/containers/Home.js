@@ -63,9 +63,9 @@ class Home extends Component {
   }
 
   render() {
-    const { articlesByUuids, entities, indexArticles } = this.props
+    const { articlesByUuids, entities, sectionsFeatured, choices, latestPosts } = this.props
     const topnews_num = 5
-    let topnewsItems = _.get(indexArticles, 'items.posts.entities.articles', [])
+    let topnewsItems = _.get(sectionsFeatured, 'items', [])
     const meta = {
       title: SITE_NAME.FULL,
       description: SITE_META.DESC,
@@ -94,7 +94,10 @@ function mapStateToProps(state) {
   return {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
-    indexArticles: state.indexArticles || {}
+    indexArticles: state.indexArticles || {},
+    choices: state.choices || {},
+    latestPosts: state.latestPosts || {},
+    sectionsFeatured: state.sectionFeatured || {}
   }
 }
 

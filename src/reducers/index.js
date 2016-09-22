@@ -1,5 +1,5 @@
 'use strict'
-import { articlesByUuids, featureArticles, relatedArticles, indexArticles } from './articles'
+import { articlesByUuids, choices, featureArticles, indexArticles, latestPosts, relatedArticles, sectionsFeatured } from './articles'
 import { categories, tags } from './groups'
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
@@ -12,10 +12,21 @@ import selectedArticle from './article'
 
 // Updates an entity cache in response to any action with response.entities.
 function entities(state = {}, action) {
-  if (action.response && action.response.entities) {
-    return _.merge({}, state, action.response.entities)
+  switch (action.type) {
+    case types.FETCH_SECTIONS_FEATURED_SUCCESS:
+      let update = {}
+      for (let key in action.response) {
+        if (action.response) {
+          _.merge(update, action['response'][key]['entities'])
+        }
+      }
+      return _.merge({}, state, update)
+    default:
+      if (action.response && action.response.entities) {
+        return _.merge({}, state, action.response.entities)
+      }
+      return state
   }
-  return state
 }
 
 function slugToId(state = {}, action) {
@@ -53,16 +64,19 @@ function fatalError(state = null, action) {
 
 const rootReducer = combineReducers({
   articlesByUuids,
+  categories,
+  choices,
+  device,
   featureArticles,
+  latestPosts,
   indexArticles,
   relatedArticles,
-  categories,
   fatalError,
-  device,
   selectedArticle,
   tags,
   routing: routerReducer,
   header,
+  sectionsFeatured,
   slugToId,
   entities
 })

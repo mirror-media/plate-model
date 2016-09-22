@@ -102,6 +102,70 @@ export function articlesByUuids(state = {}, action = {}) {
   }
 }
 
+export function sectionsFeatured(state = {}, action = {}) {
+  switch (action.type) {
+    case types.FETCH_SECTIONS_FEATURED_SUCCESS:
+      let res = {}
+      for (let section in action.response) {
+        res[section] = action['response'][section]['result']
+      }
+      return _.merge({}, state, {
+        isFetching: false,
+        error: null,
+        items: res,
+        lastUpdated: action.receivedAt
+      })
+    case types.FETCH_SECTION_FEATURED_FAILURE:
+      return _.merge({}, state, {
+        isFetching: false,
+        error: action.error,
+        lastUpdated: action.failedAt
+      })
+    default:
+      return state
+  }
+}
+
+export function choices(state = {}, action = {}) {
+  switch (action.type) {
+    case types.FETCH_CHOICES_SUCCESS:
+      return {
+        isFetching: false,
+        error: null,
+        items: _.get(action, 'response.result'),
+        lastUpdated: action.receivedAt
+      }
+    case types.FETCH_CHOICES_FAILURE:
+      return _.merge({}, state, {
+        isFetching: false,
+        error: action.error,
+        lastUpdated: action.failedAt
+      })
+    default:
+      return state 
+  }
+}
+
+export function latestPosts(state = {}, action = {}) {
+  switch (action.type) {
+    case types.FETCH_LATEST_POSTS_SUCCESS:
+      return {
+        isFetching: false,
+        error: null,
+        items: _.get(action, 'response.result'),
+        lastUpdated: action.receivedAt
+      }
+    case types.FETCH_LATEST_POSTS_FAILURE:
+      return _.merge({}, state, {
+        isFetching: false,
+        error: action.error,
+        lastUpdated: action.failedAt
+      })
+    default:
+      return state 
+  }
+}
+
 export function indexArticles(state = {}, action = {})  {
   switch (action.type) {
     case types.FETCH_INDEX_ARTICLES_REQUEST:
@@ -115,13 +179,6 @@ export function indexArticles(state = {}, action = {})  {
         error: action.error,
         lastUpdated: action.failedAt
       })
-    case types.FETCH_INDEX_ARTICLES_SUCCESS:
-      return {
-        isFetching: false,
-        error: null,
-        items: _.get(action, 'response'),
-        lastUpdated: action.receivedAt
-      }
     default:
       return state
   }
