@@ -95,11 +95,11 @@ class Home extends Component {
       return (
         <DocumentMeta {...meta}>
           
-          <LatestSections sections={sections} entities={entities} device={device}/>
+          <LatestSections sections={sections} entities={entities} />
 
-          <Choices articles={choicesPosts} device={device} />
+          <Choices articles={choicesPosts} categories={entities.categories} />
 
-          <LatestArticles articles={posts} device={device} />
+          <LatestArticles articles={posts} categories={entities.categories} />
           {
             this.props.children
           }
