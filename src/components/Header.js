@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 import logo from '../../static/asset/logo.svg'
 
 if (process.env.BROWSER) {
@@ -15,10 +16,9 @@ export default class Header extends Component {
     return (
       <div className="ui borderless menu" style={{ backgroundColor: '#F5F5F5', border: 'none', boxShadow: 'none', margin:'0', height:'110px', paddingBottom: '5px' }}>
         <div className="ui text container" style={{ maxWidth: 1024 +'px !important' }}>
-          <a href="/" className="header item" style={{ marginLeft: '122px' }}>
+          <Link to="/" className="header item" style={{ marginLeft: '122px' }}>        
             <img className="logo small" src={logo} style={{ width:'128px' }} />
-          </a>
-
+          </Link>
           <div className="right menu">
             <div className="item share" style={{ fontFamily: 'SourceHanSansTWHK-Normal', fontSize: '15px', letterSpacing: '0.7px', color: 'rgba(0, 0, 0, 0.3)', marginTop: '10px' }}>
               <span>訂閱：</span>

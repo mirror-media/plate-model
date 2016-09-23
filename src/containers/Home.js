@@ -1,7 +1,7 @@
 /*eslint no-unused-vars:0, no-console:0 */
 /* global __DEVELOPMENT__ */
 'use strict'
-import { HOME, CATEGORY, REVIEW_CH_STR, SPECIAL_TOPIC_CH_STR, SITE_NAME, SITE_META } from '../constants/index'
+import { HOME, CATEGORY, SITE_NAME, SITE_META } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/articles'
@@ -45,11 +45,15 @@ class Home extends Component {
 
   componentWillMount() {
     const { fetchArticlesByUuidIfNeeded, fetchIndexArticles } = this.props
+    const { articlesByUuids, entities, sectionsFeatured, choices, latestPosts } = this.props
     let params = {
       page: PAGE,
       max_results: MAXRESULT
     }
     fetchIndexArticles()
+    if (sectionsFeatured.isFetching == true || choices.isFetching == true || latestPosts.isfetching == true) {
+      fetchIndexArticles()
+    }
   }
 
   _loadMoreArticles(catId) {
