@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import _ from 'lodash'
+import sanitizeHtml from 'sanitize-html'
+import truncate from 'truncate'
+import entities from 'entities'
+import dateformat from 'dateformat'
 
 if (process.env.BROWSER) {
   require('./Choices.css')
@@ -12,26 +16,33 @@ export default class Choices extends Component {
   }
 
   render() {
-    const { articles } = this.props
+    const { articles, categories } = this.props
 
     return articles ? (
-      <div className="container" style={{ marginTop: '50px' }}>
+      <div className="container mobile-hide" style={{ marginTop: '50px' }}>
         <div className="ui text container" style={{ marginBottom: '35px', paddingLeft: '1em !important', marginLeft: '0 !important' }}>
           <div className="article-main" style={{ textAlign: 'center' }}>
             <h2 className="hot-topic"><div className="colorBlock choice"></div>編輯精選<div className="blue-line" style={{ marginLeft: '16px', display: 'inline-block' }}></div></h2>
           </div>
         </div>
 
-        { _.map(articles, (a)=>{
-          return (
-            <div className="choice-main">
+        <div className="choice-main">
+          { _.map(_.take(articles, 3), (a)=>{
+            let brief = sanitizeHtml( _.get(a, [ 'brief','html' ], ''), { allowedTags: [ ] })
+            let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
+            
+            let briefContent = (brief.length >0) ? brief : content
+
+            let writers = '文｜' + _.pluck(a.writers, 'name').join('、')
+            let photographers = ' 攝影｜' + _.pluck(a.photographers, 'name').join('、')
+            return (
               <div className="choice-block">
                 <Link to={'/news'}>
                   <div className="choice-img " style={{ background:'url(https://storage.googleapis.com/mirrormedia-dev/images/20160816131905-4c36589e1a4365cce3b96fbeaba04c70-mobile.gif) no-repeat center center', backgroundSize:'cover' }}>
                   </div>
                 </Link>
                 <div className="choice-cat ">
-                    娛樂
+                    { _.get(categories, [ _.first(a.categories), 'title' ]) }
                 </div>
                 <div className="choice-content ">
                   <Link to={'/news'}>
@@ -41,24 +52,63 @@ export default class Choices extends Component {
                   </Link>
                   <div className="line"></div>
                   <div className="brief">
-                    Brief
+                    { truncate(entities.decodeHTML(briefContent), 200) }
                   </div>
                 </div>
                 <div className="choice-meta ">
                   <div className="author">
-                    Author
+                    { writers }
+                    { (a.photographers.length > 0) ? photographers : null }
                   </div>
                   <div className="separator">
                   </div>
                   <div className="date">
-                    Date
+                    { dateformat(a.publishedDate, 'yyyy.mm.dd') }
                   </div>
                 </div>
               </div>
-            </div>
-          )
-        })}
+            )
+          })}
+        </div>
+        <div className="ui three column stackable grid">
+          
+          { _.map(_.slice(articles, 3), (a)=>{
+            let brief = sanitizeHtml( _.get(a, [ 'brief','html' ], ''), { allowedTags: [ ] })
+            let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
+            
+            let briefContent = (brief.length >0) ? brief : content
 
+            let writers = '文｜' + _.pluck(a.writers, 'name').join('、')
+
+            return (
+              <div className="column">
+                <div className="choice-block">
+                  <a href={'/news/' + a.slug }><div className="column-choice-img" style={{ background:'url(https://storage.googleapis.com/mirrormedia-dev/images/20160816131905-4c36589e1a4365cce3b96fbeaba04c70-mobile.gif) no-repeat center center', backgroundSize:'cover' }}>
+                    <div className="choice-cat">
+                      { _.get(categories, [ _.first(a.categories), 'title' ]) }
+                    </div>
+                  </div></a>
+                  <div className="column-choice-content">
+                    <a href={'/news/' + a.slug }><h2>{ a.title }</h2></a>
+                    <div className="line"></div>
+                    <div className="brief">
+                      { truncate(entities.decodeHTML(briefContent), 75) }
+                    </div>
+                  </div>
+                  <div className="column-choice-meta">
+                    <div className="author">
+                      { writers }
+                    </div>
+                    <div className="separator"></div>
+                    <div className="date">
+                      { dateformat(a.publishedDate, 'yyyy.mm.dd') }</div>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+
+        </div>
       </div>
     ) : null
   }

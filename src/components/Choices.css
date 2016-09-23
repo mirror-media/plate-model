@@ -66,7 +66,7 @@ div.colorBlock.choice {
   height:280px; 
 }
 
-.choice-img.right {
+.choice-block:nth-child(odd) .choice-img {
   left:auto;
   right:0;
 }
@@ -89,11 +89,10 @@ div.colorBlock.choice {
   padding: 0 8px;
 }
 
-.choice-cat.right {
+.choice-block:nth-child(odd) .choice-cat {
   left:auto;
   right:20px;
   top:20px;
-
 }
 
 .choice-meta {
@@ -105,7 +104,7 @@ div.colorBlock.choice {
   vertical-align: bottom;
 }
 
-.choice-meta.left {
+.choice-block:nth-child(odd) .choice-meta {
   position:absolute;
   left:0;
   top:285px;
@@ -142,7 +141,7 @@ div.colorBlock.choice {
   margin-bottom: 55px;
 }
 
-.choice-content.left {
+.choice-block:nth-child(odd) .choice-content {
   float: left;
 }
 
@@ -160,6 +159,8 @@ div.colorBlock.choice {
   width: 540px;
   height: 5px;
   margin-left:-15px;
+  margin-top:15px;
+  margin-bottom:10px;
   background-color: #ebebeb;
   box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
@@ -182,6 +183,12 @@ div.colorBlock.choice {
   background-color: #FFF;
 }
 
+.column-choice-img .choice-cat {
+    left: 15px !important;
+    right: auto !important;
+    top: 15px !important;
+}
+
 .column-choice-content {
   width: 300px;
   height: 220px;
@@ -199,6 +206,7 @@ div.colorBlock.choice {
   line-height: 1.5;
   letter-spacing: 0.5px;
   color: rgba(0, 0, 0, 0.8);
+  text-align: center;
 }
 
 .column-choice-content .line {
@@ -260,6 +268,27 @@ div.colorBlock.choice {
         display: none !important;
     }
 
+    div.colorBlock.choice {
+      margin-bottom: 4px;
+      margin-right: 10px !important;
+    }
+
+    .blue-line {
+      display: none !important;
+    }
+
+    div.ui.text.container {
+      margin-bottom: 20px !important;
+    }
+
+    div.ui.text.container > div > h2 {
+      text-align: left;
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      color: #004ea2;
+    }
+
     .choice-block {
       margin: 0 auto;
       width: 300px;
@@ -271,19 +300,19 @@ div.colorBlock.choice {
       height: 180px;
       position: initial;
     }
-    .choice-cat.right {
+    .choice-block:nth-child(odd) .choice-cat {
       right: auto;
       left: 20px;
       top: 20px;
     }
-    .choice-meta, .choice-meta.left {
+    .choice-meta, .choice-block:nth-child(odd) .choice-meta {
       float: none;
       top: auto;
       position: static;
       width: 300px;
       text-align: center;
     }
-    .choice-content, .choice-content.left{
+    .choice-content, .choice-block:nth-child(odd) .choice-content{
       float: none;
       height: auto;
       width: 300px;
@@ -321,6 +350,11 @@ div.colorBlock.choice {
       width: 300px;
     }
 
+    .ui.three.column.stackable.grid {
+      width: 100% !important;
+      margin: 0 auto !important;
+    }
+
     .ui.three.column.stackable.grid .column {
       margin: 0 auto;
       width: 700px;
@@ -343,6 +377,9 @@ div.colorBlock.choice {
       float: right;
       height: 180px;
       width: 380px;
+    }
+    .column-choice-content h2 {
+      text-align: left;
     }
     .column-choice-content .line {
       width: 380px;
@@ -368,5 +405,10 @@ div.colorBlock.choice {
 @media only screen and (min-width: 992px) {
     .computer-hide{
       display: none !important;
+    }
+
+    .ui.three.column.stackable.grid {
+      width: 100% !important;
+      margin: 0 auto !important;
     }
 }

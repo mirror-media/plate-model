@@ -96,7 +96,7 @@ class Home extends Component {
           
           <LatestSections sections={sections} entities={entities} />
 
-          <Choices articles={choicesPosts} />
+          <Choices articles={choicesPosts} categories={entities.categories} />
 
           <LatestArticles articles={posts} categories={entities.categories} />
           {
