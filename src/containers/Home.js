@@ -51,7 +51,7 @@ class Home extends Component {
       max_results: MAXRESULT
     }
     fetchIndexArticles()
-    if (sectionsFeatured.isFetching == true || choices.isFetching == true || latestPosts.isfetching == true) {
+    if (sectionsFeatured.fetched == true || choices.fetched == true || latestPosts.fetched == true) {
       fetchIndexArticles()
     }
   }

@@ -111,6 +111,7 @@ export function sectionsFeatured(state = {}, action = {}) {
       }
       return _.merge({}, state, {
         isFetching: false,
+        fetched: true,
         error: null,
         items: res,
         lastUpdated: action.receivedAt
@@ -118,6 +119,7 @@ export function sectionsFeatured(state = {}, action = {}) {
     case types.FETCH_SECTION_FEATURED_FAILURE:
       return _.merge({}, state, {
         isFetching: false,
+        fetched: false,
         error: action.error,
         lastUpdated: action.failedAt
       })
@@ -131,6 +133,7 @@ export function choices(state = {}, action = {}) {
     case types.FETCH_CHOICES_SUCCESS:
       return {
         isFetching: false,
+        fetched: true,
         error: null,
         items: _.get(action, 'response.result'),
         lastUpdated: action.receivedAt
@@ -138,6 +141,7 @@ export function choices(state = {}, action = {}) {
     case types.FETCH_CHOICES_FAILURE:
       return _.merge({}, state, {
         isFetching: false,
+        fetched: false,
         error: action.error,
         lastUpdated: action.failedAt
       })
@@ -151,6 +155,7 @@ export function latestPosts(state = {}, action = {}) {
     case types.FETCH_LATEST_POSTS_SUCCESS:
       return {
         isFetching: false,
+        fetched: true,
         error: null,
         items: _.get(action, 'response.result'),
         lastUpdated: action.receivedAt
@@ -158,6 +163,7 @@ export function latestPosts(state = {}, action = {}) {
     case types.FETCH_LATEST_POSTS_FAILURE:
       return _.merge({}, state, {
         isFetching: false,
+        fetched: false,
         error: action.error,
         lastUpdated: action.failedAt
       })
