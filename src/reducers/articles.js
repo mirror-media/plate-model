@@ -102,7 +102,7 @@ export function articlesByUuids(state = {}, action = {}) {
   }
 }
 
-export function sectionsFeatured(state = {}, action = {}) {
+export function sectionFeatured(state = {}, action = {}) {
   switch (action.type) {
     case types.FETCH_SECTIONS_FEATURED_SUCCESS:
       let res = {}
@@ -169,6 +169,30 @@ export function latestPosts(state = {}, action = {}) {
       })
     default:
       return state 
+  }
+}
+
+export function sectionList(state = {}, action = {}) {
+  switch (action.type) {
+    case types.FETCH_SECTION_LIST_REQUEST:
+      return _.merge({}, state, {
+        url: action.url,
+        lastUpdated: action.requestAt
+      })
+    case types.FETCH_SECTION_LIST_SUCCESS:
+      return _.merge({}, state, {
+        error: null,
+        fetched: true,
+        response: action.response.items,
+        lastUpdated: action.receivedAt
+      })
+    case types.FETCH_SECTION_LIST_FAILURE:
+      return _.merge({}, state, {
+        error: action.error,
+        lastUpdated: action.failedAt
+      })
+    default:
+      return state
   }
 }
 

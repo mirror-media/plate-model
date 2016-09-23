@@ -31,7 +31,7 @@ if (process.env.BROWSER) {
 
 class Home extends Component {
   static fetchData({ params, store }) {
-    return store.dispatch(fetchIndexArticles()) 
+    return store.dispatch(fetchIndexArticles('endpoint=choices&endpoint=posts&endpoint=sections&endpoint=sectionfeatured')) 
   }
 
   constructor(props, context) {
@@ -45,14 +45,15 @@ class Home extends Component {
 
   componentWillMount() {
     const { fetchArticlesByUuidIfNeeded, fetchIndexArticles } = this.props
-    const { articlesByUuids, entities, sectionsFeatured, choices, latestPosts } = this.props
+    const { articlesByUuids, entities, sectionFeatured, sectionList, choices, latestPosts } = this.props
+    console.log(sectionList)
     let params = {
       page: PAGE,
       max_results: MAXRESULT
     }
-    fetchIndexArticles()
-    if (sectionsFeatured.fetched == true || choices.fetched == true || latestPosts.fetched == true) {
-      fetchIndexArticles()
+    fetchIndexArticles('endpoint=choices&endpoint=posts&endpoint=sections&endpoint=sectionfeatured')
+    if (sectionFeatured.fetched == true || choices.fetched == true || latestPosts.fetched == true) {
+      fetchIndexArticles('endpoint=choices&endpoint=posts&endpoint=sections&endpoint=sectionfeatured')
     }
   }
 
@@ -73,9 +74,9 @@ class Home extends Component {
 
   render() {
     const { device } = this.context
-    const { articlesByUuids, entities, sectionsFeatured, choices, latestPosts } = this.props
+    const { articlesByUuids, entities, sectionFeatured, choices, latestPosts } = this.props
     const topnews_num = 5
-    let sections = sectionsFeatured
+    let sections = sectionFeatured
     let choicesPosts = _.filter(entities.articles, (v,k)=>{ return _.indexOf(choices.items, k) > -1 })
     let posts = _.filter(entities.articles, (v,k)=>{ return _.indexOf(latestPosts.items, k) > -1 })
     
@@ -118,7 +119,8 @@ function mapStateToProps(state) {
     indexArticles: state.indexArticles || {},
     choices: state.choices || {},
     latestPosts: state.latestPosts || {},
-    sectionsFeatured: state.sectionsFeatured || {}
+    sectionList: state.sectionList || {},
+    sectionFeatured: state.sectionFeatured || {}
   }
 }
 

@@ -111,7 +111,7 @@ function failToReceiveLatestPosts(error) {
   }
 }
 
-function receiveSectionsFeatured(response) {
+function receiveSectionFeatured(response) {
   return {
     type: types.FETCH_SECTIONS_FEATURED_SUCCESS,
     response,
@@ -119,7 +119,7 @@ function receiveSectionsFeatured(response) {
   }
 }
 
-function failToReceiveSectionsFeatured(error) {
+function failToReceiveSectionFeatured(error) {
   return {
     type: types.FETCH_SECTIONS_FEATURED_FAILURE,
     error,
@@ -151,6 +151,21 @@ function receiveLatestPosts(response) {
   }
 }
 
+function receivedSectionList(response) {
+  return {
+    type: types.FETCH_SECTION_LIST_SUCCESS,
+    response,
+    receivedAt: Date.now()
+  }
+}
+
+function failToReceiveSectionList(error) {
+  return {
+    type: types.FETCH_SECTION_LIST_FAILURE,
+    error,
+    failedAt: Date.now()
+  }
+}
 function _buildQuery(params = {}) {
   let query = {}
   let whitelist = [ 'where', 'embedded', 'max_results', 'page', 'sort' ]
@@ -215,8 +230,8 @@ function _fetchArticles(url) {
     })
 }
 
-export function fetchIndexArticles() {
-  let url = formatUrl('combo?endpoint=choices&endpoint=posts&endpoint=sections')
+export function fetchIndexArticles(endpoints) {
+  let url = formatUrl('combo?' + endpoints)
   return (dispatch) => {
     dispatch(requestIndexArticles(url))
     return _fetchArticles(url)
@@ -239,7 +254,7 @@ export function fetchIndexArticles() {
             } else {
               dispatch(failToReceiveChoices('There is no such key in indexArticles'))
             }
-          } else if (e == 'sections') {
+          } else if (e == 'sectionfeatured') {
             if (resp_data.hasOwnProperty(e)) {
               let camelizedJson = camelizeKeys(resp_data[e])
               resp_data[e] = {}
@@ -248,9 +263,16 @@ export function fetchIndexArticles() {
                   resp_data[e][section] = normalize(camelizedJson.items[section], arrayOf(articleSchema))
                 }
               }
-              dispatch(receiveSectionsFeatured(resp_data['sections']))
+              dispatch(receiveSectionFeatured(resp_data['sectionfeatured']))
             } else {
-              dispatch(failToReceiveSectionsFeatured('There is no such key in indexArticles'))
+              dispatch(failToReceiveSectionFeatured('There is no such key in indexArticles'))
+            }
+          } else if (e == 'sections') {
+            if (resp_data.hasOwnProperty(e)) {
+              let camelizedJson = camelizeKeys(resp_data[e])
+              dispatch(receivedSectionList(camelizedJson))
+            } else {
+              dispatch(failToReceiveSectionList('Fetching section list failed'))
             }
           }
         }
