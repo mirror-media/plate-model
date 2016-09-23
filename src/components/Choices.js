@@ -81,7 +81,7 @@ export default class Choices extends Component {
             let writers = '文｜' + _.pluck(a.writers, 'name').join('、')
 
             return (
-              <div className="column">
+              <div className="column" style={{ padding: 0 }}>
                 <div className="choice-block">
                   <a href={'/news/' + a.slug }><div className="column-choice-img" style={{ background:'url(https://storage.googleapis.com/mirrormedia-dev/images/20160816131905-4c36589e1a4365cce3b96fbeaba04c70-mobile.gif) no-repeat center center', backgroundSize:'cover' }}>
                     <div className="choice-cat">

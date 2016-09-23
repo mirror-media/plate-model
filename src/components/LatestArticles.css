@@ -63,6 +63,7 @@ div.colorBlock.choice {
   left:0;
   width:140px;
   height:140px; 
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .latest-date {
@@ -253,6 +254,6 @@ div.colorBlock.choice {
 
 @media only screen and (min-width: 1200px) {
   div.container {
-      width: 1024px;
+      width: 960px;
   }
 }

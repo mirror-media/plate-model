@@ -64,6 +64,7 @@ div.colorBlock.choice {
   left:0;
   width:380px;
   height:280px; 
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .choice-block:nth-child(odd) .choice-img {
@@ -181,6 +182,7 @@ div.colorBlock.choice {
   height: 180px;
   margin-bottom: 10px;
   background-color: #FFF;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .column-choice-img .choice-cat {
@@ -351,7 +353,7 @@ div.colorBlock.choice {
     }
 
     .ui.three.column.stackable.grid {
-      width: 100% !important;
+      width: 700px !important;
       margin: 0 auto !important;
     }
 
@@ -407,8 +409,12 @@ div.colorBlock.choice {
       display: none !important;
     }
 
+    div.container {
+      width: 960px;
+    }
+
     .ui.three.column.stackable.grid {
-      width: 100% !important;
+      width: 940px !important;
       margin: 0 auto !important;
     }
 }
