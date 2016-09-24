@@ -38,7 +38,7 @@ export default class Choices extends Component {
             let photographers = ' 攝影｜' + _.pluck(a.photographers, 'name').join('、')
             return (
               <div className="choice-block" key={'choice' + a.id}>
-                <a href={'/news' + a.slug }>
+                <a href={'/news/' + a.slug }>
                   <div className="choice-img " style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
                 </a>
@@ -46,7 +46,7 @@ export default class Choices extends Component {
                     { _.get(categories, [ _.first(a.categories), 'title' ]) }
                 </div>
                 <div className="choice-content ">
-                  <a href={'/news' + a.slug }>
+                  <a href={'/news/' + a.slug }>
                     <h2>
                         {a.title}
                     </h2>
