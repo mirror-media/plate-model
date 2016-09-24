@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import classNames from 'classnames'
 import { Link } from 'react-router'
 import logo from '../../static/asset/logo.svg'
 
@@ -9,12 +10,24 @@ if (process.env.BROWSER) {
 export default class Header extends Component {
   constructor(props, context) {
     super(props, context)
+    this.state = {
+      isDown: false
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.isScrolledOver) {
+      this.setState({ isDown: true })
+    } else {
+      this.setState({ isDown: false })
+    }
   }
 
   render() {
+    let status = this.state.isDown ? 'fixed top' : null
 
     return (
-      <div className="ui borderless menu" style={{ backgroundColor: '#F5F5F5', border: 'none', boxShadow: 'none', margin:'0', height:'110px', paddingBottom: '5px' }}>
+      <div className={ classNames('ui borderless main menu', status) }>
         <div className="ui text container" style={{ maxWidth: 1024 +'px !important' }}>
           <Link to="/" className="header item" style={{ marginLeft: '122px' }}>        
             <img className="logo small" src={logo} style={{ width:'128px' }} />

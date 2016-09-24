@@ -26,7 +26,7 @@ export default class Footer extends Component {
                     <a href={ '/section/' + s.name } className="item section" style={{ color: '#FFF' }}>{s.title}</a>
                     { _.map(s.categories, (c)=>{
                       return (
-                        <a href={ '/category/' + c.name }  className="item" style={{ color: '#FFF' }}>{c.title}</a>
+                        <a href={ '/category/' + c.name }  className="item" style={{ color: '#FFF' }} key={ 'nav-' + s.name + '-' + c.name }>{c.title}</a>
                       )
                     })}
                   </div>

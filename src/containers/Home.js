@@ -94,18 +94,16 @@ class Home extends Component {
     // console.log(_.values(posts))
     if (posts) {
       return (
-        <DocumentMeta {...meta}>
-          
+        <div id="main">
+          <DocumentMeta {...meta} />
           <LatestSections sections={sections} entities={entities} />
 
           <Choices articles={choicesPosts} categories={entities.categories} />
 
           <LatestArticles articles={posts} categories={entities.categories} />
-          {
-            this.props.children
-          }
+
           <Footer sectionList={sectionList} />
-        </DocumentMeta>
+        </div>
       )
     } else {
       return ( <SystemError /> )
