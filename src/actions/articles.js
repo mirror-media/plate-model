@@ -166,6 +166,31 @@ function failToReceiveSectionList(error) {
     failedAt: Date.now()
   }
 }
+
+function requestSearchResult(url) {
+  return {
+    type: types.FETCH_SEARCH_RESULT_REQUEST,
+    url,
+    requestAt: Date.now()
+  }
+}
+
+function receiveSearchResult(response) {
+  return {
+    type: types.FETCH_SEARCH_RESULT_SUCCESS,
+    response,
+    receivedAt: Date.now()
+  }
+}
+
+function failToReceiveSearchResult(error) {
+  return {
+    type: types.FETCH_SEARCH_RESULT_FAILURE,
+    error,
+    failedAt: Date.now()
+  }
+}
+
 function _buildQuery(params = {}) {
   let query = {}
   let whitelist = [ 'where', 'embedded', 'max_results', 'page', 'sort' ]
@@ -228,6 +253,19 @@ function _fetchArticles(url) {
       }
       return response.json()
     })
+}
+
+export function makeSearchQuery(keyword) {
+  let url = formatUrl('search?query=' + keyword)
+  return (dispatch) => {
+    dispatch(requestSearchResult(url))
+    return _fetchArticles(url)
+      .then((response) => {
+        dispatch(receiveSearchResult(response))
+      }, (error) => {
+        dispatch(failToReceiveSearchResult(error))
+      })
+  }
 }
 
 export function fetchIndexArticles(endpoints = []) {

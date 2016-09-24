@@ -4,7 +4,7 @@
 import { HOME, CATEGORY, SITE_NAME, SITE_META } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/articles'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery } from '../actions/articles'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
 
@@ -31,6 +31,7 @@ if (process.env.BROWSER) {
 
 class Home extends Component {
   static fetchData({ params, store }) {
+    //store.dispatch(makeSearchQuery("徐懷鈺"))
     return store.dispatch(fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])) 
   }
 
@@ -46,7 +47,6 @@ class Home extends Component {
   componentWillMount() {
     const { fetchArticlesByUuidIfNeeded, fetchIndexArticles } = this.props
     const { articlesByUuids, entities, sectionFeatured, sectionList, choices, latestPosts } = this.props
-    console.log(sectionList)
     let params = {
       page: PAGE,
       max_results: MAXRESULT
@@ -58,7 +58,6 @@ class Home extends Component {
 
   _loadMoreArticles(catId) {
     const { articlesByUuids, fetchArticlesByUuidIfNeeded } = this.props
-
     if (_.get(articlesByUuids, [ catId, 'hasMore' ]) === false) {
       return
     }

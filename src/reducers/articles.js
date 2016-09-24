@@ -213,6 +213,32 @@ export function indexArticles(state = {}, action = {})  {
       return state
   }
 }
+
+export function searchResult(state = {}, action = {}) {
+  switch (action.type) {
+    case types.FETCH_SEARCH_RESULT_REQUEST:
+      return _.merge({}, state, {
+        isFetching: true,
+        url: action.url,
+        requestAt: action.requestAt
+      })
+    case types.FETCH_SEARCH_RESULT_SUCCESS:
+      return _.merge({}, state, {
+        isFetching: false,
+        response: action.response,
+        receivedAt: action.receivedAt
+      })
+    case types.FETCH_SEARCH_RESULT_FAILURE:
+      return _.merge({}, state, {
+        isFetching: false,
+        error: action.error,
+        failedAt: action.failedAt
+      })
+    default:
+      return state
+  }
+}
+
 export function featureArticles(state = {}, action = {})  {
   switch (action.type) {
     case types.FETCH_FEATURE_ARTICLES_REQUEST:

@@ -42,6 +42,26 @@ export function loadMetaOfArticles(req) {
   })
 }
 
+export function loadSearch(req) {
+  return new Promise((resolve, reject) => {
+    let query = req.query
+    const { SEARCH_PROTOCOL, SEARCH_HOST, SEARCH_ENDPOINT, SEARCH_API_KEY, SEARCH_API_APPID } = config
+    let url = `${SEARCH_PROTOCOL}://${SEARCH_HOST}${SEARCH_ENDPOINT}`
+    superAgent['get'](url)
+      .timeout(2000)
+      .set('X-Algolia-API-Key', SEARCH_API_KEY)
+      .set('X-Algolia-Application-Id', SEARCH_API_APPID)
+      .query(query)
+      .end(function (err, res) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(res.body)
+        }
+      })
+  })
+}
+
 export function loadCombo(req) {
   return new Promise((resolve, reject) => {
     const query = req.query
