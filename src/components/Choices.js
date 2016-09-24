@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
 import _ from 'lodash'
 import sanitizeHtml from 'sanitize-html'
 import truncate from 'truncate'
 import entities from 'entities'
 import dateformat from 'dateformat'
+import { imageComposer } from '../utils/index'
 
 if (process.env.BROWSER) {
   require('./Choices.css')
@@ -28,6 +28,7 @@ export default class Choices extends Component {
 
         <div className="choice-main">
           { _.map(_.take(articles, 3), (a)=>{
+            let image = imageComposer(a).mobileImage
             let brief = sanitizeHtml( _.get(a, [ 'brief','html' ], ''), { allowedTags: [ ] })
             let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
             
@@ -37,19 +38,19 @@ export default class Choices extends Component {
             let photographers = ' 攝影｜' + _.pluck(a.photographers, 'name').join('、')
             return (
               <div className="choice-block" key={'choice' + a.id}>
-                <Link to={'/news'}>
-                  <div className="choice-img " style={{ background:'url(https://storage.googleapis.com/mirrormedia-dev/images/20160816131905-4c36589e1a4365cce3b96fbeaba04c70-mobile.gif) no-repeat center center', backgroundSize:'cover' }}>
+                <a href={'/news' + a.slug }>
+                  <div className="choice-img " style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
-                </Link>
+                </a>
                 <div className="choice-cat ">
                     { _.get(categories, [ _.first(a.categories), 'title' ]) }
                 </div>
                 <div className="choice-content ">
-                  <Link to={'/news'}>
+                  <a href={'/news' + a.slug }>
                     <h2>
                         {a.title}
                     </h2>
-                  </Link>
+                  </a>
                   <div className="line"></div>
                   <div className="brief">
                     { truncate(entities.decodeHTML(briefContent), 200) }
@@ -73,6 +74,7 @@ export default class Choices extends Component {
         <div className="ui three column stackable grid">
           
           { _.map(_.slice(articles, 3), (a)=>{
+            let image = imageComposer(a).mobileImage
             let brief = sanitizeHtml( _.get(a, [ 'brief','html' ], ''), { allowedTags: [ ] })
             let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
             
@@ -83,7 +85,7 @@ export default class Choices extends Component {
             return (
               <div className="column" style={{ padding: 0 }} key={'choice' + a.id}>
                 <div className="choice-block">
-                  <a href={'/news/' + a.slug }><div className="column-choice-img" style={{ background:'url(https://storage.googleapis.com/mirrormedia-dev/images/20160816131905-4c36589e1a4365cce3b96fbeaba04c70-mobile.gif) no-repeat center center', backgroundSize:'cover' }}>
+                  <a href={'/news/' + a.slug }><div className="column-choice-img" style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                     <div className="choice-cat">
                       { _.get(categories, [ _.first(a.categories), 'title' ]) }
                     </div>

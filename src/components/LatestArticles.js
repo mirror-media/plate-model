@@ -3,6 +3,7 @@ import _ from 'lodash'
 import sanitizeHtml from 'sanitize-html'
 import truncate from 'truncate'
 import entities from 'entities'
+import { imageComposer } from '../utils/index'
 
 if (process.env.BROWSER) {
   require('./LatestArticles.css')
@@ -26,7 +27,7 @@ export default class LatestArticles extends Component {
         <div className="latest">
 
           { _.map(articles, (a)=>{
-
+            let image = imageComposer(a).mobileImage
             let brief = sanitizeHtml( _.get(a, [ 'brief','html' ], ''), { allowedTags: [ ] })
             let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
             
@@ -38,7 +39,7 @@ export default class LatestArticles extends Component {
             return (
               <div className="latest-block" key={a.id} >
                 <a href={'/news/'+a.slug}>
-                  <div className="latest-img" style={{ background: 'url(https://storage.googleapis.com/mirrormedia-dev/images/20160816131905-4c36589e1a4365cce3b96fbeaba04c70-mobile.gif) no-repeat center center', backgroundSize:'cover' }}>
+                  <div className="latest-img" style={{ background: 'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
                 </a>
                 <div className="latest-content">
