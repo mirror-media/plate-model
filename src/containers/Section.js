@@ -20,7 +20,7 @@ const PAGE = 1
 
 class Section extends Component {
   static fetchData({ params, store }) {
-    return store.dispatch(fetchArticlesByUuidIfNeeded(params.section), {
+    return store.dispatch(fetchArticlesByUuidIfNeeded(params.section, SECTION), {
       page: PAGE,
       max_results: MAXRESULT
     })
