@@ -30,7 +30,7 @@ if (process.env.BROWSER) {
 }
 
 class Home extends Component {
-  static fetchData({ params, store }) {
+  static fetchData({ store }) {
     //store.dispatch(makeSearchQuery("徐懷鈺"))
     return store.dispatch(fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])) 
   }
@@ -51,8 +51,16 @@ class Home extends Component {
       page: PAGE,
       max_results: MAXRESULT
     }
-    if (sectionFeatured.fetched == true || choices.fetched == true || latestPosts.fetched == true) {
-      fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])
+    //TODO: We should not get all the keys
+    let checkSectionList = _.get('sectionList.fetched', undefined)
+    let checkSectionFeatured = _.get('sectionFeatured.fetched', undefined)
+    let checkChoices = _.get('choices.fetched', undefined)
+    let checkLatestPosts = _.get('latestPosts.fetched', undefined)
+    if ( checkSectionList === 'undefined' || 
+         checkSectionFeatured === 'undefined' || 
+         checkChoices === 'undefined' || 
+         checkLatestPosts === 'undefined') {
+      this.props.fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])
     }
   }
 
