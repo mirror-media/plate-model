@@ -52,14 +52,11 @@ class Home extends Component {
       max_results: MAXRESULT
     }
     //TODO: We should not get all the keys
-    let checkSectionList = _.get('sectionList.fetched', undefined)
-    let checkSectionFeatured = _.get('sectionFeatured.fetched', undefined)
-    let checkChoices = _.get('choices.fetched', undefined)
-    let checkLatestPosts = _.get('latestPosts.fetched', undefined)
-    if ( checkSectionList === 'undefined' || 
-         checkSectionFeatured === 'undefined' || 
-         checkChoices === 'undefined' || 
-         checkLatestPosts === 'undefined') {
+    let checkSectionList = _.get(sectionList, 'fetched', undefined)
+    let checkSectionFeatured = _.get(sectionFeatured, 'fetched', undefined)
+    let checkChoices = _.get(choices, 'fetched', undefined)
+    let checkLatestPosts = _.get(latestPosts, 'fetched', undefined)
+    if ( !checkLatestPosts || !checkSectionList || !checkChoices || !checkSectionFeatured) {
       this.props.fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])
     }
   }
