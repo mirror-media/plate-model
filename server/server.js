@@ -150,7 +150,6 @@ server.get('*', async function (req, res) {
         }
 
         if ( getCurrentUrl() === reqUrl ) {
-          //res.render('index', { html, reduxState, styles, javascript: assets.javascript.main })
           let reduxState = escape(JSON.stringify(store.getState()))
           let html = ReactDOMServer.renderToString(
               <Provider store={store} >
