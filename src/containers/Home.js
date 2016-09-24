@@ -31,7 +31,7 @@ if (process.env.BROWSER) {
 
 class Home extends Component {
   static fetchData({ params, store }) {
-    return store.dispatch(fetchIndexArticles('endpoint=choices&endpoint=posts&endpoint=sections&endpoint=sectionfeatured')) 
+    return store.dispatch(fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])) 
   }
 
   constructor(props, context) {
@@ -51,9 +51,8 @@ class Home extends Component {
       page: PAGE,
       max_results: MAXRESULT
     }
-    fetchIndexArticles('endpoint=choices&endpoint=posts&endpoint=sections&endpoint=sectionfeatured')
     if (sectionFeatured.fetched == true || choices.fetched == true || latestPosts.fetched == true) {
-      fetchIndexArticles('endpoint=choices&endpoint=posts&endpoint=sections&endpoint=sectionfeatured')
+      fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])
     }
   }
 

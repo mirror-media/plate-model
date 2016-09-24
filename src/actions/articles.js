@@ -230,8 +230,10 @@ function _fetchArticles(url) {
     })
 }
 
-export function fetchIndexArticles(endpoints) {
-  let url = formatUrl('combo?' + endpoints)
+export function fetchIndexArticles(endpoints = []) {
+  let mapped = _.map(endpoints, (n) => { return 'endpoint=' + n })
+  let combo_params = mapped.join('&')
+  let url = formatUrl('combo?' + combo_params)
   return (dispatch) => {
     dispatch(requestIndexArticles(url))
     return _fetchArticles(url)
