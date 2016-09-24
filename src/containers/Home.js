@@ -75,7 +75,7 @@ class Home extends Component {
 
   render() {
     const { device } = this.context
-    const { articlesByUuids, entities, sectionFeatured, choices, latestPosts } = this.props
+    const { articlesByUuids, entities, sectionFeatured, sectionList, choices, latestPosts } = this.props
     const topnews_num = 5
     let sections = sectionFeatured
     let choicesPosts = _.filter(entities.articles, (v,k)=>{ return _.indexOf(choices.items, k) > -1 })
@@ -104,7 +104,7 @@ class Home extends Component {
           {
             this.props.children
           }
-          <Footer />
+          <Footer sectionList={sectionList} />
         </DocumentMeta>
       )
     } else {

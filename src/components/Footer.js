@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import _ from 'lodash'
 
 if (process.env.BROWSER) {
   require('./Footer.css')
@@ -9,6 +10,7 @@ export default class Footer extends Component {
     super(props)
   }
   render() {
+    const { sectionList } = this.props
 
     return (
       <footer className="gradient">
@@ -16,62 +18,23 @@ export default class Footer extends Component {
           <div className="ui left aligned grid">
             <div className="five column row" style={{ color: '#FFF' }}>
 
-            
-              <div className="column">
-                <div className="ui list">
-                  <a href="/section/popular" className="item section" style={{ color: '#FFF' }}>漫熱遊</a>
-                    <a href="/category/news"  className="item" style={{ color: '#FFF' }}>新聞</a>
-                    <a href="/category/financial"  className="item" style={{ color: '#FFF' }}>財經</a>
-                    <a href="/category/people"  className="item" style={{ color: '#FFF' }}>人物</a>
-                    <a href="/category/livestream"  className="item" style={{ color: '#FFF' }}>直播</a>
+            { _.map(sectionList.response, (s)=>{
+              return (
+
+                <div className="column" key={ 'nav-' + s.name }>
+                  <div className="ui list">
+                    <a href={ '/section/' + s.name } className="item section" style={{ color: '#FFF' }}>{s.title}</a>
+                    { _.map(s.categories, (c)=>{
+                      return (
+                        <a href={ '/category/' + c.name }  className="item" style={{ color: '#FFF' }}>{c.title}</a>
+                      )
+                    })}
+                  </div>
                 </div>
-              </div>
+
+              )
+            })}
             
-              <div className="column">
-                <div className="ui list">
-                  <a href="/section/News" className="item section" style={{ color: '#FFF' }}>新聞/人物</a>
-                    <a href="/category/news"  className="item" style={{ color: '#FFF' }}>新聞</a>
-                    <a href="/category/financial"  className="item" style={{ color: '#FFF' }}>財經</a>
-                    <a href="/category/people"  className="item" style={{ color: '#FFF' }}>人物</a>
-                    <a href="/category/livestream"  className="item" style={{ color: '#FFF' }}>直播</a>
-                    <a href="/category/culture"  className="item" style={{ color: '#FFF' }}>文化</a>
-                    <a href="/category/reading"  className="item" style={{ color: '#FFF' }}>說書人</a>
-                    <a href="/category/literial"  className="item" style={{ color: '#FFF' }}>小說連載</a>
-                </div>
-              </div>
-            
-              <div className="column">
-                <div className="ui list">
-                  <a href="/section/foodtravel" className="item section" style={{ color: '#FFF' }}>美食/旅遊</a>                  
-                    <a href="/category/wonderful_food"  className="item" style={{ color: '#FFF' }}>美食觀點</a>
-                    <a href="/category/taiwan_travel"  className="item" style={{ color: '#FFF' }}>旅行台灣</a>
-                    <a href="/category/world-travel"  className="item" style={{ color: '#FFF' }}>看見世界</a>
-                    <a href="/category/cooking"  className="item" style={{ color: '#FFF' }}>料理廚房</a>
-                    <a href="/category/download"  className="item" style={{ color: '#FFF' }}>好康下載</a>
-                </div>
-              </div>
-            
-              <div className="column">
-                <div className="ui list">
-                  <a href="/section/entertainment" className="item section" style={{ color: '#FFF' }}>娛樂</a>
-                    <a href="/category/people"  className="item" style={{ color: '#FFF' }}>人物</a>
-                    <a href="/category/livestream"  className="item" style={{ color: '#FFF' }}>直播</a>
-                    <a href="/category/column"  className="item" style={{ color: '#FFF' }}>專欄</a>
-                    <a href="/category/viideo"  className="item" style={{ color: '#FFF' }}>影視活動</a>
-                    <a href="/category/script"  className="item" style={{ color: '#FFF' }}>劇本創作</a>
-                </div>
-              </div>
-            
-              <div className="column">
-                <div className="ui list">
-                  <a href="/section/fashion" className="item section" style={{ color: '#FFF' }}>鏡鐘錶</a>
-                    <a href="/category/news"  className="item" style={{ color: '#FFF' }}>新聞</a>
-                    <a href="/category/financial"  className="item" style={{ color: '#FFF' }}>財經</a>
-                    <a href="/category/people"  className="item" style={{ color: '#FFF' }}>人物</a>
-                    <a href="/category/livestream"  className="item" style={{ color: '#FFF' }}>直播</a>
-                    <a href="/category/culture"  className="item" style={{ color: '#FFF' }}>文化</a>
-                </div>
-              </div>
             </div>
           </div>
           <div className="ui center aligned grid" style={{ margin:0, marginTop: '70px!important' }}>
