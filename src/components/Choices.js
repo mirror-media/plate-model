@@ -36,7 +36,7 @@ export default class Choices extends Component {
             let writers = '文｜' + _.pluck(a.writers, 'name').join('、')
             let photographers = ' 攝影｜' + _.pluck(a.photographers, 'name').join('、')
             return (
-              <div className="choice-block">
+              <div className="choice-block" key={'choice' + a.id}>
                 <Link to={'/news'}>
                   <div className="choice-img " style={{ background:'url(https://storage.googleapis.com/mirrormedia-dev/images/20160816131905-4c36589e1a4365cce3b96fbeaba04c70-mobile.gif) no-repeat center center', backgroundSize:'cover' }}>
                   </div>
@@ -81,7 +81,7 @@ export default class Choices extends Component {
             let writers = '文｜' + _.pluck(a.writers, 'name').join('、')
 
             return (
-              <div className="column" style={{ padding: 0 }}>
+              <div className="column" style={{ padding: 0 }} key={'choice' + a.id}>
                 <div className="choice-block">
                   <a href={'/news/' + a.slug }><div className="column-choice-img" style={{ background:'url(https://storage.googleapis.com/mirrormedia-dev/images/20160816131905-4c36589e1a4365cce3b96fbeaba04c70-mobile.gif) no-repeat center center', backgroundSize:'cover' }}>
                     <div className="choice-cat">
