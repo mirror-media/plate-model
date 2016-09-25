@@ -84,14 +84,14 @@ export default class Header extends Component {
         <div className={ classNames('ui borderless main menu mobile-only', status) }>
           <div className="ui text container" style={{ maxWidth: 100 +'% !important', width: 100 +'%' }}>
             <div className="item" >
-              <a href="#" ><img src="/asset/icon/hamburger@2x.png" style={{ width: '24px!important', height: '24px' }}/></a>
+              <a href="#" ><img src="/asset/icon/hamburger@2x.png" style={{ width: '24px', height: '24px' }}/></a>
             </div>            
             <div className="right menu">
               <Link to="/" className="item">        
-                <img className="logo small" src="/asset/icon/logo@2x.png" style={{ width: '24px!important', height: '24px' }} />
+                <img className="logo small" src="/asset/icon/logo@2x.png" style={{ width: '24px', height: '24px' }} />
               </Link>
               <div className="item">
-                <a href="#" ><img src="/asset/icon/search@2x.png" style={{ width: '24px!important', height: '24px' }}/></a>
+                <a href="#" ><img src="/asset/icon/search@2x.png" style={{ width: '24px', height: '24px' }}/></a>
               </div>
             </div>
           </div>
