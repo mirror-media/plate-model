@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
+import { Link } from 'react-router'
 
 if (process.env.BROWSER) {
   require('./Footer.css')
@@ -23,10 +24,10 @@ export default class Footer extends Component {
 
                 <div className="column" key={ 'nav-' + s.name }>
                   <div className="ui list">
-                    <a href={ '/section/' + s.name } className="item section" style={{ color: '#FFF' }}>{s.title}</a>
+                    <Link to={ '/section/' + s.name } className="item section" style={{ color: '#FFF' }}>{s.title}</Link>
                     { _.map(s.categories, (c)=>{
                       return (
-                        <a href={ '/category/' + c.name }  className="item" style={{ color: '#FFF' }} key={ 'nav-' + s.name + '-' + c.name }>{c.title}</a>
+                        <Link to={ '/category/' + c.name }  className="item" style={{ color: '#FFF' }} key={ 'nav-' + s.name + '-' + c.name }>{c.title}</Link>
                       )
                     })}
                   </div>

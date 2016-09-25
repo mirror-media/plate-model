@@ -11,10 +11,12 @@ import _ from 'lodash'
 import LatestSections from '../components/LatestSections'
 import Choices from '../components/Choices'
 import LatestArticles from '../components/LatestArticles'
+import Header from '../components/Header'
 
 import DocumentMeta from 'react-document-meta'
 import Footer from '../components/Footer'
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import SystemError from '../components/SystemError'
 import TopNews from '../components/TopNews'
 import async from 'async'
@@ -29,7 +31,6 @@ if (process.env.BROWSER) {
 
 class Home extends Component {
   static fetchData({ store }) {
-    //store.dispatch(makeSearchQuery("徐懷鈺"))
     return store.dispatch(fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])) 
   }
 
@@ -40,6 +41,7 @@ class Home extends Component {
 
   componentDidMount() {
     this.props.setPageType(HOME)
+
   }
 
   componentWillMount() {
@@ -76,7 +78,7 @@ class Home extends Component {
   render() {
     const { device } = this.context
     const { articlesByUuids, entities, sectionFeatured, sectionList, choices, latestPosts } = this.props
-    const topnews_num = 5
+
     let sections = sectionFeatured
     let choicesPosts = _.filter(entities.articles, (v,k)=>{ return _.indexOf(choices.items, k) > -1 })
     let posts = _.filter(entities.articles, (v,k)=>{ return _.indexOf(latestPosts.items, k) > -1 })
@@ -88,22 +90,23 @@ class Home extends Component {
       meta: { property: {} },
       auto: { ograph: true }
     }
-    // console.log(articlesByUuids)
-    // console.log(entities)
-    // console.log(indexArticles)
-    // console.log(_.values(posts))
+
     if (posts) {
       return (
-        <div id="main">
-          <DocumentMeta {...meta} />
-          <LatestSections sections={sections} entities={entities} />
+        <DocumentMeta {...meta} >
 
-          <Choices articles={choicesPosts} categories={entities.categories} />
+          <Header sectionList={sectionList} />
 
-          <LatestArticles articles={posts} categories={entities.categories} />
+          <div id="main">
+            
+            <LatestSections sections={sections} entities={entities} />
+            <Choices articles={choicesPosts} categories={entities.categories} />
+            <LatestArticles articles={posts} categories={entities.categories} />
 
-          <Footer sectionList={sectionList} />
-        </div>
+            <Footer sectionList={sectionList} />
+          </div>
+
+        </DocumentMeta>
       )
     } else {
       return ( <SystemError /> )

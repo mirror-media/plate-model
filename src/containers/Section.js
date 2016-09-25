@@ -1,10 +1,11 @@
 import { SECTION, SITE_META, SITE_NAME } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
-import { fetchArticlesByUuidIfNeeded } from '../actions/articles'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/articles'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
+import Header from '../components/Header'
 import Footer from '../components/Footer'
 import React, { Component } from 'react'
 import Tags from '../components/Tags'
@@ -23,6 +24,8 @@ class Section extends Component {
     return store.dispatch(fetchArticlesByUuidIfNeeded(params.section, SECTION), {
       page: PAGE,
       max_results: MAXRESULT
+    }).then(() => {
+      return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
     })
   }
 
@@ -36,8 +39,13 @@ class Section extends Component {
   }
 
   componentWillMount() {
-    const { articlesByUuids, fetchArticlesByUuidIfNeeded } = this.props
+    const { articlesByUuids, fetchArticlesByUuidIfNeeded, fetchIndexArticles, sectionList } = this.props
     let catId = this.state.catId
+
+    // if fetched before, do nothing
+    if (_.get(sectionList, [ 'response', 'length' ], 0) == 0 ) {
+      fetchIndexArticles( [ 'sections' ] )
+    }
 
     // if fetched before, do nothing
     if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0) {
@@ -90,7 +98,7 @@ class Section extends Component {
 
   render() {
     const { device } = this.context
-    const { articlesByUuids, entities, params } = this.props
+    const { articlesByUuids, entities, params, sectionList } = this.props
     const catId = _.get(params, 'section')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
     const section = _.get(params, 'section', null)
@@ -106,17 +114,21 @@ class Section extends Component {
 
     return (
       <DocumentMeta {...meta}>
-        <div className="container text-center">
-          {catBox}
+        <Header sectionList={sectionList} />
+
+        <div id="main">
+          <div className="container text-center">
+            {catBox}
+          </div>
+          <Tags
+            articles={articles}
+            device={device}
+            hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
+            loadMore={this.loadMore}
+          />
+          {this.props.children}
+          <Footer sectionList={sectionList} />
         </div>
-        <Tags
-          articles={articles}
-          device={device}
-          hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
-          loadMore={this.loadMore}
-        />
-        {this.props.children}
-        <Footer/>
       </DocumentMeta>
     )
   }
@@ -125,7 +137,8 @@ class Section extends Component {
 function mapStateToProps(state) {
   return {
     articlesByUuids: state.articlesByUuids || {},
-    entities: state.entities || {}
+    entities: state.entities || {},
+    sectionList: state.sectionList || {}
   }
 }
 
@@ -134,4 +147,4 @@ Section.contextTypes = {
 }
 
 export { Section }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, setPageType })(Section)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, setPageType })(Section)
