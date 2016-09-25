@@ -1,10 +1,11 @@
 import { SITE_META, SITE_NAME, TAG } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
-import { fetchArticlesByUuidIfNeeded } from '../actions/articles'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/articles'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
+import Header from '../components/Header'
 import Footer from '../components/Footer'
 import React, { Component } from 'react'
 import Tags from '../components/Tags'
@@ -17,6 +18,8 @@ class Tag extends Component {
     return store.dispatch(fetchArticlesByUuidIfNeeded(params.tagId), TAG, {
       page: PAGE,
       max_results: MAXRESULT
+    }).then(() => {
+      return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
     })
   }
 
@@ -26,8 +29,13 @@ class Tag extends Component {
   }
 
   componentWillMount() {
-    const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = this.props
+    const { articlesByUuids, fetchArticlesByUuidIfNeeded, params, fetchIndexArticles, sectionList } = this.props
     let tagId = _.get(params, 'tagId')
+
+    // if fetched before, do nothing
+    if (_.get(sectionList, [ 'response', 'length' ], 0) == 0 ) {
+      fetchIndexArticles( [ 'sections' ] )
+    }
 
     // if fetched before, do nothing
     if (_.get(articlesByUuids, [ tagId, 'items', 'length' ], 0) > 0) {
@@ -78,7 +86,7 @@ class Tag extends Component {
 
   render() {
     const { device } = this.context
-    const { articlesByUuids, entities, params } = this.props
+    const { articlesByUuids, entities, params, sectionList } = this.props
     const tagId = _.get(params, 'tagId')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ tagId, 'items' ], []), entities)
     let tagName = _.get(entities, [ 'tags', tagId, 'name' ], '')
@@ -93,10 +101,12 @@ class Tag extends Component {
 
     return (
       <DocumentMeta {...meta}>
-        <div className="container text-center">
-          {tagBox}
-        </div>
-        <div>
+        <Header sectionList={sectionList} />
+
+        <div id="main">
+          <div className="container text-center">
+            {tagBox}
+          </div>
           <Tags
             articles={articles}
             device={device}
@@ -104,7 +114,7 @@ class Tag extends Component {
             loadMore={this.loadMore}
           />
           {this.props.children}
-          <Footer/>
+          <Footer sectionList={sectionList} />
         </div>
       </DocumentMeta>
     )
@@ -114,7 +124,8 @@ class Tag extends Component {
 function mapStateToProps(state) {
   return {
     articlesByUuids: state.articlesByUuids || {},
-    entities: state.entities || {}
+    entities: state.entities || {},
+    sectionList: state.sectionList || {}
   }
 }
 
@@ -123,4 +134,4 @@ Tag.contextTypes = {
 }
 
 export { Tag }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, setPageType })(Tag)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, setPageType })(Tag)
