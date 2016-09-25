@@ -21,7 +21,7 @@ redisClient.on('connect', function () {
 app.use((req, res) => {
   redisClient.get(req.url, function (err, reply) {
     if (!err && reply) {
-      res.json(reply)
+      res.json(JSON.parse(reply))
     }
   })
   const splittedUrlPath = req.url.split('?')[0].split('/').slice(1)
