@@ -226,6 +226,7 @@ div.colorBlock.choice {
   letter-spacing: 0.9px;
   color: rgba(0, 0, 0, 0.7);
   padding: 10px;
+  text-align: left;
 }
 
 .column-choice-meta {

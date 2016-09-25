@@ -1,11 +1,10 @@
 'use strict'
-import { PHOTOGRAPHY, PHOTOGRAPHY_ARTICLE, SITE_NAME } from '../constants/index'
+import { SITE_NAME } from '../constants/index'
 // import locale data
 import { addLocaleData, IntlProvider } from 'react-intl'
 import { connect } from 'react-redux'
-import _ from 'lodash'
 import DocumentTitle from 'react-document-title'
-import NavBar from '../containers/NavBar'
+// import NavBar from '../containers/NavBar'
 import React, { Component } from 'react'
 import classNames from 'classnames'
 import enLocaleData from 'react-intl/locale-data/en'
@@ -33,15 +32,12 @@ class App extends Component {
   }
 
   render() {
-    const pathname = this.props.location.pathname
-    let pageType = _.get(this.props, [ 'header', 'pageType' ])
+    // const pathname = this.props.location.pathname
+    // let pageType = _.get(this.props, [ 'header', 'pageType' ])
     return (
       <DocumentTitle title={SITE_NAME.FULL}>
         <IntlProvider locale={currentLocale} defaultLocale="zh-Hant">
-          <div className={classNames(styles.app, { [styles.photography]: pageType === PHOTOGRAPHY_ARTICLE || pageType === PHOTOGRAPHY })}>
-            <NavBar
-              bgStyle={pathname === '/photography' ? 'dark' : 'light'}
-              path={pathname}/>
+          <div className={classNames(styles.app)}>
             {this.props.children}
           </div>
         </IntlProvider>

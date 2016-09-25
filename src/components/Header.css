@@ -2,8 +2,42 @@
     height: 100px;
 }
 
+.main.menu.fixed div.ui.text.container {
+	max-width: 100%  !important;
+	width: 100%  !important;
+}
+
+.main.menu div.ui.text.container {
+	max-width: 1024px !important;
+	width: 100%  !important;
+}
+
+.main.menu {
+	height: 110px;
+	padding-bottom: 5px;
+	background-color: #F5F5F5;
+	border: none;
+	box-shadow: none;
+	margin: 0;
+}
+
+.main.menu.fixed {
+	height: 60px !important;
+	padding-bottom: 5px;
+	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px);
+	background-color: rgba(255, 255, 255, 0.9) !important;
+	box-shadow: 0 3px 2px 0 rgba(0, 0, 0, 0.1), 0 2px 0 0 #ffffff;
+}
+
+.ui.menu a.item {
+	font-size: 17px;
+	letter-spacing: 1.7px;
+	color: rgba(0, 0, 0, 0.5);
+}
+
 .ui.menu a.item:hover {
-  background: transparent !important;
+	background: transparent !important;
 }
 
 .item.share a {
@@ -26,10 +60,29 @@
 	margin-right: 30px;
 }
 
-@media only screen and (max-width: 767px) {
+.mobile-only{
+	display: none !important;
+}
 
-	.right.menu {
-		display:none !important;
+@media only screen and (max-width: 767px) {
+    .mobile-hide{
+        display: none !important;
+    }
+    .mobile-only{
+    	display: block !important;
+    }
+
+	.main.menu .right.menu {
+		display: none !important;
+	}
+
+	.main.menu.fixed .right.menu {
+		display: flex !important;
+	}
+
+	.main.menu.fixed .right.menu .item {
+		padding-left: 10px;
+		padding-right: 10px;
 	}
 
 	.header.item {
