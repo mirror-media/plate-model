@@ -2,12 +2,12 @@
     height: 100px;
 }
 
-.fixed div.ui.text.container {
+.main.menu.fixed div.ui.text.container {
 	max-width: 100%  !important;
 	width: 100%  !important;
 }
 
-div.ui.text.container {
+.main.menu div.ui.text.container {
 	max-width: 1024px !important;
 	width: 100%  !important;
 }
@@ -60,10 +60,29 @@ div.ui.text.container {
 	margin-right: 30px;
 }
 
-@media only screen and (max-width: 767px) {
+.mobile-only{
+	display: none !important;
+}
 
-	.right.menu {
-		display:none !important;
+@media only screen and (max-width: 767px) {
+    .mobile-hide{
+        display: none !important;
+    }
+    .mobile-only{
+    	display: block !important;
+    }
+
+	.main.menu .right.menu {
+		display: none !important;
+	}
+
+	.main.menu.fixed .right.menu {
+		display: flex !important;
+	}
+
+	.main.menu.fixed .right.menu .item {
+		padding-left: 10px;
+		padding-right: 10px;
 	}
 
 	.header.item {

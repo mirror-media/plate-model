@@ -63,19 +63,36 @@ export default class Header extends Component {
     const { sectionList } = this.props
 
     return (
-      <div className={ classNames('ui borderless main menu', status) }>
-        <div className="ui text container" style={{ maxWidth: 100 +'% !important', width: 100 +'%' }}>
-          <Link to="/" className="header item" style={{ marginLeft: '42px' }}>        
-            <img className="logo small" src={logo} style={{ width:'96px' }} />
-          </Link>
-            { _.map(sectionList.response, (s)=>{
-              return (
-                <Link to={'/section/' + s.name} key={s.id} className="item">{s.title}</Link>
-              )
-            })}
-          <div className="right menu">
-            <div className="item" style={{ marginTop: '10px', paddingRight: '42px' }}>
-              <a href="#" ><img src="/asset/icon/search@2x.png"    style={{ width: '24px!important', height: '24px' }}/></a>
+      <div>
+        <div className={ classNames('ui borderless main menu mobile-hide', status) }>
+          <div className="ui text container" style={{ maxWidth: 100 +'% !important', width: 100 +'%' }}>
+            <Link to="/" className="header item" style={{ marginLeft: '42px' }}>        
+              <img className="logo small" src={logo} style={{ width:'96px' }} />
+            </Link>
+              { _.map(sectionList.response, (s)=>{
+                return (
+                  <Link to={'/section/' + s.name} key={s.id} className="item">{s.title}</Link>
+                )
+              })}
+            <div className="right menu">
+              <div className="item" style={{ marginTop: '10px', paddingRight: '42px' }}>
+                <a href="#" ><img src="/asset/icon/search@2x.png"    style={{ width: '24px!important', height: '24px' }}/></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={ classNames('ui borderless main menu mobile-only', status) }>
+          <div className="ui text container" style={{ maxWidth: 100 +'% !important', width: 100 +'%' }}>
+            <div className="item" >
+              <a href="#" ><img src="/asset/icon/hamburger@2x.png" style={{ width: '24px!important', height: '24px' }}/></a>
+            </div>            
+            <div className="right menu">
+              <Link to="/" className="item">        
+                <img className="logo small" src="/asset/icon/logo@2x.png" style={{ width: '24px!important', height: '24px' }} />
+              </Link>
+              <div className="item">
+                <a href="#" ><img src="/asset/icon/search@2x.png" style={{ width: '24px!important', height: '24px' }}/></a>
+              </div>
             </div>
           </div>
         </div>
