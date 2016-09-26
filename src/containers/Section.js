@@ -102,7 +102,7 @@ class Section extends Component {
     const catId = _.get(params, 'section')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
     const section = _.get(params, 'section', null)
-    const catName = section
+    const catName = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'title' ], null)
     const catBox = catName ? <div className="top-title-outer"><h1 className="top-title"> {catName} </h1></div> : null
     const meta = {
       title: catName ? catName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL,
