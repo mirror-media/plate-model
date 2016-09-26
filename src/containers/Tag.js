@@ -101,7 +101,7 @@ class Tag extends Component {
 
     return (
       <DocumentMeta {...meta}>
-        <Header sectionList={sectionList} />
+        <Header sectionList={sectionList.response} />
 
         <div id="main">
           <div className="container text-center">
@@ -114,7 +114,7 @@ class Tag extends Component {
             loadMore={this.loadMore}
           />
           {this.props.children}
-          <Footer sectionList={sectionList} />
+          <Footer sectionList={sectionList.response} />
         </div>
       </DocumentMeta>
     )
