@@ -69,7 +69,7 @@ export default class Header extends Component {
             <Link to="/" className="header item" style={{ marginLeft: '42px' }}>        
               <img className="logo small" src={logo} style={{ width:'96px' }} />
             </Link>
-              { _.map(sectionList.response, (s)=>{
+              { _.map(sectionList.sections, (s)=>{
                 return (
                   <Link to={'/section/' + s.name} key={s.id} className="item">{s.title}</Link>
                 )

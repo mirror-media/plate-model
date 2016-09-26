@@ -310,7 +310,15 @@ export function fetchIndexArticles(endpoints = []) {
           } else if (e == 'sections') {
             if (resp_data.hasOwnProperty(e)) {
               let camelizedJson = camelizeKeys(resp_data[e])
-              dispatch(receivedSectionList(camelizedJson))
+              let dispatch_data = {}
+              dispatch_data['sections'] = camelizedJson['items']
+              dispatch_data['categories'] = {} 
+              for (let c in camelizedJson['items']) {
+                for (let i in camelizedJson['items'][c]['categories']) {
+                  dispatch_data['categories'][camelizedJson['items'][c]['categories'][i]['name']] = camelizedJson['items'][c]['categories'][i]
+                }
+              }
+              dispatch(receivedSectionList(dispatch_data))
             } else {
               dispatch(failToReceiveSectionList('Fetching section list failed'))
             }

@@ -95,7 +95,7 @@ class Home extends Component {
       return (
         <DocumentMeta {...meta} >
 
-          <Header sectionList={sectionList} />
+          <Header sectionList={sectionList.response} />
 
           <div id="main">
             
@@ -103,7 +103,7 @@ class Home extends Component {
             <Choices articles={choicesPosts} categories={entities.categories} />
             <LatestArticles articles={posts} categories={entities.categories} />
 
-            <Footer sectionList={sectionList} />
+            <Footer sectionList={sectionList.response} />
           </div>
 
         </DocumentMeta>

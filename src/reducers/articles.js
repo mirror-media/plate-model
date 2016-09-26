@@ -183,7 +183,7 @@ export function sectionList(state = {}, action = {}) {
       return _.merge({}, state, {
         error: null,
         fetched: true,
-        response: action.response.items,
+        response: action.response,
         lastUpdated: action.receivedAt
       })
     case types.FETCH_SECTION_LIST_FAILURE:

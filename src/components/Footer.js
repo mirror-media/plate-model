@@ -19,7 +19,7 @@ export default class Footer extends Component {
           <div className="ui left aligned grid">
             <div className="five column row" style={{ color: '#FFF' }}>
 
-            { _.map(sectionList.response, (s)=>{
+            { _.map(sectionList.sections, (s)=>{
               return (
 
                 <div className="column" key={ 'nav-' + s.name }>
