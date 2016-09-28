@@ -100,8 +100,8 @@ class Home extends Component {
           <div id="main">
             
             <LatestSections sections={sections} entities={entities} />
-            <Choices articles={choicesPosts} categories={entities.categories} />
-            <LatestArticles articles={posts} categories={entities.categories} title={"最新文章"}/>
+            <Choices articles={choicesPosts} categories={entities.categories} authors={entities.authors} />
+            <LatestArticles articles={posts} categories={entities.categories} authors={entities.authors} title={"最新文章"} />
 
             <Footer sectionList={sectionList.response} />
           </div>

@@ -9,6 +9,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import React, { Component } from 'react'
 import List from '../components/List'
+import Featured from '../components/Featured'
 
 if (process.env.BROWSER) {
   require('./Section.css')
@@ -25,7 +26,7 @@ class Section extends Component {
       page: PAGE,
       max_results: MAXRESULT
     }).then(() => {
-      return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
+      return store.dispatch( fetchIndexArticles( [ 'sections', 'sectionfeatured' ] ) )
     })
   }
 
@@ -39,12 +40,14 @@ class Section extends Component {
   }
 
   componentWillMount() {
-    const { articlesByUuids, fetchArticlesByUuidIfNeeded, fetchIndexArticles, sectionList } = this.props
+    const { articlesByUuids, fetchArticlesByUuidIfNeeded, fetchIndexArticles, sectionList, sectionFeatured } = this.props
     let catId = this.state.catId
 
-    // if fetched before, do nothing
-    if (_.get(sectionList, [ 'response', 'length' ], 0) == 0 ) {
-      fetchIndexArticles( [ 'sections' ] )
+    //TODO: We should not get all the keys
+    let checkSectionList = _.get(sectionList, 'fetched', undefined)
+    let checkSectionFeatured = _.get(sectionFeatured, 'fetched', undefined)
+    if ( !checkSectionList || !checkSectionFeatured) {
+      fetchIndexArticles([ 'sections', 'sectionfeatured' ])
     }
 
     // if fetched before, do nothing
@@ -97,9 +100,13 @@ class Section extends Component {
   }
 
   render() {
-    const { articlesByUuids, entities, params, sectionList } = this.props
+    const { articlesByUuids, entities, sectionFeatured, params, sectionList } = this.props
     const catId = _.get(params, 'section')
+
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
+
+    let featured = _.filter(entities.articles, (v,k)=>{ return _.indexOf(_.get(sectionFeatured, [ 'items', catId.toLowerCase() ], []), k) > -1 })
+
     const section = _.get(params, 'section', null)
     const catName = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'title' ], null)
     const meta = {
@@ -115,8 +122,9 @@ class Section extends Component {
         <Header sectionList={sectionList.response} />
 
         <div id="main">
+          <Featured articles={featured} categories={entities.categories} />
           <List 
-            articles={articles} 
+            articles={articles}
             categories={entities.categories} 
             title={catName} 
             hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
@@ -134,7 +142,8 @@ function mapStateToProps(state) {
   return {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
-    sectionList: state.sectionList || {}
+    sectionList: state.sectionList || {},
+    sectionFeatured: state.sectionFeatured || {}
   }
 }
 

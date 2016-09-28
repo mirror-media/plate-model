@@ -10,13 +10,13 @@ if (process.env.BROWSER) {
   require('./Choices.css')
 }
 
-export default class Choices extends Component {
+export default class Featured extends Component {
   constructor(props, context) {
     super(props, context)
   }
 
   render() {
-    const { articles, categories, authors } = this.props
+    const { articles, categories } = this.props
 
     return articles ? (
       <div className="container mobile-hide" style={{ marginTop: '50px' }}>
@@ -77,49 +77,9 @@ export default class Choices extends Component {
             )
           })}
         </div>
-        <div className="ui three column stackable grid">
-          
-          { _.map(_.slice(articles, 3), (a)=>{
-            let image = imageComposer(a).mobileImage
-            let brief = sanitizeHtml( _.get(a, [ 'brief','html' ], ''), { allowedTags: [ ] })
-            let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
-            
-            let briefContent = (brief.length >0) ? brief : content
-
-            let writers = '文｜' + _.pluck(a.writers, 'name').join('、')
-
-            return (
-              <div className="column" style={{ padding: 0 }} key={'choice' + a.id}>
-                <div className="choice-block">
-                  <a href={'/story/' + a.slug }><div className="column-choice-img" style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
-                    <div className="choice-cat">
-                      { _.get(categories, [ _.first(a.categories), 'title' ]) }
-                    </div>
-                  </div></a>
-                  <div className="column-choice-content">
-                    <a href={'/story/' + a.slug }><h2>{ a.title }</h2></a>
-                    <div className="line"></div>
-                    <div className="brief">
-                      { truncate(entities.decodeHTML(briefContent), 75) }
-                    </div>
-                  </div>
-                  <div className="column-choice-meta">
-                    <div className="author">
-                      { writers }
-                    </div>
-                    <div className="separator"></div>
-                    <div className="date">
-                      { dateformat(a.publishedDate, 'yyyy.mm.dd') }</div>
-                  </div>
-                </div>
-              </div>
-            )
-          })}
-
-        </div>
       </div>
     ) : null
   }
 }
 
-export { Choices }
+export { Featured }
