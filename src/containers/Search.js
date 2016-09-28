@@ -1,6 +1,5 @@
 import { SECTION, SITE_META, SITE_NAME } from '../constants/index'
 import { connect } from 'react-redux'
-import { denormalizeArticles } from '../utils/index'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery } from '../actions/articles'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
@@ -8,14 +7,14 @@ import DocumentMeta from 'react-document-meta'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import React, { Component } from 'react'
-import Tags from '../components/Tags'
+import List from '../components/List'
 
 if (process.env.BROWSER) {
   require('./Section.css')
 }
 
 const MAXRESULT = 10
-const PAGE = 1
+// const PAGE = 1
 
 // english to chinese of category
 
@@ -68,20 +67,20 @@ class Search extends Component {
     this.props.setPageType(SECTION)
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = nextProps
-    let catId = _.get(params, 'section')
+  // componentWillReceiveProps(nextProps) {
+  //   const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = nextProps
+  //   let catId = _.get(params, 'section')
 
-    // if fetched before, do nothing
-    if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0) {
-      return
-    }
+  //   // if fetched before, do nothing
+  //   if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0) {
+  //     return
+  //   }
 
-    fetchArticlesByUuidIfNeeded(catId, SECTION, {
-      page: PAGE,
-      max_results: MAXRESULT
-    })
-  }
+  //   fetchArticlesByUuidIfNeeded(catId, SECTION, {
+  //     page: PAGE,
+  //     max_results: MAXRESULT
+  //   })
+  // }
 
   _loadMore() {
     const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = this.props
@@ -102,17 +101,13 @@ class Search extends Component {
   }
 
   render() {
-    const { device } = this.context
-    const { articlesByUuids, entities, params, sectionList } = this.props
-    const catId = _.get(params, 'section')
-    let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
-    const section = _.get(params, 'section', null)
-    const catName = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'title' ], null)
-    const catBox = catName ? <div className="top-title-outer"><h1 className="top-title"> {catName} </h1></div> : null
+    const { entities, params, sectionList, searchResult } = this.props
+    const keyword = _.get(params, 'keyword', null)
+
     const meta = {
-      title: catName ? catName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL,
+      title: keyword ? keyword + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL,
       description: SITE_META.DESC,
-      canonical: `${SITE_META.URL}section/${section}`,
+      canonical: `${SITE_META.URL}search/${keyword}`,
       meta: { property: {} },
       auto: { ograph: true }
     }
@@ -122,13 +117,11 @@ class Search extends Component {
         <Header sectionList={sectionList.response} />
 
         <div id="main">
-          <div className="container text-center">
-            {catBox}
-          </div>
-          <Tags
-            articles={articles}
-            device={device}
-            hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
+          <List 
+            articles={ _.get(searchResult, [ 'response', 'hits' ], []) } 
+            categories={entities.categories} 
+            title={params.keyword} 
+            hasMore={ _.get(searchResult, [ 'response', 'nbPages' ], 0) > (_.get(searchResult, [ 'response', 'page' ], 0) + 1) }
             loadMore={this.loadMore}
           />
           {this.props.children}
