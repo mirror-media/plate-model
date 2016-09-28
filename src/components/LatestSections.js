@@ -39,7 +39,7 @@ export default class LatestSections extends Component {
             let image = imageComposer(_.get(sectionTop, '[0]', {})).mobileImage
             return (
               <div className="ui column" key={'section-'+key}>
-                <a href={ '/news/'+_.get(sectionTop, '[0].slug', '/') }>
+                <a href={ '/story/'+_.get(sectionTop, '[0].slug', '/') }>
                   <div className="sectionBlock">
                     <div className="gradient labelBlock">
                       { _.get(_.find(SECTION_NAME, { 'name': key }), 'title', '') }
@@ -53,7 +53,7 @@ export default class LatestSections extends Component {
                 <ul className="sectionList">
                 { _.map(sectionList, (a, idx) => {
                   return (
-                    <li key={a.id || idx}><a href={ '/news/' + a.slug }>{a.title}</a></li>
+                    <li key={a.id || idx}><a href={ '/story/' + a.slug }>{a.title}</a></li>
                   )
                 })}
                 </ul>
