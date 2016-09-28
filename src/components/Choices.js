@@ -38,7 +38,7 @@ export default class Choices extends Component {
             let photographers = ' 攝影｜' + _.pluck(a.photographers, 'name').join('、')
             return (
               <div className="choice-block" key={'choice' + a.id}>
-                <a href={'/news/' + a.slug }>
+                <a href={'/story/' + a.slug }>
                   <div className="choice-img " style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
                 </a>
@@ -46,7 +46,7 @@ export default class Choices extends Component {
                     { _.get(categories, [ _.first(a.categories), 'title' ]) }
                 </div>
                 <div className="choice-content ">
-                  <a href={'/news/' + a.slug }>
+                  <a href={'/story/' + a.slug }>
                     <h2>
                         {a.title}
                     </h2>
@@ -85,13 +85,13 @@ export default class Choices extends Component {
             return (
               <div className="column" style={{ padding: 0 }} key={'choice' + a.id}>
                 <div className="choice-block">
-                  <a href={'/news/' + a.slug }><div className="column-choice-img" style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
+                  <a href={'/story/' + a.slug }><div className="column-choice-img" style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                     <div className="choice-cat">
                       { _.get(categories, [ _.first(a.categories), 'title' ]) }
                     </div>
                   </div></a>
                   <div className="column-choice-content">
-                    <a href={'/news/' + a.slug }><h2>{ a.title }</h2></a>
+                    <a href={'/story/' + a.slug }><h2>{ a.title }</h2></a>
                     <div className="line"></div>
                     <div className="brief">
                       { truncate(entities.decodeHTML(briefContent), 75) }

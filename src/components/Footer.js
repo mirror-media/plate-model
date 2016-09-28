@@ -59,3 +59,5 @@ export default class Footer extends Component {
     )
   }
 }
+
+export { Footer }
