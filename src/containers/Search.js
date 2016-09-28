@@ -14,14 +14,14 @@ if (process.env.BROWSER) {
 }
 
 const MAXRESULT = 10
-// const PAGE = 1
+const PAGE = 0
 
 // english to chinese of category
 
 class Search extends Component {
   static fetchData({ params, store }) {
     let keyword = params.keyword
-    return store.dispatch( makeSearchQuery(encodeURIComponent(keyword)) ).then(() => {
+    return store.dispatch( makeSearchQuery(encodeURIComponent(keyword)+'?offset='+PAGE+'&length='+MAXRESULT) ).then(() => {
       return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
     })
   }
@@ -31,7 +31,7 @@ class Search extends Component {
     let keyword = this.props.params.keyword
     this.state = {
       keyword: keyword,
-      catId: 'News'
+      nlength: MAXRESULT
     }
     this.loadMore = this._loadMore.bind(this)
   }
@@ -41,7 +41,7 @@ class Search extends Component {
     const { fetchIndexArticles, makeSearchQuery, sectionList } = this.props
     let keyword = this.state.keyword
 
-    makeSearchQuery(encodeURIComponent(keyword)).then(() =>{
+    makeSearchQuery((encodeURIComponent(keyword)+'&offset='+PAGE+'&length='+MAXRESULT)).then(() =>{
       // console.log( searchResult )
       return
     })
@@ -83,20 +83,23 @@ class Search extends Component {
   // }
 
   _loadMore() {
-    const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = this.props
-    let catId = _.get(params, 'section')
+    const { searchResult, makeSearchQuery, params } = this.props
+    const keyword = _.get(params, 'keyword', null)
+    let nlength = this.state.nlength
 
-    let articlesByCat = _.get(articlesByUuids, [ catId ], {})
-    if (_.get(articlesByCat, 'hasMore') === false) {
+    if ( _.get(searchResult, [ 'response', 'nbHits' ], 0) <= (_.get(searchResult, [ 'response', 'length' ], 0)) ) {
       return
     }
 
-    let itemSize = _.get(articlesByCat, 'items.length', 0)
-    let page = Math.floor(itemSize / MAXRESULT) + 1
+    let length = nlength + MAXRESULT
 
-    fetchArticlesByUuidIfNeeded(catId, SECTION, {
-      page: page,
-      max_results: MAXRESULT
+    makeSearchQuery((encodeURIComponent(keyword)+'&offset='+0+'&length='+length)).then(() =>{
+      // console.log( searchResult )
+      return
+    })
+
+    this.setState({
+      nlength: length
     })
   }
 
@@ -121,7 +124,7 @@ class Search extends Component {
             articles={ _.get(searchResult, [ 'response', 'hits' ], []) } 
             categories={entities.categories} 
             title={params.keyword} 
-            hasMore={ _.get(searchResult, [ 'response', 'nbPages' ], 0) > (_.get(searchResult, [ 'response', 'page' ], 0) + 1) }
+            hasMore={ _.get(searchResult, [ 'response', 'nbHits' ], 0) > (_.get(searchResult, [ 'response', 'length' ], 0)) }
             loadMore={this.loadMore}
           />
           {this.props.children}
