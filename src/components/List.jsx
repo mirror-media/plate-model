@@ -4,21 +4,22 @@ import sanitizeHtml from 'sanitize-html'
 import truncate from 'truncate'
 import entities from 'entities'
 import { imageComposer } from '../utils/index'
+import More from '../components/More'
 
 if (process.env.BROWSER) {
   require('./LatestArticles.css')
 }
 
-export default class LatestArticles extends Component {
+export default class List extends Component {
   constructor(props, context) {
     super(props, context)
   }
 
   render() {
-    const { articles, categories, title } = this.props
+    const { articles, categories, title, hasMore, loadMore } = this.props
 
     return  (
-      <div className="container" style={{ marginTop: '50px' }}>
+      <div className="container">
         <div className="ui text container" style={{ marginBottom: '35px', paddingLeft: '1em !important', marginLeft: '0 !important' }}>
           <div className="article-main" style={{ textAlign: 'center' }}>
             <h2 className="hot-topic"><div className="colorBlock choice"></div>{title}<div className="blue-line" style={{ marginLeft: '16px', display:'inline-block' }}></div></h2>
@@ -33,9 +34,6 @@ export default class LatestArticles extends Component {
             
             let briefContent = (brief.length >0) ? brief : content
 
-            let writers = '文｜' + _.pluck(a.writers, 'name').join('、')
-            let photographers = ' 攝影｜' + _.pluck(a.photographers, 'name').join('、')
-
             return (
               <div className="latest-block" key={a.id} >
                 <a href={'/story/'+a.slug}>
@@ -45,7 +43,7 @@ export default class LatestArticles extends Component {
                 <div className="latest-content">
                   <a href={'/story/'+a.slug}>
                     <h2>
-                        {a.title}<div className="cat-label"><div className="separator"></div><span>{ _.get(categories, [ _.first(a.categories), 'title' ]) }</span></div>
+                        {a.title}<div className="cat-label"><div className="separator"></div><span>{ _.get(a, [ 'categories', 0, 'title' ], '') }</span></div>
                     </h2>
                   </a>
                   <div className="line">
@@ -53,18 +51,15 @@ export default class LatestArticles extends Component {
                   <div className="brief">
                     { truncate(entities.decodeHTML(briefContent), 75) }
                   </div>
-                  <div className="author">
-                    { writers }
-                    { (_.get(a, [ 'photographers', 'length' ], 0) > 0) ? photographers : null }
-                  </div>
                 </div>
               </div>
             )
           })}
         </div>
+        {hasMore ? <More loadMore={loadMore} /> : null}
       </div>
     )
   }
 }
 
-export { LatestArticles }
+export { List }

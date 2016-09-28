@@ -110,7 +110,7 @@ export default class Header extends Component {
               <img className="logo small" src={logo} style={{ width:'128px' }} />
             </Link>
             <div className="right menu">
-              <div className="item share" style={{ fontFamily: 'SourceHanSansTWHK-Normal', fontSize: '15px', letterSpacing: '0.7px', color: 'rgba(0, 0, 0, 0.3)', marginTop: '10px' }}>
+              <div className="item share" style={{ fontFamily: 'Noto Sans TC, sans-serif', fontSize: '15px', letterSpacing: '0.7px', color: 'rgba(0, 0, 0, 0.3)', marginTop: '10px' }}>
                 <span>訂閱：</span>
                 <a href="#" ><img src="/asset/icon/line@2x.png"      style={{ width: '56px!important', height: '25px' }}/></a>
                 <a href="#" ><img src="/asset/icon/weibo@2x.png"     style={{ width: '29px!important', height: '25px' }}/></a>

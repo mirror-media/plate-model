@@ -8,7 +8,7 @@ import DocumentMeta from 'react-document-meta'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import React, { Component } from 'react'
-import Tags from '../components/Tags'
+import List from '../components/List'
 
 if (process.env.BROWSER) {
   require('./Section.css')
@@ -97,13 +97,11 @@ class Section extends Component {
   }
 
   render() {
-    const { device } = this.context
     const { articlesByUuids, entities, params, sectionList } = this.props
     const catId = _.get(params, 'section')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
     const section = _.get(params, 'section', null)
     const catName = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'title' ], null)
-    const catBox = catName ? <div className="top-title-outer"><h1 className="top-title"> {catName} </h1></div> : null
     const meta = {
       title: catName ? catName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL,
       description: SITE_META.DESC,
@@ -117,12 +115,10 @@ class Section extends Component {
         <Header sectionList={sectionList.response} />
 
         <div id="main">
-          <div className="container text-center">
-            {catBox}
-          </div>
-          <Tags
-            articles={articles}
-            device={device}
+          <List 
+            articles={articles} 
+            categories={entities.categories} 
+            title={catName} 
             hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
             loadMore={this.loadMore}
           />
