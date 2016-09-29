@@ -22,6 +22,8 @@ export default class Header extends Component {
     this._handleScroll = this._handleScroll.bind(this)
     this._renderMenu = this._renderMenu.bind(this)
     this._openSidebar = this._openSidebar.bind(this)
+    this._openSearchbar = this._openSearchbar.bind(this)
+
   }
 
   componentDidMount() {
@@ -72,6 +74,18 @@ export default class Header extends Component {
       }).sidebar('toggle')
   }
 
+  _openSearchbar() {
+    // console.log('open sidebar')
+    $('.ui.top.sidebar')
+      .sidebar({
+        dimPage: false,
+        exclusive: true,
+        scrollLock: true,
+        transition: 'overlay',
+        mobileTransition: 'overlay'
+      }).sidebar('toggle')
+  }
+
   _renderMenu() {
     let status = this.state.isScrolledOver ? 'fixed top' : 'hidden'
     const { sectionList } = this.props
@@ -90,7 +104,7 @@ export default class Header extends Component {
               })}
             <div className="right menu">
               <div className="item" style={{ marginTop: '10px', paddingRight: '42px' }}>
-                <a href="#" ><img src="/asset/icon/search@2x.png"    style={{ width: '24px!important', height: '24px' }}/></a>
+                <a onClick={this._openSearchbar} style={{ cursor: 'pointer' }}><img src="/asset/icon/search@2x.png"    style={{ width: '24px!important', height: '24px' }}/></a>
               </div>
             </div>
           </div>
@@ -98,14 +112,14 @@ export default class Header extends Component {
         <div className={ classNames('ui borderless main menu mobile-only', status) }>
           <div className="ui text container" style={{ maxWidth: 100 +'% !important', width: 100 +'%' }}>
             <div className="item" >
-              <a onClick={this._openSidebar} ><img src="/asset/icon/hamburger@2x.png" style={{ width: '24px', height: '24px' }}/></a>
+              <a onClick={this._openSidebar} style={{ cursor: 'pointer' }}><img src="/asset/icon/hamburger@2x.png" style={{ width: '24px', height: '24px' }}/></a>
             </div>            
             <div className="right menu">
               <Link to="/" className="item">        
                 <img className="logo small" src="/asset/icon/logo@2x.png" style={{ width: '24px', height: '24px' }} />
               </Link>
               <div className="item">
-                <a href="#" ><img src="/asset/icon/search@2x.png" style={{ width: '24px', height: '24px' }}/></a>
+                <a onClick={this._openSearchbar} style={{ cursor: 'pointer' }}><img src="/asset/icon/search@2x.png" style={{ width: '24px', height: '24px' }}/></a>
               </div>
             </div>
           </div>
@@ -132,7 +146,7 @@ export default class Header extends Component {
                 <a href="#" ><img src="/asset/icon/facebook@2x.png"  style={{ width: '25px!important', height: '25px' }}/></a>
                 <a href="#" ><img src="/asset/icon/wechat@2x.png"    style={{ width: '29px!important', height: '25px' }}/></a>
                 <div className="vertical line" ></div>
-                <a href="#" ><img src="/asset/icon/search@2x.png"    style={{ width: '24px!important', height: '24px' }}/></a>
+                <a href="#" onClick={this._openSearchbar} ><img src="/asset/icon/search@2x.png"    style={{ width: '24px!important', height: '24px' }}/></a>
               </div>
             </div>
           </div>
