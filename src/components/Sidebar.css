@@ -1,0 +1,24 @@
+.sidebar .item {
+    font-weight: 100 !important;
+    padding: 0 !important;
+    margin-top: 10px;
+}
+
+.sidebar .ui.center.aligned.page.grid .ui a.item {
+    padding-right: 0.6em !important;
+}
+
+/* Sidebar Backdrop */
+.backdrop {
+	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px);
+}
+
+.gradient-transparent-vertical {
+	background-image: linear-gradient(165deg, #00cfbd, #004ea2);
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.fa-times-thin:before {
+    content: '\00d7';
+}

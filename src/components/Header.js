@@ -1,3 +1,4 @@
+/* global $ */
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
@@ -20,6 +21,7 @@ export default class Header extends Component {
     this._getHeaderHeight = this._getHeaderHeight.bind(this)
     this._handleScroll = this._handleScroll.bind(this)
     this._renderMenu = this._renderMenu.bind(this)
+    this._openSidebar = this._openSidebar.bind(this)
   }
 
   componentDidMount() {
@@ -58,6 +60,18 @@ export default class Header extends Component {
     return true
   }
 
+  _openSidebar() {
+    // console.log('open sidebar')
+    $('.ui.left.sidebar')
+      .sidebar({
+        dimPage: false,
+        exclusive: true,
+        scrollLock: true,
+        transition: 'overlay',
+        mobileTransition: 'overlay'
+      }).sidebar('toggle')
+  }
+
   _renderMenu() {
     let status = this.state.isScrolledOver ? 'fixed top' : 'hidden'
     const { sectionList } = this.props
@@ -84,7 +98,7 @@ export default class Header extends Component {
         <div className={ classNames('ui borderless main menu mobile-only', status) }>
           <div className="ui text container" style={{ maxWidth: 100 +'% !important', width: 100 +'%' }}>
             <div className="item" >
-              <a href="#" ><img src="/asset/icon/hamburger@2x.png" style={{ width: '24px', height: '24px' }}/></a>
+              <a onClick={this._openSidebar} ><img src="/asset/icon/hamburger@2x.png" style={{ width: '24px', height: '24px' }}/></a>
             </div>            
             <div className="right menu">
               <Link to="/" className="item">        
@@ -105,6 +119,7 @@ export default class Header extends Component {
     return (
       <div ref="headerbox">
         <div className="ui borderless main menu">
+
           <div className="ui text container" style={{ maxWidth: 1024 +'px !important' }}>
             <Link to="/" className="header item" style={{ marginLeft: '122px' }}>        
               <img className="logo small" src={logo} style={{ width:'128px' }} />
@@ -119,9 +134,9 @@ export default class Header extends Component {
                 <div className="vertical line" ></div>
                 <a href="#" ><img src="/asset/icon/search@2x.png"    style={{ width: '24px!important', height: '24px' }}/></a>
               </div>
-
             </div>
           </div>
+
         </div>
         {this._renderMenu()}
       </div>

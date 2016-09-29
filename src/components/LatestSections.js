@@ -41,12 +41,15 @@ export default class LatestSections extends Component {
               <div className="ui column" key={'section-'+key}>
                 <a href={ '/story/'+_.get(sectionTop, '[0].slug', '/') }>
                   <div className="sectionBlock">
+                    <div className="section-cat">
+                      { _.get(entities.categories, [ _.first(_.get(sectionTop, '[0].categories', '')), 'title' ], '　　') }
+                    </div>
                     <div className="gradient labelBlock">
                       { _.get(_.find(SECTION_NAME, { 'name': key }), 'title', '') }
                     </div>
                     <div className="sectionImg" style={{ background: 'url('+image+') no-repeat center center', backgroundSize: 'cover', width: '300px', height: '250px' }}></div>
                     <div className="sectionTopic">
-                      { _.get(sectionTop, '[0].title', '') }
+                      { _.get(sectionTop, '[0].title', '　') }
                     </div>
                   </div>
                 </a>
