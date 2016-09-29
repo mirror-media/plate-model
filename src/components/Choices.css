@@ -303,6 +303,10 @@ div.colorBlock.choice {
       color: #004ea2;
     }
 
+    .choice-content h2 {
+      text-align: center;
+    }
+
     .choice-block {
       margin: 0 auto;
       width: 300px;
