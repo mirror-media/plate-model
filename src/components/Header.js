@@ -116,7 +116,7 @@ export default class Header extends Component {
             </div>            
             <div className="right menu">
               <Link to="/" className="item">        
-                <img className="logo small" src="/asset/icon/logo@2x.png" style={{ width: '24px', height: '24px' }} />
+                <img className="logo" src="/asset/icon/logo@2x.png" style={{ width: '24px', height: '24px' }} />
               </Link>
               <div className="item">
                 <a onClick={this._openSearchbar} style={{ cursor: 'pointer' }}><img src="/asset/icon/search@2x.png" style={{ width: '24px', height: '24px' }}/></a>
@@ -129,14 +129,15 @@ export default class Header extends Component {
   }
 
   render() {
+    const { sectionList } = this.props
 
     return (
       <div ref="headerbox">
-        <div className="ui borderless main menu">
+        <div className="ui borderless header main menu">
 
           <div className="ui text container" style={{ maxWidth: 1024 +'px !important' }}>
             <Link to="/" className="header item" style={{ marginLeft: '122px' }}>        
-              <img className="logo small" src={logo} style={{ width:'128px' }} />
+              <img className="logo" src={logo} />
             </Link>
             <div className="right menu">
               <div className="item share" style={{ fontFamily: 'Noto Sans TC, sans-serif', fontSize: '15px', letterSpacing: '0.7px', color: 'rgba(0, 0, 0, 0.3)', marginTop: '10px' }}>
@@ -148,9 +149,21 @@ export default class Header extends Component {
                 <div className="vertical line" ></div>
                 <a href="#" onClick={this._openSearchbar} ><img src="/asset/icon/search@2x.png"    style={{ width: '24px!important', height: '24px' }}/></a>
               </div>
+              <div className="item mobile-only" style={{ marginTop: '25px' }}>
+                <a href="#" onClick={this._openSearchbar} ><img src="/asset/icon/search@2x.png"    style={{ width: '24px!important', height: '24px' }}/></a>
+              </div>
             </div>
           </div>
-
+        </div>
+        <div className="sections mobile-only">
+          <div className="line mobile-only" />
+          { _.map(sectionList.sections, (s)=>{
+            return (
+              <div className="section-item" key={s.id}>
+                <Link to={'/section/' + s.name}>{s.title}</Link>
+              </div>
+            )
+          })}
         </div>
         {this._renderMenu()}
       </div>

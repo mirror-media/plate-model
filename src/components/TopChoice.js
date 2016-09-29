@@ -15,7 +15,7 @@ export default class TopChoice extends Component {
     const { articles, categories } = this.props
 
     return articles ? (
-      <div className="container tablet-hide computer-hide" style={{ marginTop: '50px' }}>
+      <div className="container tablet-hide computer-hide">
         <div className="choice-main">
           { _.map(_.take(articles, 1), (a)=>{
             let image = imageComposer(a).mobileImage
