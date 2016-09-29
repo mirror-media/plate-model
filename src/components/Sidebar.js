@@ -1,4 +1,5 @@
 /* global $ */
+import { SOCIAL_LINK } from '../constants/index'
 import React, { Component } from 'react'
 import _ from 'lodash'
 import { Link } from 'react-router'
@@ -61,13 +62,13 @@ export default class Sidebar extends Component {
             <div style={{ fontFamily: 'Noto Sans TC', fontSize: '17px', letterSpacing: '1.1px', color: 'rgba(0, 0, 0, 0.5)' }}>訂閱鏡週刊</div>
             <div style={{ width: '195px', height: '2px', border: 'solid 1px rgba(0, 0, 0, 0.5)', margin: '10px 0' }}></div>
             <div className="ui" style={{ lineHeight: '40px' }}>
-              <a href="#" className="item" style={{ marginRight: '25px' }}><img src="/asset/icon/line@2x.png" style={{ width: '56px', height: '25px' }}/></a>
-              <a href="#" className="item" style={{ marginRight: '25px' }}><img src="/asset/icon/weibo@2x.png" style={{ width: '29px', height: '25px' }}/></a>
-              <a href="#" className="item" style={{ marginRight: '25px' }}><img src="/asset/icon/facebook@2x.png" style={{ width: '25px', height: '25px' }}/></a>
-              <a href="#" className="item" style={{ marginRight: '25px' }}><img src="/asset/icon/wechat@2x.png" style={{ width: '29px', height: '25px' }}/></a>
-              <a href="#" className="item" style={{ marginRight: '25px' }}><img src="/asset/icon/instagram@2x.png" style={{ width: '25px', height: '25px' }}/></a>
-              <a href="#" className="item" style={{ marginRight: '25px' }}><img src="/asset/icon/feed@2x.png" style={{ width: '25px', height: '25px' }}/></a>
-              <a href="#" className="item" style={{ marginRight: '25px' }}><img src="/asset/icon/mail@2x.png" style={{ width: '26px', height: '25px' }}/></a>
+              <a href={SOCIAL_LINK.LINE} className="item" style={{ marginRight: '25px' }}><img src="/asset/icon/line@2x.png" style={{ width: '56px', height: '25px' }}/></a>
+              <a href={SOCIAL_LINK.WEIBO} className="item" style={{ marginRight: '25px' }}><img src="/asset/icon/weibo@2x.png" style={{ width: '29px', height: '25px' }}/></a>
+              <a href={SOCIAL_LINK.FACEBOOK} className="item" style={{ marginRight: '25px' }}><img src="/asset/icon/facebook@2x.png" style={{ width: '25px', height: '25px' }}/></a>
+              <a href={SOCIAL_LINK.WECHAT} className="item" style={{ marginRight: '25px' }}><img src="/asset/icon/wechat@2x.png" style={{ width: '29px', height: '25px' }}/></a>
+              <a href={SOCIAL_LINK.INSTAGRAM} className="item" style={{ marginRight: '25px' }}><img src="/asset/icon/instagram@2x.png" style={{ width: '25px', height: '25px' }}/></a>
+              <a href={SOCIAL_LINK.FEED} className="item" style={{ marginRight: '25px' }}><img src="/asset/icon/feed@2x.png" style={{ width: '25px', height: '25px' }}/></a>
+              <a href={SOCIAL_LINK.EMAIL} className="item" style={{ marginRight: '25px' }}><img src="/asset/icon/mail@2x.png" style={{ width: '26px', height: '25px' }}/></a>
             </div>
           </div>
         </div>

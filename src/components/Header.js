@@ -1,4 +1,5 @@
 /* global $ */
+import { SOCIAL_LINK } from '../constants/index'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
@@ -142,10 +143,11 @@ export default class Header extends Component {
             <div className="right menu">
               <div className="item share" style={{ fontFamily: 'Noto Sans TC, sans-serif', fontSize: '15px', letterSpacing: '0.7px', color: 'rgba(0, 0, 0, 0.3)', marginTop: '10px' }}>
                 <span>訂閱：</span>
-                <a href="#" ><img src="/asset/icon/line@2x.png"      style={{ width: '56px!important', height: '25px' }}/></a>
-                <a href="#" ><img src="/asset/icon/weibo@2x.png"     style={{ width: '29px!important', height: '25px' }}/></a>
-                <a href="#" ><img src="/asset/icon/facebook@2x.png"  style={{ width: '25px!important', height: '25px' }}/></a>
-                <a href="#" ><img src="/asset/icon/wechat@2x.png"    style={{ width: '29px!important', height: '25px' }}/></a>
+                <a href={SOCIAL_LINK.LINE}><img src="/asset/icon/line@2x.png"      style={{ width: '45px!important', height: '20px' }}/></a>
+                <a href={SOCIAL_LINK.WEIBO}><img src="/asset/icon/weibo@2x.png"     style={{ width: '23px!important', height: '20px' }}/></a>
+                <a href={SOCIAL_LINK.FACEBOOK}><img src="/asset/icon/facebook@2x.png"  style={{ width: '20x!important', height: '20px' }}/></a>
+                <a href={SOCIAL_LINK.WECHAT}><img src="/asset/icon/wechat@2x.png"    style={{ width: '23px!important', height: '20px' }}/></a>
+                <a href={SOCIAL_LINK.INSTAGRAM}><img src="/asset/icon/instagram@2x.png"    style={{ width: '20px!important', height: '20px' }}/></a>
                 <div className="vertical line" ></div>
                 <a href="#" onClick={this._openSearchbar} ><img src="/asset/icon/search@2x.png"    style={{ width: '24px!important', height: '24px' }}/></a>
               </div>
