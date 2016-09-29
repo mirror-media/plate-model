@@ -13,8 +13,12 @@ export default class Sidebar extends Component {
   }
 
   componentDidMount() {
+    // console.log('componentDidMount')
     $.site('change setting', 'silent', true)  
     $('.ui.left.sidebar').sidebar('hide')  
+    $('.closeSidebar').click( function () { 
+      $('.ui.left.sidebar').sidebar('hide')
+    })
   }
 
   _closeSidebar() {
@@ -28,7 +32,7 @@ export default class Sidebar extends Component {
     return (
       <div className="ui gradient-transparent-vertical backdrop left sidebar" style={{ width:'274px' }}>
         <div className="ui left" style={{ position: 'absolute', color: '#fff', fontSize: '3em', marginTop: '18px', marginLeft: '10px' }}>
-          <a className="item" onClick={this._closeSidebar}><img src="/asset/icon/white@2x.png" style={{ width: '24px', height: '24px' }}/></a>
+          <a className="item closeSidebar" onClick={this._closeSidebar}><img src="/asset/icon/white@2x.png" style={{ width: '24px', height: '24px' }}/></a>
         </div>
         <div className="ui borderless vertical menu" style={{ marginLeft: '40px', marginTop: '70px !important', background: 'transparent', border: 'none', boxShadow: 'none' }}>
           { _.map(sectionList.sections, (s)=>{
