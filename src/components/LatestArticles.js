@@ -4,6 +4,7 @@ import sanitizeHtml from 'sanitize-html'
 import truncate from 'truncate'
 import entities from 'entities'
 import { imageComposer } from '../utils/index'
+import More from '../components/More'
 
 if (process.env.BROWSER) {
   require('./LatestArticles.css')
@@ -15,7 +16,7 @@ export default class LatestArticles extends Component {
   }
 
   render() {
-    const { articles, categories, authors, title } = this.props
+    const { articles, categories, authors, title, hasMore, loadMore } = this.props
 
     return  (
       <div className="container" style={{ marginTop: '50px' }}>
@@ -67,6 +68,7 @@ export default class LatestArticles extends Component {
             )
           })}
         </div>
+        {hasMore ? <More loadMore={loadMore} /> : null}
       </div>
     )
   }

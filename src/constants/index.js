@@ -20,7 +20,7 @@ export const SOCIAL_LINK = {
   WEIBO: '#',
   FACEBOOK: 'https://www.facebook.com/mirrormediamg/',
   WECHAT: '#',
-  INSTAGRAM: '#',
+  INSTAGRAM: 'https://www.instagram.com/mirror_media/',
   FEED: '#',
   EMAIL: '#'
 }
