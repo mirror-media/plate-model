@@ -31,7 +31,7 @@ if (process.env.BROWSER) {
 
 class Home extends Component {
   static fetchData({ store }) {
-    return store.dispatch(fetchIndexArticles([ 'choices', 'sections', 'sectionfeatured' ])) 
+    return store.dispatch(fetchIndexArticles([ 'choices', 'sections', 'posts', 'sectionfeatured' ])) 
   }
 
   constructor(props, context) {
@@ -50,19 +50,19 @@ class Home extends Component {
   componentWillMount() {
     const { fetchArticlesByUuidIfNeeded, fetchIndexArticles } = this.props
     const { articlesByUuids, entities, sectionFeatured, sectionList, choices, fetchLatestPosts, latestPosts } = this.props
-    let params = {
-      page: PAGE,
-      max_results: MAXRESULT,
-      sort: '-publishedDate'
-    }
-    fetchLatestPosts(params)
+    // let params = {
+    //   page: PAGE,
+    //   max_results: MAXRESULT,
+    //   sort: '-publishedDate'
+    // }
+    // fetchLatestPosts(params)
     //TODO: We should not get all the keys
     let checkSectionList = _.get(sectionList, 'fetched', undefined)
     let checkSectionFeatured = _.get(sectionFeatured, 'fetched', undefined)
     let checkChoices = _.get(choices, 'fetched', undefined)
     let checkLatestPosts = _.get(latestPosts, 'fetched', undefined)
     if ( !checkLatestPosts || !checkSectionList || !checkChoices || !checkSectionFeatured) {
-      this.props.fetchIndexArticles([ 'choices', 'sections', 'sectionfeatured' ])
+      this.props.fetchIndexArticles([ 'choices', 'sections', 'posts', 'sectionfeatured' ])
     }
 
 
