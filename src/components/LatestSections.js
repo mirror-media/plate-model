@@ -2,7 +2,7 @@ import _ from 'lodash'
 import React, { Component } from 'react'
 import classNames from 'classnames'
 import { imageComposer } from '../utils/index'
-
+import Image from './Image'
 if (process.env.BROWSER) {
   require('./LatestSections.css')
 }
@@ -62,7 +62,9 @@ export default class LatestSections extends Component {
 
           <div className="ui column" style={{ backgroundColor: 'rgba(0, 77, 162, 0.1)', marginTop: '-10px', marginBottom: '10px' }}>
             <div style={{ margin: '10px' }}>
-              <a href="https://www.facebook.com/sonypicturestw/videos/vb.123118021633/10154091918126634/?type=2&theater" target="_blank"><img src="/asset/ads/index.jpg" /></a>
+              <a href="https://www.facebook.com/sonypicturestw/videos/vb.123118021633/10154091918126634/?type=2&theater" target="_blank">
+              <Image src={'/asset/ads/index.jpg'} width={300} height={360} mode={'fit'} />
+              </a>
             </div>
           </div>
 
