@@ -29,13 +29,19 @@ export default class List extends Component {
 
           { _.map(articles, (a)=>{
             let image = imageComposer(a).mobileImage
-            let brief = sanitizeHtml( _.get(a, [ 'brief','html' ], ''), { allowedTags: [ ] })
-            let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
-            
+            let title = sanitizeHtml( _.get(a, [ 'title' ], ''), { allowedTags: [ ] })
+            let brief = sanitizeHtml( _.get(a, [ 'brief', 'html' ], ''), { allowedTags: [ ] })
+            let content = sanitizeHtml( _.get(a, [ 'content', 'html' ], ''), { allowedTags: [ ] })
             let briefContent = (brief.length >0) ? brief : content
+            if ( _.has(a, '_highlightResult') ) {
+              title = sanitizeHtml( _.get(a, [ '_highlightResult', 'title', 'value' ], ''), { allowedTags: [ 'em' ] })
+              brief = sanitizeHtml( _.get(a, [ '_highlightResult', 'brief', 'value' ], ''), { allowedTags: [ 'em' ] })
+              content = sanitizeHtml( _.get(a, [ '_highlightResult', 'content',' value' ], ''), { allowedTags: [ 'em' ] })
+              briefContent = (brief.length >0) ? brief : content
+            }
 
             return (
-              <div className="latest-block" key={a.id} >
+              <div className="latest-block" key={a.id || a._id} >
                 <a href={'/story/'+a.slug}>
                   <div className="latest-img" style={{ background: 'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
@@ -43,13 +49,13 @@ export default class List extends Component {
                 <div className="latest-content">
                   <a href={'/story/'+a.slug}>
                     <h2>
-                        {a.title}<div className="cat-label"><div className="separator"></div><span>{ _.get(a, [ 'categories', 0, 'title' ], '') }</span></div>
+                        <span dangerouslySetInnerHTML={{__html: title }}/><div className="cat-label"><div className="separator"></div><span>{ _.get(a, [ 'categories', 0, 'title' ], '') }</span></div>
                     </h2>
                   </a>
                   <div className="line">
                   </div>
                   <div className="brief">
-                    { truncate(entities.decodeHTML(briefContent), 75) }
+                    <div dangerouslySetInnerHTML={{__html: truncate(entities.decodeHTML(briefContent), 75) }}/>
                   </div>
                 </div>
               </div>

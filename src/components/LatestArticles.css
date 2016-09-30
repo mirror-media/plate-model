@@ -1,3 +1,13 @@
+/*
+  Search Only
+*/
+em {
+  color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 77, 162, 0.1);
+}
+/*
+  Search Only - End
+*/
 .blue-line {
   width: 300px;
   height: 5px;

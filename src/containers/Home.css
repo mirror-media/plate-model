@@ -1,3 +1,8 @@
+body.pushable, body.pushable>.pusher {
+    background-color: #F5F5F5 !important;      
+    background: #F5F5F5 !important;      
+}
+
 .header {
     display: inline;
 }
