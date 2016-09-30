@@ -37,7 +37,10 @@ class Home extends Component {
 
   constructor(props, context) {
     super(props, context)
-    this.loadMoreArticles = this._loadMoreArticles.bind(this, this.specialTopicListId)
+    this.state = {
+      page: 1
+    }
+    this.loadMore = this._loadMore.bind(this)
   }
 
   componentDidMount() {
@@ -60,20 +63,31 @@ class Home extends Component {
     if ( !checkLatestPosts || !checkSectionList || !checkChoices || !checkSectionFeatured) {
       this.props.fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])
     }
+
+    // fetchLatestPosts({
+    //   page: 1,
+    //   max_results: MAXRESULT
+    // })
   }
 
-  _loadMoreArticles(catId) {
-    const { articlesByUuids, fetchArticlesByUuidIfNeeded } = this.props
-    if (_.get(articlesByUuids, [ catId, 'hasMore' ]) === false) {
-      return
-    }
+  _loadMore() {
+    const { latestPosts } = this.props
+    // if (_.get(articlesByUuids, [ catId, 'hasMore' ]) === false) {
+    //   return
+    // }
 
-    let itemSize = _.get(articlesByUuids, [ catId, 'items', 'length' ], 0)
-    let page = Math.floor(itemSize / MAXRESULT) + 1
+    // let itemSize = _.get(articlesByUuids, [ catId, 'items', 'length' ], 0)
+    // let page = Math.floor(itemSize / MAXRESULT) + 1
+    let page = this.state.page
     fetchLatestPosts({
       page: page,
-      max_results: MAXRESULT
+      max_results: 3
     })
+    this.setState({
+      page: page + 1
+    })
+    console.log(this.state.page)
+    console.log(latestPosts)
   }
 
   render() {
@@ -99,10 +113,28 @@ class Home extends Component {
           <Header sectionList={sectionList.response} />
 
           <div id="main" className="pusher">
-            <TopChoice articles={choicesPosts} categories={entities.categories}/>
-            <LatestSections sections={sections} entities={entities} sectionList={sectionList.response}/>
-            <Choices articles={choicesPosts} categories={entities.categories} authors={entities.authors} />
-            <LatestArticles articles={posts} categories={entities.categories} authors={entities.authors} title={"最新文章"} />
+            <TopChoice 
+              articles={choicesPosts} 
+              categories={entities.categories}
+            />
+            <LatestSections 
+              sections={sections} 
+              entities={entities} 
+              sectionList={sectionList.response}
+            />
+            <Choices 
+              articles={choicesPosts} 
+              categories={entities.categories} 
+              authors={entities.authors} 
+            />
+            <LatestArticles 
+              articles={posts} 
+              categories={entities.categories} 
+              authors={entities.authors} 
+              title={"最新文章"} 
+              hasMore={ true }
+              loadMore={this.loadMore}
+            />
 
             <Footer sectionList={sectionList.response} />
           </div>
