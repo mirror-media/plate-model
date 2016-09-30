@@ -90,6 +90,7 @@ export default class Header extends Component {
   _renderMenu() {
     let status = this.state.isScrolledOver ? 'fixed top' : 'hidden'
     const { sectionList } = this.props
+    let sortedList = _.sortBy(sectionList.sections, (o)=>{ return o.sortOrder } )
 
     return (
       <div>
@@ -98,7 +99,7 @@ export default class Header extends Component {
             <Link to="/" className="header item" style={{ marginLeft: '42px' }}>        
               <img className="logo small" src={logo} style={{ width:'96px' }} />
             </Link>
-              { _.map(sectionList.sections, (s)=>{
+              { _.map(sortedList, (s)=>{
                 return (
                   <Link to={'/section/' + s.name} key={s.id} className="item">{s.title}</Link>
                 )
@@ -131,6 +132,7 @@ export default class Header extends Component {
 
   render() {
     const { sectionList } = this.props
+    let sortedList = _.sortBy(sectionList.sections, (o)=>{ return o.sortOrder } )
 
     return (
       <div ref="headerbox">
@@ -159,7 +161,7 @@ export default class Header extends Component {
         </div>
         <div className="sections mobile-only">
           <div className="line mobile-only" />
-          { _.map(sectionList.sections, (s)=>{
+          { _.map(sortedList, (s)=>{
             return (
               <div className="section-item" key={s.id}>
                 <Link to={'/section/' + s.name}>{s.title}</Link>

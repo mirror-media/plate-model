@@ -12,6 +12,7 @@ export default class Footer extends Component {
   }
   render() {
     const { sectionList } = this.props
+    let sortedList = _.sortBy(sectionList.sections, (o)=>{ return o.sortOrder } )
 
     return (
       <footer className="gradient">
@@ -19,7 +20,7 @@ export default class Footer extends Component {
           <div className="ui left aligned grid">
             <div className="five column row" style={{ color: '#FFF' }}>
 
-            { _.map(sectionList.sections, (s)=>{
+            { _.map(sortedList, (s)=>{
               return (
 
                 <div className="column" key={ 'nav-' + s.name }>
