@@ -35,6 +35,7 @@ export default class Sidebar extends Component {
 
   render() {
     const { sectionList } = this.props
+    let sortedList = _.sortBy(sectionList.sections, (o)=>{ return o.sortOrder } )
 
     return (
       <div>
@@ -50,7 +51,7 @@ export default class Sidebar extends Component {
             <a className="item closeSidebar" onClick={this._closeSidebar}><img src="/asset/icon/white@2x.png" style={{ width: '24px', height: '24px' }}/></a>
           </div>
           <div className="ui borderless vertical menu" style={{ marginLeft: '40px', marginTop: '70px !important', background: 'transparent', border: 'none', boxShadow: 'none' }}>
-            { _.map(sectionList.sections, (s)=>{
+            { _.map(sortedList, (s)=>{
               return (
                 <Link to={'/section/' + s.name} key={s.id} className="item" style={{ color: '#FFF', marginBottom: '30px', fontWeight: 'normal !important' }}>
                 {s.title}
