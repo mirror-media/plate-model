@@ -31,13 +31,13 @@ if (process.env.BROWSER) {
 
 class Home extends Component {
   static fetchData({ store }) {
-    return store.dispatch(fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])) 
+    return store.dispatch(fetchIndexArticles([ 'choices', 'sections', 'sectionfeatured' ])) 
   }
 
   constructor(props, context) {
     super(props, context)
     this.state = {
-      page: 1
+      page: PAGE
     }
     this.loadMore = this._loadMore.bind(this)
   }
@@ -52,47 +52,36 @@ class Home extends Component {
     const { articlesByUuids, entities, sectionFeatured, sectionList, choices, fetchLatestPosts, latestPosts } = this.props
     let params = {
       page: PAGE,
-      max_results: MAXRESULT
+      max_results: MAXRESULT,
+      sort: '-publishedDate'
     }
-    fetchLatestPosts(params).then(() =>{
-      // console.log(latestPosts)
-      return
-    })
+    fetchLatestPosts(params)
     //TODO: We should not get all the keys
     let checkSectionList = _.get(sectionList, 'fetched', undefined)
     let checkSectionFeatured = _.get(sectionFeatured, 'fetched', undefined)
     let checkChoices = _.get(choices, 'fetched', undefined)
     let checkLatestPosts = _.get(latestPosts, 'fetched', undefined)
     if ( !checkLatestPosts || !checkSectionList || !checkChoices || !checkSectionFeatured) {
-      this.props.fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])
+      this.props.fetchIndexArticles([ 'choices', 'sections', 'sectionfeatured' ])
     }
 
-    // fetchLatestPosts({
-    //   page: 1,
-    //   max_results: MAXRESULT
-    // })
+
   }
 
   _loadMore() {
     const { fetchLatestPosts, latestPosts } = this.props
-    // if (_.get(articlesByUuids, [ catId, 'hasMore' ]) === false) {
-    //   return
-    // }
 
-    // let itemSize = _.get(articlesByUuids, [ catId, 'items', 'length' ], 0)
-    // let page = Math.floor(itemSize / MAXRESULT) + 1
     let page = this.state.page
+
     fetchLatestPosts({
-      page: page,
-      max_results: 3
-    }).then(() =>{
-      console.log(latestPosts)
-      return
+      page: page+1,
+      max_results: MAXRESULT,
+      sort: '-publishedDate'
     })
+
     this.setState({
       page: page + 1
     })
-    console.log(this.state.page)
   }
 
   render() {
