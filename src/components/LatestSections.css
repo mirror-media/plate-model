@@ -53,6 +53,26 @@
 	color: rgba(0, 0, 0, 0.8);
 }
 
+.section-cat {
+  position:absolute;
+  left:15px;
+  top:15px;
+  border-radius: 2px;
+  background-color: #004ea2;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  height: 30px;
+  font-family: 'Songti TC', 'SimSun', serif;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 30px;
+  letter-spacing: 1px;
+  text-align: center;
+  color: #ffffff;
+  padding: 0 8px;
+  display: none;
+}
+
+
 ul.sectionList {
 	list-style: none;
 	padding:0;
@@ -86,9 +106,35 @@ div.container {
 
 
 @media only screen and (max-width: 767px) {
-  div.container {
-      width: 320px;
-  }
+	div.container {
+	    width: 320px;
+	}
+	.sectionBlock {
+		background: transparent !important;
+		height: auto !important;
+	}
+	.sectionBlock .labelBlock {
+		top: 0 !important;
+    left: auto !important;
+    right: 0 !important;
+	}
+	.sectionBlock .sectionImg {
+		height: 180px !important;
+	  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1) !important;
+	}
+	.sectionBlock .sectionTopic {
+		bottom: auto !important;
+		position: relative !important;
+	  margin-top: 5px;
+		margin-bottom: 20px !important;
+	  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1) !important;
+	}
+	.sectionBlock .section-cat {
+		display: block;
+	}
+	ul.sectionList {
+		display: none !important;
+	}
 }
 @media only screen and (min-width: 768px){
   div.container {

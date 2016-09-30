@@ -1,3 +1,5 @@
+/* global $ */
+import { SOCIAL_LINK } from '../constants/index'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
@@ -20,6 +22,9 @@ export default class Header extends Component {
     this._getHeaderHeight = this._getHeaderHeight.bind(this)
     this._handleScroll = this._handleScroll.bind(this)
     this._renderMenu = this._renderMenu.bind(this)
+    this._openSidebar = this._openSidebar.bind(this)
+    this._openSearchbar = this._openSearchbar.bind(this)
+
   }
 
   componentDidMount() {
@@ -58,6 +63,30 @@ export default class Header extends Component {
     return true
   }
 
+  _openSidebar() {
+    // console.log('open sidebar')
+    $('.ui.left.sidebar')
+      .sidebar({
+        dimPage: false,
+        exclusive: true,
+        scrollLock: true,
+        transition: 'overlay',
+        mobileTransition: 'overlay'
+      }).sidebar('toggle')
+  }
+
+  _openSearchbar() {
+    // console.log('open sidebar')
+    $('.ui.top.sidebar')
+      .sidebar({
+        dimPage: false,
+        exclusive: true,
+        scrollLock: true,
+        transition: 'overlay',
+        mobileTransition: 'overlay'
+      }).sidebar('toggle')
+  }
+
   _renderMenu() {
     let status = this.state.isScrolledOver ? 'fixed top' : 'hidden'
     const { sectionList } = this.props
@@ -76,7 +105,7 @@ export default class Header extends Component {
               })}
             <div className="right menu">
               <div className="item" style={{ marginTop: '10px', paddingRight: '42px' }}>
-                <a href="#" ><img src="/asset/icon/search@2x.png"    style={{ width: '24px!important', height: '24px' }}/></a>
+                <a onClick={this._openSearchbar} style={{ cursor: 'pointer' }}><img src="/asset/icon/search@2x.png"    style={{ width: '24px!important', height: '24px' }}/></a>
               </div>
             </div>
           </div>
@@ -84,14 +113,14 @@ export default class Header extends Component {
         <div className={ classNames('ui borderless main menu mobile-only', status) }>
           <div className="ui text container" style={{ maxWidth: 100 +'% !important', width: 100 +'%' }}>
             <div className="item" >
-              <a href="#" ><img src="/asset/icon/hamburger@2x.png" style={{ width: '24px', height: '24px' }}/></a>
+              <a onClick={this._openSidebar} style={{ cursor: 'pointer' }}><img src="/asset/icon/hamburger@2x.png" style={{ width: '24px', height: '24px' }}/></a>
             </div>            
             <div className="right menu">
               <Link to="/" className="item">        
-                <img className="logo small" src="/asset/icon/logo@2x.png" style={{ width: '24px', height: '24px' }} />
+                <img className="logo" src="/asset/icon/logo@2x.png" style={{ width: '24px', height: '24px' }} />
               </Link>
               <div className="item">
-                <a href="#" ><img src="/asset/icon/search@2x.png" style={{ width: '24px', height: '24px' }}/></a>
+                <a onClick={this._openSearchbar} style={{ cursor: 'pointer' }}><img src="/asset/icon/search@2x.png" style={{ width: '24px', height: '24px' }}/></a>
               </div>
             </div>
           </div>
@@ -101,27 +130,42 @@ export default class Header extends Component {
   }
 
   render() {
+    const { sectionList } = this.props
 
     return (
       <div ref="headerbox">
-        <div className="ui borderless main menu">
+        <div className="ui borderless header main menu">
+
           <div className="ui text container" style={{ maxWidth: 1024 +'px !important' }}>
             <Link to="/" className="header item" style={{ marginLeft: '122px' }}>        
-              <img className="logo small" src={logo} style={{ width:'128px' }} />
+              <img className="logo" src={logo} />
             </Link>
             <div className="right menu">
               <div className="item share" style={{ fontFamily: 'Noto Sans TC, sans-serif', fontSize: '15px', letterSpacing: '0.7px', color: 'rgba(0, 0, 0, 0.3)', marginTop: '10px' }}>
                 <span>訂閱：</span>
-                <a href="#" ><img src="/asset/icon/line@2x.png"      style={{ width: '56px!important', height: '25px' }}/></a>
-                <a href="#" ><img src="/asset/icon/weibo@2x.png"     style={{ width: '29px!important', height: '25px' }}/></a>
-                <a href="#" ><img src="/asset/icon/facebook@2x.png"  style={{ width: '25px!important', height: '25px' }}/></a>
-                <a href="#" ><img src="/asset/icon/wechat@2x.png"    style={{ width: '29px!important', height: '25px' }}/></a>
+                <a href={SOCIAL_LINK.LINE}><img src="/asset/icon/line@2x.png"      style={{ width: '45px!important', height: '20px' }}/></a>
+                <a href={SOCIAL_LINK.WEIBO}><img src="/asset/icon/weibo@2x.png"     style={{ width: '23px!important', height: '20px' }}/></a>
+                <a href={SOCIAL_LINK.FACEBOOK}><img src="/asset/icon/facebook@2x.png"  style={{ width: '20x!important', height: '20px' }}/></a>
+                <a href={SOCIAL_LINK.WECHAT}><img src="/asset/icon/wechat@2x.png"    style={{ width: '23px!important', height: '20px' }}/></a>
+                <a href={SOCIAL_LINK.INSTAGRAM}><img src="/asset/icon/instagram@2x.png"    style={{ width: '20px!important', height: '20px' }}/></a>
                 <div className="vertical line" ></div>
-                <a href="#" ><img src="/asset/icon/search@2x.png"    style={{ width: '24px!important', height: '24px' }}/></a>
+                <a href="#" onClick={this._openSearchbar} ><img src="/asset/icon/search@2x.png"    style={{ width: '24px!important', height: '24px' }}/></a>
               </div>
-
+              <div className="item mobile-only" style={{ marginTop: '25px' }}>
+                <a href="#" onClick={this._openSearchbar} ><img src="/asset/icon/search@2x.png"    style={{ width: '24px!important', height: '24px' }}/></a>
+              </div>
             </div>
           </div>
+        </div>
+        <div className="sections mobile-only">
+          <div className="line mobile-only" />
+          { _.map(sectionList.sections, (s)=>{
+            return (
+              <div className="section-item" key={s.id}>
+                <Link to={'/section/' + s.name}>{s.title}</Link>
+              </div>
+            )
+          })}
         </div>
         {this._renderMenu()}
       </div>

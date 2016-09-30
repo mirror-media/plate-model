@@ -15,7 +15,7 @@ export default class LatestArticles extends Component {
   }
 
   render() {
-    const { articles, categories, title } = this.props
+    const { articles, categories, authors, title } = this.props
 
     return  (
       <div className="container" style={{ marginTop: '50px' }}>
@@ -33,8 +33,10 @@ export default class LatestArticles extends Component {
             
             let briefContent = (brief.length >0) ? brief : content
 
-            let writers = '文｜' + _.pluck(a.writers, 'name').join('、')
-            let photographers = ' 攝影｜' + _.pluck(a.photographers, 'name').join('、')
+            let writers = '文｜' + _.map(a.writers, 'name').join('、')
+            let photographers = ' 攝影｜' + _.map(a.photographers, (n)=>{ return _.get(authors, [ n, 'name' ], null) }).join('、')
+            let designers = ' 設計｜' + _.map(a.designers, (n)=>{ return _.get(authors, [ n, 'name' ], null) }).join('、')
+            let engineers = ' 工程｜' + _.map(a.engineers, (n)=>{ return _.get(authors, [ n, 'name' ], null) }).join('、')
 
             return (
               <div className="latest-block" key={a.id} >
@@ -54,8 +56,11 @@ export default class LatestArticles extends Component {
                     { truncate(entities.decodeHTML(briefContent), 75) }
                   </div>
                   <div className="author">
-                    { writers }
-                    { (_.get(a, [ 'photographers', 'length' ], 0) > 0) ? photographers : null }
+                    { (_.get(a, [ 'writers', 'length' ], 0) > 0) ? writers+' ' : null }
+                    { (_.get(a, [ 'photographers', 'length' ], 0) > 0) ? photographers+' ' : null }
+                    { (_.get(a, [ 'designers', 'length' ], 0) > 0) ? designers+' ' : null }
+                    { (_.get(a, [ 'engineers', 'length' ], 0) > 0) ? engineers+' ' : null }
+                    { _.get(a, 'extendByline', null) }
                   </div>
                 </div>
               </div>

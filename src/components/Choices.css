@@ -90,6 +90,17 @@ div.colorBlock.choice {
   padding: 0 8px;
 }
 
+.choice-title {
+  position:absolute;
+  top:20px;
+  right:15px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1.9px;
+  color: #ffffff;
+}
+
 .choice-block:nth-child(odd) .choice-cat {
   left:auto;
   right:20px;
@@ -292,11 +303,15 @@ div.colorBlock.choice {
       color: #004ea2;
     }
 
+    .choice-content h2 {
+      text-align: center;
+    }
+
     .choice-block {
       margin: 0 auto;
       width: 300px;
       position: relative;
-      margin-bottom: 35px;
+      margin-bottom: 20px;
     }
     .choice-img {
       width: 300px;
@@ -305,8 +320,8 @@ div.colorBlock.choice {
     }
     .choice-block:nth-child(odd) .choice-cat {
       right: auto;
-      left: 20px;
-      top: 20px;
+      left: 15px;
+      top: 15px;
     }
     .choice-meta, .choice-block:nth-child(odd) .choice-meta {
       float: none;
@@ -321,7 +336,7 @@ div.colorBlock.choice {
       width: 300px;
       margin-top: 5px;
       position: initial;
-      padding: 15px;
+      padding: 10px;
       margin-bottom: 5px;
     }
     .choice-content h2 {

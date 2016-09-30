@@ -6,6 +6,7 @@ import { setPageType } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
 import Header from '../components/Header'
+import Sidebar from '../components/Sidebar'
 import Footer from '../components/Footer'
 import React, { Component } from 'react'
 import List from '../components/List'
@@ -110,9 +111,10 @@ class Category extends Component {
 
     return (
       <DocumentMeta {...meta}>
+        <Sidebar sectionList={sectionList.response} />
         <Header sectionList={sectionList.response} />
 
-        <div id="main">
+        <div id="main" className="pusher">
           <List 
             articles={articles} 
             categories={entities.categories} 

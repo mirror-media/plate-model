@@ -101,7 +101,7 @@ class Tag extends Component {
       <DocumentMeta {...meta}>
         <Header sectionList={sectionList.response} />
 
-        <div id="main">
+        <div id="main" className="pusher">
           <List 
             articles={articles} 
             categories={entities.categories} 
