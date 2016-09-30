@@ -41,7 +41,7 @@ export default class List extends Component {
             }
 
             return (
-              <div className="latest-block" key={a.id} >
+              <div className="latest-block" key={a.id || a._id} >
                 <a href={'/story/'+a.slug}>
                   <div className="latest-img" style={{ background: 'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
