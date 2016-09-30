@@ -50,12 +50,7 @@ class Home extends Component {
   componentWillMount() {
     const { fetchArticlesByUuidIfNeeded, fetchIndexArticles } = this.props
     const { articlesByUuids, entities, sectionFeatured, sectionList, choices, fetchLatestPosts, latestPosts } = this.props
-    // let params = {
-    //   page: PAGE,
-    //   max_results: MAXRESULT,
-    //   sort: '-publishedDate'
-    // }
-    // fetchLatestPosts(params)
+
     //TODO: We should not get all the keys
     let checkSectionList = _.get(sectionList, 'fetched', undefined)
     let checkSectionFeatured = _.get(sectionFeatured, 'fetched', undefined)
@@ -126,7 +121,7 @@ class Home extends Component {
               categories={entities.categories} 
               authors={entities.authors} 
               title={"最新文章"} 
-              hasMore={ true }
+              hasMore={ _.get(latestPosts, [ 'items', 'length' ], 0) < _.get(latestPosts, [ 'meta', 'total' ], 0) }
               loadMore={this.loadMore}
             />
 
