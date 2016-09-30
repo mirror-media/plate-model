@@ -153,13 +153,17 @@ export function choices(state = {}, action = {}) {
 export function latestPosts(state = {}, action = {}) {
   switch (action.type) {
     case types.FETCH_LATEST_POSTS_SUCCESS:
-      return {
+      let orig = _.values(state['items'])
+      let new_array = _.values(_.get(action, 'response.result'))
+      return _.merge({}, state, {
         isFetching: false,
         fetched: true,
         error: null,
-        items: _.get(action, 'response.result'),
+        items: new_array.concat(orig),
+        meta: action.meta,
+        links: action.links,
         lastUpdated: action.receivedAt
-      }
+      })
     case types.FETCH_LATEST_POSTS_FAILURE:
       return _.merge({}, state, {
         isFetching: false,

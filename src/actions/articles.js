@@ -143,10 +143,12 @@ function failToReceiveChoices(error) {
   }
 }
 
-function receiveLatestPosts(response) {
+function receiveLatestPosts(response, meta, links) {
   return {
     type: types.FETCH_LATEST_POSTS_SUCCESS,
     response,
+    meta,
+    links,
     receivedAt: Date.now()
   }
 }
@@ -274,9 +276,11 @@ export function fetchLatestPosts(params = {}) {
   return (dispatch) => {
     return _fetchArticles(url)
       .then((response) => {
+        let meta = response._meta
+        let links = response._links
         let camelizedJson = camelizeKeys(response)
-        response.items = normalize(camelizedJson.items, arrayOf(articleSchema))
-        dispatch(receiveLatestPosts(response))
+        response = normalize(camelizedJson.items, arrayOf(articleSchema))
+        dispatch(receiveLatestPosts(response, meta, links))
       }, (error) => {
         return dispatch(failToReceiveLatestPosts(error))
       })
@@ -295,9 +299,11 @@ export function fetchIndexArticles(endpoints = []) {
         for (let e in resp_data) {
           if (e == 'posts') {
             if (resp_data.hasOwnProperty(e)) {
+              let meta = resp_data[e]['_meta']
+              let links = resp_data[e]['_links']
               let camelizedJson = camelizeKeys(resp_data[e])
               resp_data[e] = normalize(camelizedJson.items, arrayOf(articleSchema))
-              dispatch(receiveLatestPosts(resp_data['posts']))
+              dispatch(receiveLatestPosts(resp_data['posts'], meta, links))
             } else {
               dispatch(failToReceiveLatestPosts('There is no such key in indexArticles'))
             }
