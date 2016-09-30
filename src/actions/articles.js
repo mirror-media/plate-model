@@ -272,7 +272,7 @@ export function fetchLatestPosts(params = {}) {
   let url = _buildPostQueryUrl(params)
   //return dispatch(requestIndexArticles(url))
   return (dispatch) => {
-    _fetchArticles(url)
+    return _fetchArticles(url)
       .then((response) => {
         let camelizedJson = camelizeKeys(response)
         response.items = normalize(camelizedJson.items, arrayOf(articleSchema))
