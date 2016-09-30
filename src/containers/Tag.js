@@ -8,7 +8,7 @@ import DocumentMeta from 'react-document-meta'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import React, { Component } from 'react'
-import Tags from '../components/Tags'
+import List from '../components/List'
 
 const MAXRESULT = 10
 const PAGE = 1
@@ -85,12 +85,10 @@ class Tag extends Component {
   }
 
   render() {
-    const { device } = this.context
     const { articlesByUuids, entities, params, sectionList } = this.props
     const tagId = _.get(params, 'tagId')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ tagId, 'items' ], []), entities)
     let tagName = _.get(entities, [ 'tags', tagId, 'name' ], '')
-    const tagBox = tagName ? <div className="top-title-outer"><h1 className="top-title"> {tagName} </h1></div> : null
     const meta = {
       title: tagName ? tagName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL,
       description: SITE_META.DESC,
@@ -103,13 +101,11 @@ class Tag extends Component {
       <DocumentMeta {...meta}>
         <Header sectionList={sectionList.response} />
 
-        <div id="main">
-          <div className="container text-center">
-            {tagBox}
-          </div>
-          <Tags
-            articles={articles}
-            device={device}
+        <div id="main" className="pusher">
+          <List 
+            articles={articles} 
+            categories={entities.categories} 
+            title={tagName} 
             hasMore={ _.get(articlesByUuids, [ tagId, 'hasMore' ])}
             loadMore={this.loadMore}
           />

@@ -6,9 +6,10 @@ import { setPageType } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
 import Header from '../components/Header'
+import Sidebar from '../components/Sidebar'
 import Footer from '../components/Footer'
 import React, { Component } from 'react'
-import Tags from '../components/Tags'
+import List from '../components/List'
 
 if (process.env.BROWSER) {
   require('./Category.css')
@@ -37,7 +38,7 @@ class Category extends Component {
   }
 
   componentWillMount() {
-    const { articlesByUuids, fetchArticlesByUuidIfNeeded, fetchIndexArticles, sectionList } = this.props
+    const { fetchArticlesByUuidIfNeeded, fetchIndexArticles, sectionList } = this.props
     let catId = this.state.catId
 
     // if fetched before, do nothing
@@ -46,9 +47,9 @@ class Category extends Component {
     }
 
     // if fetched before, do nothing
-    if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0) {
-      return
-    }
+    // if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0) {
+    //   return
+    // }
 
     fetchArticlesByUuidIfNeeded(catId, CATEGORY, {
       page: PAGE,
@@ -95,13 +96,11 @@ class Category extends Component {
   }
 
   render() {
-    const { device } = this.context
     const { articlesByUuids, entities, params, sectionList } = this.props
     const catId = _.get(params, 'category')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
     const category = _.get(params, 'category', null)
-    const catName = category
-    const catBox = catName ? <div className="top-title-outer"><h1 className="top-title"> {catName} </h1></div> : null
+    const catName = _.get(sectionList.response, [ 'categories', category, 'title' ], null)
     const meta = {
       title: catName ? catName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL,
       description: SITE_META.DESC,
@@ -112,15 +111,14 @@ class Category extends Component {
 
     return (
       <DocumentMeta {...meta}>
+        <Sidebar sectionList={sectionList.response} />
         <Header sectionList={sectionList.response} />
 
-        <div id="main">
-          <div className="container text-center">
-            {catBox}
-          </div>
-          <Tags
-            articles={articles}
-            device={device}
+        <div id="main" className="pusher">
+          <List 
+            articles={articles} 
+            categories={entities.categories} 
+            title={catName} 
             hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
             loadMore={this.loadMore}
           />

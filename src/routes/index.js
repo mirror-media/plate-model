@@ -2,11 +2,11 @@ import React from 'react'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 
 import App from '../containers/App'
-import Article from '../containers/Article'
 import Category from '../containers/Category'
 import Home from '../containers/Home'
 import Section from '../containers/Section'
 import Tag from '../containers/Tag'
+import Search from '../containers/Search'
 
 export default function (history = browserHistory) {
   return (
@@ -16,7 +16,7 @@ export default function (history = browserHistory) {
         <Route path="section/:section" component={Section}/>
         <Route path="category/:category" component={Category}/>
         <Route path="tag/:tagId" component={Tag} />
-        <Route path="a/:slug" component={Article}/>
+        <Route path="search/:keyword" component={Search} />
       </Route>
     </Router>
   )

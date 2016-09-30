@@ -4,21 +4,22 @@ import sanitizeHtml from 'sanitize-html'
 import truncate from 'truncate'
 import entities from 'entities'
 import { imageComposer } from '../utils/index'
+import More from '../components/More'
 
 if (process.env.BROWSER) {
   require('./LatestArticles.css')
 }
 
-export default class LatestArticles extends Component {
+export default class List extends Component {
   constructor(props, context) {
     super(props, context)
   }
 
   render() {
-    const { articles, categories, authors, title } = this.props
+    const { articles, categories, title, hasMore, loadMore } = this.props
 
     return  (
-      <div className="container" style={{ marginTop: '50px' }}>
+      <div className="container">
         <div className="ui text container" style={{ marginBottom: '35px', paddingLeft: '1em !important', marginLeft: '0 !important' }}>
           <div className="article-main" style={{ textAlign: 'center' }}>
             <h2 className="hot-topic"><div className="colorBlock choice"></div>{title}<div className="blue-line" style={{ marginLeft: '16px', display:'inline-block' }}></div></h2>
@@ -33,11 +34,6 @@ export default class LatestArticles extends Component {
             
             let briefContent = (brief.length >0) ? brief : content
 
-            let writers = '文｜' + _.map(a.writers, 'name').join('、')
-            let photographers = ' 攝影｜' + _.map(a.photographers, (n)=>{ return _.get(authors, [ n, 'name' ], null) }).join('、')
-            let designers = ' 設計｜' + _.map(a.designers, (n)=>{ return _.get(authors, [ n, 'name' ], null) }).join('、')
-            let engineers = ' 工程｜' + _.map(a.engineers, (n)=>{ return _.get(authors, [ n, 'name' ], null) }).join('、')
-
             return (
               <div className="latest-block" key={a.id} >
                 <a href={'/story/'+a.slug}>
@@ -47,7 +43,7 @@ export default class LatestArticles extends Component {
                 <div className="latest-content">
                   <a href={'/story/'+a.slug}>
                     <h2>
-                        {a.title}<div className="cat-label"><div className="separator"></div><span>{ _.get(categories, [ _.first(a.categories), 'title' ]) }</span></div>
+                        {a.title}<div className="cat-label"><div className="separator"></div><span>{ _.get(a, [ 'categories', 0, 'title' ], '') }</span></div>
                     </h2>
                   </a>
                   <div className="line">
@@ -55,21 +51,15 @@ export default class LatestArticles extends Component {
                   <div className="brief">
                     { truncate(entities.decodeHTML(briefContent), 75) }
                   </div>
-                  <div className="author">
-                    { (_.get(a, [ 'writers', 'length' ], 0) > 0) ? writers+' ' : null }
-                    { (_.get(a, [ 'photographers', 'length' ], 0) > 0) ? photographers+' ' : null }
-                    { (_.get(a, [ 'designers', 'length' ], 0) > 0) ? designers+' ' : null }
-                    { (_.get(a, [ 'engineers', 'length' ], 0) > 0) ? engineers+' ' : null }
-                    { _.get(a, 'extendByline', null) }
-                  </div>
                 </div>
               </div>
             )
           })}
         </div>
+        {hasMore ? <More loadMore={loadMore} /> : null}
       </div>
     )
   }
 }
 
-export { LatestArticles }
+export { List }

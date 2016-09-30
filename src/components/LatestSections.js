@@ -1,4 +1,3 @@
-import { SECTION_NAME } from '../constants/index'
 import _ from 'lodash'
 import React, { Component } from 'react'
 import classNames from 'classnames'
@@ -14,8 +13,8 @@ export default class LatestSections extends Component {
   }
 
   render() {
-    const { sections, entities } = this.props
-
+    const { sections, entities, sectionList } = this.props
+    let sectionName = sectionList.sections
     let styles = [
       'ui',
       'centered',
@@ -39,21 +38,24 @@ export default class LatestSections extends Component {
             let image = imageComposer(_.get(sectionTop, '[0]', {})).mobileImage
             return (
               <div className="ui column" key={'section-'+key}>
-                <a href={ '/news/'+_.get(sectionTop, '[0].slug', '/') }>
+                <a href={ '/story/'+_.get(sectionTop, '[0].slug', '/') }>
                   <div className="sectionBlock">
+                    <div className="section-cat">
+                      { _.get(entities.categories, [ _.first(_.get(sectionTop, '[0].categories', '')), 'title' ], '　　') }
+                    </div>
                     <div className="gradient labelBlock">
-                      { _.get(_.find(SECTION_NAME, { 'name': key }), 'title', '') }
+                      { _.get(_.find(sectionName, { 'name': key }), 'title', '') }
                     </div>
                     <div className="sectionImg" style={{ background: 'url('+image+') no-repeat center center', backgroundSize: 'cover', width: '300px', height: '250px' }}></div>
                     <div className="sectionTopic">
-                      { _.get(sectionTop, '[0].title', '') }
+                      { _.get(sectionTop, '[0].title', '　') }
                     </div>
                   </div>
                 </a>
                 <ul className="sectionList">
                 { _.map(sectionList, (a, idx) => {
                   return (
-                    <li key={a.id || idx}><a href={ '/news/' + a.slug }>{a.title}</a></li>
+                    <li key={a.id || idx}><a href={ '/story/' + a.slug }>{a.title}</a></li>
                   )
                 })}
                 </ul>

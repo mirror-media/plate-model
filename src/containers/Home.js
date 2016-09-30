@@ -7,12 +7,12 @@ import { denormalizeArticles } from '../utils/index'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchLatestPosts } from '../actions/articles'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
-
-import LatestSections from '../components/LatestSections'
+import TopChoice from '../components/TopChoice'
 import Choices from '../components/Choices'
+import LatestSections from '../components/LatestSections'
 import LatestArticles from '../components/LatestArticles'
 import Header from '../components/Header'
-
+import Sidebar from '../components/Sidebar'
 import DocumentMeta from 'react-document-meta'
 import Footer from '../components/Footer'
 import React, { Component } from 'react'
@@ -95,14 +95,14 @@ class Home extends Component {
     if (posts) {
       return (
         <DocumentMeta {...meta} >
-
+          <Sidebar sectionList={sectionList.response} />
           <Header sectionList={sectionList.response} />
 
-          <div id="main">
-            
-            <LatestSections sections={sections} entities={entities} />
-            <Choices articles={choicesPosts} categories={entities.categories} />
-            <LatestArticles articles={posts} categories={entities.categories} />
+          <div id="main" className="pusher">
+            <TopChoice articles={choicesPosts} categories={entities.categories}/>
+            <LatestSections sections={sections} entities={entities} sectionList={sectionList.response}/>
+            <Choices articles={choicesPosts} categories={entities.categories} authors={entities.authors} />
+            <LatestArticles articles={posts} categories={entities.categories} authors={entities.authors} title={"最新文章"} />
 
             <Footer sectionList={sectionList.response} />
           </div>
