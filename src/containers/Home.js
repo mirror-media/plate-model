@@ -49,15 +49,15 @@ class Home extends Component {
 
   componentWillMount() {
     const { fetchArticlesByUuidIfNeeded, fetchIndexArticles } = this.props
-    const { articlesByUuids, entities, sectionFeatured, sectionList, choices, latestPosts } = this.props
+    const { articlesByUuids, entities, sectionFeatured, sectionList, choices, fetchLatestPosts, latestPosts } = this.props
     let params = {
       page: PAGE,
       max_results: MAXRESULT
     }
-    fetchLatestPosts({
-      page: 2,
-      max_results: 3
-    })()
+    fetchLatestPosts(params).then(() =>{
+      // console.log(latestPosts)
+      return
+    })
     //TODO: We should not get all the keys
     let checkSectionList = _.get(sectionList, 'fetched', undefined)
     let checkSectionFeatured = _.get(sectionFeatured, 'fetched', undefined)
@@ -74,7 +74,7 @@ class Home extends Component {
   }
 
   _loadMore() {
-    const { latestPosts } = this.props
+    const { fetchLatestPosts, latestPosts } = this.props
     // if (_.get(articlesByUuids, [ catId, 'hasMore' ]) === false) {
     //   return
     // }
@@ -82,11 +82,17 @@ class Home extends Component {
     // let itemSize = _.get(articlesByUuids, [ catId, 'items', 'length' ], 0)
     // let page = Math.floor(itemSize / MAXRESULT) + 1
     let page = this.state.page
+    fetchLatestPosts({
+      page: page,
+      max_results: 3
+    }).then(() =>{
+      console.log(latestPosts)
+      return
+    })
     this.setState({
       page: page + 1
     })
     console.log(this.state.page)
-    console.log(latestPosts)
   }
 
   render() {
@@ -167,5 +173,6 @@ export { Home }
 export default connect(mapStateToProps, {
   fetchArticlesByUuidIfNeeded,
   fetchIndexArticles,
+  fetchLatestPosts,
   setPageType
 })(Home)
