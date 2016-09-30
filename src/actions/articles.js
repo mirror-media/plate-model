@@ -268,6 +268,21 @@ export function makeSearchQuery(keyword) {
   }
 }
 
+export function fetchLatestPosts(params = {}) {
+  let url = _buildPostQueryUrl(params)
+  return (dispatch) => {
+    dispatch(requestIndexArticles(url))
+    return _fetchArticles(url)
+      .then((response) => {
+        let camelizedJson = camelizeKeys(response)
+        response = normalize(camelizedJson.items, arrayOf(articleSchema))
+        dispatch(receiveLatestPosts(response))
+      }, (error) => {
+        return dispatch(failToReceiveLatestPosts(error))
+      })  
+  } 
+}
+
 export function fetchIndexArticles(endpoints = []) {
   let mapped = _.map(endpoints, (n) => { return 'endpoint=' + n })
   let combo_params = mapped.join('&')

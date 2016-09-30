@@ -4,7 +4,7 @@
 import { HOME, CATEGORY, SITE_NAME, SITE_META } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery } from '../actions/articles'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchLatestPosts } from '../actions/articles'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
 
@@ -31,6 +31,7 @@ if (process.env.BROWSER) {
 
 class Home extends Component {
   static fetchData({ store }) {
+    //store.dispatch(fetchLatestPosts(params))
     return store.dispatch(fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])) 
   }
 
@@ -69,7 +70,7 @@ class Home extends Component {
 
     let itemSize = _.get(articlesByUuids, [ catId, 'items', 'length' ], 0)
     let page = Math.floor(itemSize / MAXRESULT) + 1
-    fetchArticlesByUuidIfNeeded(catId, CATEGORY, {
+    fetchLatestPosts({
       page: page,
       max_results: MAXRESULT
     })
