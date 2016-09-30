@@ -31,7 +31,6 @@ if (process.env.BROWSER) {
 
 class Home extends Component {
   static fetchData({ store }) {
-    //store.dispatch(fetchLatestPosts(params))
     return store.dispatch(fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])) 
   }
 
@@ -55,6 +54,10 @@ class Home extends Component {
       page: PAGE,
       max_results: MAXRESULT
     }
+    fetchLatestPosts({
+      page: 2,
+      max_results: 3
+    })()
     //TODO: We should not get all the keys
     let checkSectionList = _.get(sectionList, 'fetched', undefined)
     let checkSectionFeatured = _.get(sectionFeatured, 'fetched', undefined)
@@ -79,10 +82,6 @@ class Home extends Component {
     // let itemSize = _.get(articlesByUuids, [ catId, 'items', 'length' ], 0)
     // let page = Math.floor(itemSize / MAXRESULT) + 1
     let page = this.state.page
-    fetchLatestPosts({
-      page: page,
-      max_results: 3
-    })
     this.setState({
       page: page + 1
     })
