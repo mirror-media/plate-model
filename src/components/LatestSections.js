@@ -14,6 +14,7 @@ export default class LatestSections extends Component {
 
   render() {
     const { entities, sectionList } = this.props
+    let sortedList = _.sortBy(sectionList.sections, (o)=>{ return o.sortOrder } )
     let styles = [
       'ui',
       'centered',
@@ -25,7 +26,7 @@ export default class LatestSections extends Component {
       <div className="container">
         <div className={classNames(styles)}>
 
-          { _.map(_.slice(sectionList.sections, 0, 2), (s) => { 
+          { _.map(_.slice(sortedList, 0, 2), (s) => { 
             let sectionTop = []
             let topicList = []
             let articles = _.filter(entities.articles, function (a) { return _.indexOf(a.sections, s.id) > -1 })
@@ -68,7 +69,7 @@ export default class LatestSections extends Component {
             </div>
           </div>
 
-          { _.map(_.slice(sectionList.sections, 2), (s) => { 
+          { _.map(_.slice(sortedList, 2), (s) => { 
             let sectionTop = []
             let topicList = []
             let articles = _.filter(entities.articles, function (a) { return _.indexOf(a.sections, s.id) > -1 })
