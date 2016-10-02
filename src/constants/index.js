@@ -102,9 +102,13 @@ export const SECTION = 'SECTION'
 
 export const TAG = 'TAG'
 
+export const SEARCH = 'SEARCH'
+
 export const TOPIC = 'TOPIC'
 
 export const basePath = 'https://www.mirrormedia.mg'
+
+export const GAID = 'UA-69336956-1'
 
 export const appId = 962589903815787
 

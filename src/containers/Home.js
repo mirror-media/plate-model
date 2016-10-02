@@ -1,12 +1,13 @@
 /*eslint no-unused-vars:0, no-console:0 */
 /* global __DEVELOPMENT__ */
 'use strict'
-import { HOME, CATEGORY, SITE_NAME, SITE_META } from '../constants/index'
+import { HOME, CATEGORY, SITE_NAME, SITE_META, GAID } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchLatestPosts } from '../actions/articles'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
+import ga from 'react-ga'
 import TopChoice from '../components/TopChoice'
 import Choices from '../components/Choices'
 import LatestSections from '../components/LatestSections'
@@ -43,8 +44,16 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.props.setPageType(HOME)
+    ga.initialize(GAID, { debug: true })
+    ga.pageview(this.props.location.pathname)
 
+    this.props.setPageType(HOME)
+  }
+
+  componentWillUpdate(nextProps) {
+    if (nextProps.location.pathname !== this.props.location.pathname) {
+      ga.pageview(nextProps.location.pathname)
+    }
   }
 
   componentWillMount() {

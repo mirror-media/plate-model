@@ -1,4 +1,4 @@
-import { SECTION, SITE_META, SITE_NAME } from '../constants/index'
+import { SECTION, SITE_META, SITE_NAME, GAID } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/articles'
@@ -11,6 +11,7 @@ import Footer from '../components/Footer'
 import React, { Component } from 'react'
 import List from '../components/List'
 import Featured from '../components/Featured'
+import ga from 'react-ga'
 
 if (process.env.BROWSER) {
   require('./Section.css')
@@ -64,7 +65,24 @@ class Section extends Component {
   }
 
   componentDidMount() {
+    const section = _.get(this.props.params, 'section', null)
+    const catName = _.get( _.find( _.get(this.props.sectionList, [ 'response', 'sections' ]), { name: section }), [ 'title' ], null)
+    
+    ga.initialize(GAID, { debug: true })
+    if(section != null) ga.set( { 'contentGroup1': catName } )
+    ga.pageview(this.props.location.pathname)
+
     this.props.setPageType(SECTION)
+  }
+
+  componentWillUpdate(nextProps) {
+    const section = _.get(nextProps.params, 'section', null)
+    const catName = _.get( _.find( _.get(nextProps.sectionList, [ 'response', 'sections' ]), { name: section }), [ 'title' ], null)
+
+    if (nextProps.location.pathname !== this.props.location.pathname) {
+      if(section != null) ga.set( { 'contentGroup1': catName } )
+      ga.pageview(nextProps.location.pathname)
+    }
   }
 
   componentWillReceiveProps(nextProps) {

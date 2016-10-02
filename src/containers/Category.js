@@ -1,4 +1,4 @@
-import { CATEGORY, SITE_META, SITE_NAME } from '../constants/index'
+import { CATEGORY, SITE_META, SITE_NAME, GAID } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/articles'
@@ -10,6 +10,7 @@ import Sidebar from '../components/Sidebar'
 import Footer from '../components/Footer'
 import React, { Component } from 'react'
 import List from '../components/List'
+import ga from 'react-ga'
 
 if (process.env.BROWSER) {
   require('./Category.css')
@@ -59,7 +60,28 @@ class Category extends Component {
   }
 
   componentDidMount() {
+    const category = _.get(this.props.params, 'category', null)
+    const catId = _.get(this.props.sectionList.response, [ 'categories', category, 'id' ], null)
+    const section = _.find(_.get(this.props.sectionList, [ 'response', 'sections' ]), function (o) { return _.find(o.categories, { 'id': catId }) })
+    const sectionName = _.get(section, 'title', '')
+
+    ga.initialize(GAID, { debug: true })
+    if(section != null) ga.set( { 'contentGroup1': sectionName } )
+    ga.pageview(this.props.location.pathname)
+
     this.props.setPageType(CATEGORY)
+  }
+
+  componentWillUpdate(nextProps) {
+    const category = _.get(nextProps.params, 'category', null)
+    const catId = _.get(nextProps.sectionList.response, [ 'categories', category, 'id' ], null)
+    const section = _.find(_.get(nextProps.sectionList, [ 'response', 'sections' ]), function (o) { return _.find(o.categories, { 'id': catId }) })
+    const sectionName = _.get(section, 'title', '')
+
+    if (nextProps.location.pathname !== this.props.location.pathname) {
+      if(section != null) ga.set( { 'contentGroup1': sectionName } )
+      ga.pageview(nextProps.location.pathname)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
