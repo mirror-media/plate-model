@@ -40,28 +40,20 @@ class Search extends Component {
 
   componentWillMount() {
     // const { articlesByUuids, fetchArticlesByUuidIfNeeded, fetchIndexArticles, searchResult, makeSearchQuery, sectionList } = this.props
-    const { fetchIndexArticles, makeSearchQuery, sectionList } = this.props
+    const { fetchIndexArticles, makeSearchQuery, sectionList, searchResult } = this.props
     let keyword = this.state.keyword
 
-    makeSearchQuery((encodeURIComponent(keyword)+'&offset='+PAGE+'&length='+MAXRESULT)).then(() =>{
-      // console.log( searchResult )
-      return
-    })
-    
+    let checkSearchResult = _.get(searchResult, 'response', undefined)
+    if ( !checkSearchResult ) {
+      makeSearchQuery((encodeURIComponent(keyword)+'&offset='+PAGE+'&length='+MAXRESULT)).then(() =>{
+        // console.log( searchResult )
+        return
+      })
+    }
     // if fetched before, do nothing
     if (_.get(sectionList, [ 'response', 'length' ], 0) == 0 ) {
       fetchIndexArticles( [ 'sections' ] )
     }
-
-    // // if fetched before, do nothing
-    // if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0) {
-    //   return
-    // }
-
-    // fetchArticlesByUuidIfNeeded(catId, SECTION, {
-    //   page: PAGE,
-    //   max_results: MAXRESULT
-    // })
 
   }
 
@@ -77,21 +69,6 @@ class Search extends Component {
       ga.pageview(nextProps.location.pathname)
     }
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = nextProps
-  //   let catId = _.get(params, 'section')
-
-  //   // if fetched before, do nothing
-  //   if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0) {
-  //     return
-  //   }
-
-  //   fetchArticlesByUuidIfNeeded(catId, SECTION, {
-  //     page: PAGE,
-  //     max_results: MAXRESULT
-  //   })
-  // }
 
   _loadMore() {
     const { searchResult, makeSearchQuery, params } = this.props
