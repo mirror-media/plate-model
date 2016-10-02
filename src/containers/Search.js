@@ -23,7 +23,7 @@ const PAGE = 0
 class Search extends Component {
   static fetchData({ params, store }) {
     let keyword = params.keyword
-    return store.dispatch( makeSearchQuery(encodeURIComponent(keyword)+'?offset='+PAGE+'&length='+MAXRESULT) ).then(() => {
+    return store.dispatch( makeSearchQuery(encodeURIComponent(keyword)+'&offset='+PAGE+'&length='+MAXRESULT) ).then(() => {
       return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
     })
   }
