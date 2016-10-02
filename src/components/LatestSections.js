@@ -13,7 +13,7 @@ export default class LatestSections extends Component {
   }
 
   render() {
-    const { entities, sectionList } = this.props
+    const { entities, sectionList, sections } = this.props
     let sortedList = _.sortBy(sectionList.sections, (o)=>{ return o.sortOrder } )
     let styles = [
       'ui',
@@ -29,9 +29,9 @@ export default class LatestSections extends Component {
           { _.map(_.slice(sortedList, 0, 2), (s) => { 
             let sectionTop = []
             let topicList = []
-            let articles = _.filter(entities.articles, function (a) { return _.indexOf(a.sections, s.id) > -1 })
+            let articles = _.filter(entities.articles, function (a) { return _.indexOf(sections['items'][s.name], a.id) > -1 })
             sectionTop = articles.slice(0, 1) //fetch first one
-            topicList = articles.splice(0, 2) //fetch rest
+            topicList = articles.splice(1, 2) //fetch rest
             let image = imageComposer(_.get(sectionTop, '[0]', {})).mobileImage
             return (
               <div className="ui column" key={'section-'+s.id}>
@@ -71,9 +71,9 @@ export default class LatestSections extends Component {
           { _.map(_.slice(sortedList, 2), (s) => { 
             let sectionTop = []
             let topicList = []
-            let articles = _.filter(entities.articles, function (a) { return _.indexOf(a.sections, s.id) > -1 })
+            let articles = _.filter(entities.articles, function (a) { return _.indexOf(sections['items'][s.name], a.id) > -1 })
             sectionTop = articles.slice(0, 1) //fetch first one
-            topicList = articles.splice(0, 2) //fetch rest
+            topicList = articles.splice(1, 2) //fetch rest
             let image = imageComposer(_.get(sectionTop, '[0]', {})).mobileImage
             return (
               <div className="ui column" key={'section-'+s.id}>
