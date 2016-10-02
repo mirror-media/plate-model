@@ -1,4 +1,4 @@
-import { SECTION, SITE_META, SITE_NAME } from '../constants/index'
+import { SITE_META, SITE_NAME, SEARCH, GAID } from '../constants/index'
 import { connect } from 'react-redux'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery } from '../actions/articles'
 import { setPageType } from '../actions/header'
@@ -9,6 +9,7 @@ import Sidebar from '../components/Sidebar'
 import Footer from '../components/Footer'
 import React, { Component } from 'react'
 import List from '../components/List'
+import ga from 'react-ga'
 
 if (process.env.BROWSER) {
   require('./Section.css')
@@ -65,7 +66,16 @@ class Search extends Component {
   }
 
   componentDidMount() {
-    this.props.setPageType(SECTION)
+    ga.initialize(GAID, { debug: true })
+    ga.pageview(this.props.location.pathname)
+
+    this.props.setPageType(SEARCH)
+  }
+
+  componentWillUpdate(nextProps) {
+    if (nextProps.location.pathname !== this.props.location.pathname) {
+      ga.pageview(nextProps.location.pathname)
+    }
   }
 
   // componentWillReceiveProps(nextProps) {

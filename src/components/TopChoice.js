@@ -23,7 +23,7 @@ export default class TopChoice extends Component {
             return (
               <div className="choice-block" key={'choice' + a.id}>
                 <a href={'/story/' + a.slug }>
-                  <div className="choice-img " style={{ background:'radial-gradient(circle at 94% 0, #004ea2, #004ea2 16%, rgba(0, 77, 162, 0.0)), url('+image+') no-repeat center center', backgroundSize:'cover' }}>
+                  <div className="choice-img " style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
                 </a>
                 <div className="choice-title">

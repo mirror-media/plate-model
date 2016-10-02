@@ -102,6 +102,8 @@ export const SECTION = 'SECTION'
 
 export const TAG = 'TAG'
 
+export const SEARCH = 'SEARCH'
+
 export const TOPIC = 'TOPIC'
 
 export const basePath = 'https://www.mirrormedia.mg'

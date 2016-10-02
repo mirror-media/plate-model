@@ -1,4 +1,4 @@
-import { SITE_META, SITE_NAME, TAG } from '../constants/index'
+import { SITE_META, SITE_NAME, TAG, GAID } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/articles'
@@ -9,6 +9,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import React, { Component } from 'react'
 import List from '../components/List'
+import ga from 'react-ga'
 
 const MAXRESULT = 10
 const PAGE = 1
@@ -49,7 +50,16 @@ class Tag extends Component {
   }
 
   componentDidMount() {
+    ga.initialize(GAID, { debug: true })
+    ga.pageview(this.props.location.pathname)
+
     this.props.setPageType(TAG)
+  }
+
+  componentWillUpdate(nextProps) {
+    if (nextProps.location.pathname !== this.props.location.pathname) {
+      ga.pageview(nextProps.location.pathname)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
