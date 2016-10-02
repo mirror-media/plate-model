@@ -128,9 +128,10 @@ class Section extends Component {
 
     const section = _.get(params, 'section', null)
     const catName = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'title' ], null)
+    const catDesc = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'description' ], null)
     const meta = {
       title: catName ? catName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL,
-      description: SITE_META.DESC,
+      description: catDesc,
       canonical: `${SITE_META.URL}section/${section}`,
       meta: { property: {} },
       auto: { ograph: true }

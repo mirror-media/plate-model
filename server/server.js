@@ -21,7 +21,7 @@ import { Provider } from 'react-redux'
 import config from './config'
 
 import { NotFoundError } from '../src/lib/custom-error'
-import { SITE_NAME, LINK_PREFIX, SITE_META } from '../src/constants/'
+import { SITE_NAME, SITE_META } from '../src/constants/'
 import _ from 'lodash'
 
 const server = new Express()
@@ -134,20 +134,26 @@ server.get('*', async function (req, res) {
         let canonical = SITE_META.URL
         let desc = SITE_META.DESC
         let ogType = 'website'
-        if (pageState['selectedArticle']['id']) {
-          let currentArticle = _.get(pageState, [ 'entities', 'articles', _.get(pageState, 'selectedArticle.id') ], null)
-          if (currentArticle) {
-            canonical = SITE_META.URL + LINK_PREFIX.ARTICLE + _.get(currentArticle, 'slug', '')
-            title = _.get(currentArticle, 'title', title)
-            desc = _.get(currentArticle, 'ogDescription', desc)
-            ogType = 'article'
-            if (currentArticle['heroImage']) {
-              ogImage = _.get(currentArticle, 'heroImage.image.url', '')
-            }
-          } else {
-            res.status(500).render('500')
-          }
+        if ( _.includes(getCurrentUrl(), 'section') ) {
+          let sectionName = _.get(getCurrentUrl().split('/'), '2')
+          let sectionList = _.get(pageState, [ 'sectionList', 'response', 'sections' ], [])
+          let section = _.find(sectionList, { name: sectionName } )
+          desc = _.get(section, 'description', desc)
         }
+        // if (pageState['selectedArticle']['id']) {
+        //   let currentArticle = _.get(pageState, [ 'entities', 'articles', _.get(pageState, 'selectedArticle.id') ], null)
+        //   if (currentArticle) {
+        //     canonical = SITE_META.URL + LINK_PREFIX.ARTICLE + _.get(currentArticle, 'slug', '')
+        //     title = _.get(currentArticle, 'title', title)
+        //     desc = _.get(currentArticle, 'ogDescription', desc)
+        //     ogType = 'article'
+        //     if (currentArticle['heroImage']) {
+        //       ogImage = _.get(currentArticle, 'heroImage.image.url', '')
+        //     }
+        //   } else {
+        //     res.status(500).render('500')
+        //   }
+        // }
 
         if ( getCurrentUrl() === reqUrl ) {
           let reduxState = escape(JSON.stringify(store.getState()))
@@ -166,7 +172,7 @@ server.get('*', async function (req, res) {
                   <meta name='viewport' content='width=device-width, user-scalable=no, maximum-scale=1, initial-scale=1'/>
                   <meta name="apple-mobile-web-app-capable" content="yes"/>
                   <meta name="keywords" content="${SITE_META.KEYWORDS}"/>
-                  <meta name="description" content=${desc} data-rdm/>
+                  <meta name="description" content="${desc}" data-rdm/>
                   <meta property="og:rich_attachment" content="true"/>
                   <meta property="og:type" content="${ogType}" />
                   <meta property="og:title" content="${title}" data-rdm/>
