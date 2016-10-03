@@ -39,18 +39,19 @@ class Category extends Component {
   }
 
   componentWillMount() {
-    const { fetchArticlesByUuidIfNeeded, fetchIndexArticles, sectionList } = this.props
+    const { fetchArticlesByUuidIfNeeded, articlesByUuids, fetchIndexArticles, sectionList } = this.props
     let catId = this.state.catId
 
     // if fetched before, do nothing
-    if (_.get(sectionList, [ 'response', 'length' ], 0) == 0 ) {
-      fetchIndexArticles( [ 'sections' ] )
+    let checkSectionList = _.get(sectionList, 'fetched', undefined)
+    if ( !checkSectionList ) {
+      fetchIndexArticles([ 'sections' ])
     }
 
     // if fetched before, do nothing
-    // if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0) {
-    //   return
-    // }
+    if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0) {
+      return
+    }
 
     fetchArticlesByUuidIfNeeded(catId, CATEGORY, {
       page: PAGE,
