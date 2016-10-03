@@ -148,7 +148,6 @@ export default class Header extends Component {
                 <a href={SOCIAL_LINK.LINE}><img src="/asset/icon/line@2x.png"      style={{ width: '45px!important', height: '20px' }}/></a>
                 <a href={SOCIAL_LINK.WEIBO}><img src="/asset/icon/weibo@2x.png"     style={{ width: '23px!important', height: '20px' }}/></a>
                 <a href={SOCIAL_LINK.FACEBOOK}><img src="/asset/icon/facebook@2x.png"  style={{ width: '20x!important', height: '20px' }}/></a>
-                <a href={SOCIAL_LINK.WECHAT}><img src="/asset/icon/wechat@2x.png"    style={{ width: '23px!important', height: '20px' }}/></a>
                 <a href={SOCIAL_LINK.INSTAGRAM}><img src="/asset/icon/instagram@2x.png"    style={{ width: '20px!important', height: '20px' }}/></a>
                 <div className="vertical line" ></div>
                 <a href="#" onClick={this._openSearchbar} ><img src="/asset/icon/search@2x.png"    style={{ width: '24px!important', height: '24px' }}/></a>

@@ -34,10 +34,11 @@ class Tag extends Component {
     let tagId = _.get(params, 'tagId')
 
     // if fetched before, do nothing
-    if (_.get(sectionList, [ 'response', 'length' ], 0) == 0 ) {
-      fetchIndexArticles( [ 'sections' ] )
+    let checkSectionList = _.get(sectionList, 'fetched', undefined)
+    if ( !checkSectionList ) {
+      fetchIndexArticles([ 'sections' ])
     }
-
+      
     // if fetched before, do nothing
     if (_.get(articlesByUuids, [ tagId, 'items', 'length' ], 0) > 0) {
       return

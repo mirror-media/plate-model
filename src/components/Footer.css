@@ -21,11 +21,17 @@
 
 .footer .item.section {
 	padding-bottom:20px !important;
-	font-family: 'Noto Sans TC';
+	font-family: 'Noto Sans TC', sans-serif;
 	font-size: 20px;
-	font-weight: bold;
+	font-weight: 700;
 	letter-spacing: 1.9px;
 	color: #ffffff;
+}
+
+.footer .item {
+	font-family: 'Noto Sans TC', sans-serif;
+	font-size: 17px;
+	font-weight: 400;
 }
 
 .footer .line {
