@@ -42,12 +42,12 @@ export default class LatestArticles extends Component {
 
             return (
               <div className="latest-block" key={a.id} >
-                <a href={'/story/'+a.slug}>
+                <a href={'/story/'+a.slug+'/'}>
                   <div className="latest-img" style={{ background: 'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
                 </a>
                 <div className="latest-content">
-                  <a href={'/story/'+a.slug}>
+                  <a href={'/story/'+a.slug+'/'}>
                     <h2>
                         {a.title}<div className="cat-label"><div className="separator"></div><span>{ _.get(categories, [ _.first(a.categories), 'title' ]) }</span></div>
                     </h2>

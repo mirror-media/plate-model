@@ -2,7 +2,7 @@ import _ from 'lodash'
 import React, { Component } from 'react'
 import classNames from 'classnames'
 import { imageComposer } from '../utils/index'
-import Image from './Image'
+
 if (process.env.BROWSER) {
   require('./LatestSections.css')
 }
@@ -61,11 +61,15 @@ export default class LatestSections extends Component {
           })}
 
           <div className="ui column" style={{ backgroundColor: 'rgba(0, 77, 162, 0.1)', marginTop: '-10px', marginBottom: '10px' }}>
-            <div style={{ margin: '10px' }}>
-              <a href="https://www.facebook.com/sonypicturestw/videos/vb.123118021633/10154091918126634/?type=2&theater" target="_blank">
-              <Image src={'/asset/ads/index.jpg'} width={'300px'} height={'360px'} mode={'fit'} />
-              </a>
-            </div>
+            <a href="https://www.facebook.com/sonypicturestw/videos/vb.123118021633/10154091918126634/?type=2&theater"  target="_blank">
+              <div className="sectionBlock" style={{ marginTop: '10px' }}>
+                <div className="sectionImg" style={{ background: 'url(/asset/ads/index.jpg) no-repeat center center', backgroundSize: 'cover', width: '300px', height: '250px' }}></div>
+              </div>
+            </a>
+            <ul className="sectionList">
+              <li><a href={'https://facebook.com/sonypicturestw/videos/vb.123118021633/10154091918126634/?type=2&theater'} target="_blank">【達文西密碼】【天使與魔鬼】驚悚懸疑系列</a></li>
+              <li><a href={'http://events.adbert.com.tw/Inferno/'} target="_blank">完成解謎活動搶抽電影票！</a></li>
+            </ul>
           </div>
 
           { _.map(_.slice(sortedList, 2), (s) => { 
@@ -77,7 +81,7 @@ export default class LatestSections extends Component {
             let image = imageComposer(_.get(sectionTop, '[0]', {})).mobileImage
             return (
               <div className="ui column" key={'section-'+s.id}>
-                <a href={ '/story/'+_.get(sectionTop, '[0].slug', '/')+'/' }>
+                <a href={ '/story/'+_.get(sectionTop, '[0].slug', '')+'/' }>
                   <div className="sectionBlock">
                     <div className="section-cat">
                       { _.get(entities.categories, [ _.first(_.get(sectionTop, '[0].categories', '')), 'title' ], '　　') }
