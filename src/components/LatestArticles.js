@@ -23,7 +23,7 @@ export default class LatestArticles extends Component {
       <div className="container" style={{ marginTop: '50px' }}>
         <div className="ui text container" style={{ marginBottom: '35px', paddingLeft: '1em !important', marginLeft: '0 !important' }}>
           <div className="article-main" style={{ textAlign: 'center' }}>
-            <h2 className="hot-topic"><div className="colorBlock choice"></div>{title}<div className="blue-line" style={{ marginLeft: '16px', display:'inline-block' }}></div></h2>
+            <h2 className="hot-topic"><div className="colorBlock choice"></div><span>{title}</span><div className="blue-line" style={{ marginLeft: '16px', display:'inline-block' }}></div></h2>
           </div>
         </div>
         <div className="latest">
