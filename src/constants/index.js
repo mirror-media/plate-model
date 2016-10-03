@@ -84,15 +84,7 @@ export const CONTINUE_READING = '繼續閱讀'
 
 export const LOAD_MORE_ARTICLES = '載入更多文章'
 
-export const TOPIC_TEXT = '專題'
-
 export const ARTICLE = 'ARTICLE'
-
-export const PHOTOGRAPHY = 'PHOTOGRAPHY'
-
-export const PHOTOGRAPHY_ARTICLE = 'PHOTOGRAPHY_ARTICLE'
-
-export const PHOTOGRAPHY_ARTICLE_STYLE = 'photography'
 
 export const HOME = 'HOME'
 
@@ -111,50 +103,6 @@ export const basePath = 'https://www.mirrormedia.mg'
 export const GAID = 'UA-69336956-1'
 
 export const appId = 962589903815787
-
-export const donatePath = ''
-
-export const categoryPath = {
-  taiwanPath: '/category/taiwan',
-  reviewPath: '/category/review',
-  photographyPath: '/photography',
-  intlPath: '/category/intl',
-  culturePath: '/category/culture'
-}
-
-export const navPath = [ {
-  title: '台灣',
-  path: '/category/taiwan'
-}, {
-  title: '國際',
-  path: '/category/intl'
-}, {
-  title: '文化',
-  path: '/category/culture'
-}, {
-  title: '影像',
-  path: '/photography'
-}, {
-  title: '評論',
-  path: '/category/review'
-} ]
-
-export const subnavPath = [ {
-  title: '轉型正義',
-  path: '/a/transitional-justice-content'
-}, {
-  title: '0206地震',
-  path: '/a/0206earthquake-content'
-}, {
-  title: '亞洲森林浩劫',
-  path: '/a/asia-forest-content'
-}, {
-  title: '走入同志家庭',
-  path: '/a/homofamily-content'
-}, {
-  title: '急診人生',
-  path: '/a/emergency-content'
-} ]
 
 export const colors = {
   whiteBg: '#F1F1F1',
