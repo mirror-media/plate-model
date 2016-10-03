@@ -35,7 +35,7 @@ export default class LatestSections extends Component {
             let image = imageComposer(_.get(sectionTop, '[0]', {})).mobileImage
             return (
               <div className="ui column" key={'section-'+s.id}>
-                <a href={ '/story/'+_.get(sectionTop, '[0].slug', '/')+'/' }>
+                <a href={ '/story/'+_.get(sectionTop, '[0].slug', '')+'/' }>
                   <div className="sectionBlock">
                     <div className="section-cat">
                       { _.get(entities.categories, [ _.first(_.get(sectionTop, '[0].categories', '')), 'title' ], '　　') }
