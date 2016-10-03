@@ -272,8 +272,8 @@ export function makeSearchQuery(keyword) {
 
 export function fetchLatestPosts(params = {}) {
   let url = _buildPostQueryUrl(params)
-  //return dispatch(requestIndexArticles(url))
   return (dispatch) => {
+    dispatch(requestIndexArticles('Request Latest Post: ' + url))
     return _fetchArticles(url)
       .then((response) => {
         let meta = response._meta
