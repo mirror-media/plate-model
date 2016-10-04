@@ -16,7 +16,8 @@ export default class Choices extends Component {
   }
 
   render() {
-    const { articles, categories, authors } = this.props
+    const { choices, articles, categories, authors } = this.props
+
 
     return articles ? (
       <div className="container mobile-hide" style={{ marginTop: '50px' }}>
@@ -27,7 +28,10 @@ export default class Choices extends Component {
         </div>
 
         <div className="choice-main">
-          { _.map(_.take(articles, 3), (a)=>{
+          { _.map(_.take(choices, 3), (c)=>{
+
+            let a = _.get(articles, c, {})
+
             let image = imageComposer(a).mobileImage
             let brief = sanitizeHtml( _.get(a, [ 'brief','html' ], ''), { allowedTags: [ ] })
             let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
@@ -79,7 +83,9 @@ export default class Choices extends Component {
         </div>
         <div className="ui three column stackable grid">
           
-          { _.map(_.slice(articles, 3), (a)=>{
+          { _.map(_.slice(choices, 3), (c)=>{
+            let a = _.get(articles, c, {})
+
             let image = imageComposer(a).mobileImage
             let brief = sanitizeHtml( _.get(a, [ 'brief','html' ], ''), { allowedTags: [ ] })
             let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
