@@ -17,6 +17,7 @@ export default class List extends Component {
 
   render() {
     const { articles, categories, title, hasMore, loadMore } = this.props
+    let sortedArticles = _.sortBy(articles, function (o) { return new Date(o.publishedDate) }).reverse()
 
     return  (
       <div className="container">
@@ -27,7 +28,7 @@ export default class List extends Component {
         </div>
         <div className="latest">
 
-          { _.map(articles, (a)=>{
+          { _.map(sortedArticles, (a)=>{
             let image = imageComposer(a).mobileImage
             let title = sanitizeHtml( _.get(a, [ 'title' ], ''), { allowedTags: [ ] })
             let brief = sanitizeHtml( _.get(a, [ 'brief', 'html' ], ''), { allowedTags: [ ] })
