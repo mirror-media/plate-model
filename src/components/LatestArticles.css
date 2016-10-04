@@ -245,6 +245,7 @@ div.colorBlock.choice {
     .latest-block {
       width: 540px;
       height: 200px;
+      margin: 0 auto !important;
     }
 
     .latest-block:nth-child(odd) {

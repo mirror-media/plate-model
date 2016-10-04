@@ -120,7 +120,7 @@ class Home extends Component {
 
           <div id="main" className="pusher">
             <TopChoice 
-              article={ _.get(entities.articles, _.last( _.get(choices, 'items', []) ), {}) } 
+              article={ _.get(entities.articles, _.first( _.get(choices, 'items', []) ), {}) } 
               categories={entities.categories}
             />
             <LatestSections 
@@ -129,7 +129,7 @@ class Home extends Component {
               sectionList={sectionListResponse}
             />
             <Choices 
-              choices={_.get(choices, 'items', []).reverse()}
+              choices={_.get(choices, 'items', [])}
               articles={entities.articles} 
               categories={entities.categories} 
               authors={entities.authors} 
