@@ -271,6 +271,11 @@ div.colorBlock.choice {
     .latest {
       text-align: left !important;
     }
+
+    .latest-block {
+      min-height: 140px;
+    }
+
 }
 
 @media only screen and (min-width: 1200px) {
