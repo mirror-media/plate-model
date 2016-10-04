@@ -1,3 +1,4 @@
+/* global __DEVELOPMENT__ */
 import { SITE_META, SITE_NAME, TAG, GAID } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
@@ -51,7 +52,7 @@ class Tag extends Component {
   }
 
   componentDidMount() {
-    ga.initialize(GAID, { debug: true })
+    ga.initialize(GAID, { debug: __DEVELOPMENT__ })
     ga.pageview(this.props.location.pathname)
 
     this.props.setPageType(TAG)

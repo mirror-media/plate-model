@@ -44,7 +44,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    ga.initialize(GAID, { debug: true })
+    ga.initialize(GAID, { debug: __DEVELOPMENT__ })
     ga.pageview(this.props.location.pathname)
 
     this.props.setPageType(HOME)

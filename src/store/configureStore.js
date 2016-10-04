@@ -5,26 +5,26 @@ import apiMiddleware from '../middleware/api'
 import createLogger from 'redux-logger'
 import rootReducer from '../reducers'
 
-/*
+
 const logger = createLogger({
   level: 'info',
   collapsed: false,
   logger: console,
-  predicate: (getState, action) => true
+  predicate: () => __DEVELOPMENT__
 })
-*/
+
 
 const createStoreWithMiddleware = applyMiddleware(
   thunkMiddleware,
   apiMiddleware,
-  createLogger
+  logger
 )(createStore)
 
 export default function configureStore(initialState) {
   const middlewares = [ thunkMiddleware, apiMiddleware ]
-  if (__DEVELOPMENT__) {
-    middlewares.push(createLogger())
-  }
+  middlewares.push(createLogger({
+    predicate: () => __DEVELOPMENT__
+  }))
 
   const store = createStoreWithMiddleware(rootReducer, initialState)
   if (module.hot) {

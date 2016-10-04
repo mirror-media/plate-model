@@ -1,3 +1,4 @@
+/* global __DEVELOPMENT__ */
 import { SECTION, SITE_META, SITE_NAME, GAID } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
@@ -68,7 +69,7 @@ class Section extends Component {
     const section = _.get(this.props.params, 'section', null)
     const catName = _.get( _.find( _.get(this.props.sectionList, [ 'response', 'sections' ]), { name: section }), [ 'title' ], null)
     
-    ga.initialize(GAID, { debug: true })
+    ga.initialize(GAID, { debug: __DEVELOPMENT__ })
     if(section != null) ga.set( { 'contentGroup1': catName } )
     ga.pageview(this.props.location.pathname)
 
