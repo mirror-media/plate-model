@@ -13,6 +13,7 @@ import React, { Component } from 'react'
 import List from '../components/List'
 import Featured from '../components/Featured'
 import ga from 'react-ga'
+import { camelize } from 'humps'
 
 if (process.env.BROWSER) {
   require('./Section.css')
@@ -125,7 +126,7 @@ class Section extends Component {
 
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
 
-    let featured = _.filter(entities.articles, (v,k)=>{ return _.indexOf(_.get(sectionFeatured, [ 'items', catId.toLowerCase() ], []), k) > -1 })
+    let featured = _.filter(entities.articles, (v,k)=>{ return _.indexOf(_.get(sectionFeatured, [ 'items', camelize(catId) ], []), k) > -1 })
 
     const section = _.get(params, 'section', null)
     const catName = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'title' ], null)
