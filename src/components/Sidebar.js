@@ -35,7 +35,7 @@ export default class Sidebar extends Component {
 
   render() {
     const { sectionList } = this.props
-    let sortedList = _.sortBy(sectionList.sections, (o)=>{ return o.sortOrder } )
+    let sortedList = _.sortBy(_.get(sectionList, 'sections', {}), (o)=>{ return o.sortOrder } )
 
     return (
       <div>

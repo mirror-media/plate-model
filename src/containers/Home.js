@@ -96,6 +96,8 @@ class Home extends Component {
     let choicesPosts = _.filter(entities.articles, (v,k)=>{ return _.indexOf(choices.items, k) > -1 })
     let posts = _.filter(entities.articles, (v,k)=>{ return _.indexOf(latestPosts.items, k) > -1 })
     
+    let sectionListResponse = _.get(sectionList, 'response', {})
+
     const meta = {
       title: SITE_NAME.FULL,
       description: SITE_META.DESC,
@@ -107,8 +109,8 @@ class Home extends Component {
     if (posts) {
       return (
         <DocumentMeta {...meta} >
-          <Sidebar sectionList={sectionList.response} />
-          <Header sectionList={sectionList.response} />
+          <Sidebar sectionList={sectionListResponse} />
+          <Header sectionList={sectionListResponse} />
 
           <div id="main" className="pusher">
             <TopChoice 
@@ -118,7 +120,7 @@ class Home extends Component {
             <LatestSections 
               sections={sections} 
               entities={entities} 
-              sectionList={sectionList.response}
+              sectionList={sectionListResponse}
             />
             <Choices 
               articles={choicesPosts} 
@@ -134,7 +136,7 @@ class Home extends Component {
               loadMore={this.loadMore}
             />
 
-            <Footer sectionList={sectionList.response} />
+            <Footer sectionList={sectionListResponse} />
           </div>
 
         </DocumentMeta>
