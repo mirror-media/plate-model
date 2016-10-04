@@ -1,3 +1,4 @@
+/* global __DEVELOPMENT__ */
 import { SITE_META, SITE_NAME, SEARCH, GAID } from '../constants/index'
 import { connect } from 'react-redux'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery } from '../actions/articles'
@@ -58,7 +59,7 @@ class Search extends Component {
   }
 
   componentDidMount() {
-    ga.initialize(GAID, { debug: true })
+    ga.initialize(GAID, { debug: __DEVELOPMENT__ })
     ga.pageview(this.props.location.pathname)
 
     this.props.setPageType(SEARCH)
