@@ -62,8 +62,8 @@ export default class LatestSections extends Component {
 
           <div className="ui column" style={{ backgroundColor: 'rgba(0, 77, 162, 0.1)', marginTop: '-10px', marginBottom: '20px' }}>
             <a href="https://www.facebook.com/sonypicturestw/videos/vb.123118021633/10154091918126634/?type=2&theater"  target="_blank">
-              <div className="sectionBlock" style={{ marginTop: '10px' }}>
-                <div className="sectionImg" style={{ background: 'url(/asset/ads/index.jpg) no-repeat center center', backgroundSize: 'cover', width: '300px', height: '250px' }}></div>
+              <div className="sectionBlock" style={{ marginTop: '10px', marginBottom: '10px' }}>
+                <div className="sectionImg AD" style={{ background: 'url(/asset/ads/index.jpg) no-repeat center center', backgroundSize: 'cover', width: '300px', height: '250px' }}></div>
               </div>
             </a>
             <ul className="sectionList">
