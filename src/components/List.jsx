@@ -13,19 +13,28 @@ if (process.env.BROWSER) {
 export default class List extends Component {
   constructor(props, context) {
     super(props, context)
+    this.renderTitle = this.renderTitle.bind(this)
   }
 
-  render() {
-    const { articles, categories, title, hasMore, loadMore } = this.props
-    let sortedArticles = _.sortBy(articles, function (o) { return new Date(o.publishedDate) }).reverse()
+  renderTitle() {
+    let title = _.get(this.props, 'title')
 
-    return  (
-      <div className="container">
+    return title ? (
         <div className="ui text container" style={{ marginBottom: '35px', paddingLeft: '1em !important', marginLeft: '0 !important' }}>
           <div className="article-main" style={{ textAlign: 'center' }}>
             <h2 className="hot-topic"><div className="colorBlock choice"></div>{title}<div className="blue-line" style={{ marginLeft: '16px', display:'inline-block' }}></div></h2>
           </div>
         </div>
+    ) : null
+  }
+
+  render() {
+    const { articles, categories, hasMore, loadMore } = this.props
+    let sortedArticles = _.sortBy(articles, function (o) { return new Date(o.publishedDate) }).reverse()
+
+    return  (
+      <div className="container">
+        {this.renderTitle()}
         <div className="latest">
 
           { _.map(sortedArticles, (a)=>{
