@@ -105,7 +105,7 @@ export default class Choices extends Component {
                   </div>
                   <div className="column-choice-meta">
                     <div className="author">
-                      { writers }
+                      { (_.get(a, [ 'writers', 'length' ], 0) > 0) ? writers+' ' : null }
                     </div>
                     <div className="separator"></div>
                     <div className="date">
