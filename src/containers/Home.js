@@ -99,7 +99,7 @@ class Home extends Component {
     const { articlesByUuids, entities, sectionFeatured, sectionList, choices, latestPosts } = this.props
 
     let sections = sectionFeatured
-    let choicesPosts = _.filter(entities.articles, (v,k)=>{ return _.indexOf(choices.items, k) > -1 })
+    // let choicesPosts = _.filter(entities.articles, (v,k)=>{ return _.indexOf(choices.items, k) > -1 })
     let posts = _.filter(entities.articles, (v,k)=>{ return _.indexOf(latestPosts.items, k) > -1 })
     
     let sectionListResponse = _.get(sectionList, 'response', {})
@@ -120,7 +120,7 @@ class Home extends Component {
 
           <div id="main" className="pusher">
             <TopChoice 
-              articles={choicesPosts} 
+              article={ _.get(entities.articles, _.last( choices.items ), {}) } 
               categories={entities.categories}
             />
             <LatestSections 
@@ -129,7 +129,8 @@ class Home extends Component {
               sectionList={sectionListResponse}
             />
             <Choices 
-              articles={choicesPosts} 
+              choices={choices.items.reverse()}
+              articles={entities.articles} 
               categories={entities.categories} 
               authors={entities.authors} 
             />
