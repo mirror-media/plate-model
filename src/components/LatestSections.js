@@ -29,7 +29,7 @@ export default class LatestSections extends Component {
           { _.map(_.slice(sortedList, 0, 2), (s) => { 
             let sectionTop = []
             let topicList = []
-            let articles = _.filter(entities.articles, function (a) { return _.indexOf(sections['items'][s.name], a.id) > -1 })
+            let articles = _.filter(entities.articles, function (a) { return _.indexOf(_.get(sections, [ 'items', s.name ], []), a.id) > -1 })
             sectionTop = articles.slice(0, 1) //fetch first one
             topicList = articles.splice(1, 2) //fetch rest
             let image = imageComposer(_.get(sectionTop, '[0]', {})).mobileImage
@@ -62,8 +62,8 @@ export default class LatestSections extends Component {
 
           <div className="ui column" style={{ backgroundColor: 'rgba(0, 77, 162, 0.1)', marginTop: '-10px', marginBottom: '20px' }}>
             <a href="https://www.facebook.com/sonypicturestw/videos/vb.123118021633/10154091918126634/?type=2&theater"  target="_blank">
-              <div className="sectionBlock" style={{ marginTop: '10px' }}>
-                <div className="sectionImg" style={{ background: 'url(/asset/ads/index.jpg) no-repeat center center', backgroundSize: 'cover', width: '300px', height: '250px' }}></div>
+              <div className="sectionBlock" style={{ marginTop: '10px', marginBottom: '10px' }}>
+                <div className="sectionImg AD" style={{ background: 'url(/asset/ads/index.jpg) no-repeat center center', backgroundSize: 'cover', width: '300px', height: '250px' }}></div>
               </div>
             </a>
             <ul className="sectionList">

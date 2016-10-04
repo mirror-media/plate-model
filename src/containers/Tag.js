@@ -116,8 +116,7 @@ class Tag extends Component {
         <div id="main" className="pusher">
           <List 
             articles={articles} 
-            categories={entities.categories} 
-            title={tagName} 
+            categories={entities.categories}
             hasMore={ _.get(articlesByUuids, [ tagId, 'hasMore' ])}
             loadMore={this.loadMore}
           />
