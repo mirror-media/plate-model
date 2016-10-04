@@ -29,7 +29,7 @@ export default class LatestSections extends Component {
           { _.map(_.slice(sortedList, 0, 2), (s) => { 
             let sectionTop = []
             let topicList = []
-            let articles = _.filter(entities.articles, function (a) { return _.indexOf(sections['items'][s.name], a.id) > -1 })
+            let articles = _.filter(entities.articles, function (a) { return _.indexOf(_.get(sections, [ 'items', s.name ], []), a.id) > -1 })
             sectionTop = articles.slice(0, 1) //fetch first one
             topicList = articles.splice(1, 2) //fetch rest
             let image = imageComposer(_.get(sectionTop, '[0]', {})).mobileImage
