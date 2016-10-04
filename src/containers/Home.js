@@ -68,7 +68,7 @@ class Home extends Component {
     let unfetched = []
 
     if ( !checkLatestPosts ) unfetched.push('posts')
-    if ( !checkSectionList ) unfetched.push('ssections')
+    if ( !checkSectionList ) unfetched.push('sections')
     if ( !checkChoices ) unfetched.push('choices')
     if ( !checkSectionFeatured) unfetched.push('sectionfeatured')
 
