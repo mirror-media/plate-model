@@ -97,7 +97,7 @@ export default class Header extends Component {
         <div className={ classNames('ui borderless main menu mobile-hide', status) }>
           <div className="ui text container" style={{ maxWidth: 100 +'% !important', width: 100 +'%' }}>
             <Link to="/" className="header item" style={{ marginLeft: '42px' }}>        
-              <img className="logo small" src={logo} style={{ width:'96px' }} />
+              <img className="logo small" src={logo} style={{ width:'96px !important' }} />
             </Link>
               { _.map(sortedList, (s)=>{
                 return (
