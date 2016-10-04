@@ -52,6 +52,13 @@ div.colorBlock.choice {
   max-width: 940px;
   margin: 0 auto;
   text-align: center;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-box-pack: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  -webkit-box-align: stretch;
 }
 
 .latest-block {
@@ -60,7 +67,7 @@ div.colorBlock.choice {
   position:relative;
   margin-bottom: 25px;
   width: 460px;
-  height: 260px;
+  /*height: 260px;*/
   text-align: left;
 }
 
