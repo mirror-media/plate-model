@@ -97,7 +97,7 @@ export default class Header extends Component {
         <div className={ classNames('ui borderless main menu mobile-hide', status) }>
           <div className="ui text container" style={{ maxWidth: 100 +'% !important', width: 100 +'%' }}>
             <Link to="/" className="header item" style={{ marginLeft: '42px' }}>        
-              <img className="logo small" src={logo} style={{ width:'96px !important' }} />
+              <img className="logo header" src={logo} />
             </Link>
               { _.map(sortedList, (s)=>{
                 return (
@@ -106,7 +106,7 @@ export default class Header extends Component {
               })}
             <div className="right menu">
               <div className="item" style={{ marginTop: '10px', paddingRight: '42px' }}>
-                <a onClick={this._openSearchbar} style={{ cursor: 'pointer' }}><img src="/asset/icon/search@2x.png"    style={{ width: '24px!important', height: '24px' }}/></a>
+                <a onClick={this._openSearchbar} style={{ cursor: 'pointer' }}><img src="/asset/icon/search@2x.png" className="header-icon search" /></a>
               </div>
             </div>
           </div>
@@ -114,14 +114,14 @@ export default class Header extends Component {
         <div className={ classNames('ui borderless main menu mobile-only', status) }>
           <div className="ui text container" style={{ maxWidth: 100 +'% !important', width: 100 +'%' }}>
             <div className="item" >
-              <a onClick={this._openSidebar} style={{ cursor: 'pointer' }}><img src="/asset/icon/hamburger@2x.png" style={{ width: '24px', height: '24px' }}/></a>
+              <a onClick={this._openSidebar} style={{ cursor: 'pointer' }}><img src="/asset/icon/hamburger@2x.png" className="header-icon hamburger" /></a>
             </div>            
             <div className="right menu">
               <Link to="/" className="item">        
-                <img className="logo" src="/asset/icon/logo@2x.png" style={{ width: '24px', height: '24px' }} />
+                <img className="logo" src="/asset/icon/logo@2x.png" className="header-icon logo" />
               </Link>
               <div className="item">
-                <a onClick={this._openSearchbar} style={{ cursor: 'pointer' }}><img src="/asset/icon/search@2x.png" style={{ width: '24px', height: '24px' }}/></a>
+                <a onClick={this._openSearchbar} style={{ cursor: 'pointer' }}><img src="/asset/icon/search@2x.png" className="header-icon search" /></a>
               </div>
             </div>
           </div>
@@ -140,20 +140,20 @@ export default class Header extends Component {
 
           <div className="ui text container" style={{ maxWidth: 1024 +'px !important' }}>
             <Link to="/" className="header item" style={{ marginLeft: '122px' }}>        
-              <img className="logo" src={logo} />
+              <img className="logo main" src={logo} />
             </Link>
             <div className="right menu">
-              <div className="item share" style={{ fontFamily: 'Noto Sans TC, sans-serif', fontSize: '15px', letterSpacing: '0.7px', color: 'rgba(0, 0, 0, 0.3)', marginTop: '10px' }}>
+              <div className="item share">
                 <span>訂閱：</span>
-                <a href={SOCIAL_LINK.LINE}><img src="/asset/icon/line@2x.png"      style={{ width: '45px!important', height: '20px' }}/></a>
-                <a href={SOCIAL_LINK.WEIBO}><img src="/asset/icon/weibo@2x.png"     style={{ width: '23px!important', height: '20px' }}/></a>
-                <a href={SOCIAL_LINK.FACEBOOK}><img src="/asset/icon/facebook@2x.png"  style={{ width: '20x!important', height: '20px' }}/></a>
-                <a href={SOCIAL_LINK.INSTAGRAM}><img src="/asset/icon/instagram@2x.png"    style={{ width: '20px!important', height: '20px' }}/></a>
+                <a href={SOCIAL_LINK.LINE}><img src="/asset/icon/line@2x.png" className="header-icon line" /></a>
+                <a href={SOCIAL_LINK.WEIBO}><img src="/asset/icon/weibo@2x.png" className="header-icon weibo" /></a>
+                <a href={SOCIAL_LINK.FACEBOOK}><img src="/asset/icon/facebook@2x.png" className="header-icon facebook" /></a>
+                <a href={SOCIAL_LINK.INSTAGRAM}><img src="/asset/icon/instagram@2x.png" className="header-icon instagram" /></a>
                 <div className="vertical line" ></div>
-                <a href="#" onClick={this._openSearchbar} ><img src="/asset/icon/search@2x.png"    style={{ width: '24px!important', height: '24px' }}/></a>
+                <a href="#" onClick={this._openSearchbar} ><img src="/asset/icon/search@2x.png" className="header-icon search" /></a>
               </div>
               <div className="item mobile-only" style={{ marginTop: '25px' }}>
-                <a href="#" onClick={this._openSearchbar} ><img src="/asset/icon/search@2x.png"    style={{ width: '24px!important', height: '24px' }}/></a>
+                <a href="#" onClick={this._openSearchbar} ><img src="/asset/icon/search@2x.png" className="header-icon search" /></a>
               </div>
             </div>
           </div>

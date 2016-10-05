@@ -42,6 +42,13 @@
 	text-align: right;
 }
 
+.sidebar-icon.line { width: 56px! important; height: 25px; }
+.sidebar-icon.weibo { width: 29px! important; height: 25px; }
+.sidebar-icon.facebook { width: 25px! important; height: 25px; }
+.sidebar-icon.instagram { width: 25px! important; height: 25px; }
+.sidebar-icon.feed { width: 25px! important; height: 25px; }
+.sidebar-icon.mail { width: 26px! important; height: 25px; }
+
 /* Mobile */
 
 @media only screen and (max-width: 767px) {

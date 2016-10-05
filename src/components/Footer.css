@@ -34,24 +34,22 @@
 	font-weight: 400;
 }
 
-.footer .line {
+.footer .divider-line {
 	margin: 0 auto;
 	margin-bottom: 30px;
 	display: none;
 	width: 100%;
 	height: 1px;
 	border: solid 1px rgba(0, 0, 0, 0.15);
-
 }
 
-.footer .line-pc {
+.footer .divider-line-pc {
 	margin: 0 auto;
 	margin-top: 13px;
 	margin-bottom: 15px;
 	width: 456px;
 	height: 2px;
 	border: solid 1px rgba(0, 0, 0, 0.15);
-
 }
 
 .footer .share .item {
@@ -76,15 +74,22 @@
 	padding: 0;
 }
 
+.footer-icon.line { width: 56px! important; height: 25px; }
+.footer-icon.weibo { width: 29px! important; height: 25px; }
+.footer-icon.facebook { width: 25px! important; height: 25px; }
+.footer-icon.instagram { width: 25px! important; height: 25px; }
+.footer-icon.feed { width: 25px! important; height: 25px; }
+.footer-icon.mail { width: 26px! important; height: 25px; }
+
 @media only screen and (max-width: 767px) {
 	.footer {
 		padding: 0;
 	}
-	.footer .line {
+	.footer .divider-line {
 		display: block;
 		width: 300px;
 	}
-	.footer .line-pc {
+	.footer .divider-line-pc {
 		display: none;
 	}
 	.footer .share {
@@ -110,11 +115,11 @@
 	.footer {
 		padding: 0;
 	}
-	.footer .line {
+	.footer .divider-line {
 		display: block;
 		width: 700px;
 	}
-	.footer .line-pc {
+	.footer .divider-line-pc {
 		display: none;
 	}
 	.footer .share {

@@ -42,16 +42,16 @@ export default class Footer extends Component {
           </div>
           <div className="ui center aligned grid" style={{ margin:0, marginTop: '70px!important' }}>
             <div className="sixteen wide column">
-              <div className="line"></div>
+              <div className="divider-line"></div>
               <div className="subscribe" style={{ fontSize: '17px', letterSpacing: '1.1px', color: 'rgba(0, 0, 0, 0.5)' }}>訂閱鏡週刊</div>
-              <div className="line-pc"></div>
+              <div className="divider-line-pc"></div>
               <div className="ui share">
-                <a className="item" href={SOCIAL_LINK.LINE} ><img src="/asset/icon/line@2x.png" style={{ width: '56px!important', height: '25px' }}/></a>
-                <a className="item" href={SOCIAL_LINK.WEIBO} ><img src="/asset/icon/weibo@2x.png" style={{ width: '29px!important', height: '25px' }}/></a>
-                <a className="item" href={SOCIAL_LINK.FACEBOOK} ><img src="/asset/icon/facebook@2x.png" style={{ width: '25px!important', height: '25px' }}/></a>
-                <a className="item" href={SOCIAL_LINK.INSTAGRAM} ><img src="/asset/icon/instagram@2x.png" style={{ width: '25px!important', height: '25px' }}/></a>
-                <a className="item" href={SOCIAL_LINK.FEED} ><img src="/asset/icon/feed@2x.png" style={{ width: '25px!important', height: '25px' }}/></a>
-                <a className="item" href={SOCIAL_LINK.EMAIL} ><img src="/asset/icon/mail@2x.png" style={{ width: '26px!important', height: '25px' }}/></a>
+                <a className="item" href={SOCIAL_LINK.LINE} ><img src="/asset/icon/line@2x.png" className="footer-icon line" /></a>
+                <a className="item" href={SOCIAL_LINK.WEIBO} ><img src="/asset/icon/weibo@2x.png" className="footer-icon weibo" /></a>
+                <a className="item" href={SOCIAL_LINK.FACEBOOK} ><img src="/asset/icon/facebook@2x.png" className="footer-icon facebook" /></a>
+                <a className="item" href={SOCIAL_LINK.INSTAGRAM} ><img src="/asset/icon/instagram@2x.png" className="footer-icon instagram" /></a>
+                <a className="item" href={SOCIAL_LINK.FEED} ><img src="/asset/icon/feed@2x.png" className="footer-icon feed" /></a>
+                <a className="item" href={SOCIAL_LINK.EMAIL} ><img src="/asset/icon/mail@2x.png" className="footer-icon mail" /></a>
               </div>
             </div>
           </div>
