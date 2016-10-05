@@ -16,6 +16,7 @@ export default class LatestSections extends Component {
   render() {
     const { entities, sectionList, sections } = this.props
     let sortedList = _.sortBy(sectionList.sections, (o)=>{ return o.sortOrder } )
+    
     let styles = [
       'ui',
       'centered',
@@ -28,30 +29,34 @@ export default class LatestSections extends Component {
         <div className={classNames(styles)}>
 
           { _.map(_.take(sortedList, 2), (s) => { 
-            let sectionTop = []
-            let topicList = []
-            let articles = _.filter(entities.articles, function (a) { return _.indexOf(_.get(sections, [ 'items', camelize(s.name) ], []), a.id) > -1 })
-            sectionTop = _.take(articles, 1) //fetch first one
-            topicList = articles.splice(1, 2) //fetch rest
-            let image = imageComposer(_.get(sectionTop, '[0]', {})).mobileImage
+            let featuredList = _.get(sections, [ 'items', camelize(s.name) ], [])
+            let sectionTop = _.get(entities.articles, _.first(featuredList), {}) //fetch first one
+            let topicList = featuredList.splice(1, 2) //fetch rest
+            
+            // let articles = _.filter(entities.articles, function (a) { return _.indexOf(_.get(sections, [ 'items', camelize(s.name) ], []), a.id) > -1 })
+            // sectionTop = _.take(articles, 1) //fetch first one
+            // topicList = articles.splice(1, 2) //fetch rest
+
+            let image = imageComposer(sectionTop).mobileImage
             return (
               <div className="ui column" key={'section-'+s.id}>
-                <a href={ '/story/'+_.get(sectionTop, '[0].slug', '')+'/' }>
+                <a href={ '/story/'+_.get(sectionTop, 'slug', '')+'/' }>
                   <div className="sectionBlock">
                     <div className="section-cat">
-                      { _.get(entities.categories, [ _.first(_.get(sectionTop, '[0].categories', '')), 'title' ], '　　') }
+                      { _.get(entities.categories, [ _.first(_.get(sectionTop, 'categories', [])), 'title' ], '　　') }
                     </div>
                     <div className="gradient labelBlock">
                       { s.title }
                     </div>
                     <div className="sectionImg" style={{ background: 'url('+image+') no-repeat center center', backgroundSize: 'cover', width: '300px', height: '250px' }}></div>
                     <div className="sectionTopic">
-                      { _.get(sectionTop, '[0].title', '　') }
+                      { _.get(sectionTop, 'title', '　') }
                     </div>
                   </div>
                 </a>
                 <ul className="sectionList">
-                { _.map(topicList, (a, idx) => {
+                { _.map(topicList, (t, idx) => {
+                  let a = _.get(entities.articles, t, {})
                   return (
                     <li key={a.id || idx}><a href={ '/story/' + a.slug + '/' }>{a.title}</a></li>
                   )
@@ -74,30 +79,35 @@ export default class LatestSections extends Component {
           </div>
 
           { _.map(_.slice(sortedList, 2), (s) => { 
-            let sectionTop = []
-            let topicList = []
-            let articles = _.filter(entities.articles, function (a) { return _.indexOf(sections['items'][s.name], a.id) > -1 })
-            sectionTop = articles.slice(0, 1) //fetch first one
-            topicList = articles.splice(1, 2) //fetch rest
-            let image = imageComposer(_.get(sectionTop, '[0]', {})).mobileImage
+            let featuredList = _.get(sections, [ 'items', camelize(s.name) ], [])
+
+            let sectionTop = _.get(entities.articles, _.first(featuredList), {}) //fetch first one
+            let topicList = featuredList.splice(1, 2) //fetch rest
+            
+            // let articles = _.filter(entities.articles, function (a) { return _.indexOf(_.get(sections, [ 'items', camelize(s.name) ], []), a.id) > -1 })
+            // sectionTop = _.take(articles, 1) //fetch first one
+            // topicList = articles.splice(1, 2) //fetch rest
+
+            let image = imageComposer(sectionTop).mobileImage
             return (
               <div className="ui column" key={'section-'+s.id}>
-                <a href={ '/story/'+_.get(sectionTop, '[0].slug', '')+'/' }>
+                <a href={ '/story/'+_.get(sectionTop, 'slug', '')+'/' }>
                   <div className="sectionBlock">
                     <div className="section-cat">
-                      { _.get(entities.categories, [ _.first(_.get(sectionTop, '[0].categories', '')), 'title' ], '　　') }
+                      { _.get(entities.categories, [ _.first(_.get(sectionTop, 'categories', [])), 'title' ], '　　') }
                     </div>
                     <div className="gradient labelBlock">
                       { s.title }
                     </div>
                     <div className="sectionImg" style={{ background: 'url('+image+') no-repeat center center', backgroundSize: 'cover', width: '300px', height: '250px' }}></div>
                     <div className="sectionTopic">
-                      { _.get(sectionTop, '[0].title', '　') }
+                      { _.get(sectionTop, 'title', '　') }
                     </div>
                   </div>
                 </a>
                 <ul className="sectionList">
-                { _.map(topicList, (a, idx) => {
+                { _.map(topicList, (t, idx) => {
+                  let a = _.get(entities.articles, t, {})
                   return (
                     <li key={a.id || idx}><a href={ '/story/' + a.slug + '/' }>{a.title}</a></li>
                   )
