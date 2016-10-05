@@ -32,7 +32,7 @@ if (process.env.BROWSER) {
 
 class Home extends Component {
   static fetchData({ store }) {
-    return store.dispatch(fetchIndexArticles([ 'choices', 'sections', 'sectionfeatured' ])) 
+    return store.dispatch(fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])) 
   }
 
   constructor(props, context) {
