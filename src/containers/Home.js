@@ -32,7 +32,7 @@ if (process.env.BROWSER) {
 
 class Home extends Component {
   static fetchData({ store }) {
-    return store.dispatch(fetchIndexArticles([ 'choices', 'sections', 'posts', 'sectionfeatured' ])) 
+    return store.dispatch(fetchIndexArticles([ 'choices', 'sections', 'meta', 'sectionfeatured' ])) 
   }
 
   constructor(props, context) {
@@ -67,7 +67,7 @@ class Home extends Component {
     
     let unfetched = []
 
-    if ( !checkLatestPosts ) unfetched.push('posts')
+    if ( !checkLatestPosts ) unfetched.push('meta')
     if ( !checkSectionList ) unfetched.push('sections')
     if ( !checkChoices ) unfetched.push('choices')
     if ( !checkSectionFeatured) unfetched.push('sectionfeatured')
