@@ -17,7 +17,7 @@ export const SITE_META = {
 
 export const SOCIAL_LINK = {
   LINE: '#',
-  WEIBO: '#',
+  WEIBO: 'http://www.weibo.com/u/6030041924?is_all=1',
   FACEBOOK: 'https://www.facebook.com/mirrormediamg/',
   WECHAT: '#',
   INSTAGRAM: 'https://www.instagram.com/mirror_media/',

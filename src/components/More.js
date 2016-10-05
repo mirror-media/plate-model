@@ -13,8 +13,8 @@ export default class More extends Component {
     const { loadMore } = this.props
 
     return (
-      <div className="more-articles" onClick={loadMore}>
-        <div>更多文章</div>
+      <div className="more-articles">
+        <div onClick={loadMore} >更多文章</div>
       </div>
     )
   }

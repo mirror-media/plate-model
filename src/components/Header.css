@@ -72,10 +72,34 @@
 	display: none !important;
 }
 
-.header.item .logo {
+.header.item .logo.main {
 	width: 128px !important;
 }
 
+.header.logo {
+	width: 96px !important;
+}
+
+.header .share span {
+	font-family: 'Noto Sans TC', sans-serif;
+	font-size: 15px;
+	letter-spacing: 0.7px;
+	color: rgba(0, 0, 0, 0.3);
+}
+
+.header-icon.logo,
+.header-icon.hamburger,
+.header-icon.search {
+	width: 24px !important;
+	height: 24px !important;
+}
+
+.header-icon.line { width: 45px !important; height: 20px; }
+.header-icon.weibo { width: 23px !important; height: 20px; }
+.header-icon.facebook { width: 20px !important; height: 20px; }
+.header-icon.instagram { width: 20px !important; height: 20px; }
+
+/* Mobile */
 @media only screen and (max-width: 767px) {
     .mobile-hide{
         display: none !important;
