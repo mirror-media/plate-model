@@ -185,9 +185,8 @@ server.get('*', async function (req, res) {
                   <meta name="twitter:image" content="${ogImage}" />
                   <meta name="twitter:title" content="${title}" data-rdm/>
                   <meta name="twitter:description" content="" data-rdm/>
-                  <meta name="theme-color" content="#E30B20">
                   <link rel="canonical" href="${canonical}" data-rdm/>
-                  <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="${SITE_META.URL}article/rss2.xml" />
+                  <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="${SITE_META.URL}story/index.xml" />
                   <!-- reset css for cross browser-->
                   <link rel="stylesheet" async type="text/css" href="/asset/reset.css" >
                   <link rel="stylesheet" async type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.css" >
