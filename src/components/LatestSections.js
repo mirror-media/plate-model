@@ -31,7 +31,7 @@ export default class LatestSections extends Component {
           { _.map(_.take(sortedList, 2), (s) => { 
             let featuredList = _.get(sections, [ 'items', camelize(s.name) ], [])
             let sectionTop = _.get(entities.articles, _.first(featuredList), {}) //fetch first one
-            let topicList = featuredList.splice(1, 2) //fetch rest
+            let topicList = _.slice(featuredList, 1, 3) //fetch rest
             
             // let articles = _.filter(entities.articles, function (a) { return _.indexOf(_.get(sections, [ 'items', camelize(s.name) ], []), a.id) > -1 })
             // sectionTop = _.take(articles, 1) //fetch first one
@@ -80,9 +80,8 @@ export default class LatestSections extends Component {
 
           { _.map(_.slice(sortedList, 2), (s) => { 
             let featuredList = _.get(sections, [ 'items', camelize(s.name) ], [])
-
             let sectionTop = _.get(entities.articles, _.first(featuredList), {}) //fetch first one
-            let topicList = featuredList.splice(1, 2) //fetch rest
+            let topicList = _.slice(featuredList, 1, 3) //fetch rest
             
             // let articles = _.filter(entities.articles, function (a) { return _.indexOf(_.get(sections, [ 'items', camelize(s.name) ], []), a.id) > -1 })
             // sectionTop = _.take(articles, 1) //fetch first one
