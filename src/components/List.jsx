@@ -65,7 +65,7 @@ export default class List extends Component {
                   <div className="line">
                   </div>
                   <div className="brief">
-                    <div dangerouslySetInnerHTML={{__html: truncate(entities.decodeHTML(briefContent), 75) }}/>
+                    <div dangerouslySetInnerHTML={{__html: sanitizeHtml( truncate(entities.decodeHTML(briefContent), 75), { allowedTags: [ 'em' ] }) }}/>
                   </div>
                 </div>
               </div>
