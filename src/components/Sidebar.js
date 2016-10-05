@@ -26,6 +26,9 @@ export default class Sidebar extends Component {
       $(location).attr('href', '/search/'+$('input.search').val())
       event.preventDefault()
     })
+    $('.closeSearchSidebar').click( function () { 
+      $('.ui.top.sidebar').sidebar('hide')
+    })
   }
 
   _closeSidebar() {
@@ -39,8 +42,9 @@ export default class Sidebar extends Component {
 
     return (
       <div>
-      <div className="ui top sidebar" style={{ width:'274px' }}>
+      <div className="ui top sidebar">
         <div className="ui transparent input searchbar" style={{ maxWidth: '100%', paddingRight: '60px', width: '100%' }}>
+          <div className="close closeSearchSidebar"><img src="/asset/icon/blue@2x.png" className="sidebar-icon blue" /></div>
           <form style={{ width: '100%' }}>
             <input className="search" type="text" style={{ textAlign: 'right' }} placeholder="搜尋" />
           </form>
@@ -48,7 +52,7 @@ export default class Sidebar extends Component {
       </div>
         <div className="ui gradient-transparent-vertical backdrop left sidebar" style={{ width:'274px' }}>
           <div className="ui left" style={{ position: 'absolute', color: '#fff', fontSize: '3em', marginTop: '18px', marginLeft: '10px' }}>
-            <a className="item closeSidebar" onClick={this._closeSidebar}><img src="/asset/icon/white@2x.png" style={{ width: '24px', height: '24px' }}/></a>
+            <a className="item closeSidebar" onClick={this._closeSidebar}><img src="/asset/icon/white@2x.png" className="sidebar-icon white" /></a>
           </div>
           <div className="ui borderless vertical menu" style={{ marginLeft: '40px', marginTop: '70px !important', background: 'transparent', border: 'none', boxShadow: 'none' }}>
             { _.map(sortedList, (s)=>{
