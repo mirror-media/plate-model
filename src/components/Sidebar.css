@@ -42,6 +42,14 @@
 	text-align: right;
 }
 
+.sidebar .close {
+	position: absolute;
+	right: 15px;
+	cursor: pointer;
+}
+
+.sidebar-icon.blue { width: 24px! important; height: 24px; }
+.sidebar-icon.white { width: 24px! important; height: 24px; }
 .sidebar-icon.line { width: 56px! important; height: 25px; }
 .sidebar-icon.weibo { width: 29px! important; height: 25px; }
 .sidebar-icon.facebook { width: 25px! important; height: 25px; }
@@ -58,6 +66,6 @@
 	}
 	.sidebar .ui.transparent.input input {
 		padding-top: 50px !important;
-	  padding-bottom: 50px !important;
+	 	padding-bottom: 50px !important;
   }
 }
