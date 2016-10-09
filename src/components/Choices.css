@@ -136,6 +136,7 @@ div.colorBlock.choice {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  vertical-align: bottom;
 }
 
 
