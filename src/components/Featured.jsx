@@ -31,13 +31,7 @@ export default class Featured extends Component {
             let image = imageComposer(a).mobileImage
             let brief = sanitizeHtml( _.get(a, [ 'brief','html' ], ''), { allowedTags: [ ] })
             let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
-            
             let briefContent = (brief.length >0) ? brief : content
-
-            let writers = '文｜' + _.map(a.writers, 'name').join('、')
-            let photographers = ' 攝影｜' + _.map(a.photographers, (n)=>{ return _.get(authors, [ n, 'name' ], null) }).join('、')
-            let designers = ' 設計｜' + _.map(a.designers, (n)=>{ return _.get(authors, [ n, 'name' ], null) }).join('、')
-            let engineers = ' 工程｜' + _.map(a.engineers, (n)=>{ return _.get(authors, [ n, 'name' ], null) }).join('、')
 
             return (
               <div className="choice-block" key={'choice' + a.id}>
@@ -60,15 +54,6 @@ export default class Featured extends Component {
                   </div>
                 </div>
                 <div className="choice-meta ">
-                  <div className="author">
-                    { (_.get(a, [ 'writers', 'length' ], 0) > 0) ? writers+' ' : null }
-                    { (_.get(a, [ 'photographers', 'length' ], 0) > 0) ? photographers+' ' : null }
-                    { (_.get(a, [ 'designers', 'length' ], 0) > 0) ? designers+' ' : null }
-                    { (_.get(a, [ 'engineers', 'length' ], 0) > 0) ? engineers+' ' : null }
-                    { _.get(a, 'extendByline', null) }
-                  </div>
-                  <div className="separator">
-                  </div>
                   <div className="date">
                     { dateformat(a.publishedDate, 'yyyy.mm.dd') }
                   </div>
