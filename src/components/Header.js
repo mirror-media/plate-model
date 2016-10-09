@@ -49,10 +49,12 @@ export default class Header extends Component {
   }
 
   _getHeaderHeight() {
-    const rect = ReactDOM.findDOMNode(this.refs.headerbox).getBoundingClientRect()
-    this.setState({
-      height: _.get(rect, 'height', 110)
-    })
+    if (ReactDOM.findDOMNode(this.refs.headerbox)) {
+      const rect = ReactDOM.findDOMNode(this.refs.headerbox).getBoundingClientRect()
+      this.setState({
+        height: _.get(rect, 'height', 110)
+      })
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) { // eslint-disable-line
