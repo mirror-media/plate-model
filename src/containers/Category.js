@@ -18,7 +18,7 @@ if (process.env.BROWSER) {
 }
 
 const MAXRESULT = 10
-const PAGE = 1
+const PAGE = 0
 
 class Category extends Component {
   static fetchData({ params, store }) {

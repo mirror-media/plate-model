@@ -65,14 +65,15 @@ export default class Choices extends Component {
                 </div>
                 <div className="choice-meta ">
                   <div className="author">
-                    { (_.get(a, [ 'writers', 'length' ], 0) > 0) ? writers+' ' : null }
-                    { (_.get(a, [ 'photographers', 'length' ], 0) > 0) ? photographers+' ' : null }
-                    { (_.get(a, [ 'designers', 'length' ], 0) > 0) ? designers+' ' : null }
-                    { (_.get(a, [ 'engineers', 'length' ], 0) > 0) ? engineers+' ' : null }
-                    { _.get(a, 'extendByline', null) }
+                    <span>
+                      { (_.get(a, [ 'writers', 'length' ], 0) > 0) ? writers+' ' : null }
+                      { (_.get(a, [ 'photographers', 'length' ], 0) > 0) ? photographers+' ' : null }
+                      { (_.get(a, [ 'designers', 'length' ], 0) > 0) ? designers+' ' : null }
+                      { (_.get(a, [ 'engineers', 'length' ], 0) > 0) ? engineers+' ' : null }
+                      { _.get(a, 'extendByline', null) }
+                    </span>
                   </div>
-                  <div className="separator">
-                  </div>
+                  <div className="separator"></div>
                   <div className="date">
                     { dateformat(a.publishedDate, 'yyyy.mm.dd') }
                   </div>

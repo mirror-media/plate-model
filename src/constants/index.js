@@ -12,11 +12,11 @@ export const SITE_META = {
   DESC: '鏡傳媒以台灣為基地，是一跨平台綜合媒體，包含《鏡週刊》以及下設五大分眾內容的《鏡傳媒》網站，刊載時事、財經、人物、國際、文化、娛樂、美食旅遊、精品鐘錶等深入報導及影音內容。我們以「鏡」為名，務求反映事實、時代與人性。',
   URL: 'https://www.mirrormedia.mg/',
   LOGO: 'https://www.mirrormedia.mg/asset/logo.png',
-  KEYWORDS: '鏡傳媒,mirror media,新聞,人物,調查報導,娛樂,美食,旅遊,精品,動漫,網路趨勢,趨勢,國際,兩岸,政治,明星,文學,劇本,新詩,散文,小說'
+  KEYWORDS: '鏡週刊,鏡傳媒,mirror media,新聞,人物,調查報導,娛樂,美食,旅遊,精品,動漫,網路趨勢,趨勢,國際,兩岸,政治,明星,文學,劇本,新詩,散文,小說'
 }
 
 export const SOCIAL_LINK = {
-  LINE: '#',
+  LINE: 'https://line.me/R/ti/p/%40cuk1273e',
   WEIBO: 'http://www.weibo.com/u/6030041924?is_all=1',
   FACEBOOK: 'https://www.facebook.com/mirrormediamg/',
   WECHAT: '#',
