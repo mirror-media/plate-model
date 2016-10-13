@@ -336,7 +336,8 @@ export function fetchIndexArticles(endpoints = []) {
               dispatch_data['categories'] = {} 
               for (let c in camelizedJson['items']) {
                 for (let i in camelizedJson['items'][c]['categories']) {
-                  dispatch_data['categories'][camelizedJson['items'][c]['categories'][i]['name']] = camelizedJson['items'][c]['categories'][i]
+                  if( _.get( camelizedJson, [ 'items', c, 'categories', i, 'name' ], undefined) )
+                    dispatch_data['categories'][ _.get( camelizedJson, [ 'items', c, 'categories', i, 'name' ], undefined) ] = camelizedJson['items'][c]['categories'][i]
                 }
               }
               dispatch(receivedSectionList(dispatch_data))
