@@ -243,6 +243,35 @@ export function searchResult(state = {}, action = {}) {
   }
 }
 
+export function youtubePlaylist(state = {}, action = {}) {
+  switch (action.type) {
+    case types.FETCH_YOUTUBE_PLAYLIST_REQUEST:
+      return _.merge({}, state, {
+        isFetching: true,
+        url: action.url,
+        requestAt: action.requestAt
+      })
+    case types.FETCH_YOUTUBE_PLAYLIST_SUCCESS:
+      let orig = _.values(state['items'])
+      let new_array = _.values(_.get(action, [ 'response', 'items' ], []))
+      return _.merge({}, state, {
+        isFetching: false,
+        items: new_array.concat(orig),
+        pageInfo: _.get(action, [ 'response', 'pageInfo' ], {}),
+        nextPageToken: _.get(action, [ 'response', 'nextPageToken' ], ''),
+        receivedAt: action.receivedAt
+      })
+    case types.FETCH_YOUTUBE_PLAYLIST_FAILURE:
+      return _.merge({}, state, {
+        isFetching: false,
+        error: action.error,
+        failedAt: action.failedAt
+      })
+    default:
+      return state
+  }
+}
+
 export function featureArticles(state = {}, action = {})  {
   switch (action.type) {
     case types.FETCH_FEATURE_ARTICLES_REQUEST:

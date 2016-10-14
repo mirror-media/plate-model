@@ -4,7 +4,7 @@
 import { HOME, CATEGORY, SITE_NAME, SITE_META, GAID } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchLatestPosts } from '../actions/articles'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchLatestPosts, fetchYoutubePlaylist } from '../actions/articles'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
 import ga from 'react-ga'
@@ -57,8 +57,14 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    const { fetchArticlesByUuidIfNeeded, fetchIndexArticles } = this.props
+    const { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchYoutubePlaylist } = this.props
     const { articlesByUuids, entities, sectionFeatured, sectionList, choices, fetchLatestPosts, latestPosts } = this.props
+
+    this.props.fetchYoutubePlaylist(10).then(() =>{
+      console.log('fetch NextPage')
+      this.props.fetchYoutubePlaylist(10, this.props.youtubePlaylist.nextPageToken)
+      return
+    })
 
     let checkSectionList = _.get(sectionList, 'fetched', undefined)
     let checkSectionFeatured = _.get(sectionFeatured, 'fetched', undefined)
@@ -162,7 +168,8 @@ function mapStateToProps(state) {
     choices: state.choices || {},
     latestPosts: state.latestPosts || {},
     sectionList: state.sectionList || {},
-    sectionFeatured: state.sectionFeatured || {}
+    sectionFeatured: state.sectionFeatured || {},
+    youtubePlaylist: state.youtubePlaylist || {}
   }
 }
 
@@ -176,5 +183,6 @@ export default connect(mapStateToProps, {
   fetchArticlesByUuidIfNeeded,
   fetchIndexArticles,
   fetchLatestPosts,
+  fetchYoutubePlaylist,
   setPageType
 })(Home)
