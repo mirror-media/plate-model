@@ -256,7 +256,7 @@ export function youtubePlaylist(state = {}, action = {}) {
       let new_array = _.values(_.get(action, [ 'response', 'items' ], []))
       return _.merge({}, state, {
         isFetching: false,
-        items: new_array.concat(orig),
+        items: orig.concat(new_array),
         pageInfo: _.get(action, [ 'response', 'pageInfo' ], {}),
         nextPageToken: _.get(action, [ 'response', 'nextPageToken' ], ''),
         receivedAt: action.receivedAt
