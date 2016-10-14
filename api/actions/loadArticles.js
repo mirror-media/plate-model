@@ -62,6 +62,24 @@ export function loadSearch(req) {
   })
 }
 
+export function loadPlaylist(req) {
+  return new Promise((resolve, reject) => {
+    let query = req.query
+    const { YOUTUBE_PLAYLIST_ID, YOUTUBE_API_KEY } = config
+    let url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${YOUTUBE_PLAYLIST_ID}&key=${YOUTUBE_API_KEY}`
+    superAgent['get'](url)
+      .timeout(2000)
+      .query(query)
+      .end(function (err, res) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(res.body)
+        }
+      })
+  })
+}
+
 export function loadCombo(req) {
   return new Promise((resolve, reject) => {
     const query = req.query
