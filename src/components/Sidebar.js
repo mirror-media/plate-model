@@ -73,6 +73,7 @@ export default class Sidebar extends Component {
               <a href={SOCIAL_LINK.INSTAGRAM} className="item" style={{ marginRight: '25px' }}><img src="/asset/icon/instagram@2x.png" className="sidebar-icon instagram" /></a>
               <a href={SOCIAL_LINK.FEED} className="item" style={{ marginRight: '25px' }}><img src="/asset/icon/feed@2x.png" className="sidebar-icon feed" /></a>
               <a href={SOCIAL_LINK.EMAIL} className="item" style={{ marginRight: '25px' }}><img src="/asset/icon/mail@2x.png" className="sidebar-icon mail" /></a>
+              <a href={SOCIAL_LINK.SUBSCRIBE} className="item" style={{ marginRight: '25px' }}><img src="/asset/icon/book@2x.png" className="sidebar-icon book" /></a>
             </div>
           </div>
         </div>

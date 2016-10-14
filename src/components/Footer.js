@@ -52,6 +52,7 @@ export default class Footer extends Component {
                 <a className="item" href={SOCIAL_LINK.INSTAGRAM} ><img src="/asset/icon/instagram@2x.png" className="footer-icon instagram" /></a>
                 <a className="item" href={SOCIAL_LINK.FEED} ><img src="/asset/icon/feed@2x.png" className="footer-icon feed" /></a>
                 <a className="item" href={SOCIAL_LINK.EMAIL} ><img src="/asset/icon/mail@2x.png" className="footer-icon mail" /></a>
+                <a className="item" href={SOCIAL_LINK.SUBSCRIBE} ><img src="/asset/icon/book@2x.png" className="footer-icon book" /></a>
               </div>
             </div>
           </div>

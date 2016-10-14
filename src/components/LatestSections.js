@@ -74,7 +74,6 @@ export default class LatestSections extends Component {
             </a>
             <ul className="sectionList">
               <li><a href={'https://facebook.com/sonypicturestw/videos/vb.123118021633/10154091918126634/?type=2&theater'} target="_blank">【達文西密碼】【天使與魔鬼】驚悚懸疑系列</a></li>
-              <li><a href={'http://events.adbert.com.tw/Inferno/'} target="_blank">完成解謎活動搶抽電影票！</a></li>
             </ul>
           </div>
 

@@ -151,6 +151,7 @@ export default class Header extends Component {
                 <a href={SOCIAL_LINK.WEIBO}><img src="/asset/icon/weibo@2x.png" className="header-icon weibo" /></a>
                 <a href={SOCIAL_LINK.FACEBOOK}><img src="/asset/icon/facebook@2x.png" className="header-icon facebook" /></a>
                 <a href={SOCIAL_LINK.INSTAGRAM}><img src="/asset/icon/instagram@2x.png" className="header-icon instagram" /></a>
+                <a href={SOCIAL_LINK.SUBSCRIBE}><img src="/asset/icon/book@2x.png" className="header-icon book" /></a>
                 <div className="vertical line" ></div>
                 <a href="#" onClick={this._openSearchbar} ><img src="/asset/icon/search@2x.png" className="header-icon search" /></a>
               </div>
