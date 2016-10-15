@@ -2,7 +2,7 @@
 import { CATEGORY, SITE_META, SITE_NAME, GAID } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/articles'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchYoutubePlaylist } from '../actions/articles'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
@@ -11,6 +11,7 @@ import Sidebar from '../components/Sidebar'
 import Footer from '../components/Footer'
 import React, { Component } from 'react'
 import List from '../components/List'
+import VideoList from '../components/VideoList'
 import ga from 'react-ga'
 
 if (process.env.BROWSER) {
@@ -22,12 +23,18 @@ const PAGE = 0
 
 class Category extends Component {
   static fetchData({ params, store }) {
-    return store.dispatch(fetchArticlesByUuidIfNeeded(params.category, CATEGORY), {
-      page: PAGE,
-      max_results: MAXRESULT
-    }).then(() => {
-      return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
-    })
+    if (params.category == 'videohub') {
+      return store.dispatch(fetchYoutubePlaylist(MAXRESULT)).then(() => {
+        return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
+      })
+    } else {
+      return store.dispatch(fetchArticlesByUuidIfNeeded(params.category, CATEGORY), {
+        page: PAGE,
+        max_results: MAXRESULT
+      }).then(() => {
+        return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
+      })
+    }
   }
 
   constructor(props) {
@@ -37,10 +44,12 @@ class Category extends Component {
       catId: category
     }
     this.loadMore = this._loadMore.bind(this)
+    this.loadMoreVideo = this._loadMoreVideo.bind(this)
+    this.renderList = this._renderList.bind(this)
   }
 
   componentWillMount() {
-    const { fetchArticlesByUuidIfNeeded, articlesByUuids, fetchIndexArticles, sectionList } = this.props
+    const { fetchArticlesByUuidIfNeeded, articlesByUuids, fetchIndexArticles, fetchYoutubePlaylist, sectionList, youtubePlaylist } = this.props
     let catId = this.state.catId
 
     // if fetched before, do nothing
@@ -50,7 +59,13 @@ class Category extends Component {
     }
 
     // if fetched before, do nothing
-    if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0) {
+    let checkYoutubePlaylist = _.get(youtubePlaylist, 'fetched', undefined)
+    if ( !checkYoutubePlaylist ) {
+      fetchYoutubePlaylist(MAXRESULT)
+    }
+
+    // if fetched before, do nothing
+    if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0 || catId == 'videohub') {
       return
     }
 
@@ -119,10 +134,42 @@ class Category extends Component {
     })
   }
 
-  render() {
-    const { articlesByUuids, entities, params, sectionList } = this.props
+  _loadMoreVideo() {
+    this.props.fetchYoutubePlaylist(MAXRESULT, this.props.youtubePlaylist.nextPageToken)
+  }
+
+  _renderList() {
+    const { articlesByUuids, entities, params, sectionList , youtubePlaylist } = this.props
     const catId = _.get(params, 'category')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
+    const category = _.get(params, 'category', null)
+    const catName = _.get(sectionList.response, [ 'categories', category, 'title' ], null)
+
+    if (catId != 'videohub') { 
+      return (
+        <List 
+          articles={articles} 
+          categories={entities.categories} 
+          title={catName} 
+          hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
+          loadMore={this.loadMore}
+        />
+      )
+    } else {
+      return (
+        <VideoList 
+          playlist={youtubePlaylist.items}
+          title={'VideoHub'} 
+          hasMore={ _.get(youtubePlaylist, [ 'nextPageToken' ])}
+          loadMore={this.loadMoreVideo}
+        />
+      )
+    }
+  }
+
+  render() {
+    const { params, sectionList } = this.props
+
     const category = _.get(params, 'category', null)
     const catName = _.get(sectionList.response, [ 'categories', category, 'title' ], null)
     const meta = {
@@ -139,13 +186,7 @@ class Category extends Component {
         <Header sectionList={sectionList.response} />
 
         <div id="main" className="pusher">
-          <List 
-            articles={articles} 
-            categories={entities.categories} 
-            title={catName} 
-            hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
-            loadMore={this.loadMore}
-          />
+          {this.renderList()}
           {this.props.children}
           <Footer sectionList={sectionList.response} />
         </div>
@@ -158,7 +199,8 @@ function mapStateToProps(state) {
   return {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
-    sectionList: state.sectionList || {}
+    sectionList: state.sectionList || {},
+    youtubePlaylist: state.youtubePlaylist || {}
   }
 }
 
@@ -167,4 +209,4 @@ Category.contextTypes = {
 }
 
 export { Category }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, setPageType })(Category)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchYoutubePlaylist, setPageType })(Category)

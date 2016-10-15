@@ -193,6 +193,30 @@ function failToReceiveSearchResult(error) {
   }
 }
 
+function requestYoutubePlaylist(url) {
+  return {
+    type: types.FETCH_YOUTUBE_PLAYLIST_REQUEST,
+    url,
+    requestAt: Date.now()
+  }
+}
+
+function receiveYoutubePlaylist(response) {
+  return {
+    type: types.FETCH_YOUTUBE_PLAYLIST_SUCCESS,
+    response,
+    receivedAt: Date.now()
+  }
+}
+
+function failToReceiveYoutubePlaylist(error) {
+  return {
+    type: types.FETCH_YOUTUBE_PLAYLIST_FAILURE,
+    error,
+    failedAt: Date.now()
+  }
+}
+
 function _buildQuery(params = {}) {
   let query = {}
   let whitelist = [ 'where', 'embedded', 'max_results', 'page', 'sort' ]
@@ -266,6 +290,19 @@ export function makeSearchQuery(keyword) {
         dispatch(receiveSearchResult(response))
       }, (error) => {
         dispatch(failToReceiveSearchResult(error))
+      })
+  }
+}
+
+export function fetchYoutubePlaylist(limit = 10, pageToken = '') {
+  let url = formatUrl('playlist?maxResults=' + limit + '&pageToken=' + pageToken)
+  return (dispatch) => {
+    dispatch(requestYoutubePlaylist(url))
+    return _fetchArticles(url)
+      .then((response) => {
+        dispatch(receiveYoutubePlaylist(response))
+      }, (error) => {
+        dispatch(failToReceiveYoutubePlaylist(error))
       })
   }
 }
