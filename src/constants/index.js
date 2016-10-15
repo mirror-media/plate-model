@@ -3,7 +3,7 @@
 export * from './action-types'
 
 export const SITE_NAME = {
-  FULL: '鏡傳媒 Mirror Media',
+  FULL: '鏡傳媒',
   SHORT: '鏡傳媒',
   SEPARATOR: ' - '
 }
