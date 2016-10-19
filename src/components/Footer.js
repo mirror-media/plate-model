@@ -43,7 +43,7 @@ export default class Footer extends Component {
           <div className="ui center aligned grid" style={{ margin:0, marginTop: '70px!important' }}>
             <div className="sixteen wide column">
               <div className="divider-line"></div>
-              <div className="subscribe" style={{ fontSize: '17px', letterSpacing: '1.1px', color: 'rgba(0, 0, 0, 0.5)' }}>訂閱鏡週刊</div>
+              <div className="subscribe" style={{ fontSize: '17px', letterSpacing: '1.1px', color: 'rgba(0, 0, 0, 0.5)' }}><a href={SOCIAL_LINK.SUBSCRIBE}>訂閱鏡週刊</a> - <a href={'https://www.mirrormedia.mg/story/ad1018001/index.html?utm_source=mm&utm_medium=footer&utm_campaign=salesteam'}>廣告合作</a></div>
               <div className="divider-line-pc"></div>
               <div className="ui share">
                 <a className="item" href={SOCIAL_LINK.LINE} ><img src="/asset/icon/line@2x.png" className="footer-icon line" /></a>
@@ -52,7 +52,6 @@ export default class Footer extends Component {
                 <a className="item" href={SOCIAL_LINK.INSTAGRAM} ><img src="/asset/icon/instagram@2x.png" className="footer-icon instagram" /></a>
                 <a className="item" href={SOCIAL_LINK.FEED} ><img src="/asset/icon/feed@2x.png" className="footer-icon feed" /></a>
                 <a className="item" href={SOCIAL_LINK.EMAIL} ><img src="/asset/icon/mail@2x.png" className="footer-icon mail" /></a>
-                <a className="item" href={SOCIAL_LINK.SUBSCRIBE} ><img src="/asset/icon/book@2x.png" className="footer-icon book" /></a>
               </div>
             </div>
           </div>

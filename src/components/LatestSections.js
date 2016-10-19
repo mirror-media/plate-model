@@ -67,13 +67,14 @@ export default class LatestSections extends Component {
           })}
 
           <div className="ui column" style={{ backgroundColor: 'rgba(0, 77, 162, 0.1)', marginTop: '-10px', marginBottom: '20px' }}>
-            <a href="https://www.facebook.com/sonypicturestw/videos/vb.123118021633/10154091918126634/?type=2&theater"  target="_blank">
+            <a href="https://www.mirrormedia.mg/story/ad1018001/index.html?utm_source=mm&utm_medium=300250&utm_campaign=salesteam"  target="_blank">
               <div className="sectionBlock" style={{ marginTop: '10px', marginBottom: '10px' }}>
-                <div className="sectionImg AD" style={{ background: 'url(/asset/ads/index.jpg) no-repeat center center', backgroundSize: 'cover', width: '300px', height: '250px' }}></div>
+                <div className="sectionImg AD" style={{ background: 'url(/asset/ads/hero.jpg) no-repeat center center', backgroundSize: 'cover', width: '300px', height: '250px' }}></div>
               </div>
             </a>
             <ul className="sectionList">
-              <li><a href={'https://facebook.com/sonypicturestw/videos/vb.123118021633/10154091918126634/?type=2&theater'} target="_blank">【達文西密碼】【天使與魔鬼】驚悚懸疑系列</a></li>
+              <li><a href={'https://www.mirrormedia.mg/story/ad1018001/index.html?utm_source=mm&utm_medium=text1&utm_campaign=salesteam'} target="_blank">「以鏡為名」，反映事實真相，堅守100%原創報導</a></li>
+              <li><a href={'https://www.facebook.com/mirrormediamg/?fref=ts&utm_source=mm&utm_medium=text2&utm_campaign=salesteam'} target="_blank">加入好友，隨時掌握獨家觀點、事件真相</a></li>
             </ul>
           </div>
 
