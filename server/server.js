@@ -21,7 +21,7 @@ import { Provider } from 'react-redux'
 import config from './config'
 
 import { NotFoundError } from '../src/lib/custom-error'
-import { SITE_NAME, SITE_META } from '../src/constants/'
+import { SITE_NAME, SITE_META, FBPageId } from '../src/constants/'
 import _ from 'lodash'
 
 const server = new Express()
@@ -181,6 +181,7 @@ server.get('*', async function (req, res) {
                   <meta property="og:image:type" content="image/png" />
                   <meta property="og:image:width" content="960" />
                   <meta property="og:image:height" content="720" />
+                  <meta property="fb:pages" content="${FBPageId}" />
                   <meta name="twitter:card" content="summary_large_image" />
                   <meta name="twitter:image" content="${ogImage}" />
                   <meta name="twitter:title" content="${title}" data-rdm/>
