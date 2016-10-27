@@ -67,14 +67,14 @@ export default class LatestSections extends Component {
           })}
 
           <div className="ui column" style={{ backgroundColor: 'rgba(0, 77, 162, 0.1)', marginTop: '-10px', marginBottom: '20px' }}>
-            <a href="https://www.mirrormedia.mg/story/ad1018001/index.html?utm_source=mm&utm_medium=300250&utm_campaign=salesteam"  target="_blank">
+            <a href="https://goo.gl/86WzFX"  target="_blank">
               <div className="sectionBlock" style={{ marginTop: '10px', marginBottom: '10px' }}>
-                <div className="sectionImg AD" style={{ background: 'url(/asset/ads/hero.jpg) no-repeat center center', backgroundSize: 'cover', width: '300px', height: '250px' }}></div>
+                <div className="sectionImg AD" style={{ background: 'url(/asset/ads/subscribe.jpg) no-repeat center center', backgroundSize: 'cover', width: '300px', height: '250px' }}></div>
               </div>
             </a>
             <ul className="sectionList">
-              <li><a href={'https://www.mirrormedia.mg/story/ad1018001/index.html?utm_source=mm&utm_medium=text1&utm_campaign=salesteam'} target="_blank">「以鏡為名」，反映事實真相，堅守100%原創報導</a></li>
-              <li><a href={'https://www.facebook.com/mirrormediamg/?fref=ts&utm_source=mm&utm_medium=text2&utm_campaign=salesteam'} target="_blank">加入好友，隨時掌握獨家觀點、事件真相</a></li>
+              <li><a href={'https://goo.gl/psPwDH'} target="_blank">現在就訂閱 創刊超優惠 即日起至11/31止</a></li>
+              <li><a href={'https://goo.gl/GpGe5T'} target="_blank">【加入好友】隨時掌握獨家觀點、新聞直擊</a></li>
             </ul>
           </div>
 
