@@ -22,7 +22,7 @@ export const SOCIAL_LINK = {
   FACEBOOK: 'https://www.facebook.com/mirrormediamg/',
   WECHAT: '#',
   INSTAGRAM: 'https://www.instagram.com/mirror_media/',
-  FEED: '/story/index.xml',
+  FEED: '/story/rss.xml',
   EMAIL: 'mailto:mirror885@mirrormedia.mg'
 }
 
