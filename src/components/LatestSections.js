@@ -67,14 +67,14 @@ export default class LatestSections extends Component {
           })}
 
           <div className="ui column" style={{ backgroundColor: 'rgba(0, 77, 162, 0.1)', marginTop: '-10px', marginBottom: '20px' }}>
-            <a href="https://goo.gl/86WzFX"  target="_blank">
+            <a href="https://goo.gl/beHg3g"  target="_blank">
               <div className="sectionBlock" style={{ marginTop: '10px', marginBottom: '10px' }}>
-                <div className="sectionImg AD" style={{ background: 'url(/asset/ads/subscribe.jpg) no-repeat center center', backgroundSize: 'cover', width: '300px', height: '250px' }}></div>
+                <div className="sectionImg AD" style={{ background: 'url(/asset/ads/beverage.jpg) no-repeat center center', backgroundSize: 'cover', width: '300px', height: '250px' }}></div>
               </div>
             </a>
             <ul className="sectionList">
-              <li><a href={'https://goo.gl/psPwDH'} target="_blank">現在就訂閱 創刊超優惠 即日起至11/31止</a></li>
-              <li><a href={'https://goo.gl/GpGe5T'} target="_blank">【加入好友】隨時掌握獨家觀點、新聞直擊</a></li>
+              <li><a href={'https://goo.gl/loHXob'} target="_blank">好評大贈送，買鏡週刊免費喝飲料！解你新聞慾望的渴</a></li>
+              <li><a href={'https://goo.gl/T80Sug'} target="_blank">想隨時掌握獨家火熱觀點，創刊訂戶優惠只到11/30</a></li>
             </ul>
           </div>
 
