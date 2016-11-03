@@ -14,12 +14,13 @@ export default class TopChoice extends Component {
   render() {
     const { article, categories } = this.props
     let a = article
+    let linkStyle = (_.get(a, 'style', '') == 'projects') ? '/projects/' : '/story/'
     let image = imageComposer(a).mobileImage
     return a ? (
       <div className="container tablet-hide computer-hide">
         <div className="choice-main">
           <div className="choice-block" key={'choice' + a.id}>
-            <a href={'/story/' + a.slug }>
+            <a href={linkStyle + a.slug + '/'}>
               <div className="choice-img " style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
               </div>
             </a>
@@ -30,7 +31,7 @@ export default class TopChoice extends Component {
                 { _.get(categories, [ _.first(a.categories), 'title' ], '　　') }
             </div>
             <div className="choice-content ">
-              <a href={'/story/' + a.slug }>
+              <a href={linkStyle + a.slug + '/'}>
                 <h2>
                     {a.title}
                 </h2>

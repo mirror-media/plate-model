@@ -29,13 +29,14 @@ export default class Featured extends Component {
         <div className="choice-main">
           { _.map(_.take(articles, 3), (a)=>{
             let image = imageComposer(a).mobileImage
+            let linkStyle = (_.get(a, 'style', '') == 'projects') ? '/projects/' : '/story/'
             let brief = sanitizeHtml( _.get(a, [ 'brief','html' ], ''), { allowedTags: [ ] })
             let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
             let briefContent = (brief.length >0) ? brief : content
 
             return (
               <div className="choice-block" key={'choice' + a.id}>
-                <a href={'/story/' + a.slug }>
+                <a href={linkStyle + a.slug + '/'}>
                   <div className="choice-img " style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
                 </a>
@@ -43,7 +44,7 @@ export default class Featured extends Component {
                     { _.get(categories, [ _.first(a.categories), 'title' ]) }
                 </div>
                 <div className="choice-content ">
-                  <a href={'/story/' + a.slug }>
+                  <a href={linkStyle + a.slug + '/'}>
                     <h2>
                         {a.title}
                     </h2>

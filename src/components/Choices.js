@@ -31,7 +31,7 @@ export default class Choices extends Component {
           { _.map(_.take(choices, 3), (c)=>{
 
             let a = _.get(articles, c, {})
-
+            let linkStyle = (_.get(a, 'style', '') == 'projects') ? '/projects/' : '/story/'
             let image = imageComposer(a).mobileImage
             let brief = sanitizeHtml( _.get(a, [ 'brief','html' ], ''), { allowedTags: [ ] })
             let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
@@ -45,7 +45,7 @@ export default class Choices extends Component {
 
             return (
               <div className="choice-block" key={'choice' + a.id}>
-                <a href={'/story/' + a.slug + '/' }>
+                <a href={linkStyle + a.slug + '/' }>
                   <div className="choice-img " style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
                 </a>
@@ -53,7 +53,7 @@ export default class Choices extends Component {
                     { _.get(categories, [ _.first(a.categories), 'title' ]) }
                 </div>
                 <div className="choice-content ">
-                  <a href={'/story/' + a.slug + '/' }>
+                  <a href={linkStyle + a.slug + '/' }>
                     <h2>
                         {a.title}
                     </h2>
@@ -86,7 +86,7 @@ export default class Choices extends Component {
           
           { _.map(_.slice(choices, 3), (c)=>{
             let a = _.get(articles, c, {})
-
+            let linkStyle = (_.get(a, 'style', '') == 'projects') ? '/projects/' : '/story/'
             let image = imageComposer(a).mobileImage
             let brief = sanitizeHtml( _.get(a, [ 'brief','html' ], ''), { allowedTags: [ ] })
             let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
@@ -98,13 +98,13 @@ export default class Choices extends Component {
             return (
               <div className="column" style={{ padding: 0 }} key={'choice' + a.id}>
                 <div className="choice-block">
-                  <a href={'/story/' + a.slug + '/' }><div className="column-choice-img" style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
+                  <a href={linkStyle + a.slug + '/' }><div className="column-choice-img" style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                     <div className="choice-cat">
                       { _.get(categories, [ _.first(a.categories), 'title' ]) }
                     </div>
                   </div></a>
                   <div className="column-choice-content">
-                    <a href={'/story/' + a.slug + '/' }><h2>{ a.title }</h2></a>
+                    <a href={linkStyle + a.slug + '/' }><h2>{ a.title }</h2></a>
                     <div className="line"></div>
                     <div className="brief">
                       { truncate(entities.decodeHTML(briefContent), 75) }

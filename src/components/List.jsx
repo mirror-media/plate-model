@@ -40,6 +40,7 @@ export default class List extends Component {
           { _.map(sortedArticles, (a)=>{
             let image = imageComposer(a).mobileImage
             let title = sanitizeHtml( _.get(a, [ 'title' ], ''), { allowedTags: [ ] })
+            let linkStyle = (_.get(a, 'style', '') == 'projects') ? '/projects/' : '/story/'
             let brief = sanitizeHtml( _.get(a, [ 'brief', 'html' ], ''), { allowedTags: [ ] })
             let content = sanitizeHtml( _.get(a, [ 'content', 'html' ], ''), { allowedTags: [ ] })
             let briefContent = (brief.length >0) ? brief : content
@@ -52,12 +53,12 @@ export default class List extends Component {
 
             return (
               <div className="latest-block" key={a.id || a._id} >
-                <a href={'/story/'+a.slug}>
+                <a href={linkStyle+a.slug+'/'}>
                   <div className="latest-img" style={{ background: 'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
                 </a>
                 <div className="latest-content">
-                  <a href={'/story/'+a.slug}>
+                  <a href={linkStyle+a.slug+'/'}>
                     <h2>
                         <span dangerouslySetInnerHTML={{__html: title }}/><div className="cat-label"><div className="separator"></div><span>{ _.get(a, [ 'categories', 0, 'title' ], '') }</span></div>
                     </h2>
