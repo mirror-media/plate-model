@@ -38,9 +38,10 @@ export default class LatestSections extends Component {
             // topicList = articles.splice(1, 2) //fetch rest
 
             let image = imageComposer(sectionTop).mobileImage
+            let linkStyle = (_.get(sectionTop, 'style', '')=='projects') ? '/projects/' : '/story/'
             return (
               <div className="ui column" key={'section-'+s.id}>
-                <a href={ '/story/'+_.get(sectionTop, 'slug', '')+'/' }>
+                <a href={ linkStyle+_.get(sectionTop, 'slug', '')+'/' }>
                   <div className="sectionBlock">
                     <div className="section-cat">
                       { _.get(entities.categories, [ _.first(_.get(sectionTop, 'categories', [])), 'title' ], '　　') }
@@ -57,8 +58,9 @@ export default class LatestSections extends Component {
                 <ul className="sectionList">
                 { _.map(topicList, (t, idx) => {
                   let a = _.get(entities.articles, t, {})
+                  let linkStyle = (_.get(a, 'style', '')=='projects') ? '/projects/' : '/story/'
                   return (
-                    <li key={a.id || idx}><a href={ '/story/' + a.slug + '/' }>{a.title}</a></li>
+                    <li key={a.id || idx}><a href={ linkStyle + a.slug + '/' }>{a.title}</a></li>
                   )
                 })}
                 </ul>
@@ -88,9 +90,10 @@ export default class LatestSections extends Component {
             // topicList = articles.splice(1, 2) //fetch rest
 
             let image = imageComposer(sectionTop).mobileImage
+            let linkStyle = (_.get(sectionTop, 'style', '')=='projects') ? '/projects/' : '/story/'
             return (
               <div className="ui column" key={'section-'+s.id}>
-                <a href={ '/story/'+_.get(sectionTop, 'slug', '')+'/' }>
+                <a href={ linkStyle+_.get(sectionTop, 'slug', '')+'/' }>
                   <div className="sectionBlock">
                     <div className="section-cat">
                       { _.get(entities.categories, [ _.first(_.get(sectionTop, 'categories', [])), 'title' ], '　　') }
@@ -107,8 +110,9 @@ export default class LatestSections extends Component {
                 <ul className="sectionList">
                 { _.map(topicList, (t, idx) => {
                   let a = _.get(entities.articles, t, {})
+                  let linkStyle = (_.get(a, 'style', '')=='projects') ? '/projects/' : '/story/'
                   return (
-                    <li key={a.id || idx}><a href={ '/story/' + a.slug + '/' }>{a.title}</a></li>
+                    <li key={a.id || idx}><a href={ linkStyle + a.slug + '/' }>{a.title}</a></li>
                   )
                 })}
                 </ul>

@@ -29,10 +29,12 @@ export default class LatestArticles extends Component {
         <div className="latest">
 
           { _.map(sortedArticles, (a)=>{
+            
             let image = imageComposer(a).mobileImage
+            let linkStyle = (_.get(a, 'style', '') == 'projects') ? '/projects/' : '/story/'
+
             let brief = sanitizeHtml( _.get(a, [ 'brief','html' ], ''), { allowedTags: [ ] })
             let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
-            
             let briefContent = (brief.length >0) ? brief : content
 
             let writers = '文｜' + _.map(a.writers, 'name').join('、')
@@ -42,12 +44,12 @@ export default class LatestArticles extends Component {
 
             return (
               <div className="latest-block" key={a.id} >
-                <a href={'/story/'+a.slug+'/'}>
+                <a href={linkStyle+a.slug+'/'}>
                   <div className="latest-img" style={{ background: 'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
                 </a>
                 <div className="latest-content">
-                  <a href={'/story/'+a.slug+'/'}>
+                  <a href={linkStyle+a.slug+'/'}>
                     <h2>
                         {a.title}<div className="cat-label"><div className="separator"></div><span>{ _.get(categories, [ _.first(a.categories), 'title' ]) }</span></div>
                     </h2>
