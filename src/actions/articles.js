@@ -95,6 +95,13 @@ function requestIndexArticles(url) {
   }
 }
 
+function requestTopics(url) {
+  return {
+    type: types.FETCH_TOPICS_REQUEST,
+    url
+  }
+}
+
 function failToReceiveIndexArticles(error) {
   return {
     type: types.FETCH_INDEX_ARTICLES_FAILURE,
@@ -106,6 +113,22 @@ function failToReceiveIndexArticles(error) {
 function failToReceiveLatestPosts(error) {
   return {
     type: types.FETCH_LATEST_POSTS_FAILURE,
+    error,
+    failedAt: Date.now()
+  }
+}
+
+function failToReceiveTopics(error) {
+  return {
+    type: types.FETCH_TOPICS_FAILURE,
+    error,
+    failedAt: Date.now()
+  }
+}
+
+function failToReceiveTopic(error) {
+  return {
+    type: types.FETCH_TOPIC_FAILURE,
     error,
     failedAt: Date.now()
   }
@@ -149,6 +172,24 @@ function receiveLatestPosts(response, meta, links) {
     response,
     meta,
     links,
+    receivedAt: Date.now()
+  }
+}
+
+function receiveTopics(response, meta, links) {
+  return {
+    type: types.FETCH_TOPICS_SUCCESS,
+    response,
+    meta,
+    links,
+    receivedAt: Date.now()
+  }
+}
+
+function receiveTopic(response) {
+  return {
+    type: types.FETCH_TOPIC_SUCCESS,
+    response,
     receivedAt: Date.now()
   }
 }
@@ -243,6 +284,11 @@ function _buildMetaQueryUrl(params = {}) {
   return formatUrl(`meta?${query}`)
 }
 
+function _buildTopicQueryUrl(params = {}, slug= '') {
+  let query = _buildQuery(params)
+  return formatUrl(`topics/${slug}?${query}`)
+}
+
 function _buildUrl(params = {}, target) {
   params = params || {}
   params.sort = params.sort || '-publishedDate'
@@ -320,6 +366,36 @@ export function fetchLatestPosts(params = {}) {
         dispatch(receiveLatestPosts(response, meta, links))
       }, (error) => {
         return dispatch(failToReceiveLatestPosts(error))
+      })
+  }
+}
+
+export function fetchTopics(params = {}) {
+  let url = _buildTopicQueryUrl(params)
+  return (dispatch) => {
+    dispatch(requestTopics('Request Topics: ' + url))
+    return _fetchArticles(url)
+      .then((response) => {
+        let meta = response._meta
+        let links = response._links
+        let camelizedJson = camelizeKeys(response)
+        dispatch(receiveTopics(camelizedJson.items, meta, links))
+      }, (error) => {
+        return dispatch(failToReceiveTopics(error))
+      })
+  }
+}
+
+export function fetchTopic(slug) {
+  let url = _buildTopicQueryUrl({}, slug)
+  return (dispatch) => {
+    dispatch(requestTopics('Request Topic: ' + url))
+    return _fetchArticles(url)
+      .then((response) => {
+        let camelizedJson = camelizeKeys(response)
+        dispatch(receiveTopic(camelizedJson))
+      }, (error) => {
+        return dispatch(failToReceiveTopic(error))
       })
   }
 }
