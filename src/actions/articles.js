@@ -126,6 +126,14 @@ function failToReceiveTopics(error) {
   }
 }
 
+function failToReceiveTopic(error) {
+  return {
+    type: types.FETCH_TOPIC_FAILURE,
+    error,
+    failedAt: Date.now()
+  }
+}
+
 function receiveSectionFeatured(response) {
   return {
     type: types.FETCH_SECTIONS_FEATURED_SUCCESS,
@@ -174,6 +182,14 @@ function receiveTopics(response, meta, links) {
     response,
     meta,
     links,
+    receivedAt: Date.now()
+  }
+}
+
+function receiveTopic(response) {
+  return {
+    type: types.FETCH_TOPIC_SUCCESS,
+    response,
     receivedAt: Date.now()
   }
 }
@@ -366,6 +382,20 @@ export function fetchTopics(params = {}) {
         dispatch(receiveTopics(camelizedJson.items, meta, links))
       }, (error) => {
         return dispatch(failToReceiveTopics(error))
+      })
+  }
+}
+
+export function fetchTopic(slug) {
+  let url = _buildTopicQueryUrl({}, slug)
+  return (dispatch) => {
+    dispatch(requestTopics('Request Topic: ' + url))
+    return _fetchArticles(url)
+      .then((response) => {
+        let camelizedJson = camelizeKeys(response)
+        dispatch(receiveTopic(camelizedJson))
+      }, (error) => {
+        return dispatch(failToReceiveTopic(error))
       })
   }
 }

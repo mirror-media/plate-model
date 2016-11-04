@@ -204,6 +204,28 @@ export function topics(state = {}, action = {}) {
   }
 }
 
+export function topic(state = {}, action = {}) {
+  switch (action.type) {
+    case types.FETCH_TOPIC_SUCCESS:
+      return _.merge({}, state, {
+        isFetching: false,
+        fetched: true,
+        error: null,
+        items: action.response,
+        lastUpdated: action.receivedAt
+      })
+    case types.FETCH_TOPIC_FAILURE:
+      return _.merge({}, state, {
+        isFetching: false,
+        fetched: false,
+        error: action.error,
+        lastUpdated: action.failedAt
+      })
+    default:
+      return state 
+  }
+}
+
 export function sectionList(state = {}, action = {}) {
   switch (action.type) {
     case types.FETCH_SECTION_LIST_REQUEST:
