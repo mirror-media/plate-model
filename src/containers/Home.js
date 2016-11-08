@@ -49,19 +49,18 @@ class Home extends Component {
     this.props.setPageType(HOME)
 
     $.dfp({
-      dfpID: '40175602',
-      enableSingleRequest: true,
-      collapseEmptyDivs: true,
-      sizeMapping: {
+      'dfpID': '40175602',
+      'enableSingleRequest': true,
+      'collapseEmptyDivs': true,
+      'setCentering': true,
+      'sizeMapping': {
         'default': [
-          { browser: [ 1024, 768 ], ad_sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ] },
-          { browser: [  767, 600 ], ad_sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ] },
-          { browser: [    0,   0 ], ad_sizes: [ 0, 0 ] }
+          { browser: [    0,   0 ], ad_sizes: [] },
+          { browser: [  767, 200 ], ad_sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ] }
         ],
-        'mobile': [
-          { browser: [ 1024, 768 ], ad_sizes: [ 0, 0 ] },
-          { browser: [  767, 600 ], ad_sizes: [ 0, 0 ] },
-          { browser: [    0,   0 ], ad_sizes: [ [ 320, 100 ], [ 320, 480 ], [ 300, 250 ] ] }
+        'mobile-only': [
+          { browser: [    1,   1 ], ad_sizes: [ 320, 100 ] },
+          { browser: [  767, 600 ], ad_sizes: [] }
         ]
       }
     })
@@ -140,7 +139,13 @@ class Home extends Component {
               data-adunit="mm_pc_hp_970x250_HD" 
               data-dimensions="970x90,970x250" 
               data-size-mapping="default" 
-              style={ { margin: '0 auto', marginBottom: '40px', width: '970px' } }
+              style={ { margin: '0 auto', marginBottom: '40px' } }
+            />
+            <div className="adunit promote" 
+              data-adunit="mm_mobile_hp_320x100_HD" 
+              data-dimensions="320x100" 
+              data-size-mapping="mobile-only" 
+              style={ { margin: '20px auto' } }
             />
             <TopChoice 
               article={ _.get(entities.articles, _.first( _.get(choices, 'items', []) ), {}) } 
@@ -169,7 +174,13 @@ class Home extends Component {
               data-adunit="mm_pc_hp_970x90_FT" 
               data-dimensions="970x90" 
               data-size-mapping="default" 
-              style={ { margin: '0 auto', marginBottom: '40px', width: '970px' } }
+              style={ { margin: '0 auto', marginBottom: '40px' } }
+            />
+            <div className="adunit promote" 
+              data-adunit="mm_mobile_hp_320x100_FT" 
+              data-dimensions="320x100" 
+              data-size-mapping="mobile-only" 
+              style={ { margin: '20px auto' } }
             />
             <Footer sectionList={sectionListResponse} />
           </div>
