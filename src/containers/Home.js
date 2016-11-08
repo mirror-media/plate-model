@@ -56,11 +56,11 @@ class Home extends Component {
       'sizeMapping': {
         'default': [
           { browser: [    0,   0 ], ad_sizes: [] },
-          { browser: [  767, 200 ], ad_sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ] }
+          { browser: [  970, 200 ], ad_sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ] }
         ],
         'mobile-only': [
           { browser: [    1,   1 ], ad_sizes: [ 320, 100 ] },
-          { browser: [  767, 600 ], ad_sizes: [] }
+          { browser: [  970, 200 ], ad_sizes: [] }
         ]
       }
     })
