@@ -1,5 +1,5 @@
 /*eslint no-unused-vars:0, no-console:0 */
-/* global __DEVELOPMENT__ */
+/* global __DEVELOPMENT__, $ */
 'use strict'
 import { HOME, CATEGORY, SITE_NAME, SITE_META, GAID } from '../constants/index'
 import { connect } from 'react-redux'
@@ -46,8 +46,25 @@ class Home extends Component {
   componentDidMount() {
     ga.initialize(GAID, { debug: __DEVELOPMENT__ })
     ga.pageview(this.props.location.pathname)
-
     this.props.setPageType(HOME)
+
+    $.dfp({
+      dfpID: '40175602',
+      enableSingleRequest: true,
+      collapseEmptyDivs: true,
+      sizeMapping: {
+        'default': [
+          { browser: [ 1024, 768 ], ad_sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ] },
+          { browser: [  767, 600 ], ad_sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ] },
+          { browser: [    0,   0 ], ad_sizes: [ 0, 0 ] }
+        ],
+        'mobile': [
+          { browser: [ 1024, 768 ], ad_sizes: [ 0, 0 ] },
+          { browser: [  767, 600 ], ad_sizes: [ 0, 0 ] },
+          { browser: [    0,   0 ], ad_sizes: [ [ 320, 100 ], [ 320, 480 ], [ 300, 250 ] ] }
+        ]
+      }
+    })
   }
 
   componentWillUpdate(nextProps) {
@@ -119,6 +136,12 @@ class Home extends Component {
           <Header sectionList={sectionListResponse} />
 
           <div id="main" className="pusher">
+            <div className="adunit promote" 
+              data-adunit="mm_pc_hp_970x250_HD" 
+              data-dimensions="970x90,970x250" 
+              data-size-mapping="default" 
+              style={ { margin: '0 auto', marginBottom: '40px', width: '970px' } }
+            />
             <TopChoice 
               article={ _.get(entities.articles, _.first( _.get(choices, 'items', []) ), {}) } 
               categories={entities.categories}
@@ -142,7 +165,12 @@ class Home extends Component {
               hasMore={ _.get(latestPosts, [ 'items', 'length' ], 0) < _.get(latestPosts, [ 'meta', 'total' ], 0) }
               loadMore={this.loadMore}
             />
-
+            <div className="adunit promote" 
+              data-adunit="mm_pc_hp_970x90_FT" 
+              data-dimensions="970x90" 
+              data-size-mapping="default" 
+              style={ { margin: '0 auto', marginBottom: '40px', width: '970px' } }
+            />
             <Footer sectionList={sectionListResponse} />
           </div>
 
