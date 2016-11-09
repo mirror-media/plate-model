@@ -168,7 +168,7 @@ class Section extends Component {
                 sizeMapping={
                   [ 
                     { viewport: [   0,   0 ], sizes: [ ] },
-                    { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
+                    { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ] ]  }
                   ] 
                 }
               />
