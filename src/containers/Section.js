@@ -12,6 +12,7 @@ import Footer from '../components/Footer'
 import React, { Component } from 'react'
 import List from '../components/List'
 import Featured from '../components/Featured'
+import Ads from '../components/Ads'
 import ga from 'react-ga'
 import { camelize } from 'humps'
 
@@ -139,12 +140,25 @@ class Section extends Component {
       auto: { ograph: true }
     }
 
+    const adUnit = {
+      'news-people': 'np',
+      'entertainment': 'ent',
+      'foodtravel': 'fnt',
+      'hotvideo': 'wat',
+      'watch': 'hv'
+    }
+
     return (
       <DocumentMeta {...meta}>
         <Sidebar sectionList={sectionList.response} />
         <Header sectionList={sectionList.response} />
 
         <div id="main" className="pusher">
+          <Ads 
+            adUnit={ 'mm_pc_'+adUnit[section]+'_970x250_HD' } 
+            dimensions="970x90,970x250" 
+            sizeMapping="default" 
+          />
           <Featured articles={featured} categories={entities.categories} />
           <List 
             articles={articles}
@@ -154,6 +168,11 @@ class Section extends Component {
             loadMore={this.loadMore}
           />
           {this.props.children}
+          <Ads 
+            adUnit={ 'mm_pc_'+adUnit[section]+'_970x90_FT' } 
+            dimensions="970x90" 
+            sizeMapping="default" 
+          />
           <Footer sectionList={sectionList.response} />
         </div>
       </DocumentMeta>
