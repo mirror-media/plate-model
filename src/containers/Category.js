@@ -1,4 +1,4 @@
-/* global __DEVELOPMENT__, googletag */
+/* global __DEVELOPMENT__ */
 import { CATEGORY, SITE_META, SITE_NAME, GAID, AD_UNIT_PREFIX } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
@@ -88,7 +88,6 @@ class Category extends Component {
     ga.pageview(this.props.location.pathname)
 
     this.props.setPageType(CATEGORY)
-    googletag.pubads().collapseEmptyDivs(true)
   }
 
   componentWillUpdate(nextProps) {

@@ -1,4 +1,4 @@
-/* global __DEVELOPMENT__, googletag */
+/* global __DEVELOPMENT__ */
 import { SECTION, SITE_META, SITE_NAME, GAID, AD_UNIT_PREFIX } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
@@ -76,7 +76,6 @@ class Section extends Component {
     ga.pageview(this.props.location.pathname)
 
     this.props.setPageType(SECTION)
-    googletag.pubads().collapseEmptyDivs(true)
   }
 
   componentWillUpdate(nextProps) {
