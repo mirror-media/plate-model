@@ -9,6 +9,9 @@ import { DFPSlotsProvider, AdSlot } from 'react-dfp';
 export default class Ads extends Component {
   constructor(props, context) {
     super(props, context)
+    this.state = {
+      adUnit: props.adUnit
+    }
   }
 
   componentDidMount() {
@@ -16,7 +19,7 @@ export default class Ads extends Component {
 
     console.log('componentDidMount')
 
-    $('#'+adUnit).each(function(){
+    $('div[data-adunit="'+adUnit+'"]').each(function(){
         $(this).html('<div class="adunit" \
         data-adunit="'+adUnit+'" \
         data-dimensions="'+dimensions+'" \
@@ -26,7 +29,7 @@ export default class Ads extends Component {
     });
     $.dfp({
       'dfpID': '40175602',
-      'enableSingleRequest': false,
+      'enableSingleRequest': true,
       'collapseEmptyDivs': true,
       'setCentering': true,
       'sizeMapping': {
@@ -40,6 +43,14 @@ export default class Ads extends Component {
         ]
       }
     })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if( this.props.adUnit != nextProps.adUnit ){
+      this.setState({
+        adUnit: nextProps.adUnit
+      })
+    }
   }
 
   shouldComponentUpdate(nextProps) {
@@ -62,7 +73,8 @@ export default class Ads extends Component {
     });
     $.dfp({
       'dfpID': '40175602',
-      'enableSingleRequest': false,
+      'enableSingleRequest': true,
+      'disableInitialLoad': true,
       'collapseEmptyDivs': true,
       'setCentering': true,
       'sizeMapping': {
@@ -79,10 +91,10 @@ export default class Ads extends Component {
   }
 
   render() {
-    const { adUnit } = this.props
+    const { adUnit } = this.state
     return (
         <div 
-          id={adUnit}
+          data-adunit={adUnit}
           className="promote"
         />
     )

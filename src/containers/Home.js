@@ -20,6 +20,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import SystemError from '../components/SystemError'
 import TopNews from '../components/TopNews'
+import Ads from '../components/Ads'
 import async from 'async'
 import { devCatListId, prodCatListId } from '../conf/list-id'
 
@@ -135,18 +136,19 @@ class Home extends Component {
           <Header sectionList={sectionListResponse} />
 
           <div id="main" className="pusher">
-            <div className="adunit promote" 
-              data-adunit="mm_pc_hp_970x250_HD" 
-              data-dimensions="970x90,970x250" 
-              data-size-mapping="default" 
+
+            <Ads 
+              adUnit={ 'mm_pc_hp_970x250_HD' } 
+              dimensions="970x90,970x250" 
+              sizeMapping="default" 
               style={ { margin: '0 auto', marginBottom: '40px' } }
             />
-            <div className="adunit promote" 
-              data-adunit="mm_mobile_hp_320x100_HD" 
-              data-dimensions="320x100" 
-              data-size-mapping="mobile-only" 
-              style={ { margin: '20px auto' } }
+            <Ads 
+              adUnit={ 'mm_mobile_hp_320x100_HD' } 
+              dimensions="320x100" 
+              sizeMapping="mobile-only" 
             />
+
             <TopChoice 
               article={ _.get(entities.articles, _.first( _.get(choices, 'items', []) ), {}) } 
               categories={entities.categories}
@@ -170,18 +172,18 @@ class Home extends Component {
               hasMore={ _.get(latestPosts, [ 'items', 'length' ], 0) < _.get(latestPosts, [ 'meta', 'total' ], 0) }
               loadMore={this.loadMore}
             />
-            <div className="adunit promote" 
-              data-adunit="mm_pc_hp_970x90_FT" 
-              data-dimensions="970x90" 
-              data-size-mapping="default" 
-              style={ { margin: '0 auto', marginBottom: '40px' } }
+
+            <Ads 
+              adUnit={ 'mm_pc_hp_970x90_FT' } 
+              dimensions="970x90" 
+              sizeMapping="default" 
             />
-            <div className="adunit promote" 
-              data-adunit="mm_mobile_hp_320x100_FT" 
-              data-dimensions="320x100" 
-              data-size-mapping="mobile-only" 
-              style={ { margin: '20px auto' } }
+            <Ads 
+              adUnit={ 'mm_mobile_hp_320x100_FT' } 
+              dimensions="320x100" 
+              sizeMapping="mobile-only" 
             />
+
             <Footer sectionList={sectionListResponse} />
           </div>
 

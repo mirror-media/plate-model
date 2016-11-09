@@ -159,6 +159,11 @@ class Section extends Component {
             dimensions="970x90,970x250" 
             sizeMapping="default" 
           />
+          <Ads 
+            adUnit={ 'mm_mobile_'+adUnit[section]+'_300x250_HD' } 
+            dimensions="320x100,300x250" 
+            sizeMapping="mobile-only" 
+          />
           <Featured articles={featured} categories={entities.categories} />
           <List 
             articles={articles}
@@ -172,6 +177,11 @@ class Section extends Component {
             adUnit={ 'mm_pc_'+adUnit[section]+'_970x90_FT' } 
             dimensions="970x90" 
             sizeMapping="default" 
+          />
+          <Ads 
+            adUnit={ 'mm_mobile_'+adUnit[section]+'_320x100_FT' } 
+            dimensions="320x100" 
+            sizeMapping="mobile-only" 
           />
           <Footer sectionList={sectionList.response} />
         </div>
