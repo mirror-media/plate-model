@@ -20,9 +20,9 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import SystemError from '../components/SystemError'
 import TopNews from '../components/TopNews'
-import Ads from '../components/Ads'
 import async from 'async'
 import { devCatListId, prodCatListId } from '../conf/list-id'
+import { DFPSlotsProvider, AdSlot } from 'react-dfp'
 
 const MAXRESULT = 10
 const PAGE = 1
@@ -48,23 +48,6 @@ class Home extends Component {
     ga.initialize(GAID, { debug: __DEVELOPMENT__ })
     ga.pageview(this.props.location.pathname)
     this.props.setPageType(HOME)
-
-    $.dfp({
-      'dfpID': '40175602',
-      'enableSingleRequest': true,
-      'collapseEmptyDivs': true,
-      'setCentering': true,
-      'sizeMapping': {
-        'default': [
-          { browser: [    0,   0 ], ad_sizes: [] },
-          { browser: [  970, 200 ], ad_sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ] }
-        ],
-        'mobile-only': [
-          { browser: [    1,   1 ], ad_sizes: [ 320, 100 ] },
-          { browser: [  970, 200 ], ad_sizes: [] }
-        ]
-      }
-    })
   }
 
   componentWillUpdate(nextProps) {
@@ -131,63 +114,96 @@ class Home extends Component {
 
     if (posts) {
       return (
-        <DocumentMeta {...meta} >
-          <Sidebar sectionList={sectionListResponse} />
-          <Header sectionList={sectionListResponse} />
+        <DFPSlotsProvider dfpNetworkId="40175602">
+          <DocumentMeta {...meta} >
+            <Sidebar sectionList={sectionListResponse} />
+            <Header sectionList={sectionListResponse} />
 
-          <div id="main" className="pusher">
+            <div id="main" className="pusher">
 
-            <Ads 
-              adUnit={ 'mm_pc_hp_970x250_HD' } 
-              dimensions="970x90,970x250" 
-              sizeMapping="default" 
-              style={ { margin: '0 auto', marginBottom: '40px' } }
-            />
-            <Ads 
-              adUnit={ 'mm_mobile_hp_320x100_HD' } 
-              dimensions="320x100" 
-              sizeMapping="mobile-only" 
-            />
+              <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
+                <AdSlot sizes={ [ [ 970, 90 ],  [ 970, 250 ] ] }
+                  dfpNetworkId="40175602"
+                  slotId={ 'mm_pc_hp_970x250_HD' } 
+                  adUnit={ 'mm_pc_hp_970x250_HD' } 
+                  sizeMapping={
+                    [ 
+                      { viewport: [   0,   0 ], sizes: [ ] },
+                      { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
+                    ] 
+                  }
+                />
+              </div>
+              <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px' } }>
+                <AdSlot sizes={ [ [ 320, 100 ] ] }
+                  dfpNetworkId="40175602"
+                  slotId={ 'mm_mobile_hp_320x100_HD' }
+                  adUnit={ 'mm_mobile_hp_320x100_HD' } 
+                  sizeMapping={
+                    [ 
+                      { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
+                      { viewport: [ 970, 200 ], sizes: [ ]  }
+                    ] 
+                  }
+                />
+              </div>
 
-            <TopChoice 
-              article={ _.get(entities.articles, _.first( _.get(choices, 'items', []) ), {}) } 
-              categories={entities.categories}
-            />
-            <LatestSections 
-              sections={sections} 
-              entities={entities} 
-              sectionList={sectionListResponse}
-            />
-            <Choices 
-              choices={_.get(choices, 'items', [])}
-              articles={entities.articles} 
-              categories={entities.categories} 
-              authors={entities.authors} 
-            />
-            <LatestArticles 
-              articles={posts} 
-              categories={entities.categories} 
-              authors={entities.authors} 
-              title={"最新文章"} 
-              hasMore={ _.get(latestPosts, [ 'items', 'length' ], 0) < _.get(latestPosts, [ 'meta', 'total' ], 0) }
-              loadMore={this.loadMore}
-            />
+              <TopChoice 
+                article={ _.get(entities.articles, _.first( _.get(choices, 'items', []) ), {}) } 
+                categories={entities.categories}
+              />
+              <LatestSections 
+                sections={sections} 
+                entities={entities} 
+                sectionList={sectionListResponse}
+              />
+              <Choices 
+                choices={_.get(choices, 'items', [])}
+                articles={entities.articles} 
+                categories={entities.categories} 
+                authors={entities.authors} 
+              />
+              <LatestArticles 
+                articles={posts} 
+                categories={entities.categories} 
+                authors={entities.authors} 
+                title={"最新文章"} 
+                hasMore={ _.get(latestPosts, [ 'items', 'length' ], 0) < _.get(latestPosts, [ 'meta', 'total' ], 0) }
+                loadMore={this.loadMore}
+              />
 
-            <Ads 
-              adUnit={ 'mm_pc_hp_970x90_FT' } 
-              dimensions="970x90" 
-              sizeMapping="default" 
-            />
-            <Ads 
-              adUnit={ 'mm_mobile_hp_320x100_FT' } 
-              dimensions="320x100" 
-              sizeMapping="mobile-only" 
-            />
+              <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
+                <AdSlot sizes={ [ [ 970, 90 ] ] }
+                  dfpNetworkId="40175602"
+                  slotId={ 'mm_pc_hp_970x90_FT' }
+                  adUnit={ 'mm_pc_hp_970x90_FT' } 
+                  sizeMapping={
+                    [ 
+                      { viewport: [   0,   0 ], sizes: [ ] },
+                      { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
+                    ] 
+                  }
+                />
+              </div>
+              <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px' } }>
+                <AdSlot sizes={ [ [ 320, 100 ] ] }
+                  dfpNetworkId="40175602"
+                  slotId={ 'mm_mobile_hp_320x100_FT' }
+                  adUnit={ 'mm_mobile_hp_320x100_FT' } 
+                  sizeMapping={
+                    [ 
+                      { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
+                      { viewport: [ 970, 200 ], sizes: [ ]  }
+                    ] 
+                  }
+                />
+              </div>
 
-            <Footer sectionList={sectionListResponse} />
-          </div>
+              <Footer sectionList={sectionListResponse} />
+            </div>
 
-        </DocumentMeta>
+          </DocumentMeta>
+        </DFPSlotsProvider>
       )
     } else {
       return ( <SystemError /> )

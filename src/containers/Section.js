@@ -12,7 +12,7 @@ import Footer from '../components/Footer'
 import React, { Component } from 'react'
 import List from '../components/List'
 import Featured from '../components/Featured'
-import Ads from '../components/Ads'
+import { DFPSlotsProvider, DFPManager, AdSlot } from 'react-dfp'
 import ga from 'react-ga'
 import { camelize } from 'humps'
 
@@ -88,6 +88,11 @@ class Section extends Component {
     }
   }
 
+  componentDidUpdate() {
+    DFPManager.load()
+    DFPManager.refresh()
+  }
+
   componentWillReceiveProps(nextProps) {
     const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = nextProps
     let catId = _.get(params, 'section')
@@ -149,43 +154,78 @@ class Section extends Component {
     }
 
     return (
-      <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionList.response} />
-        <Header sectionList={sectionList.response} />
+      <DFPSlotsProvider dfpNetworkId="40175602">
+        <DocumentMeta {...meta}>
+          <Sidebar sectionList={sectionList.response} />
+          <Header sectionList={sectionList.response} />
 
-        <div id="main" className="pusher">
-          <Ads 
-            adUnit={ 'mm_pc_'+adUnit[section]+'_970x250_HD' } 
-            dimensions="970x90,970x250" 
-            sizeMapping="default" 
-          />
-          <Ads 
-            adUnit={ 'mm_mobile_'+adUnit[section]+'_300x250_HD' } 
-            dimensions="320x100,300x250" 
-            sizeMapping="mobile-only" 
-          />
-          <Featured articles={featured} categories={entities.categories} />
-          <List 
-            articles={articles}
-            categories={entities.categories} 
-            title={catName} 
-            hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
-            loadMore={this.loadMore}
-          />
-          {this.props.children}
-          <Ads 
-            adUnit={ 'mm_pc_'+adUnit[section]+'_970x90_FT' } 
-            dimensions="970x90" 
-            sizeMapping="default" 
-          />
-          <Ads 
-            adUnit={ 'mm_mobile_'+adUnit[section]+'_320x100_FT' } 
-            dimensions="320x100" 
-            sizeMapping="mobile-only" 
-          />
-          <Footer sectionList={sectionList.response} />
-        </div>
-      </DocumentMeta>
+          <div id="main" className="pusher">
+            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
+              <AdSlot sizes={ [ [ 970, 90 ],  [ 970, 250 ] ] }
+                dfpNetworkId="40175602"
+                slotId={ 'mm_pc_'+adUnit[section]+'_970x250_HD' } 
+                adUnit={ 'mm_pc_'+adUnit[section]+'_970x250_HD' } 
+                sizeMapping={
+                  [ 
+                    { viewport: [   0,   0 ], sizes: [ ] },
+                    { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
+                  ] 
+                }
+              />
+            </div>
+            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px' } }>
+              <AdSlot sizes={ [ [ 320, 100 ] ] }
+                dfpNetworkId="40175602"
+                slotId={ 'mm_mobile_hp_320x100_HD' }
+                adUnit={ 'mm_mobile_hp_320x100_HD' } 
+                sizeMapping={
+                  [ 
+                    { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
+                    { viewport: [ 970, 200 ], sizes: [ ]  }
+                  ] 
+                }
+              />
+            </div>
+            <Featured articles={featured} categories={entities.categories} />
+            <List 
+              articles={articles}
+              categories={entities.categories} 
+              title={catName} 
+              hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
+              loadMore={this.loadMore}
+            />
+            {this.props.children}
+
+            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
+              <AdSlot sizes={ [ [ 970, 90 ] ] }
+                dfpNetworkId="40175602"
+                slotId={ 'mm_pc_hp_970x90_FT' }
+                adUnit={ 'mm_pc_hp_970x90_FT' } 
+                sizeMapping={
+                  [ 
+                    { viewport: [   0,   0 ], sizes: [ ] },
+                    { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
+                  ] 
+                }
+              />
+            </div>
+            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px' } }>
+              <AdSlot sizes={ [ [ 320, 100 ] ] }
+                dfpNetworkId="40175602"
+                slotId={ 'mm_mobile_'+adUnit[section]+'_320x100_FT' }
+                adUnit={ 'mm_mobile_'+adUnit[section]+'_320x100_FT' } 
+                sizeMapping={
+                  [ 
+                    { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
+                    { viewport: [ 970, 200 ], sizes: [ ]  }
+                  ] 
+                }
+              />
+            </div>
+            <Footer sectionList={sectionList.response} />
+          </div>
+        </DocumentMeta>
+      </DFPSlotsProvider>
     )
   }
 }

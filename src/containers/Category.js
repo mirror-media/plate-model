@@ -12,6 +12,7 @@ import Footer from '../components/Footer'
 import React, { Component } from 'react'
 import List from '../components/List'
 import VideoList from '../components/VideoList'
+import { DFPSlotsProvider, DFPManager, AdSlot } from 'react-dfp'
 import ga from 'react-ga'
 
 if (process.env.BROWSER) {
@@ -101,6 +102,11 @@ class Category extends Component {
     }
   }
 
+  componentDidUpdate() {
+    DFPManager.load()
+    DFPManager.refresh()
+  }
+
   componentWillReceiveProps(nextProps) {
     const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = nextProps
     let catId = _.get(params, 'category')
@@ -171,6 +177,10 @@ class Category extends Component {
     const { params, sectionList } = this.props
 
     const category = _.get(params, 'category', null)
+    const catId = _.get(sectionList.response, [ 'categories', category, 'id' ], null)
+    const sections = _.find(_.get(sectionList, [ 'response', 'sections' ]), function (o) { return _.find(o.categories, { 'id': catId }) })
+    const section = _.get(sections, 'name', '')
+
     const catName = _.get(sectionList.response, [ 'categories', category, 'title' ], null)
     const meta = {
       title: catName ? catName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL,
@@ -180,17 +190,79 @@ class Category extends Component {
       auto: { ograph: true }
     }
 
-    return (
-      <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionList.response} />
-        <Header sectionList={sectionList.response} />
+    const adUnit = {
+      'news-people': 'np',
+      'entertainment': 'ent',
+      'foodtravel': 'fnt',
+      'hotvideo': 'wat',
+      'watch': 'hv'
+    }
 
-        <div id="main" className="pusher">
-          {this.renderList()}
-          {this.props.children}
-          <Footer sectionList={sectionList.response} />
-        </div>
-      </DocumentMeta>
+    return (
+      <DFPSlotsProvider dfpNetworkId="40175602">
+        <DocumentMeta {...meta}>
+          <Sidebar sectionList={sectionList.response} />
+          <Header sectionList={sectionList.response} />
+
+          <div id="main" className="pusher">
+            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
+              <AdSlot sizes={ [ [ 970, 90 ],  [ 970, 250 ] ] }
+                dfpNetworkId="40175602"
+                slotId={ 'mm_pc_'+adUnit[section]+'_970x250_HD' } 
+                adUnit={ 'mm_pc_'+adUnit[section]+'_970x250_HD' } 
+                sizeMapping={
+                  [ 
+                    { viewport: [   0,   0 ], sizes: [ ] },
+                    { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
+                  ] 
+                }
+              />
+            </div>
+            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px' } }>
+              <AdSlot sizes={ [ [ 320, 100 ] ] }
+                dfpNetworkId="40175602"
+                slotId={ 'mm_mobile_hp_320x100_HD' }
+                adUnit={ 'mm_mobile_hp_320x100_HD' } 
+                sizeMapping={
+                  [ 
+                    { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
+                    { viewport: [ 970, 200 ], sizes: [ ]  }
+                  ] 
+                }
+              />
+            </div>
+            {this.renderList()}
+            {this.props.children}
+            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
+              <AdSlot sizes={ [ [ 970, 90 ] ] }
+                dfpNetworkId="40175602"
+                slotId={ 'mm_pc_hp_970x90_FT' }
+                adUnit={ 'mm_pc_hp_970x90_FT' } 
+                sizeMapping={
+                  [ 
+                    { viewport: [   0,   0 ], sizes: [ ] },
+                    { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
+                  ] 
+                }
+              />
+            </div>
+            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px' } }>
+              <AdSlot sizes={ [ [ 320, 100 ] ] }
+                dfpNetworkId="40175602"
+                slotId={ 'mm_mobile_'+adUnit[section]+'_320x100_FT' }
+                adUnit={ 'mm_mobile_'+adUnit[section]+'_320x100_FT' } 
+                sizeMapping={
+                  [ 
+                    { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
+                    { viewport: [ 970, 200 ], sizes: [ ]  }
+                  ] 
+                }
+              />
+            </div>
+            <Footer sectionList={sectionList.response} />
+          </div>
+        </DocumentMeta>
+      </DFPSlotsProvider>
     )
   }
 }
