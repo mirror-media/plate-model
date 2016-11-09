@@ -83,6 +83,17 @@ export default class LatestSections extends Component {
                     ] 
                   }
                 />
+                <AdSlot sizes={ [ [ 300, 250 ] ] }
+                  dfpNetworkId="40175602"
+                  slotId={ 'mm_mobile_hp_300x250_1st' }
+                  adUnit={ 'mm_mobile_hp_300x250_1st' } 
+                  sizeMapping={
+                    [ 
+                      { viewport: [   1,   1 ], sizes: [ [ 300, 250 ] ] },
+                      { viewport: [ 970, 200 ], sizes: [ ]  }
+                    ] 
+                  }
+                />
               </div>
             </a>
             <ul className="sectionList">

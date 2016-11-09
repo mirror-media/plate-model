@@ -34,6 +34,14 @@ export const LINK_PREFIX = {
   TOPIC: '/topic/'
 }
 
+export const AD_UNIT_PREFIX = {
+  'news-people': 'np',
+  'entertainment': 'ent',
+  'foodtravel': 'fnt',
+  'hotvideo': 'wat',
+  'watch': 'hv'
+}
+
 export const groupEnum = {
   CATEGORY: 'category',
   TAG: 'tag',

@@ -1,5 +1,5 @@
-/* global __DEVELOPMENT__ */
-import { SECTION, SITE_META, SITE_NAME, GAID } from '../constants/index'
+/* global __DEVELOPMENT__, googletag */
+import { SECTION, SITE_META, SITE_NAME, GAID, AD_UNIT_PREFIX } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/articles'
@@ -12,7 +12,7 @@ import Footer from '../components/Footer'
 import React, { Component } from 'react'
 import List from '../components/List'
 import Featured from '../components/Featured'
-import { DFPSlotsProvider, DFPManager, AdSlot } from 'react-dfp'
+import { DFPSlotsProvider, AdSlot } from 'react-dfp'
 import ga from 'react-ga'
 import { camelize } from 'humps'
 
@@ -76,6 +76,7 @@ class Section extends Component {
     ga.pageview(this.props.location.pathname)
 
     this.props.setPageType(SECTION)
+    googletag.pubads().collapseEmptyDivs(true)
   }
 
   componentWillUpdate(nextProps) {
@@ -86,11 +87,6 @@ class Section extends Component {
       if(section != null) ga.set( { 'contentGroup1': catName } )
       ga.pageview(nextProps.location.pathname)
     }
-  }
-
-  componentDidUpdate() {
-    DFPManager.load()
-    DFPManager.refresh()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -145,14 +141,6 @@ class Section extends Component {
       auto: { ograph: true }
     }
 
-    const adUnit = {
-      'news-people': 'np',
-      'entertainment': 'ent',
-      'foodtravel': 'fnt',
-      'hotvideo': 'wat',
-      'watch': 'hv'
-    }
-
     return (
       <DFPSlotsProvider dfpNetworkId="40175602">
         <DocumentMeta {...meta}>
@@ -163,8 +151,8 @@ class Section extends Component {
             <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
               <AdSlot sizes={ [ [ 970, 90 ],  [ 970, 250 ] ] }
                 dfpNetworkId="40175602"
-                slotId={ 'mm_pc_'+adUnit[section]+'_970x250_HD' } 
-                adUnit={ 'mm_pc_'+adUnit[section]+'_970x250_HD' } 
+                slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x250_HD' } 
+                adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x250_HD' } 
                 sizeMapping={
                   [ 
                     { viewport: [   0,   0 ], sizes: [ ] },
@@ -174,13 +162,13 @@ class Section extends Component {
               />
             </div>
             <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px' } }>
-              <AdSlot sizes={ [ [ 320, 100 ] ] }
+              <AdSlot sizes={ [ [ 300, 250 ], [ 320, 100 ] ] }
                 dfpNetworkId="40175602"
-                slotId={ 'mm_mobile_hp_320x100_HD' }
-                adUnit={ 'mm_mobile_hp_320x100_HD' } 
+                slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_300x250_HD' }
+                adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_300x250_HD' } 
                 sizeMapping={
                   [ 
-                    { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
+                    { viewport: [   1,   1 ], sizes: [ [ 300, 250 ], [ 320, 100 ] ] },
                     { viewport: [ 970, 200 ], sizes: [ ]  }
                   ] 
                 }
@@ -190,6 +178,7 @@ class Section extends Component {
             <List 
               articles={articles}
               categories={entities.categories} 
+              section={section}
               title={catName} 
               hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
               loadMore={this.loadMore}
@@ -199,8 +188,8 @@ class Section extends Component {
             <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
               <AdSlot sizes={ [ [ 970, 90 ] ] }
                 dfpNetworkId="40175602"
-                slotId={ 'mm_pc_hp_970x90_FT' }
-                adUnit={ 'mm_pc_hp_970x90_FT' } 
+                slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x90_FT' }
+                adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x90_FT' } 
                 sizeMapping={
                   [ 
                     { viewport: [   0,   0 ], sizes: [ ] },
@@ -212,8 +201,8 @@ class Section extends Component {
             <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px' } }>
               <AdSlot sizes={ [ [ 320, 100 ] ] }
                 dfpNetworkId="40175602"
-                slotId={ 'mm_mobile_'+adUnit[section]+'_320x100_FT' }
-                adUnit={ 'mm_mobile_'+adUnit[section]+'_320x100_FT' } 
+                slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_320x100_FT' }
+                adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_320x100_FT' } 
                 sizeMapping={
                   [ 
                     { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },

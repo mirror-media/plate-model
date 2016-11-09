@@ -1,5 +1,5 @@
-/* global __DEVELOPMENT__ */
-import { CATEGORY, SITE_META, SITE_NAME, GAID } from '../constants/index'
+/* global __DEVELOPMENT__, googletag */
+import { CATEGORY, SITE_META, SITE_NAME, GAID, AD_UNIT_PREFIX } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchYoutubePlaylist } from '../actions/articles'
@@ -88,6 +88,7 @@ class Category extends Component {
     ga.pageview(this.props.location.pathname)
 
     this.props.setPageType(CATEGORY)
+    googletag.pubads().collapseEmptyDivs(true)
   }
 
   componentWillUpdate(nextProps) {
@@ -147,6 +148,8 @@ class Category extends Component {
   _renderList() {
     const { articlesByUuids, entities, params, sectionList , youtubePlaylist } = this.props
     const catId = _.get(params, 'category')
+    const section = _.find(_.get(sectionList, [ 'response', 'sections' ]), function (o) { return _.find(o.categories, { 'id': catId }) })
+    const sectionName = _.get(section, 'name', '')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
     const category = _.get(params, 'category', null)
     const catName = _.get(sectionList.response, [ 'categories', category, 'title' ], null)
@@ -155,7 +158,8 @@ class Category extends Component {
       return (
         <List 
           articles={articles} 
-          categories={entities.categories} 
+          categories={entities.categories}
+          section={sectionName}
           title={catName} 
           hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
           loadMore={this.loadMore}
@@ -178,8 +182,8 @@ class Category extends Component {
 
     const category = _.get(params, 'category', null)
     const catId = _.get(sectionList.response, [ 'categories', category, 'id' ], null)
-    const sections = _.find(_.get(sectionList, [ 'response', 'sections' ]), function (o) { return _.find(o.categories, { 'id': catId }) })
-    const section = _.get(sections, 'name', '')
+    const section = _.find(_.get(sectionList, [ 'response', 'sections' ]), function (o) { return _.find(o.categories, { 'id': catId }) })
+    const sectionName = _.get(section, 'name', '')
 
     const catName = _.get(sectionList.response, [ 'categories', category, 'title' ], null)
     const meta = {
@@ -188,14 +192,6 @@ class Category extends Component {
       canonical: `${SITE_META.URL}category/${category}`,
       meta: { property: {} },
       auto: { ograph: true }
-    }
-
-    const adUnit = {
-      'news-people': 'np',
-      'entertainment': 'ent',
-      'foodtravel': 'fnt',
-      'hotvideo': 'wat',
-      'watch': 'hv'
     }
 
     return (
@@ -208,8 +204,8 @@ class Category extends Component {
             <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
               <AdSlot sizes={ [ [ 970, 90 ],  [ 970, 250 ] ] }
                 dfpNetworkId="40175602"
-                slotId={ 'mm_pc_'+adUnit[section]+'_970x250_HD' } 
-                adUnit={ 'mm_pc_'+adUnit[section]+'_970x250_HD' } 
+                slotId={ 'mm_pc_'+AD_UNIT_PREFIX[sectionName]+'_970x250_HD' } 
+                adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[sectionName]+'_970x250_HD' } 
                 sizeMapping={
                   [ 
                     { viewport: [   0,   0 ], sizes: [ ] },
@@ -219,10 +215,10 @@ class Category extends Component {
               />
             </div>
             <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px' } }>
-              <AdSlot sizes={ [ [ 320, 100 ] ] }
+              <AdSlot sizes={ [ [ 320, 100 ], [ 300, 250 ] ] }
                 dfpNetworkId="40175602"
-                slotId={ 'mm_mobile_hp_320x100_HD' }
-                adUnit={ 'mm_mobile_hp_320x100_HD' } 
+                slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_300x250_HD' }
+                adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_300x250_HD' } 
                 sizeMapping={
                   [ 
                     { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
@@ -236,8 +232,8 @@ class Category extends Component {
             <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
               <AdSlot sizes={ [ [ 970, 90 ] ] }
                 dfpNetworkId="40175602"
-                slotId={ 'mm_pc_hp_970x90_FT' }
-                adUnit={ 'mm_pc_hp_970x90_FT' } 
+                slotId={ 'mm_pc_'+AD_UNIT_PREFIX[sectionName]+'_970x90_FT' }
+                adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[sectionName]+'_970x90_FT' } 
                 sizeMapping={
                   [ 
                     { viewport: [   0,   0 ], sizes: [ ] },
@@ -249,8 +245,8 @@ class Category extends Component {
             <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px' } }>
               <AdSlot sizes={ [ [ 320, 100 ] ] }
                 dfpNetworkId="40175602"
-                slotId={ 'mm_mobile_'+adUnit[section]+'_320x100_FT' }
-                adUnit={ 'mm_mobile_'+adUnit[section]+'_320x100_FT' } 
+                slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_320x100_FT' }
+                adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_320x100_FT' } 
                 sizeMapping={
                   [ 
                     { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },

@@ -1,5 +1,5 @@
 /*eslint no-unused-vars:0, no-console:0 */
-/* global __DEVELOPMENT__, $ */
+/* global __DEVELOPMENT__, googletag */
 'use strict'
 import { HOME, CATEGORY, SITE_NAME, SITE_META, GAID } from '../constants/index'
 import { connect } from 'react-redux'
@@ -48,6 +48,7 @@ class Home extends Component {
     ga.initialize(GAID, { debug: __DEVELOPMENT__ })
     ga.pageview(this.props.location.pathname)
     this.props.setPageType(HOME)
+    googletag.pubads().collapseEmptyDivs(true)
   }
 
   componentWillUpdate(nextProps) {
