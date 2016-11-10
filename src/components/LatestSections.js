@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { imageComposer } from '../utils/index'
 import { camelize } from 'humps'
 import { AdSlot } from 'react-dfp'
+import { DFPID } from '../constants/index'
 
 if (process.env.BROWSER) {
   require('./LatestSections.css')
@@ -73,7 +74,7 @@ export default class LatestSections extends Component {
             <a href="https://goo.gl/beHg3g"  target="_blank">
               <div className="sectionBlock" style={{ marginTop: '10px', marginBottom: '10px' }}>
                 <AdSlot sizes={ [ [ 300, 250 ] ] }
-                  dfpNetworkId="40175602"
+                  dfpNetworkId={DFPID}
                   slotId={ 'mm_pc_hp_300x250_1st' }
                   adUnit={ 'mm_pc_hp_300x250_1st' } 
                   sizeMapping={
@@ -84,7 +85,7 @@ export default class LatestSections extends Component {
                   }
                 />
                 <AdSlot sizes={ [ [ 300, 250 ] ] }
-                  dfpNetworkId="40175602"
+                  dfpNetworkId={DFPID}
                   slotId={ 'mm_mobile_hp_300x250_1st' }
                   adUnit={ 'mm_mobile_hp_300x250_1st' } 
                   sizeMapping={

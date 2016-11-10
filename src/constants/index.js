@@ -111,6 +111,8 @@ export const basePath = 'https://www.mirrormedia.mg'
 
 export const GAID = 'UA-83609754-1'
 
+export const DFPID = '40175602'
+
 export const FBPageId = 1855418728011324
 
 export const appId = 962589903815787

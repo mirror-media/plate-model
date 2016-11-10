@@ -6,6 +6,7 @@ import entities from 'entities'
 import { imageComposer } from '../utils/index'
 import More from '../components/More'
 import { AdSlot } from 'react-dfp'
+import { DFPID } from '../constants/index'
 
 if (process.env.BROWSER) {
   require('./LatestArticles.css')
@@ -21,7 +22,7 @@ export default class LatestArticles extends Component {
     return (
       <div className="computer-hide" style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '300px' } }>
         <AdSlot sizes={ [ [ 300, 250 ] ] }
-          dfpNetworkId="40175602"
+          dfpNetworkId={DFPID}
           slotId={ 'mm_mobile_hp_300x250_L1' } 
           adUnit={ 'mm_mobile_hp_300x250_L1' } 
           sizeMapping={

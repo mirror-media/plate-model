@@ -4,7 +4,7 @@ import sanitizeHtml from 'sanitize-html'
 import truncate from 'truncate'
 import entities from 'entities'
 import { imageComposer } from '../utils/index'
-import { AD_UNIT_PREFIX } from '../constants/index'
+import { AD_UNIT_PREFIX, DFPID } from '../constants/index'
 
 import More from '../components/More'
 import { AdSlot } from 'react-dfp'
@@ -37,7 +37,7 @@ export default class List extends Component {
     return (
       <div className="computer-hide" style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '300px' } }>
         <AdSlot sizes={ [ [ 300, 250 ] ] }
-          dfpNetworkId="40175602"
+          dfpNetworkId={DFPID}
           slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_300x250_L1' } 
           adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_300x250_L1' } 
           sizeMapping={

@@ -1,7 +1,7 @@
 /*eslint no-unused-vars:0, no-console:0 */
 /* global __DEVELOPMENT__ */
 'use strict'
-import { HOME, CATEGORY, SITE_NAME, SITE_META, GAID } from '../constants/index'
+import { HOME, CATEGORY, SITE_NAME, SITE_META, GAID, DFPID } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchLatestPosts } from '../actions/articles'
@@ -114,7 +114,7 @@ class Home extends Component {
 
     if (posts) {
       return (
-        <DFPSlotsProvider dfpNetworkId="40175602">
+        <DFPSlotsProvider dfpNetworkId={DFPID}>
           <DocumentMeta {...meta} >
             <Sidebar sectionList={sectionListResponse} />
             <Header sectionList={sectionListResponse} />
@@ -123,7 +123,7 @@ class Home extends Component {
 
               <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
                 <AdSlot sizes={ [ [ 970, 90 ],  [ 970, 250 ] ] }
-                  dfpNetworkId="40175602"
+                  dfpNetworkId={DFPID}
                   slotId={ 'mm_pc_hp_970x250_HD' } 
                   adUnit={ 'mm_pc_hp_970x250_HD' } 
                   sizeMapping={
@@ -136,7 +136,7 @@ class Home extends Component {
               </div>
               <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px' } }>
                 <AdSlot sizes={ [ [ 320, 100 ] ] }
-                  dfpNetworkId="40175602"
+                  dfpNetworkId={DFPID}
                   slotId={ 'mm_mobile_hp_320x100_HD' }
                   adUnit={ 'mm_mobile_hp_320x100_HD' } 
                   sizeMapping={
@@ -174,7 +174,7 @@ class Home extends Component {
 
               <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
                 <AdSlot sizes={ [ [ 970, 90 ] ] }
-                  dfpNetworkId="40175602"
+                  dfpNetworkId={DFPID}
                   slotId={ 'mm_pc_hp_970x90_FT' }
                   adUnit={ 'mm_pc_hp_970x90_FT' } 
                   sizeMapping={
@@ -187,7 +187,7 @@ class Home extends Component {
               </div>
               <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px' } }>
                 <AdSlot sizes={ [ [ 320, 100 ] ] }
-                  dfpNetworkId="40175602"
+                  dfpNetworkId={DFPID}
                   slotId={ 'mm_mobile_hp_320x100_FT' }
                   adUnit={ 'mm_mobile_hp_320x100_FT' } 
                   sizeMapping={
