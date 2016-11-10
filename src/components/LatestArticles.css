@@ -69,12 +69,11 @@ div.colorBlock.choice {
   width: 460px;
   /*height: 260px;*/
   text-align: left;
-  margin-right:10px;
 }
 
-/*.latest-block:nth-child(odd) {
-  margin-right:0px;
-}*/
+.latest-block:nth-child(odd) {
+  margin-right:20px;
+}
 
 .latest-img {
   position:absolute;

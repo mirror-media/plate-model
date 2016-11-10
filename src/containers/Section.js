@@ -1,5 +1,5 @@
 /* global __DEVELOPMENT__ */
-import { SECTION, SITE_META, SITE_NAME, GAID, AD_UNIT_PREFIX, DFPID } from '../constants/index'
+import { SECTION, SITE_META, SITE_NAME, GAID } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/articles'
@@ -12,7 +12,6 @@ import Footer from '../components/Footer'
 import React, { Component } from 'react'
 import List from '../components/List'
 import Featured from '../components/Featured'
-import { DFPSlotsProvider, AdSlot } from 'react-dfp'
 import ga from 'react-ga'
 import { camelize } from 'humps'
 
@@ -141,79 +140,23 @@ class Section extends Component {
     }
 
     return (
-      <DFPSlotsProvider dfpNetworkId={DFPID}>
-        <DocumentMeta {...meta}>
-          <Sidebar sectionList={sectionList.response} />
-          <Header sectionList={sectionList.response} />
+      <DocumentMeta {...meta}>
+        <Sidebar sectionList={sectionList.response} />
+        <Header sectionList={sectionList.response} />
 
-          <div id="main" className="pusher">
-            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
-              <AdSlot sizes={ [ [ 970, 90 ],  [ 970, 250 ] ] }
-                dfpNetworkId={DFPID}
-                slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x250_HD' } 
-                adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x250_HD' } 
-                sizeMapping={
-                  [ 
-                    { viewport: [   0,   0 ], sizes: [ ] },
-                    { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ] ]  }
-                  ] 
-                }
-              />
-            </div>
-            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px' } }>
-              <AdSlot sizes={ [ [ 300, 250 ], [ 320, 100 ] ] }
-                dfpNetworkId={DFPID}
-                slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_300x250_HD' }
-                adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_300x250_HD' } 
-                sizeMapping={
-                  [ 
-                    { viewport: [   1,   1 ], sizes: [ [ 300, 250 ], [ 320, 100 ] ] },
-                    { viewport: [ 970, 200 ], sizes: [ ]  }
-                  ] 
-                }
-              />
-            </div>
-            <Featured articles={featured} categories={entities.categories} />
-            <List 
-              articles={articles}
-              categories={entities.categories} 
-              section={section}
-              title={catName} 
-              hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
-              loadMore={this.loadMore}
-            />
-            {this.props.children}
-
-            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
-              <AdSlot sizes={ [ [ 970, 90 ] ] }
-                dfpNetworkId={DFPID}
-                slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x90_FT' }
-                adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x90_FT' } 
-                sizeMapping={
-                  [ 
-                    { viewport: [   0,   0 ], sizes: [ ] },
-                    { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
-                  ] 
-                }
-              />
-            </div>
-            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px' } }>
-              <AdSlot sizes={ [ [ 320, 100 ] ] }
-                dfpNetworkId={DFPID}
-                slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_320x100_FT' }
-                adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_320x100_FT' } 
-                sizeMapping={
-                  [ 
-                    { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
-                    { viewport: [ 970, 200 ], sizes: [ ]  }
-                  ] 
-                }
-              />
-            </div>
-            <Footer sectionList={sectionList.response} />
-          </div>
-        </DocumentMeta>
-      </DFPSlotsProvider>
+        <div id="main" className="pusher">
+          <Featured articles={featured} categories={entities.categories} />
+          <List 
+            articles={articles}
+            categories={entities.categories} 
+            title={catName} 
+            hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
+            loadMore={this.loadMore}
+          />
+          {this.props.children}
+          <Footer sectionList={sectionList.response} />
+        </div>
+      </DocumentMeta>
     )
   }
 }
