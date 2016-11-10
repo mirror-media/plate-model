@@ -3,8 +3,6 @@ import React, { Component } from 'react'
 import classNames from 'classnames'
 import { imageComposer } from '../utils/index'
 import { camelize } from 'humps'
-import { AdSlot } from 'react-dfp'
-import { DFPID } from '../constants/index'
 
 if (process.env.BROWSER) {
   require('./LatestSections.css')
@@ -73,28 +71,7 @@ export default class LatestSections extends Component {
           <div className="ui column" style={{ backgroundColor: 'rgba(0, 77, 162, 0.1)', marginTop: '-10px', marginBottom: '20px' }}>
             <a href="https://goo.gl/beHg3g"  target="_blank">
               <div className="sectionBlock" style={{ marginTop: '10px', marginBottom: '10px' }}>
-                <AdSlot sizes={ [ [ 300, 250 ] ] }
-                  dfpNetworkId={DFPID}
-                  slotId={ 'mm_pc_hp_300x250_1st' }
-                  adUnit={ 'mm_pc_hp_300x250_1st' } 
-                  sizeMapping={
-                    [ 
-                      { viewport: [   0,   0 ], sizes: [ ] },
-                      { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
-                    ] 
-                  }
-                />
-                <AdSlot sizes={ [ [ 300, 250 ] ] }
-                  dfpNetworkId={DFPID}
-                  slotId={ 'mm_mobile_hp_300x250_1st' }
-                  adUnit={ 'mm_mobile_hp_300x250_1st' } 
-                  sizeMapping={
-                    [ 
-                      { viewport: [   1,   1 ], sizes: [ [ 300, 250 ] ] },
-                      { viewport: [ 970, 200 ], sizes: [ ]  }
-                    ] 
-                  }
-                />
+                <div className="sectionImg AD" style={{ background: 'url(/asset/ads/beverage.jpg) no-repeat center center', backgroundSize: 'cover', width: '300px', height: '250px' }}></div>
               </div>
             </a>
             <ul className="sectionList">
