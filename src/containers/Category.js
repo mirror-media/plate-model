@@ -1,5 +1,5 @@
 /* global __DEVELOPMENT__ */
-import { CATEGORY, SITE_META, SITE_NAME, GAID } from '../constants/index'
+import { CATEGORY, SITE_META, SITE_NAME, GAID, AD_UNIT_PREFIX, DFPID } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchYoutubePlaylist } from '../actions/articles'
@@ -12,6 +12,7 @@ import Footer from '../components/Footer'
 import React, { Component } from 'react'
 import List from '../components/List'
 import VideoList from '../components/VideoList'
+import { DFPSlotsProvider, DFPManager, AdSlot } from 'react-dfp'
 import ga from 'react-ga'
 
 if (process.env.BROWSER) {
@@ -101,6 +102,11 @@ class Category extends Component {
     }
   }
 
+  componentDidUpdate() {
+    DFPManager.load()
+    DFPManager.refresh()
+  }
+
   componentWillReceiveProps(nextProps) {
     const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = nextProps
     let catId = _.get(params, 'category')
@@ -141,6 +147,8 @@ class Category extends Component {
   _renderList() {
     const { articlesByUuids, entities, params, sectionList , youtubePlaylist } = this.props
     const catId = _.get(params, 'category')
+    const section = _.find(_.get(sectionList, [ 'response', 'sections' ]), function (o) { return _.find(o.categories, { 'id': catId }) })
+    const sectionName = _.get(section, 'name', '')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
     const category = _.get(params, 'category', null)
     const catName = _.get(sectionList.response, [ 'categories', category, 'title' ], null)
@@ -149,7 +157,8 @@ class Category extends Component {
       return (
         <List 
           articles={articles} 
-          categories={entities.categories} 
+          categories={entities.categories}
+          section={sectionName}
           title={catName} 
           hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
           loadMore={this.loadMore}
@@ -171,6 +180,10 @@ class Category extends Component {
     const { params, sectionList } = this.props
 
     const category = _.get(params, 'category', null)
+    const catId = _.get(sectionList.response, [ 'categories', category, 'id' ], null)
+    const section = _.find(_.get(sectionList, [ 'response', 'sections' ]), function (o) { return _.find(o.categories, { 'id': catId }) })
+    const sectionName = _.get(section, 'name', '')
+
     const catName = _.get(sectionList.response, [ 'categories', category, 'title' ], null)
     const meta = {
       title: catName ? catName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL,
@@ -181,16 +194,70 @@ class Category extends Component {
     }
 
     return (
-      <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionList.response} />
-        <Header sectionList={sectionList.response} />
+      <DFPSlotsProvider dfpNetworkId={DFPID}>
+        <DocumentMeta {...meta}>
+          <Sidebar sectionList={sectionList.response} />
+          <Header sectionList={sectionList.response} />
 
-        <div id="main" className="pusher">
-          {this.renderList()}
-          {this.props.children}
-          <Footer sectionList={sectionList.response} />
-        </div>
-      </DocumentMeta>
+          <div id="main" className="pusher">
+            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
+              <AdSlot sizes={ [ [ 970, 90 ],  [ 970, 250 ] ] }
+                dfpNetworkId={DFPID}
+                slotId={ 'mm_pc_'+AD_UNIT_PREFIX[sectionName]+'_970x250_HD' } 
+                adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[sectionName]+'_970x250_HD' } 
+                sizeMapping={
+                  [ 
+                    { viewport: [   0,   0 ], sizes: [ ] },
+                    { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ] ]  }
+                  ] 
+                }
+              />
+            </div>
+            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px' } }>
+              <AdSlot sizes={ [ [ 320, 100 ], [ 300, 250 ] ] }
+                dfpNetworkId={DFPID}
+                slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_300x250_HD' }
+                adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_300x250_HD' } 
+                sizeMapping={
+                  [ 
+                    { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
+                    { viewport: [ 970, 200 ], sizes: [ ]  }
+                  ] 
+                }
+              />
+            </div>
+            {this.renderList()}
+            {this.props.children}
+            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
+              <AdSlot sizes={ [ [ 970, 90 ] ] }
+                dfpNetworkId={DFPID}
+                slotId={ 'mm_pc_'+AD_UNIT_PREFIX[sectionName]+'_970x90_FT' }
+                adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[sectionName]+'_970x90_FT' } 
+                sizeMapping={
+                  [ 
+                    { viewport: [   0,   0 ], sizes: [ ] },
+                    { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
+                  ] 
+                }
+              />
+            </div>
+            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px' } }>
+              <AdSlot sizes={ [ [ 320, 100 ] ] }
+                dfpNetworkId={DFPID}
+                slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_320x100_FT' }
+                adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_320x100_FT' } 
+                sizeMapping={
+                  [ 
+                    { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
+                    { viewport: [ 970, 200 ], sizes: [ ]  }
+                  ] 
+                }
+              />
+            </div>
+            <Footer sectionList={sectionList.response} />
+          </div>
+        </DocumentMeta>
+      </DFPSlotsProvider>
     )
   }
 }
