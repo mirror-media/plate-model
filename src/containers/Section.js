@@ -184,10 +184,7 @@ class Section extends Component {
             <List 
               articles={articles}
               categories={entities.categories} 
-<<<<<<< 1364ca2635daff7971c50aa9c701974e6c1d2c8a
-=======
               section={section}
->>>>>>> Implement DFP AD
               title={catName} 
               hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
               loadMore={this.loadMore}
