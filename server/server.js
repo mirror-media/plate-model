@@ -198,7 +198,6 @@ server.get('*', async function (req, res) {
 
                   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
                   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js"></script>
-                  <script src="/asset/jquery.dfp.min.js"></script>
                   ${styles}
               </head>
               <body>
