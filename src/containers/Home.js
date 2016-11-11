@@ -2,7 +2,7 @@
 /* global __DEVELOPMENT__, $ */
 'use strict'
 import _ from 'lodash'
-import _ from 'lodash'
+import async from 'async'
 import async from 'async'
 import Choices from '../components/Choices'
 import cookie from 'react-cookie'

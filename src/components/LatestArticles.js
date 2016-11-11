@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
 import _ from 'lodash'
+import entities from 'entities'
+import ga from 'react-ga'
+import More from '../components/More'
+import React, { Component } from 'react'
 import sanitizeHtml from 'sanitize-html'
 import truncate from 'truncate'
-import entities from 'entities'
-import { imageComposer } from '../utils/index'
-import More from '../components/More'
-import ga from 'react-ga'
 import { AdSlot } from 'react-dfp'
 import { DFPID } from '../constants/index'
+import { imageComposer } from '../utils/index'
 
 if (process.env.BROWSER) {
   require('./LatestArticles.css')
