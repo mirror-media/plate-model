@@ -68,7 +68,6 @@ class Home extends Component {
       }
     })
 
-
   }
 
   componentWillUpdate(nextProps) {
@@ -146,6 +145,27 @@ class Home extends Component {
             <div className="ui dimmer">
               <div className="content" style={ { height: '480px', width: '320px', position: 'fixed', top: 'calc(50% - 240px)', left: 'calc(50% - 160px)' } }>
                 <div className="close" style={ { top: '-16px', right: '0', position: 'absolute', 'zIndex': '9999' } }>
+                  <div style={ { background: 'url(/asset/close.png) center center no-repeat', backgroundSize: 'cover', width: '32px', height: '32px' } } />
+                </div>
+                <div className="center">
+                  <AdSlot sizes={ [ [ 320, 480 ] ] }
+                    dfpNetworkId={DFPID}
+                    slotId={ 'mm_mobile_hp_320x480_FS' }
+                    adUnit={ 'mm_mobile_hp_320x480_FS' } 
+                    sizeMapping={
+                      [ 
+                        { viewport: [   1,   1 ], sizes: [ [ 320, 480 ] ] },
+                        { viewport: [ 970, 200 ], sizes: [ ]  }
+                      ] 
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="ui dimmer">
+              <div className="content" style={ { height: '100vh', position: 'fixed' } }>
+                <div style={ { top: '5px', right: '5px', position: 'fixed', 'zIndex': '9999' } }>
                   <div style={ { background: 'url(/asset/close.png) center center no-repeat', backgroundSize: 'cover', width: '32px', height: '32px' } } />
                 </div>
                 <div className="center">
