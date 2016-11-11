@@ -208,8 +208,8 @@ class Category extends Component {
     return (
       <DFPSlotsProvider dfpNetworkId={DFPID}>
         <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionList.response} topics={topics}/>
-        <Header sectionList={sectionList.response} topics={topics}/>
+          <Sidebar sectionList={sectionList.response} topics={topics}/>
+          <Header sectionList={sectionList.response} topics={topics}/>
 
           <div id="main" className="pusher">
             <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>

@@ -1,14 +1,11 @@
 import _ from 'lodash'
-import React, { Component } from 'react'
 import classNames from 'classnames'
-import { imageComposer } from '../utils/index'
-import { camelize } from 'humps'
-<<<<<<< 00a022ef6e2220dbb1d0cd0c226eeaf42538964d
 import ga from 'react-ga'
-=======
+import React, { Component } from 'react'
 import { AdSlot } from 'react-dfp'
+import { camelize } from 'humps'
 import { DFPID } from '../constants/index'
->>>>>>> Implement DFP AD
+import { imageComposer } from '../utils/index'
 
 if (process.env.BROWSER) {
   require('./LatestSections.css')
