@@ -139,6 +139,7 @@ class Home extends Component {
       return (
         <DFPSlotsProvider dfpNetworkId={DFPID}>
           <DocumentMeta {...meta} >
+<<<<<<< 5d7b141e6db09ba3e8f923d505de66966513d2ed
           <Sidebar sectionList={sectionListResponse} topics={topics}/>
           <Header sectionList={sectionListResponse} topics={topics}/>
 
@@ -183,6 +184,10 @@ class Home extends Component {
                 </div>
               </div>
             </div>
+=======
+            <Sidebar sectionList={sectionListResponse} topics={topics}/>
+            <Header sectionList={sectionListResponse} topics={topics}/>
+>>>>>>> Implement DFP AD
 
             <div id="main" className="pusher">
 
