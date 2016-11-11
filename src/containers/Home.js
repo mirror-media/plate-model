@@ -1,5 +1,5 @@
 /*eslint no-unused-vars:0, no-console:0 */
-/* global __DEVELOPMENT__ */
+/* global __DEVELOPMENT__, $ */
 'use strict'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
@@ -49,6 +49,10 @@ class Home extends Component {
     ga.initialize(GAID, { debug: __DEVELOPMENT__ })
     ga.pageview(this.props.location.pathname)
     this.props.setPageType(HOME)
+    
+    if ( $(window).width() < 970 ) {
+      $('.ui.dimmer').dimmer('show')
+    }
   }
 
   componentWillUpdate(nextProps) {
@@ -119,6 +123,27 @@ class Home extends Component {
           <DocumentMeta {...meta} >
             <Sidebar sectionList={sectionListResponse} />
             <Header sectionList={sectionListResponse} />
+
+            <div className="ui dimmer">
+              <div className="content" style={ { height: '100vh', position: 'fixed' } }>
+                <div style={ { top: '5px', right: '5px', position: 'fixed', 'zIndex': '9999' } }>
+                  <div style={ { background: 'url(/asset/close.png) center center no-repeat', backgroundSize: 'cover', width: '32px', height: '32px' } } />
+                </div>
+                <div className="center">
+                  <AdSlot sizes={ [ [ 320, 480 ] ] }
+                    dfpNetworkId={DFPID}
+                    slotId={ 'mm_mobile_hp_320x480_FS' }
+                    adUnit={ 'mm_mobile_hp_320x480_FS' } 
+                    sizeMapping={
+                      [ 
+                        { viewport: [   1,   1 ], sizes: [ [ 320, 480 ] ] },
+                        { viewport: [ 970, 200 ], sizes: [ ]  }
+                      ] 
+                    }
+                  />
+                </div>
+              </div>
+            </div>
 
             <div id="main" className="pusher">
 
