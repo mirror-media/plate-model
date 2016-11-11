@@ -167,6 +167,27 @@ class Home extends Component {
               </div>
             </div>
 
+            <div className="ui dimmer">
+              <div className="content" style={ { height: '100vh', position: 'fixed' } }>
+                <div style={ { top: '5px', right: '5px', position: 'fixed', 'zIndex': '9999' } }>
+                  <div style={ { background: 'url(/asset/close.png) center center no-repeat', backgroundSize: 'cover', width: '32px', height: '32px' } } />
+                </div>
+                <div className="center">
+                  <AdSlot sizes={ [ [ 320, 480 ] ] }
+                    dfpNetworkId={DFPID}
+                    slotId={ 'mm_mobile_hp_320x480_FS' }
+                    adUnit={ 'mm_mobile_hp_320x480_FS' } 
+                    sizeMapping={
+                      [ 
+                        { viewport: [   1,   1 ], sizes: [ [ 320, 480 ] ] },
+                        { viewport: [ 970, 200 ], sizes: [ ]  }
+                      ] 
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+
             <div id="main" className="pusher">
 
               <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
