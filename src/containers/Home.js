@@ -7,6 +7,7 @@
 >>>>>>> implement full screen DFS slot (cookie)
 import _ from 'lodash'
 import async from 'async'
+import async from 'async'
 import Choices from '../components/Choices'
 import cookie from 'react-cookie'
 import DocumentMeta from 'react-document-meta'
