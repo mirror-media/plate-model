@@ -55,8 +55,9 @@ class Home extends Component {
     this.props.setPageTitle('', SITE_NAME.FULL)
     
     DFPManager.attachSlotRenderEnded((id, event) => {
-      if (id.slotId == 'mm_mobile_hp_320x480_FS' && !id.event.isEmpty) {
-        if ( $(window).width() < 970 && !cookie.load('visited') ) {
+      if (id.slotId == 'mm_mobile_hp_320x480_FS' && !id.event.isEmpty && !cookie.load('visited')) {
+        console.log(id)
+        if ( $(window).width() < 970 ) {
           cookie.save('visited', true, { path: '/', maxAge: 600 })
           $('.ui.dimmer').dimmer('show')
           $('.ui.dimmer .close').click( function () {
