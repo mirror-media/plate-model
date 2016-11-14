@@ -1,12 +1,8 @@
 /*eslint no-unused-vars:0, no-console:0 */
 /* global __DEVELOPMENT__, $ */
 'use strict'
-<<<<<<< 5984c0c278fdd9107a10b47579b9f586b8bc07cb
 
-=======
->>>>>>> implement full screen DFS slot (cookie)
 import _ from 'lodash'
-import async from 'async'
 import async from 'async'
 import Choices from '../components/Choices'
 import cookie from 'react-cookie'
@@ -60,7 +56,6 @@ class Home extends Component {
     
     DFPManager.attachSlotRenderEnded((id, event) => {
       if (id.slotId == 'mm_mobile_hp_320x480_FS' && !id.event.isEmpty) {
-        console.log(id)
         if ( $(window).width() < 970 && !cookie.load('visited') ) {
           cookie.save('visited', true, { path: '/', maxAge: 600 })
           $('.ui.dimmer').dimmer('show')
@@ -168,8 +163,8 @@ class Home extends Component {
             </div>
 
             <div className="ui dimmer">
-              <div className="content" style={ { height: '100vh', position: 'fixed' } }>
-                <div style={ { top: '5px', right: '5px', position: 'fixed', 'zIndex': '9999' } }>
+              <div className="content" style={ { height: '480px', width: '320px', position: 'fixed', top: 'calc(50% - 240px)', left: 'calc(50% - 160px)' } }>
+                <div className="close" style={ { top: '-16px', right: '-16px', position: 'absolute', 'zIndex': '9999' } }>
                   <div style={ { background: 'url(/asset/close.png) center center no-repeat', backgroundSize: 'cover', width: '32px', height: '32px' } } />
                 </div>
                 <div className="center">
