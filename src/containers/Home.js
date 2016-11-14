@@ -1,7 +1,10 @@
 /*eslint no-unused-vars:0, no-console:0 */
 /* global __DEVELOPMENT__, $ */
 'use strict'
+<<<<<<< 5984c0c278fdd9107a10b47579b9f586b8bc07cb
 
+=======
+>>>>>>> implement full screen DFS slot (cookie)
 import _ from 'lodash'
 import async from 'async'
 import Choices from '../components/Choices'
@@ -55,9 +58,14 @@ class Home extends Component {
     this.props.setPageTitle('', SITE_NAME.FULL)
     
     DFPManager.attachSlotRenderEnded((id, event) => {
+<<<<<<< 5984c0c278fdd9107a10b47579b9f586b8bc07cb
       if (id.slotId == 'mm_mobile_hp_320x480_FS' && !id.event.isEmpty) {
         console.log(id)
         if ( $(window).width() < 970 && !cookie.load('visited') ) {
+=======
+      if (id.slotId == 'mm_mobile_hp_320x480_FS' && !id.isEmpty && !cookie.load('visited')) {
+        if ( $(window).width() < 970 ) {
+>>>>>>> implement full screen DFS slot (cookie)
           cookie.save('visited', true, { path: '/', maxAge: 600 })
           $('.ui.dimmer').dimmer('show')
           $('.ui.dimmer .close').click( function () {
@@ -68,6 +76,10 @@ class Home extends Component {
       }
     })
 
+<<<<<<< 5984c0c278fdd9107a10b47579b9f586b8bc07cb
+=======
+
+>>>>>>> implement full screen DFS slot (cookie)
   }
 
   componentWillUpdate(nextProps) {
@@ -165,7 +177,11 @@ class Home extends Component {
 
             <div className="ui dimmer">
               <div className="content" style={ { height: '480px', width: '320px', position: 'fixed', top: 'calc(50% - 240px)', left: 'calc(50% - 160px)' } }>
+<<<<<<< 5984c0c278fdd9107a10b47579b9f586b8bc07cb
                 <div className="close" style={ { top: '-16px', right: '0', position: 'absolute', 'zIndex': '9999' } }>
+=======
+                <div className="close" style={ { top: '-16px', right: '-16px', position: 'absolute', 'zIndex': '9999' } }>
+>>>>>>> implement full screen DFS slot (cookie)
                   <div style={ { background: 'url(/asset/close.png) center center no-repeat', backgroundSize: 'cover', width: '32px', height: '32px' } } />
                 </div>
                 <div className="center">
