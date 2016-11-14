@@ -1,12 +1,14 @@
-import React, { Component } from 'react'
 import _ from 'lodash'
+import entities from 'entities'
+import ga from 'react-ga'
+import More from '../components/More'
+import More from '../components/More'
+import React, { Component } from 'react'
 import sanitizeHtml from 'sanitize-html'
 import truncate from 'truncate'
-import entities from 'entities'
-import { imageComposer } from '../utils/index'
-import More from '../components/More'
 import { AdSlot } from 'react-dfp'
 import { DFPID } from '../constants/index'
+import { imageComposer } from '../utils/index'
 
 if (process.env.BROWSER) {
   require('./LatestArticles.css')
@@ -34,6 +36,15 @@ export default class LatestArticles extends Component {
         />
       </div>
     )
+  }
+
+  handleClick() {
+    ga.event({
+      category: 'home',
+      action: 'click',
+      label: 'latestArticles'
+    })
+
   }
 
   render() {
@@ -65,12 +76,12 @@ export default class LatestArticles extends Component {
 
             return (
               <div className="latest-block" key={a.id} >
-                <a href={linkStyle+a.slug+'/'}>
+                <a href={linkStyle+a.slug+'/'} onClick={this.handleClick.bind(this)}>
                   <div className="latest-img" style={{ background: 'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
                 </a>
                 <div className="latest-content">
-                  <a href={linkStyle+a.slug+'/'}>
+                  <a href={linkStyle+a.slug+'/'} onClick={this.handleClick.bind(this)}>
                     <h2>
                         {a.title}<div className="cat-label"><div className="separator"></div><span>{ _.get(categories, [ _.first(a.categories), 'title' ]) }</span></div>
                     </h2>
@@ -108,12 +119,12 @@ export default class LatestArticles extends Component {
 
             return (
               <div className="latest-block" key={a.id} >
-                <a href={linkStyle+a.slug+'/'}>
+                <a href={linkStyle+a.slug+'/'} onClick={this.handleClick.bind(this)}>
                   <div className="latest-img" style={{ background: 'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
                 </a>
                 <div className="latest-content">
-                  <a href={linkStyle+a.slug+'/'}>
+                  <a href={linkStyle+a.slug+'/'} onClick={this.handleClick.bind(this)}>
                     <h2>
                         {a.title}<div className="cat-label"><div className="separator"></div><span>{ _.get(categories, [ _.first(a.categories), 'title' ]) }</span></div>
                     </h2>
