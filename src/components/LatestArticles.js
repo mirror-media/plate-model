@@ -5,6 +5,7 @@ import truncate from 'truncate'
 import entities from 'entities'
 import { imageComposer } from '../utils/index'
 import More from '../components/More'
+import ga from 'react-ga'
 
 if (process.env.BROWSER) {
   require('./LatestArticles.css')
@@ -13,6 +14,14 @@ if (process.env.BROWSER) {
 export default class LatestArticles extends Component {
   constructor(props, context) {
     super(props, context)
+  }
+
+  handleClick() {
+    ga.event({
+      category: 'home',
+      action: 'click',
+      label: 'latestArticles'
+    })
   }
 
   render() {
@@ -44,12 +53,12 @@ export default class LatestArticles extends Component {
 
             return (
               <div className="latest-block" key={a.id} >
-                <a href={linkStyle+a.slug+'/'}>
+                <a href={linkStyle+a.slug+'/'} onClick={this.handleClick.bind(this)}>
                   <div className="latest-img" style={{ background: 'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
                 </a>
                 <div className="latest-content">
-                  <a href={linkStyle+a.slug+'/'}>
+                  <a href={linkStyle+a.slug+'/'} onClick={this.handleClick.bind(this)}>
                     <h2>
                         {a.title}<div className="cat-label"><div className="separator"></div><span>{ _.get(categories, [ _.first(a.categories), 'title' ]) }</span></div>
                     </h2>

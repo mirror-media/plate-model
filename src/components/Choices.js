@@ -5,6 +5,7 @@ import truncate from 'truncate'
 import entities from 'entities'
 import dateformat from 'dateformat'
 import { imageComposer } from '../utils/index'
+import ga from 'react-ga'
 
 if (process.env.BROWSER) {
   require('./Choices.css')
@@ -13,6 +14,14 @@ if (process.env.BROWSER) {
 export default class Choices extends Component {
   constructor(props, context) {
     super(props, context)
+  }
+
+  handleClick() {
+    ga.event({
+      category: 'home',
+      action: 'click',
+      label: 'choices'
+    })
   }
 
   render() {
@@ -45,7 +54,7 @@ export default class Choices extends Component {
 
             return (
               <div className="choice-block" key={'choice' + a.id}>
-                <a href={linkStyle + a.slug + '/' }>
+                <a href={linkStyle + a.slug + '/' } onClick={this.handleClick.bind(this)}>
                   <div className="choice-img " style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
                 </a>
@@ -53,7 +62,7 @@ export default class Choices extends Component {
                     { _.get(categories, [ _.first(a.categories), 'title' ]) }
                 </div>
                 <div className="choice-content ">
-                  <a href={linkStyle + a.slug + '/' }>
+                  <a href={linkStyle + a.slug + '/' } onClick={this.handleClick.bind(this)}>
                     <h2>
                         {a.title}
                     </h2>
@@ -98,13 +107,13 @@ export default class Choices extends Component {
             return (
               <div className="column" style={{ padding: 0 }} key={'choice' + a.id}>
                 <div className="choice-block">
-                  <a href={linkStyle + a.slug + '/' }><div className="column-choice-img" style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
+                  <a href={linkStyle + a.slug + '/' } onClick={this.handleClick.bind(this)}><div className="column-choice-img" style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                     <div className="choice-cat">
                       { _.get(categories, [ _.first(a.categories), 'title' ]) }
                     </div>
                   </div></a>
                   <div className="column-choice-content">
-                    <a href={linkStyle + a.slug + '/' }><h2>{ a.title }</h2></a>
+                    <a href={linkStyle + a.slug + '/' } onClick={this.handleClick.bind(this)}><h2>{ a.title }</h2></a>
                     <div className="line"></div>
                     <div className="brief">
                       { truncate(entities.decodeHTML(briefContent), 75) }

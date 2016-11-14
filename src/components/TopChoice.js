@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
 import { imageComposer } from '../utils/index'
+import ga from 'react-ga'
 
 if (process.env.BROWSER) {
   require('./Choices.css')
@@ -9,6 +10,14 @@ if (process.env.BROWSER) {
 export default class TopChoice extends Component {
   constructor(props, context) {
     super(props, context)
+  }
+
+  handleClick() {
+    ga.event({
+      category: 'home',
+      action: 'click',
+      label: 'topChoice'
+    })
   }
 
   render() {
@@ -20,7 +29,7 @@ export default class TopChoice extends Component {
       <div className="container tablet-hide computer-hide">
         <div className="choice-main">
           <div className="choice-block" key={'choice' + a.id}>
-            <a href={linkStyle + a.slug + '/'}>
+            <a href={linkStyle + a.slug + '/'} onClick={this.handleClick.bind(this)}>
               <div className="choice-img " style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
               </div>
             </a>
@@ -31,7 +40,7 @@ export default class TopChoice extends Component {
                 { _.get(categories, [ _.first(a.categories), 'title' ], '　　') }
             </div>
             <div className="choice-content ">
-              <a href={linkStyle + a.slug + '/'}>
+              <a href={linkStyle + a.slug + '/'} onClick={this.handleClick.bind(this)}>
                 <h2>
                     {a.title}
                 </h2>
