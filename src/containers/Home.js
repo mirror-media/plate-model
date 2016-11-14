@@ -1,28 +1,30 @@
 /*eslint no-unused-vars:0, no-console:0 */
 /* global __DEVELOPMENT__, $ */
 'use strict'
-import { HOME, CATEGORY, SITE_NAME, SITE_META, GAID, DFPID } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
+import { devCatListId, prodCatListId } from '../conf/list-id'
+import { DFPManager, DFPSlotsProvider, AdSlot } from 'react-dfp'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchLatestPosts } from '../actions/articles'
+import { HOME, CATEGORY, SITE_NAME, SITE_META, GAID, DFPID } from '../constants/index'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
-import ga from 'react-ga'
-import TopChoice from '../components/TopChoice'
+import async from 'async'
 import Choices from '../components/Choices'
-import LatestSections from '../components/LatestSections'
-import LatestArticles from '../components/LatestArticles'
-import Header from '../components/Header'
-import Sidebar from '../components/Sidebar'
+import cookie from 'react-cookie'
 import DocumentMeta from 'react-document-meta'
 import Footer from '../components/Footer'
+import ga from 'react-ga'
+import Header from '../components/Header'
+import LatestArticles from '../components/LatestArticles'
+import LatestSections from '../components/LatestSections'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import Sidebar from '../components/Sidebar'
 import SystemError from '../components/SystemError'
+import TopChoice from '../components/TopChoice'
 import TopNews from '../components/TopNews'
-import async from 'async'
-import { devCatListId, prodCatListId } from '../conf/list-id'
-import { DFPSlotsProvider, AdSlot } from 'react-dfp'
+
 
 const MAXRESULT = 10
 const PAGE = 1
@@ -49,9 +51,20 @@ class Home extends Component {
     ga.pageview(this.props.location.pathname)
     this.props.setPageType(HOME)
     
-    if ( $(window).width() < 970 ) {
-      $('.ui.dimmer').dimmer('show')
-    }
+    DFPManager.attachSlotRenderEnded((id, event) => {
+      if (id.slotId == 'mm_mobile_hp_320x480_FS' && !id.isEmpty && !cookie.load('visited')) {
+        if ( $(window).width() < 970 ) {
+          cookie.save('visited', true, { path: '/', maxAge: 600 })
+          $('.ui.dimmer').dimmer('show')
+          $('.ui.dimmer .close').click( function () {
+            $('.ui.dimmer').dimmer('hide')
+            console.log(cookie.load('visited'))
+          })
+        }
+      }
+    })
+
+
   }
 
   componentWillUpdate(nextProps) {
@@ -124,8 +137,8 @@ class Home extends Component {
             <Header sectionList={sectionListResponse} />
 
             <div className="ui dimmer">
-              <div className="content" style={ { height: '100vh', position: 'fixed' } }>
-                <div style={ { top: '5px', right: '5px', position: 'fixed', 'zIndex': '9999' } }>
+              <div className="content" style={ { height: '480px', width: '320px', position: 'fixed', top: 'calc(50% - 240px)', left: 'calc(50% - 160px)' } }>
+                <div className="close" style={ { top: '-16px', right: '-16px', position: 'absolute', 'zIndex': '9999' } }>
                   <div style={ { background: 'url(/asset/close.png) center center no-repeat', backgroundSize: 'cover', width: '32px', height: '32px' } } />
                 </div>
                 <div className="center">
