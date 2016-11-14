@@ -1,8 +1,17 @@
 /*eslint no-unused-vars:0, no-console:0 */
 /* global __DEVELOPMENT__, $ */
 'use strict'
+<<<<<<< d6ca1b2db9c5a8eacafb2d7f680be2e15beb1cc8
+=======
+import { connect } from 'react-redux'
+import { denormalizeArticles } from '../utils/index'
+import { devCatListId, prodCatListId } from '../conf/list-id'
+import { DFPManager, DFPSlotsProvider, AdSlot } from 'react-dfp'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchLatestPosts } from '../actions/articles'
+import { HOME, CATEGORY, SITE_NAME, SITE_META, GAID, DFPID } from '../constants/index'
+import { setPageType } from '../actions/header'
+>>>>>>> implement full screen DFS slot (cookie)
 import _ from 'lodash'
-import async from 'async'
 import async from 'async'
 import Choices from '../components/Choices'
 import cookie from 'react-cookie'
@@ -164,8 +173,8 @@ class Home extends Component {
             </div>
 
             <div className="ui dimmer">
-              <div className="content" style={ { height: '100vh', position: 'fixed' } }>
-                <div style={ { top: '5px', right: '5px', position: 'fixed', 'zIndex': '9999' } }>
+              <div className="content" style={ { height: '480px', width: '320px', position: 'fixed', top: 'calc(50% - 240px)', left: 'calc(50% - 160px)' } }>
+                <div className="close" style={ { top: '-16px', right: '-16px', position: 'absolute', 'zIndex': '9999' } }>
                   <div style={ { background: 'url(/asset/close.png) center center no-repeat', backgroundSize: 'cover', width: '32px', height: '32px' } } />
                 </div>
                 <div className="center">
