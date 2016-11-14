@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import classNames from 'classnames'
 import { imageComposer } from '../utils/index'
 import { camelize } from 'humps'
+import ga from 'react-ga'
 
 if (process.env.BROWSER) {
   require('./LatestSections.css')
@@ -11,6 +12,14 @@ if (process.env.BROWSER) {
 export default class LatestSections extends Component {
   constructor(props, context) {
     super(props, context)
+  }
+
+  handleClick() {
+    ga.event({
+      category: 'home',
+      action: 'click',
+      label: 'section-latest'
+    })
   }
 
   render() {
@@ -41,7 +50,7 @@ export default class LatestSections extends Component {
             let linkStyle = (_.get(sectionTop, 'style', '')=='projects') ? '/projects/' : '/story/'
             return (
               <div className="ui column" key={'section-'+s.id}>
-                <a href={ linkStyle+_.get(sectionTop, 'slug', '')+'/' }>
+                <a href={ linkStyle+_.get(sectionTop, 'slug', '')+'/' } onClick={this.handleClick.bind(this)}>
                   <div className="sectionBlock">
                     <div className="section-cat">
                       { _.get(entities.categories, [ _.first(_.get(sectionTop, 'categories', [])), 'title' ], '　　') }
@@ -60,7 +69,7 @@ export default class LatestSections extends Component {
                   let a = _.get(entities.articles, t, {})
                   let linkStyle = (_.get(a, 'style', '')=='projects') ? '/projects/' : '/story/'
                   return (
-                    <li key={a.id || idx}><a href={ linkStyle + a.slug + '/' }>{a.title}</a></li>
+                    <li key={a.id || idx}><a href={ linkStyle + a.slug + '/' } onClick={this.handleClick.bind(this)}>{a.title}</a></li>
                   )
                 })}
                 </ul>
@@ -93,7 +102,7 @@ export default class LatestSections extends Component {
             let linkStyle = (_.get(sectionTop, 'style', '')=='projects') ? '/projects/' : '/story/'
             return (
               <div className="ui column" key={'section-'+s.id}>
-                <a href={ linkStyle+_.get(sectionTop, 'slug', '')+'/' }>
+                <a href={ linkStyle+_.get(sectionTop, 'slug', '')+'/' } onClick={this.handleClick.bind(this)}>
                   <div className="sectionBlock">
                     <div className="section-cat">
                       { _.get(entities.categories, [ _.first(_.get(sectionTop, 'categories', [])), 'title' ], '　　') }
@@ -112,7 +121,7 @@ export default class LatestSections extends Component {
                   let a = _.get(entities.articles, t, {})
                   let linkStyle = (_.get(a, 'style', '')=='projects') ? '/projects/' : '/story/'
                   return (
-                    <li key={a.id || idx}><a href={ linkStyle + a.slug + '/' }>{a.title}</a></li>
+                    <li key={a.id || idx}><a href={ linkStyle + a.slug + '/' } onClick={this.handleClick.bind(this)}>{a.title}</a></li>
                   )
                 })}
                 </ul>
