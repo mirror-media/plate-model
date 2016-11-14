@@ -165,7 +165,7 @@ class Home extends Component {
 
             <div className="ui dimmer">
               <div className="content" style={ { height: '480px', width: '320px', position: 'fixed', top: 'calc(50% - 240px)', left: 'calc(50% - 160px)' } }>
-                <div className="close" style={ { top: '-16px', right: '-16px', position: 'absolute', 'zIndex': '9999' } }>
+                <div className="close" style={ { top: '-16px', right: '0', position: 'absolute', 'zIndex': '9999' } }>
                   <div style={ { background: 'url(/asset/close.png) center center no-repeat', backgroundSize: 'cover', width: '32px', height: '32px' } } />
                 </div>
                 <div className="center">
