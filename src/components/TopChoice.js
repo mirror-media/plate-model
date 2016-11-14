@@ -16,7 +16,7 @@ export default class TopChoice extends Component {
     ga.event({
       category: 'home',
       action: 'click',
-      label: 'section-topChoice'
+      label: 'topChoice'
     })
   }
 

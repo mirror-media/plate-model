@@ -20,7 +20,7 @@ export default class Choices extends Component {
     ga.event({
       category: 'home',
       action: 'click',
-      label: 'section-choices'
+      label: 'choices'
     })
   }
 

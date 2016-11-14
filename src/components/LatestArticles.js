@@ -20,7 +20,7 @@ export default class LatestArticles extends Component {
     ga.event({
       category: 'home',
       action: 'click',
-      label: 'section-latestArticles'
+      label: 'latestArticles'
     })
   }
 
