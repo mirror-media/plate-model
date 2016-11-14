@@ -435,8 +435,23 @@ export function fetchTopic(slug) {
   }
 }
 
-export function fetchImages(params = {}, uuid) {
-  params = _setupWhereInParam('topics', [ uuid ], params)
+export function fetchImages(type = '', uuid, params = {}) {
+  switch (type) {
+    case SECTION:
+      params = _setupWhereInParam('sections', [ uuid ], params)
+      break
+    case CATEGORY:
+      params = _setupWhereInParam('categories', [ uuid ], params)
+      break
+    case TAG:
+      params = _setupWhereInParam('tags', [ uuid ], params)
+      break
+    case TOPIC:
+      params = _setupWhereInParam('topics', [ uuid ], params)
+      break
+    default:
+      return Promise.resolve()
+  }
   let url = _buildImageQueryUrl(params)
   return (dispatch) => {
     dispatch(requestImages('Request Images: ' + url))
