@@ -30,7 +30,7 @@ if (process.env.BROWSER) {
   require('./Home.css')
 }
 
-class Home extends Component {
+class HomeB extends Component {
   static fetchData({ store }) {
     return store.dispatch(fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])) 
   }
@@ -117,7 +117,7 @@ class Home extends Component {
         <DocumentMeta {...meta} >
           <Sidebar sectionList={sectionListResponse} />
           <Header sectionList={sectionListResponse} />
-
+          <h2>This is Home B</h2>
           <div id="main" className="pusher">
             <TopChoice 
               article={ _.get(entities.articles, _.first( _.get(choices, 'items', []) ), {}) } 
@@ -166,15 +166,15 @@ function mapStateToProps(state) {
   }
 }
 
-Home.contextTypes = {
+HomeB.contextTypes = {
   device: React.PropTypes.string
 }
 
-export { Home }
+export { HomeB }
 
 export default connect(mapStateToProps, {
   fetchArticlesByUuidIfNeeded,
   fetchIndexArticles,
   fetchLatestPosts,
   setPageType
-})(Home)
+})(HomeB)
