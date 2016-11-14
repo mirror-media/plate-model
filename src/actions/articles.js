@@ -102,6 +102,20 @@ function requestTopics(url) {
   }
 }
 
+function requestTopic(url) {
+  return {
+    type: types.FETCH_TOPIC_REQUEST,
+    url
+  }
+}
+
+function requestImages(url) {
+  return {
+    type: types.FETCH_IMAGES_REQUEST,
+    url
+  }
+}
+
 function failToReceiveIndexArticles(error) {
   return {
     type: types.FETCH_INDEX_ARTICLES_FAILURE,
@@ -129,6 +143,14 @@ function failToReceiveTopics(error) {
 function failToReceiveTopic(error) {
   return {
     type: types.FETCH_TOPIC_FAILURE,
+    error,
+    failedAt: Date.now()
+  }
+}
+
+function failToReceiveImages(error) {
+  return {
+    type: types.FETCH_IMAGES_FAILURE,
     error,
     failedAt: Date.now()
   }
@@ -189,6 +211,14 @@ function receiveTopics(response, meta, links) {
 function receiveTopic(response) {
   return {
     type: types.FETCH_TOPIC_SUCCESS,
+    response,
+    receivedAt: Date.now()
+  }
+}
+
+function receiveImages(response) {
+  return {
+    type: types.FETCH_IMAGES_SUCCESS,
     response,
     receivedAt: Date.now()
   }
@@ -287,6 +317,11 @@ function _buildMetaQueryUrl(params = {}) {
 function _buildTopicQueryUrl(params = {}, slug= '') {
   let query = _buildQuery(params)
   return formatUrl(`topics/${slug}?${query}`)
+}
+
+function _buildImageQueryUrl(params = {}) {
+  let query = _buildQuery(params)
+  return formatUrl(`images?${query}`)
 }
 
 function _buildUrl(params = {}, target) {
@@ -389,13 +424,43 @@ export function fetchTopics(params = {}) {
 export function fetchTopic(slug) {
   let url = _buildTopicQueryUrl({}, slug)
   return (dispatch) => {
-    dispatch(requestTopics('Request Topic: ' + url))
+    dispatch(requestTopic('Request Topic: ' + url))
     return _fetchArticles(url)
       .then((response) => {
         let camelizedJson = camelizeKeys(response)
         dispatch(receiveTopic(camelizedJson))
       }, (error) => {
         return dispatch(failToReceiveTopic(error))
+      })
+  }
+}
+
+export function fetchImages(type = '', uuid, params = {}) {
+  switch (type) {
+    case SECTION:
+      params = _setupWhereInParam('sections', [ uuid ], params)
+      break
+    case CATEGORY:
+      params = _setupWhereInParam('categories', [ uuid ], params)
+      break
+    case TAG:
+      params = _setupWhereInParam('tags', [ uuid ], params)
+      break
+    case TOPIC:
+      params = _setupWhereInParam('topics', [ uuid ], params)
+      break
+    default:
+      return Promise.resolve()
+  }
+  let url = _buildImageQueryUrl(params)
+  return (dispatch) => {
+    dispatch(requestImages('Request Images: ' + url))
+    return _fetchArticles(url)
+      .then((response) => {
+        let camelizedJson = camelizeKeys(response)
+        dispatch(receiveImages(camelizedJson))
+      }, (error) => {
+        return dispatch(failToReceiveImages(error))
       })
   }
 }

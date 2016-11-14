@@ -25,7 +25,6 @@ import SystemError from '../components/SystemError'
 import TopChoice from '../components/TopChoice'
 import TopNews from '../components/TopNews'
 
-
 const MAXRESULT = 10
 const PAGE = 1
 
