@@ -51,7 +51,8 @@ class Home extends Component {
     this.props.setPageType(HOME)
     
     DFPManager.attachSlotRenderEnded((id, event) => {
-      if (id.slotId == 'mm_mobile_hp_320x480_FS' && !id.isEmpty && !cookie.load('visited')) {
+      if (id.slotId == 'mm_mobile_hp_320x480_FS' && !id.event.isEmpty && !cookie.load('visited')) {
+        console.log(id)
         if ( $(window).width() < 970 ) {
           cookie.save('visited', true, { path: '/', maxAge: 600 })
           $('.ui.dimmer').dimmer('show')
