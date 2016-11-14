@@ -64,9 +64,9 @@ class Home extends Component {
     this.props.setPageTitle('', SITE_NAME.FULL)
     
     DFPManager.attachSlotRenderEnded((id, event) => {
-      if (id.slotId == 'mm_mobile_hp_320x480_FS' && !id.event.isEmpty && !cookie.load('visited')) {
+      if (id.slotId == 'mm_mobile_hp_320x480_FS' && !id.event.isEmpty) {
         console.log(id)
-        if ( $(window).width() < 970 ) {
+        if ( $(window).width() < 970 && !cookie.load('visited') ) {
           cookie.save('visited', true, { path: '/', maxAge: 600 })
           $('.ui.dimmer').dimmer('show')
           $('.ui.dimmer .close').click( function () {
@@ -174,7 +174,7 @@ class Home extends Component {
 
             <div className="ui dimmer">
               <div className="content" style={ { height: '480px', width: '320px', position: 'fixed', top: 'calc(50% - 240px)', left: 'calc(50% - 160px)' } }>
-                <div className="close" style={ { top: '-16px', right: '-16px', position: 'absolute', 'zIndex': '9999' } }>
+                <div className="close" style={ { top: '-16px', right: '0', position: 'absolute', 'zIndex': '9999' } }>
                   <div style={ { background: 'url(/asset/close.png) center center no-repeat', backgroundSize: 'cover', width: '32px', height: '32px' } } />
                 </div>
                 <div className="center">
