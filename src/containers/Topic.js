@@ -6,11 +6,12 @@ import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/arti
 import { setPageType, setPageTitle } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
-import Header from '../components/Header'
 import Footer from '../components/Footer'
-import React, { Component } from 'react'
-import List from '../components/List'
 import ga from 'react-ga'
+import Header from '../components/Header'
+import List from '../components/List'
+import React, { Component } from 'react'
+import Sidebar from '../components/Sidebar'
 
 const MAXRESULT = 10
 const PAGE = 1
@@ -107,6 +108,8 @@ class Topic extends Component {
     const topicDesc = ''
     let articles = denormalizeArticles(_.get(articlesByUuids, [ topicId, 'items' ], []), entities)
 
+    let sectionListResponse = _.get(sectionList, 'response', {})
+
     const meta = {
       title: topicName ? topicName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL,
       description: topicDesc,
@@ -116,9 +119,8 @@ class Topic extends Component {
     }
     return (
       <DocumentMeta {...meta}>
-          <Header sectionList={sectionList.response} />
-
-        <div className="leading" style={ { width: '100%', height: '400px', border: '1px solid #000' } } />
+        <Sidebar sectionList={sectionListResponse} />
+        <Header sectionList={sectionListResponse} />
 
         <div id="main" className="pusher">
           <List 
@@ -129,7 +131,7 @@ class Topic extends Component {
             loadMore={this.loadMore}
           />
           {this.props.children}
-          <Footer sectionList={sectionList.response} />
+          <Footer sectionList={sectionListResponse} />
         </div>
       </DocumentMeta>
     )
