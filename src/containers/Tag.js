@@ -6,11 +6,13 @@ import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/arti
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
-import Header from '../components/Header'
 import Footer from '../components/Footer'
-import React, { Component } from 'react'
-import List from '../components/List'
 import ga from 'react-ga'
+import Header from '../components/Header'
+import List from '../components/List'
+import React, { Component } from 'react'
+import Sidebar from '../components/Sidebar'
+
 
 const MAXRESULT = 10
 const PAGE = 1
@@ -100,18 +102,20 @@ class Tag extends Component {
     const { articlesByUuids, entities, params, sectionList } = this.props
     const tagId = _.get(params, 'tagId')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ tagId, 'items' ], []), entities)
+    let sectionListResponse = _.get(sectionList, 'response', {})
     let tagName = _.get(entities, [ 'tags', tagId, 'name' ], '')
     const meta = {
-      title: tagName ? tagName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL,
-      description: SITE_META.DESC,
+      auto: { ograph: true },
       canonical: `${SITE_META.URL}tag/${tagId}`,
+      description: SITE_META.DESC,
       meta: { property: {} },
-      auto: { ograph: true }
+      title: tagName ? tagName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL
     }
 
     return (
       <DocumentMeta {...meta}>
-        <Header sectionList={sectionList.response} />
+        <Sidebar sectionList={sectionListResponse} />
+        <Header sectionList={sectionListResponse} />
 
         <div id="main" className="pusher">
           <List 
@@ -121,7 +125,7 @@ class Tag extends Component {
             loadMore={this.loadMore}
           />
           {this.props.children}
-          <Footer sectionList={sectionList.response} />
+          <Footer sectionList={sectionListResponse} />
         </div>
       </DocumentMeta>
     )
