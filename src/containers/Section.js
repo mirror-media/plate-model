@@ -142,13 +142,9 @@ class Section extends Component {
     return (
       <DocumentMeta {...meta}>
         <Sidebar sectionList={sectionList.response} />
+        <Header sectionList={sectionList.response} />
 
-        <div className="top">
-          <Header sectionList={sectionList.response} />
-          <div className="leading" style={ { width: '100%', height: '400px', border: '1px solid #000' } } />
-        </div>
-
-        <div id="main" className="pusher middle">
+        <div id="main" className="pusher">
           <Featured articles={featured} categories={entities.categories} />
           <List 
             articles={articles}
@@ -160,8 +156,6 @@ class Section extends Component {
           {this.props.children}
           <Footer sectionList={sectionList.response} />
         </div>
-
-        <style dangerouslySetInnerHTML={ { __html: '.top { background: url(http://localhost:3000/asset/bg-img.jpg) 50% 50% no-repeat; }' } } />
       </DocumentMeta>
     )
   }

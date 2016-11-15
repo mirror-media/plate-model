@@ -98,6 +98,7 @@ class Topic extends Component {
     const { articlesByUuids, entities, params, sectionList } = this.props    
     const topicId = _.get(params, 'topicId')
     const topicName = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'name')
+    const topicUUID = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'id')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ topicId, 'items' ], []), entities)
     let sectionListResponse = _.get(sectionList, 'response', {})
 
@@ -129,7 +130,7 @@ class Topic extends Component {
           <Footer sectionList={sectionListResponse} />
         </div>
         
-        <style dangerouslySetInnerHTML={ { __html: '.top { background: url(http://localhost:3000/asset/bg-img.jpg) 50% 50% no-repeat; } .middle { background-color: #FFF; }' } } />
+        <style dangerouslySetInnerHTML={ { __html: _.get(entities, [ 'topics', topicUUID, 'style' ], '') } } />
       </DocumentMeta>
     )
   }
