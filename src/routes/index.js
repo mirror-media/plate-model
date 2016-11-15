@@ -5,9 +5,10 @@ import App from '../containers/App'
 import Category from '../containers/Category'
 import Home from '../containers/Home'
 import HomeB from '../containers/HomeB'
+import Search from '../containers/Search'
 import Section from '../containers/Section'
 import Tag from '../containers/Tag'
-import Search from '../containers/Search'
+import Topic from '../containers/Topic'
 
 export default function (history = browserHistory) {
   return (
@@ -17,6 +18,7 @@ export default function (history = browserHistory) {
         <Route path="HomeB" component={HomeB}/>
         <Route path="section/:section" component={Section}/>
         <Route path="category/:category" component={Category}/>
+        <Route path="topic/:topicId" component={Topic} />
         <Route path="tag/:tagId" component={Tag} />
         <Route path="search/:keyword" component={Search} />
       </Route>
