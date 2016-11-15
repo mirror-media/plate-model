@@ -101,17 +101,15 @@ class Tag extends Component {
   render() {
     const { articlesByUuids, entities, params, sectionList } = this.props
     const tagId = _.get(params, 'tagId')
-    let tagName = _.get(entities, [ 'tags', tagId, 'name' ], '')
-
     let articles = denormalizeArticles(_.get(articlesByUuids, [ tagId, 'items' ], []), entities)
     let sectionListResponse = _.get(sectionList, 'response', {})
-
+    let tagName = _.get(entities, [ 'tags', tagId, 'name' ], '')
     const meta = {
-      title: tagName ? tagName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL,
-      description: SITE_META.DESC,
+      auto: { ograph: true },
       canonical: `${SITE_META.URL}tag/${tagId}`,
+      description: SITE_META.DESC,
       meta: { property: {} },
-      auto: { ograph: true }
+      title: tagName ? tagName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL
     }
 
     return (
