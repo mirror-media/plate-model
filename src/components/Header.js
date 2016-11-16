@@ -17,14 +17,15 @@ export default class Header extends Component {
     super(props, context)
     this.state = {
       height: 110,
-      isScrolledOver: false
+      isScrolledOver: false,
+      isClickedExpandNav: false
     }
     this._getHeaderHeight = this._getHeaderHeight.bind(this)
     this._handleScroll = this._handleScroll.bind(this)
     this._renderMenu = this._renderMenu.bind(this)
     this._openSidebar = this._openSidebar.bind(this)
     this._openSearchbar = this._openSearchbar.bind(this)
-
+    this._expandNavigation = this._expandNavigation.bind(this)
   }
 
   componentDidMount() {
@@ -89,6 +90,22 @@ export default class Header extends Component {
       }).sidebar('toggle')
   }
 
+  _expandNavigation() {
+    if (this.state.isClickedExpandNav) {
+      $('.ui.header.main.menu.menu-item')
+      .css('height', '52px')
+      $('.item.item-navClick')
+      .text('》')
+      this.state.isClickedExpandNav = false
+    } else {
+      $('.ui.header.main.menu.menu-item')
+      .css('height', 'auto')
+      $('.item.item-navClick')
+      .text('︽')
+      this.state.isClickedExpandNav = true
+    }
+  }
+
   _renderMenu() {
     let status = this.state.isScrolledOver ? 'fixed top' : 'hidden'
     const { sectionList } = this.props
@@ -133,13 +150,38 @@ export default class Header extends Component {
   }
 
   render() {
-    const { sectionList } = this.props
+    const { sectionList, topics } = this.props
     let sortedList = _.sortBy(sectionList.sections, (o)=>{ return o.sortOrder } )
+    let itemsForMenu = []
+    
+    GenerateNav()
+
+    function GenerateNav() {
+      _.each(topics.items, (t)=> { 
+        if(true) {
+          t.belongTo = "topics"
+          itemsForMenu.push(t) 
+        } // t.isFeatured
+      })
+      _.each(sectionList.sections, (s)=> {
+        if(true) {
+          s.belongTo = "sections"
+          itemsForMenu.push(s)
+        } // s.isFeatured
+      })
+      _.each(sectionList.sections, (s)=> {
+        _.each(s.categories, (c)=> { 
+          if(true) {
+            c.belongTo = "categories"
+            itemsForMenu.push(c)
+          } // c.isFeatured
+        })
+      })
+    } 
 
     return (
       <div ref="headerbox">
         <div className="ui borderless header main menu">
-
           <div className="ui text container" style={{ maxWidth: 1024 +'px !important' }}>
             <Link to="/" className="header item" style={{ marginLeft: '122px' }}>        
               <img className="logo main" src={logo} />
@@ -158,6 +200,35 @@ export default class Header extends Component {
               <div className="item mobile-only" style={{ marginTop: '25px' }}>
                 <a href="#" onClick={this._openSearchbar} ><img src="/asset/icon/search@2x.png" className="header-icon search" /></a>
               </div>
+            </div>
+          </div>
+        </div>
+        <div className="ui borderless header main menu menu-item mobile-hide">
+          <div className="ui text container" style={{ maxWidth: 100 +'% !important', width: 100 +'%' }}>
+            <div className="container" style={{ position:'relative', overflow: 'hidden' }}>
+              
+              <div className="menu-item-container">
+                { _.map(itemsForMenu, (i)=>{
+                  switch(i.belongTo) {
+                    case "sections":
+                      return (
+                        <Link to={'/section/' + i.name} key={i.id} className="item" >{i.title}</Link>
+                      )
+                      break;
+                    case "categories":
+                      return (
+                        <Link to={'/category/' + i.name} key={i.id} className="item" >{i.title}</Link>
+                      )
+                      break;
+                    case "topics":
+                      return (
+                        <Link to={'/topic/' + i.id} key={i.id} className="item">{i.name}</Link>
+                      )
+                      break;
+                  }
+                })}
+              </div>
+              <Link className={ classNames('item item-navClick') } onClick={ this._expandNavigation }>》</Link>
             </div>
           </div>
         </div>
