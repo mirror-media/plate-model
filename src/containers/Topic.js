@@ -13,8 +13,12 @@ import List from '../components/List'
 import React, { Component } from 'react'
 import Sidebar from '../components/Sidebar'
 
-const MAXRESULT = 10
-const PAGE = 1
+const MAXRESULT = 4
+const PAGE = 0
+
+if (process.env.BROWSER) {
+  require('./Topic.css')
+}
 
 class Topic extends Component {
   static fetchData({ params, store }) {
@@ -28,6 +32,7 @@ class Topic extends Component {
 
   constructor(props) {
     super(props)
+    this.loadMore = this._loadMore.bind(this)
   }
 
   componentDidMount() {
@@ -52,7 +57,10 @@ class Topic extends Component {
       return
     }
 
-    fetchArticlesByUuidIfNeeded(topicId, TOPIC)
+    fetchArticlesByUuidIfNeeded(topicId, TOPIC, {
+      page: PAGE,
+      max_results: MAXRESULT
+    })
   }
 
   componentWillUpdate(nextProps) {
@@ -70,7 +78,10 @@ class Topic extends Component {
       return
     }
 
-    fetchArticlesByUuidIfNeeded(topicId, TOPIC)
+    fetchArticlesByUuidIfNeeded(topicId, TOPIC, {
+      page: PAGE,
+      max_results: MAXRESULT
+    })
     this.setState({
       topicId: nextProps.params.topicId
     })
@@ -115,7 +126,8 @@ class Topic extends Component {
 
         <div className="top">
           <Header sectionList={sectionListResponse} />
-          <div className="leading" style={ { width: '100%', height: '400px', border: '1px solid #000' } } />
+          <div className="topic-title"><h2>Title Here</h2></div>
+          <div className="leading" style={ { height: '550px', width: '740px', backgroundColor: 'rgba(255,255,255,0.2)', border: '1px solid #000', borderRadius: '5px', margin: '0 auto' } } />
         </div>
 
         <div id="main" className="pusher middle">
