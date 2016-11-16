@@ -16,18 +16,23 @@ import Sidebar from '../components/Sidebar'
 const MAXRESULT = 10
 const PAGE = 1
 
+if (process.env.BROWSER) {
+  require('./Topic.css')
+}
+
 class Topic extends Component {
   static fetchData({ params, store }) {
-    return store.dispatch(fetchArticlesByUuidIfNeeded(params.topicId), TOPIC, {
+    return store.dispatch(fetchArticlesByUuidIfNeeded(params.topicId, TOPIC, {
       page: PAGE,
       max_results: MAXRESULT
-    }).then(() => {
+    })).then(() => {
       return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
     })
   }
 
   constructor(props) {
     super(props)
+    this.loadMore = this._loadMore.bind(this)
   }
 
   componentDidMount() {
@@ -52,7 +57,10 @@ class Topic extends Component {
       return
     }
 
-    fetchArticlesByUuidIfNeeded(topicId, TOPIC)
+    fetchArticlesByUuidIfNeeded(topicId, TOPIC, {
+      page: PAGE,
+      max_results: MAXRESULT
+    })
   }
 
   componentWillUpdate(nextProps) {
@@ -70,7 +78,10 @@ class Topic extends Component {
       return
     }
 
-    fetchArticlesByUuidIfNeeded(topicId, TOPIC)
+    fetchArticlesByUuidIfNeeded(topicId, TOPIC, {
+      page: PAGE,
+      max_results: MAXRESULT
+    })
     this.setState({
       topicId: nextProps.params.topicId
     })
@@ -96,25 +107,30 @@ class Topic extends Component {
 
   render() {
     const { articlesByUuids, entities, params, sectionList } = this.props    
-    const topicDesc = ''
     const topicId = _.get(params, 'topicId')
-    const topicName = ''
+    const topicName = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'name')
+    const topicUUID = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'id')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ topicId, 'items' ], []), entities)
     let sectionListResponse = _.get(sectionList, 'response', {})
 
     const meta = {
       auto: { ograph: true },
       canonical: `${SITE_META.URL}topic/${topicId}`,
-      description: topicDesc,
+      description: SITE_META.DESC,
       meta: { property: {} },
       title: topicName ? topicName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL
     }
     return (
       <DocumentMeta {...meta}>
         <Sidebar sectionList={sectionListResponse} />
-        <Header sectionList={sectionListResponse} />
 
-        <div id="main" className="pusher">
+        <div className="top">
+          <Header sectionList={sectionListResponse} />
+          <div className="topic-title"><h2>Title Here</h2></div>
+          <div className="leading" style={ { height: '550px', width: '740px', backgroundColor: 'rgba(255,255,255,0.2)', border: '1px solid #000', borderRadius: '5px', margin: '0 auto' } } />
+        </div>
+
+        <div id="main" className="pusher middle">
           <List 
             articles={articles}
             categories={entities.categories} 
@@ -125,6 +141,8 @@ class Topic extends Component {
           {this.props.children}
           <Footer sectionList={sectionListResponse} />
         </div>
+        
+        <style dangerouslySetInnerHTML={ { __html: _.get(entities, [ 'topics', topicUUID, 'style' ], '') } } />
       </DocumentMeta>
     )
   }
