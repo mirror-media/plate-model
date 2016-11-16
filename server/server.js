@@ -204,6 +204,9 @@ server.get('*', async function (req, res) {
                   <link rel="icon" type="image/png" href="/asset/favicon-16x16.png" sizes="16x16">
                   <link rel="shortcut icon" href="/asset/favicon.ico">
 
+                  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"/>
+                  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css"/>
+
                   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
                   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js"></script>
                   ${styles}

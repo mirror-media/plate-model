@@ -2,7 +2,7 @@
 import { SITE_META, SITE_NAME, GAID, TOPIC } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/articles'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchImages } from '../actions/articles'
 import { setPageType, setPageTitle } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
@@ -12,6 +12,7 @@ import Header from '../components/Header'
 import List from '../components/List'
 import React, { Component } from 'react'
 import Sidebar from '../components/Sidebar'
+import Leading from '../components/Leading'
 
 const MAXRESULT = 10
 const PAGE = 1
@@ -56,7 +57,9 @@ class Topic extends Component {
     if ( !checkSectionList ) {
       fetchIndexArticles([ 'sections' ])
     }
-      
+
+    this.props.fetchImages(TOPIC, topicId, {})
+
     // if fetched before, do nothing
     if (_.get(articlesByUuids, [ topicId, 'items', 'length' ], 0) > 0) {
       return
@@ -66,6 +69,7 @@ class Topic extends Component {
       page: PAGE,
       max_results: MAXRESULT
     })
+
   }
 
   componentWillUpdate(nextProps) {
@@ -77,7 +81,7 @@ class Topic extends Component {
   componentWillReceiveProps(nextProps) {
     const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = nextProps
     let topicId = _.get(params, 'topicId')
-    
+
     // if fetched before, do nothing
     if (_.get(articlesByUuids, [ topicId, 'items', 'length' ], 0) > 0) {
       return
@@ -111,7 +115,7 @@ class Topic extends Component {
   }
 
   render() {
-    const { articlesByUuids, entities, params, sectionList } = this.props    
+    const { articlesByUuids, entities, params, sectionList } = this.props
     const topicId = _.get(params, 'topicId')
     const topicUUID = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'id')
     const topicName = _.get(entities, [ 'topics', topicUUID, 'name' ] )
@@ -120,7 +124,7 @@ class Topic extends Component {
 
     let articles = denormalizeArticles(_.get(articlesByUuids, [ topicId, 'items' ], []), entities)
     let sectionListResponse = _.get(sectionList, 'response', {})
-
+    const images  = _.get(this.props.images, [ 'items', 'items' ])
     const meta = {
       auto: { ograph: true },
       canonical: `${SITE_META.URL}topic/${topicId}`,
@@ -135,21 +139,21 @@ class Topic extends Component {
         <div className="top">
           <Header sectionList={sectionListResponse} />
           <div className="topic-title"><h2>Title Here</h2></div>
-          <div className="leading" style={ { height: '550px', width: '740px', backgroundColor: 'rgba(255,255,255,0.2)', border: '1px solid #000', borderRadius: '5px', margin: '0 auto' } } />
+          <Leading type="slideshow" images={images} device={this.context.device} />
         </div>
 
         <div id="main" className="pusher middle">
-          <List 
+          <List
             articles={articles}
-            categories={entities.categories} 
-            title={topicName} 
+            categories={entities.categories}
+            title={topicName}
             hasMore={ _.get(articlesByUuids, [ topicId, 'hasMore' ])}
             loadMore={this.loadMore}
           />
           {this.props.children}
           <Footer sectionList={sectionListResponse} />
         </div>
-        
+
         <style dangerouslySetInnerHTML={ { __html: _.get(entities, [ 'topics', topicUUID, 'style' ], '') } } />
       </DocumentMeta>
     )
@@ -160,7 +164,8 @@ function mapStateToProps(state) {
   return {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
-    sectionList: state.sectionList || {}
+    sectionList: state.sectionList || {},
+    images: state.images || {}
   }
 }
 
@@ -169,4 +174,4 @@ Topic.contextTypes = {
 }
 
 export { Topic }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, setPageType, setPageTitle })(Topic)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, setPageType, setPageTitle, fetchImages })(Topic)
