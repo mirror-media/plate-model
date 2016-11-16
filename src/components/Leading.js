@@ -51,16 +51,8 @@ export default class Leading extends Component {
         'url' : _.get(itm, [ 'image', 'url' ])
       }
     })
-    console.log('leading:', leading)
-    console.log('mediaSource:', mediaSource)
-    const heroImage = _.get(mediaSource.heroImage, ['image'], {})
-    // const video = {
-    //   'filetype' : 'video/mp4',
-    //   'url' : '/asset/SampleVideo_1280x720_5mb.mp4',
-    //   'width' : '720',
-    //   'height' : '1280'
-    //
-    const video = _.get(mediaSource.heroVideo, ['video'], {})
+    const heroImage = _.get(mediaSource.heroImage, [ 'image' ], {})
+    const video = _.get(mediaSource.heroVideo, [ 'video' ], {})
 
     switch(leading) {
       case 'slideshow':
@@ -72,7 +64,6 @@ export default class Leading extends Component {
             {_.map(imageInfo, (img) => {
               return (
                 <div className="slide" key={ img.filename } style={{ background: 'url(' + img.url + ') no-repeat center center', backgroundSize: 'cover', height: img.height + 'px', maxHeight: '400px' }}></div>
-                // <div className="slide" key={idx} style={{ background: 'url(' + img + ') no-repeat center center', backgroundSize: 'cover', height: '500px', maxHeight: '500px' }}></div>
               )
             })}
             </Slider>
@@ -112,6 +103,7 @@ export default class Leading extends Component {
         } else {
           return (<div></div>)
         }
+        break
       default:
         return (
           <div></div>

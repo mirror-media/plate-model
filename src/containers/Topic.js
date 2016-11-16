@@ -134,7 +134,7 @@ class Topic extends Component {
         <div className="top">
           <Header sectionList={sectionListResponse} />
           <div className="topic-title"><h2>Title Here</h2></div>
-          <Leading leading={leading} mediaSource={{'images': images, 'heroImage': heroImage, 'heroVideo': heroVideo}} device={this.context.device} />
+          <Leading leading={leading} mediaSource={{ 'images': images, 'heroImage': heroImage, 'heroVideo': heroVideo }} device={this.context.device} />
         </div>
 
         <div id="main" className="pusher middle">
