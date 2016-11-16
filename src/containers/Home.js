@@ -32,7 +32,9 @@ if (process.env.BROWSER) {
 
 class Home extends Component {
   static fetchData({ store }) {
-    return store.dispatch(fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])) 
+    return store.dispatch(fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])).then(() => {
+      return store.dispatch( fetchTopics() )
+    })
   }
 
   constructor(props, context) {
@@ -58,13 +60,13 @@ class Home extends Component {
 
   componentWillMount() {
     const { fetchArticlesByUuidIfNeeded, fetchIndexArticles } = this.props
-    const { articlesByUuids, entities, sectionFeatured, sectionList, choices, fetchLatestPosts, latestPosts } = this.props
+    const { articlesByUuids, entities, sectionFeatured, sectionList, choices, fetchLatestPosts, topics, latestPosts } = this.props
 
     let checkSectionList = _.get(sectionList, 'fetched', undefined)
     let checkSectionFeatured = _.get(sectionFeatured, 'fetched', undefined)
     let checkChoices = _.get(choices, 'fetched', undefined)
     let checkLatestPosts = _.get(latestPosts, 'fetched', undefined)
-    
+
     let unfetched = []
 
     if ( !checkLatestPosts ) unfetched.push('posts')
@@ -75,7 +77,10 @@ class Home extends Component {
     if ( unfetched.length != 0 ) {
       this.props.fetchIndexArticles( unfetched )
     }
-    this.props.fetchTopics()
+
+    if ( !_.get(topics, 'fetched', undefined) ) {
+      this.props.fetchTopics()
+    }
   }
 
   _loadMore() {

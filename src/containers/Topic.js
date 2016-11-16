@@ -27,6 +27,8 @@ class Topic extends Component {
       max_results: MAXRESULT
     })).then(() => {
       return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
+    }).then(() => {
+      return store.dispatch( fetchTopics() )
     })
   }
 
@@ -48,9 +50,13 @@ class Topic extends Component {
   }
 
   componentWillMount() {
-    const { articlesByUuids, fetchArticlesByUuidIfNeeded, params, fetchIndexArticles, sectionList } = this.props
+    const { articlesByUuids, fetchArticlesByUuidIfNeeded, params, fetchIndexArticles, sectionList, topics } = this.props
     let topicId = _.get(params, 'topicId')
 
+    if ( !_.get(topics, 'fetched', undefined) ) {
+      this.props.fetchTopics()
+    }
+    
     // if fetched before, do nothing
     let checkSectionList = _.get(sectionList, 'fetched', undefined)
     if ( !checkSectionList ) {

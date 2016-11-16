@@ -31,6 +31,8 @@ class Section extends Component {
       max_results: MAXRESULT
     }).then(() => {
       return store.dispatch( fetchIndexArticles( [ 'sections', 'sectionfeatured' ] ) )
+    }).then(() => {
+      return store.dispatch( fetchTopics() )
     })
   }
 
@@ -44,7 +46,7 @@ class Section extends Component {
   }
 
   componentWillMount() {
-    const { articlesByUuids, fetchArticlesByUuidIfNeeded, fetchIndexArticles, sectionList, sectionFeatured } = this.props
+    const { articlesByUuids, fetchArticlesByUuidIfNeeded, fetchIndexArticles, sectionList, topics, sectionFeatured } = this.props
     let catId = this.state.catId
 
     //TODO: We should not get all the keys
@@ -52,6 +54,10 @@ class Section extends Component {
     let checkSectionFeatured = _.get(sectionFeatured, 'fetched', undefined)
     if ( !checkSectionList || !checkSectionFeatured) {
       fetchIndexArticles([ 'sections', 'sectionfeatured' ])
+    }
+
+    if ( !_.get(topics, 'fetched', undefined) ) {
+      this.props.fetchTopics()
     }
 
     // if fetched before, do nothing
@@ -63,7 +69,7 @@ class Section extends Component {
       page: PAGE,
       max_results: MAXRESULT
     })
-    this.props.fetchTopics()
+    
   }
 
   componentDidMount() {

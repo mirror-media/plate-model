@@ -25,7 +25,9 @@ class Category extends Component {
   static fetchData({ params, store }) {
     if (params.category == 'videohub') {
       return store.dispatch(fetchYoutubePlaylist(MAXRESULT)).then(() => {
-        return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
+        return store.dispatch( fetchIndexArticles( [ 'sections' ] ) ).then(() => {
+          return store.dispatch( fetchTopics() )
+        })
       })
     } else {
       return store.dispatch(fetchArticlesByUuidIfNeeded(params.category, CATEGORY), {
@@ -33,6 +35,8 @@ class Category extends Component {
         max_results: MAXRESULT
       }).then(() => {
         return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
+      }).then(() => {
+        return store.dispatch( fetchTopics() )
       })
     }
   }
@@ -49,8 +53,12 @@ class Category extends Component {
   }
 
   componentWillMount() {
-    const { fetchArticlesByUuidIfNeeded, articlesByUuids, fetchIndexArticles, fetchYoutubePlaylist, sectionList, youtubePlaylist } = this.props
+    const { fetchArticlesByUuidIfNeeded, articlesByUuids, fetchIndexArticles, fetchYoutubePlaylist, sectionList, topics, youtubePlaylist } = this.props
     let catId = this.state.catId
+
+    if ( !_.get(topics, 'fetched', undefined) ) {
+      this.props.fetchTopics()
+    }
 
     // if fetched before, do nothing
     let checkSectionList = _.get(sectionList, 'fetched', undefined)

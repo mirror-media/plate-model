@@ -26,6 +26,8 @@ class Search extends Component {
     let keyword = params.keyword
     return store.dispatch( makeSearchQuery(encodeURIComponent(keyword)+'&offset='+PAGE+'&length='+MAXRESULT) ).then(() => {
       return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
+    }).then(() => {
+      return store.dispatch( fetchTopics() )
     })
   }
 
@@ -41,7 +43,7 @@ class Search extends Component {
 
   componentWillMount() {
     // const { articlesByUuids, fetchArticlesByUuidIfNeeded, fetchIndexArticles, searchResult, makeSearchQuery, sectionList } = this.props
-    const { fetchIndexArticles, makeSearchQuery, sectionList, searchResult } = this.props
+    const { fetchIndexArticles, makeSearchQuery, sectionList, topics, searchResult } = this.props
     let keyword = this.state.keyword
 
     let checkSearchResult = _.get(searchResult, 'response', undefined)
@@ -51,6 +53,11 @@ class Search extends Component {
         return
       })
     }
+
+    if ( !_.get(topics, 'fetched', undefined) ) {
+      this.props.fetchTopics()
+    }
+
     // if fetched before, do nothing
     if (_.get(sectionList, [ 'response', 'length' ], 0) == 0 ) {
       fetchIndexArticles( [ 'sections' ] )
