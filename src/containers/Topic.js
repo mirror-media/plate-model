@@ -36,10 +36,15 @@ class Topic extends Component {
   }
 
   componentDidMount() {
+    const { entities, params } = this.props
+    const topicId = _.get(params, 'topicId')
+    const topicName = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'name')
+
     ga.initialize(GAID, { debug: __DEVELOPMENT__ })
     ga.pageview(this.props.location.pathname)
 
     this.props.setPageType(TOPIC)
+    this.props.setPageTitle('', topicName ? topicName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL)
   }
 
   componentWillMount() {
@@ -108,17 +113,20 @@ class Topic extends Component {
   render() {
     const { articlesByUuids, entities, params, sectionList } = this.props    
     const topicId = _.get(params, 'topicId')
-    const topicName = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'name')
     const topicUUID = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'id')
+    const topicName = _.get(entities, [ 'topics', topicUUID, 'name' ] )
+    const ogTitle = _.get(entities, [ 'topics', topicUUID, 'ogTitle' ] )
+    const ogDesc = _.get(entities, [ 'topics', topicUUID, 'ogDescription' ] )
+
     let articles = denormalizeArticles(_.get(articlesByUuids, [ topicId, 'items' ], []), entities)
     let sectionListResponse = _.get(sectionList, 'response', {})
 
     const meta = {
       auto: { ograph: true },
       canonical: `${SITE_META.URL}topic/${topicId}`,
-      description: SITE_META.DESC,
-      meta: { property: {} },
-      title: topicName ? topicName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL
+      description: ogDesc ? ogDesc : SITE_META.DESC,
+      meta: { property: { } },
+      title: ogTitle ? ogTitle + SITE_NAME.SEPARATOR + SITE_NAME.FULL : (topicName ? topicName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL)
     }
     return (
       <DocumentMeta {...meta}>

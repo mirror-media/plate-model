@@ -140,6 +140,13 @@ server.get('*', async function (req, res) {
           let section = _.find(sectionList, { name: sectionName } )
           desc = _.get(section, 'description', desc)
         }
+
+        if ( _.includes(getCurrentUrl(), 'topic') ) {
+          let topicId = _.get(getCurrentUrl().split('/'), '2')
+          title = _.get(pageState, [ 'entities', 'topics', topicId, 'ogTitle' ]) ? _.get(pageState, [ 'entities', 'topics', topicId, 'ogTitle' ]) + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL
+          desc = _.get(pageState, [ 'entities', 'topics', topicId, 'ogDescription' ], SITE_META.DESC)
+        }
+
         // if (pageState['selectedArticle']['id']) {
         //   let currentArticle = _.get(pageState, [ 'entities', 'articles', _.get(pageState, 'selectedArticle.id') ], null)
         //   if (currentArticle) {
@@ -176,6 +183,7 @@ server.get('*', async function (req, res) {
                   <meta property="og:rich_attachment" content="true"/>
                   <meta property="og:type" content="${ogType}" />
                   <meta property="og:title" content="${title}" data-rdm/>
+                  <meta property="og:description" content="${desc}" data-rdm/>
                   <meta property="og:site_name" content="${SITE_NAME.SHORT}" />
                   <meta property="og:image" content="${ogImage}" data-rdm/>
                   <meta property="og:image:type" content="image/png" />
@@ -185,7 +193,7 @@ server.get('*', async function (req, res) {
                   <meta name="twitter:card" content="summary_large_image" />
                   <meta name="twitter:image" content="${ogImage}" />
                   <meta name="twitter:title" content="${title}" data-rdm/>
-                  <meta name="twitter:description" content="" data-rdm/>
+                  <meta name="twitter:description" content="${desc}" data-rdm/>
                   <link rel="canonical" href="${canonical}" data-rdm/>
                   <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="${SITE_META.URL}story/rss.xml" />
                   <!-- reset css for cross browser-->
