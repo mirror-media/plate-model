@@ -1,7 +1,7 @@
 /* global __DEVELOPMENT__ */
 import { SITE_META, SITE_NAME, SEARCH, GAID } from '../constants/index'
 import { connect } from 'react-redux'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery } from '../actions/articles'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchTopics } from '../actions/articles'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
@@ -55,7 +55,7 @@ class Search extends Component {
     if (_.get(sectionList, [ 'response', 'length' ], 0) == 0 ) {
       fetchIndexArticles( [ 'sections' ] )
     }
-
+    this.props.fetchTopics()
   }
 
   componentDidMount() {
@@ -93,7 +93,7 @@ class Search extends Component {
   }
 
   render() {
-    const { entities, params, sectionList, searchResult } = this.props
+    const { entities, params, sectionList, searchResult, topics } = this.props
     const keyword = _.get(params, 'keyword', null)
 
     const meta = {
@@ -106,8 +106,8 @@ class Search extends Component {
 
     return (
       <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionList.response} />
-        <Header sectionList={sectionList.response} />
+        <Sidebar sectionList={sectionList.response} topics={topics}/>
+        <Header sectionList={sectionList.response} topics={topics}/>
 
         <div id="main" className="pusher">
           <List 
@@ -130,7 +130,8 @@ function mapStateToProps(state) {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
     sectionList: state.sectionList || {},
-    searchResult: state.searchResult || {}
+    searchResult: state.searchResult || {},
+    topics: state.topics || {}
   }
 }
 
@@ -139,4 +140,4 @@ Search.contextTypes = {
 }
 
 export { Search }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchIndexArticles, setPageType })(Search)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchIndexArticles, fetchTopics, setPageType })(Search)

@@ -115,7 +115,7 @@ class Home extends Component {
     if (posts) {
       return (
         <DocumentMeta {...meta} >
-          <Sidebar sectionList={sectionListResponse} />
+          <Sidebar sectionList={sectionListResponse} topics={topics}/>
           <Header sectionList={sectionListResponse} topics={topics}/>
 
           <div id="main" className="pusher">

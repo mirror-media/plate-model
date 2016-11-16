@@ -2,7 +2,7 @@
 import { SECTION, SITE_META, SITE_NAME, GAID } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/articles'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchTopics } from '../actions/articles'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
@@ -63,7 +63,7 @@ class Section extends Component {
       page: PAGE,
       max_results: MAXRESULT
     })
-
+    this.props.fetchTopics()
   }
 
   componentDidMount() {
@@ -121,7 +121,7 @@ class Section extends Component {
   }
 
   render() {
-    const { articlesByUuids, entities, sectionFeatured, params, sectionList } = this.props
+    const { articlesByUuids, entities, sectionFeatured, params, sectionList, topics } = this.props
     const catId = _.get(params, 'section')
 
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
@@ -141,8 +141,8 @@ class Section extends Component {
 
     return (
       <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionList.response} />
-        <Header sectionList={sectionList.response} />
+        <Sidebar sectionList={sectionList.response} topics={topics}/>
+        <Header sectionList={sectionList.response} topics={topics}/>
 
         <div id="main" className="pusher">
           <Featured articles={featured} categories={entities.categories} />
@@ -166,7 +166,8 @@ function mapStateToProps(state) {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
     sectionList: state.sectionList || {},
-    sectionFeatured: state.sectionFeatured || {}
+    sectionFeatured: state.sectionFeatured || {},
+    topics: state.topics || {}
   }
 }
 
@@ -175,4 +176,4 @@ Section.contextTypes = {
 }
 
 export { Section }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, setPageType })(Section)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTopics, setPageType })(Section)

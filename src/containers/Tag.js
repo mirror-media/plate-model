@@ -2,7 +2,7 @@
 import { SITE_META, SITE_NAME, TAG, GAID } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/articles'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchTopics } from '../actions/articles'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
@@ -51,6 +51,7 @@ class Tag extends Component {
       page: PAGE,
       max_results: MAXRESULT
     })
+    this.props.fetchTopics()
   }
 
   componentDidMount() {
@@ -99,7 +100,7 @@ class Tag extends Component {
   }
 
   render() {
-    const { articlesByUuids, entities, params, sectionList } = this.props
+    const { articlesByUuids, entities, params, sectionList, topics } = this.props
     const tagId = _.get(params, 'tagId')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ tagId, 'items' ], []), entities)
     let sectionListResponse = _.get(sectionList, 'response', {})
@@ -114,8 +115,8 @@ class Tag extends Component {
 
     return (
       <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionListResponse} />
-        <Header sectionList={sectionListResponse} />
+        <Sidebar sectionList={sectionListResponse} topics={topics}/>
+        <Header sectionList={sectionListResponse} topics={topics}/>
 
         <div id="main" className="pusher">
           <List 
@@ -136,7 +137,8 @@ function mapStateToProps(state) {
   return {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
-    sectionList: state.sectionList || {}
+    sectionList: state.sectionList || {},
+    topics: state.topics || {}
   }
 }
 
@@ -145,4 +147,4 @@ Tag.contextTypes = {
 }
 
 export { Tag }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, setPageType })(Tag)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTopics, setPageType })(Tag)
