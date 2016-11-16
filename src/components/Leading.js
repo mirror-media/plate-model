@@ -27,7 +27,7 @@ export default class Leading extends Component {
   }
 
   render() {
-    const { type, images } = this.props
+    const { leading, mediaSource } = this.props
     const settings = {
       dots: false,
       infinite: true,
@@ -42,7 +42,7 @@ export default class Leading extends Component {
       prevArrow: <PrevArrow src="/asset/icon/golden_Horse_arrow_left.png" />,
       nextArrow: <NextArrow src="/asset/icon/golden_Horse_arrow_right.png" />
     }
-    const imageInfo = _.map(images, (itm) => {
+    const imageInfo = _.map(mediaSource.images, (itm) => {
       return {
         'filename' : _.get(itm, [ 'image', 'filename' ]),
         'filetype' : _.get(itm, [ 'image', 'filetype' ]),
@@ -51,20 +51,18 @@ export default class Leading extends Component {
         'url' : _.get(itm, [ 'image', 'url' ])
       }
     })
-    const data = [
-      '/asset/404.png',
-      '/asset/ads/subscribe1130.jpg',
-      '/asset/ads/hero.jpg',
-      '/asset/ads/subscribe.jpg'
-    ]
-    const video = {
-      'filetype' : 'video/mp4',
-      'url' : '/asset/SampleVideo_1280x720_5mb.mp4',
-      'width' : '720',
-      'height' : '1280'
-    }
+    console.log('leading:', leading)
+    console.log('mediaSource:', mediaSource)
+    const heroImage = _.get(mediaSource.heroImage, ['image'], {})
+    // const video = {
+    //   'filetype' : 'video/mp4',
+    //   'url' : '/asset/SampleVideo_1280x720_5mb.mp4',
+    //   'width' : '720',
+    //   'height' : '1280'
+    //
+    const video = _.get(mediaSource.heroVideo, ['video'], {})
 
-    switch(type) {
+    switch(leading) {
       case 'slideshow':
         if(imageInfo.length > 0) {
           return (
@@ -86,25 +84,34 @@ export default class Leading extends Component {
         }
         break
       case 'image':
-        return (
-          <div className = "container">
-            <div className = "leading-container">
-              <a href="#"><div className="img" style={{ maxHeight: '550px', overflow: 'hidden' }}>
-                <img src={ data[0] } style={{ width: '100%' }} />
-              </div></a>
+        if(heroImage.url && heroImage.url.length > 0) {
+          return (
+            <div className = "container">
+              <div className = "leading-container">
+                <a href="#"><div className="img" style={{ maxHeight: '550px', overflow: 'hidden' }}>
+                  <img src={ heroImage.url } style={{ width: '100%' }} />
+                </div></a>
+              </div>
             </div>
-          </div>
-        )
+          )
+        } else {
+          return (<div></div>)
+        }
+        break
       case 'video':
-        return (
-          <div className = "container">
-            <div className = "leading-container">
+        if(video.url && video.url.length > 0) {
+          return (
+            <div className = "container">
+              <div className = "leading-container">
                 <video style={{ width: '100%' }}>
                   <source src={video.url} type={video.filetype} />
                 </video>
+              </div>
             </div>
-          </div>
-        )
+          )
+        } else {
+          return (<div></div>)
+        }
       default:
         return (
           <div></div>

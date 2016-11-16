@@ -9,10 +9,10 @@ import DocumentMeta from 'react-document-meta'
 import Footer from '../components/Footer'
 import ga from 'react-ga'
 import Header from '../components/Header'
+import Leading from '../components/Leading'
 import List from '../components/List'
 import React, { Component } from 'react'
 import Sidebar from '../components/Sidebar'
-import Leading from '../components/Leading'
 
 const MAXRESULT = 10
 const PAGE = 1
@@ -114,9 +114,12 @@ class Topic extends Component {
     const topicId = _.get(params, 'topicId')
     const topicName = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'name')
     const topicUUID = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'id')
+    const leading = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'leading')
+    const images  = _.get(this.props.images, [ 'items', 'items' ])
+    const heroImage = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'heroImage')
+    const heroVideo = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'heroVideo')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ topicId, 'items' ], []), entities)
     let sectionListResponse = _.get(sectionList, 'response', {})
-    const images  = _.get(this.props.images, [ 'items', 'items' ])
     const meta = {
       auto: { ograph: true },
       canonical: `${SITE_META.URL}topic/${topicId}`,
@@ -131,7 +134,7 @@ class Topic extends Component {
         <div className="top">
           <Header sectionList={sectionListResponse} />
           <div className="topic-title"><h2>Title Here</h2></div>
-          <Leading type="slideshow" images={images} device={this.context.device} />
+          <Leading leading={leading} mediaSource={{'images': images, 'heroImage': heroImage, 'heroVideo': heroVideo}} device={this.context.device} />
         </div>
 
         <div id="main" className="pusher middle">
@@ -166,4 +169,4 @@ Topic.contextTypes = {
 }
 
 export { Topic }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, setPageType, setPageTitle, fetchImages })(Topic)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchImages, setPageType, setPageTitle })(Topic)
