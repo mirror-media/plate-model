@@ -124,16 +124,20 @@ class Topic extends Component {
   render() {
     const { articlesByUuids, entities, params, sectionList, topics } = this.props    
     const images  = _.get(this.props.images, [ 'items', 'items' ])
-    const heroImage = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'heroImage')
-    const heroVideo = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'heroVideo')
-    const ogTitle = _.get(entities, [ 'topics', topicUUID, 'ogTitle' ] )
-    const ogDesc = _.get(entities, [ 'topics', topicUUID, 'ogDescription' ] )
-    const leading = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'leading')
+    
     const topicId = _.get(params, 'topicId')
     const topicUUID = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'id')
+    
+    const heroImage = _.get(entities, [ 'topics', topicUUID, 'heroImage' ] )
+    const heroVideo = _.get(entities, [ 'topics', topicUUID, 'heroVideo' ] )
+    const leading = _.get(entities, [ 'topics', topicUUID, 'leading' ] )
+    const ogDesc = _.get(entities, [ 'topics', topicUUID, 'ogDescription' ] )
+    const ogTitle = _.get(entities, [ 'topics', topicUUID, 'ogTitle' ] )
     const topicName = _.get(entities, [ 'topics', topicUUID, 'name' ] )
+
     let articles = denormalizeArticles(_.get(articlesByUuids, [ topicId, 'items' ], []), entities)
     let sectionListResponse = _.get(sectionList, 'response', {})
+    
     const meta = {
       auto: { ograph: true },
       canonical: `${SITE_META.URL}topic/${topicId}`,
