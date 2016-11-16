@@ -2,13 +2,14 @@
 import { SITE_META, SITE_NAME, GAID, TOPIC } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchTopics } from '../actions/articles'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchTopics, fetchImages } from '../actions/articles'
 import { setPageType, setPageTitle } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
 import Footer from '../components/Footer'
 import ga from 'react-ga'
 import Header from '../components/Header'
+import Leading from '../components/Leading'
 import List from '../components/List'
 import React, { Component } from 'react'
 import Sidebar from '../components/Sidebar'
@@ -62,7 +63,9 @@ class Topic extends Component {
     if ( !checkSectionList ) {
       fetchIndexArticles([ 'sections' ])
     }
-      
+
+    this.props.fetchImages(TOPIC, topicId, {})
+
     // if fetched before, do nothing
     if (_.get(articlesByUuids, [ topicId, 'items', 'length' ], 0) > 0) {
       return
@@ -85,7 +88,7 @@ class Topic extends Component {
   componentWillReceiveProps(nextProps) {
     const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = nextProps
     let topicId = _.get(params, 'topicId')
-    
+
     // if fetched before, do nothing
     if (_.get(articlesByUuids, [ topicId, 'items', 'length' ], 0) > 0) {
       return
@@ -120,15 +123,17 @@ class Topic extends Component {
 
   render() {
     const { articlesByUuids, entities, params, sectionList, topics } = this.props    
+    const images  = _.get(this.props.images, [ 'items', 'items' ])
+    const heroImage = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'heroImage')
+    const heroVideo = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'heroVideo')
+    const ogTitle = _.get(entities, [ 'topics', topicUUID, 'ogTitle' ] )
+    const ogDesc = _.get(entities, [ 'topics', topicUUID, 'ogDescription' ] )
+    const leading = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'leading')
     const topicId = _.get(params, 'topicId')
     const topicUUID = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'id')
     const topicName = _.get(entities, [ 'topics', topicUUID, 'name' ] )
-    const ogTitle = _.get(entities, [ 'topics', topicUUID, 'ogTitle' ] )
-    const ogDesc = _.get(entities, [ 'topics', topicUUID, 'ogDescription' ] )
-
     let articles = denormalizeArticles(_.get(articlesByUuids, [ topicId, 'items' ], []), entities)
     let sectionListResponse = _.get(sectionList, 'response', {})
-
     const meta = {
       auto: { ograph: true },
       canonical: `${SITE_META.URL}topic/${topicId}`,
@@ -143,21 +148,21 @@ class Topic extends Component {
         <div className="top">
           <Header sectionList={sectionListResponse} topics={topics}/>
           <div className="topic-title"><h2>Title Here</h2></div>
-          <div className="leading" style={ { height: '550px', width: '740px', backgroundColor: 'rgba(255,255,255,0.2)', border: '1px solid #000', borderRadius: '5px', margin: '0 auto' } } />
+          <Leading leading={ leading } mediaSource={ { 'images': images, 'heroImage': heroImage, 'heroVideo': heroVideo } } device={ this.context.device } />
         </div>
 
         <div id="main" className="pusher middle">
-          <List 
-            articles={articles}
-            categories={entities.categories} 
-            title={topicName} 
+          <List
+            articles={ articles }
+            categories={ entities.categories }
+            title={ topicName }
             hasMore={ _.get(articlesByUuids, [ topicId, 'hasMore' ])}
-            loadMore={this.loadMore}
+            loadMore={ this.loadMore }
           />
-          {this.props.children}
-          <Footer sectionList={sectionListResponse} />
+          { this.props.children }
+          <Footer sectionList={ sectionListResponse } />
         </div>
-        
+
         <style dangerouslySetInnerHTML={ { __html: _.get(entities, [ 'topics', topicUUID, 'style' ], '') } } />
       </DocumentMeta>
     )
@@ -168,6 +173,7 @@ function mapStateToProps(state) {
   return {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
+    images: state.images || {},
     sectionList: state.sectionList || {},
     topics: state.topics || {}
   }
@@ -178,4 +184,4 @@ Topic.contextTypes = {
 }
 
 export { Topic }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTopics, setPageType, setPageTitle })(Topic)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTopics, fetchImages, setPageType, setPageTitle })(Topic)
