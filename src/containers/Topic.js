@@ -42,26 +42,26 @@ class Topic extends Component {
     this.props.setPageType(TOPIC)
   }
 
-  // componentWillMount() {
-  //   const { articlesByUuids, fetchArticlesByUuidIfNeeded, params, fetchIndexArticles, sectionList } = this.props
-  //   let topicId = _.get(params, 'topicId')
+  componentWillMount() {
+    const { articlesByUuids, fetchArticlesByUuidIfNeeded, params, fetchIndexArticles, sectionList } = this.props
+    let topicId = _.get(params, 'topicId')
 
-  //   // if fetched before, do nothing
-  //   let checkSectionList = _.get(sectionList, 'fetched', undefined)
-  //   if ( !checkSectionList ) {
-  //     fetchIndexArticles([ 'sections' ])
-  //   }
+    // if fetched before, do nothing
+    let checkSectionList = _.get(sectionList, 'fetched', undefined)
+    if ( !checkSectionList ) {
+      fetchIndexArticles([ 'sections' ])
+    }
       
-  //   // if fetched before, do nothing
-  //   if (_.get(articlesByUuids, [ topicId, 'items', 'length' ], 0) > 0) {
-  //     return
-  //   }
+    // if fetched before, do nothing
+    if (_.get(articlesByUuids, [ topicId, 'items', 'length' ], 0) > 0) {
+      return
+    }
 
-  //   fetchArticlesByUuidIfNeeded(topicId, TOPIC, {
-  //     page: PAGE,
-  //     max_results: MAXRESULT
-  //   })
-  // }
+    fetchArticlesByUuidIfNeeded(topicId, TOPIC, {
+      page: PAGE,
+      max_results: MAXRESULT
+    })
+  }
 
   componentWillUpdate(nextProps) {
     if (nextProps.location.pathname !== this.props.location.pathname) {
