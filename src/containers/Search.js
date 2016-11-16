@@ -1,7 +1,7 @@
 /* global __DEVELOPMENT__ */
 import { SITE_META, SITE_NAME, SEARCH, GAID } from '../constants/index'
 import { connect } from 'react-redux'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery } from '../actions/articles'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchTopics } from '../actions/articles'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
@@ -26,6 +26,8 @@ class Search extends Component {
     let keyword = params.keyword
     return store.dispatch( makeSearchQuery(encodeURIComponent(keyword)+'&offset='+PAGE+'&length='+MAXRESULT) ).then(() => {
       return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
+    }).then(() => {
+      return store.dispatch( fetchTopics() )
     })
   }
 
@@ -41,7 +43,7 @@ class Search extends Component {
 
   componentWillMount() {
     // const { articlesByUuids, fetchArticlesByUuidIfNeeded, fetchIndexArticles, searchResult, makeSearchQuery, sectionList } = this.props
-    const { fetchIndexArticles, makeSearchQuery, sectionList, searchResult } = this.props
+    const { fetchIndexArticles, makeSearchQuery, sectionList, topics, searchResult } = this.props
     let keyword = this.state.keyword
 
     let checkSearchResult = _.get(searchResult, 'response', undefined)
@@ -51,11 +53,16 @@ class Search extends Component {
         return
       })
     }
+
+    if ( !_.get(topics, 'fetched', undefined) ) {
+      this.props.fetchTopics()
+    }
+
     // if fetched before, do nothing
     if (_.get(sectionList, [ 'response', 'length' ], 0) == 0 ) {
       fetchIndexArticles( [ 'sections' ] )
     }
-
+    this.props.fetchTopics()
   }
 
   componentDidMount() {
@@ -93,7 +100,7 @@ class Search extends Component {
   }
 
   render() {
-    const { entities, params, sectionList, searchResult } = this.props
+    const { entities, params, sectionList, searchResult, topics } = this.props
     const keyword = _.get(params, 'keyword', null)
 
     const meta = {
@@ -106,8 +113,8 @@ class Search extends Component {
 
     return (
       <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionList.response} />
-        <Header sectionList={sectionList.response} />
+        <Sidebar sectionList={sectionList.response} topics={topics}/>
+        <Header sectionList={sectionList.response} topics={topics}/>
 
         <div id="main" className="pusher">
           <List 
@@ -130,7 +137,8 @@ function mapStateToProps(state) {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
     sectionList: state.sectionList || {},
-    searchResult: state.searchResult || {}
+    searchResult: state.searchResult || {},
+    topics: state.topics || {}
   }
 }
 
@@ -139,4 +147,4 @@ Search.contextTypes = {
 }
 
 export { Search }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchIndexArticles, setPageType })(Search)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchIndexArticles, fetchTopics, setPageType })(Search)

@@ -2,7 +2,7 @@
 import { CATEGORY, SITE_META, SITE_NAME, GAID } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchYoutubePlaylist } from '../actions/articles'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchYoutubePlaylist, fetchTopics } from '../actions/articles'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
@@ -25,7 +25,9 @@ class Category extends Component {
   static fetchData({ params, store }) {
     if (params.category == 'videohub') {
       return store.dispatch(fetchYoutubePlaylist(MAXRESULT)).then(() => {
-        return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
+        return store.dispatch( fetchIndexArticles( [ 'sections' ] ) ).then(() => {
+          return store.dispatch( fetchTopics() )
+        })
       })
     } else {
       return store.dispatch(fetchArticlesByUuidIfNeeded(params.category, CATEGORY), {
@@ -33,6 +35,8 @@ class Category extends Component {
         max_results: MAXRESULT
       }).then(() => {
         return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
+      }).then(() => {
+        return store.dispatch( fetchTopics() )
       })
     }
   }
@@ -49,8 +53,12 @@ class Category extends Component {
   }
 
   componentWillMount() {
-    const { fetchArticlesByUuidIfNeeded, articlesByUuids, fetchIndexArticles, fetchYoutubePlaylist, sectionList, youtubePlaylist } = this.props
+    const { fetchArticlesByUuidIfNeeded, articlesByUuids, fetchIndexArticles, fetchYoutubePlaylist, sectionList, topics, youtubePlaylist } = this.props
     let catId = this.state.catId
+
+    if ( !_.get(topics, 'fetched', undefined) ) {
+      this.props.fetchTopics()
+    }
 
     // if fetched before, do nothing
     let checkSectionList = _.get(sectionList, 'fetched', undefined)
@@ -73,6 +81,8 @@ class Category extends Component {
       page: PAGE,
       max_results: MAXRESULT
     })
+
+    this.props.fetchTopics()
 
   }
 
@@ -168,7 +178,7 @@ class Category extends Component {
   }
 
   render() {
-    const { params, sectionList } = this.props
+    const { params, sectionList, topics } = this.props
 
     const category = _.get(params, 'category', null)
     const catName = _.get(sectionList.response, [ 'categories', category, 'title' ], null)
@@ -182,8 +192,8 @@ class Category extends Component {
 
     return (
       <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionList.response} />
-        <Header sectionList={sectionList.response} />
+        <Sidebar sectionList={sectionList.response} topics={topics}/>
+        <Header sectionList={sectionList.response} topics={topics}/>
 
         <div id="main" className="pusher">
           {this.renderList()}
@@ -200,7 +210,8 @@ function mapStateToProps(state) {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
     sectionList: state.sectionList || {},
-    youtubePlaylist: state.youtubePlaylist || {}
+    topics: state.topics || {},
+    youtubePlaylist: state.youtubePlaylist || {},
   }
 }
 
@@ -209,4 +220,4 @@ Category.contextTypes = {
 }
 
 export { Category }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchYoutubePlaylist, setPageType })(Category)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchYoutubePlaylist, fetchTopics, setPageType })(Category)

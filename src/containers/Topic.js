@@ -2,7 +2,7 @@
 import { SITE_META, SITE_NAME, GAID, TOPIC } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/articles'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchTopics } from '../actions/articles'
 import { setPageType, setPageTitle } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
@@ -27,6 +27,8 @@ class Topic extends Component {
       max_results: MAXRESULT
     })).then(() => {
       return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
+    }).then(() => {
+      return store.dispatch( fetchTopics() )
     })
   }
 
@@ -48,9 +50,13 @@ class Topic extends Component {
   }
 
   componentWillMount() {
-    const { articlesByUuids, fetchArticlesByUuidIfNeeded, params, fetchIndexArticles, sectionList } = this.props
+    const { articlesByUuids, fetchArticlesByUuidIfNeeded, params, fetchIndexArticles, sectionList, topics } = this.props
     let topicId = _.get(params, 'topicId')
 
+    if ( !_.get(topics, 'fetched', undefined) ) {
+      this.props.fetchTopics()
+    }
+    
     // if fetched before, do nothing
     let checkSectionList = _.get(sectionList, 'fetched', undefined)
     if ( !checkSectionList ) {
@@ -66,6 +72,8 @@ class Topic extends Component {
       page: PAGE,
       max_results: MAXRESULT
     })
+
+    this.props.fetchTopics()
   }
 
   componentWillUpdate(nextProps) {
@@ -111,7 +119,7 @@ class Topic extends Component {
   }
 
   render() {
-    const { articlesByUuids, entities, params, sectionList } = this.props    
+    const { articlesByUuids, entities, params, sectionList, topics } = this.props    
     const topicId = _.get(params, 'topicId')
     const topicUUID = _.get(_.find( _.get(entities, 'topics', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'id')
     const topicName = _.get(entities, [ 'topics', topicUUID, 'name' ] )
@@ -130,10 +138,10 @@ class Topic extends Component {
     }
     return (
       <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionListResponse} />
+        <Sidebar sectionList={sectionListResponse} topics={topics}/>
 
         <div className="top">
-          <Header sectionList={sectionListResponse} />
+          <Header sectionList={sectionListResponse} topics={topics}/>
           <div className="topic-title"><h2>Title Here</h2></div>
           <div className="leading" style={ { height: '550px', width: '740px', backgroundColor: 'rgba(255,255,255,0.2)', border: '1px solid #000', borderRadius: '5px', margin: '0 auto' } } />
         </div>
@@ -160,7 +168,8 @@ function mapStateToProps(state) {
   return {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
-    sectionList: state.sectionList || {}
+    sectionList: state.sectionList || {},
+    topics: state.topics || {}
   }
 }
 
@@ -169,4 +178,4 @@ Topic.contextTypes = {
 }
 
 export { Topic }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, setPageType, setPageTitle })(Topic)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTopics, setPageType, setPageTitle })(Topic)

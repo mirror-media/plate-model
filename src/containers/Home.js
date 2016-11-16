@@ -4,7 +4,7 @@
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { devCatListId, prodCatListId } from '../conf/list-id'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchLatestPosts } from '../actions/articles'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchLatestPosts, fetchTopics } from '../actions/articles'
 import { HOME, CATEGORY, SITE_NAME, SITE_META, GAID } from '../constants/index'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
@@ -32,7 +32,9 @@ if (process.env.BROWSER) {
 
 class Home extends Component {
   static fetchData({ store }) {
-    return store.dispatch(fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])) 
+    return store.dispatch(fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])).then(() => {
+      return store.dispatch( fetchTopics() )
+    })
   }
 
   constructor(props, context) {
@@ -58,13 +60,13 @@ class Home extends Component {
 
   componentWillMount() {
     const { fetchArticlesByUuidIfNeeded, fetchIndexArticles } = this.props
-    const { articlesByUuids, entities, sectionFeatured, sectionList, choices, fetchLatestPosts, latestPosts } = this.props
+    const { articlesByUuids, entities, sectionFeatured, sectionList, choices, fetchLatestPosts, topics, latestPosts } = this.props
 
     let checkSectionList = _.get(sectionList, 'fetched', undefined)
     let checkSectionFeatured = _.get(sectionFeatured, 'fetched', undefined)
     let checkChoices = _.get(choices, 'fetched', undefined)
     let checkLatestPosts = _.get(latestPosts, 'fetched', undefined)
-    
+
     let unfetched = []
 
     if ( !checkLatestPosts ) unfetched.push('posts')
@@ -76,6 +78,9 @@ class Home extends Component {
       this.props.fetchIndexArticles( unfetched )
     }
 
+    if ( !_.get(topics, 'fetched', undefined) ) {
+      this.props.fetchTopics()
+    }
   }
 
   _loadMore() {
@@ -96,7 +101,7 @@ class Home extends Component {
 
   render() {
     const { device } = this.context
-    const { articlesByUuids, entities, sectionFeatured, sectionList, choices, latestPosts } = this.props
+    const { articlesByUuids, entities, sectionFeatured, sectionList, choices, latestPosts, topics } = this.props
 
     let sections = sectionFeatured
     // let choicesPosts = _.filter(entities.articles, (v,k)=>{ return _.indexOf(choices.items, k) > -1 })
@@ -115,8 +120,8 @@ class Home extends Component {
     if (posts) {
       return (
         <DocumentMeta {...meta} >
-          <Sidebar sectionList={sectionListResponse} />
-          <Header sectionList={sectionListResponse} />
+          <Sidebar sectionList={sectionListResponse} topics={topics}/>
+          <Header sectionList={sectionListResponse} topics={topics}/>
 
           <div id="main" className="pusher">
             <TopChoice 
@@ -162,7 +167,8 @@ function mapStateToProps(state) {
     choices: state.choices || {},
     latestPosts: state.latestPosts || {},
     sectionList: state.sectionList || {},
-    sectionFeatured: state.sectionFeatured || {}
+    sectionFeatured: state.sectionFeatured || {},
+    topics: state.topics || {}
   }
 }
 
@@ -176,5 +182,6 @@ export default connect(mapStateToProps, {
   fetchArticlesByUuidIfNeeded,
   fetchIndexArticles,
   fetchLatestPosts,
+  fetchTopics,
   setPageType
 })(Home)

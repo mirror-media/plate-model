@@ -17,14 +17,15 @@ export default class Header extends Component {
     super(props, context)
     this.state = {
       height: 110,
-      isScrolledOver: false
+      isScrolledOver: false,
+      isClickedExpandNav: false
     }
     this._getHeaderHeight = this._getHeaderHeight.bind(this)
     this._handleScroll = this._handleScroll.bind(this)
     this._renderMenu = this._renderMenu.bind(this)
     this._openSidebar = this._openSidebar.bind(this)
     this._openSearchbar = this._openSearchbar.bind(this)
-
+    this._expandNavigation = this._expandNavigation.bind(this)
   }
 
   componentDidMount() {
@@ -89,30 +90,31 @@ export default class Header extends Component {
       }).sidebar('toggle')
   }
 
+  _expandNavigation() {
+    if (this.state.isClickedExpandNav) {
+      $('.ui.header.main.menu.menu-item')
+      .css('height', '52px')
+      $('.item.item-navClick')
+      .text('》')
+      $('.ui.header.main.menu.menu-item.mobile-hide')
+      .removeClass('nav-scrolled-clicked')
+      this.state.isClickedExpandNav = false
+    } else {
+      $('.ui.header.main.menu.menu-item')
+      .css('height', 'auto')
+      $('.item.item-navClick')
+      .text('︽')
+      $('.ui.header.main.menu.menu-item.mobile-hide')
+      .addClass('nav-scrolled-clicked')
+      this.state.isClickedExpandNav = true
+    }
+  }
+
   _renderMenu() {
     let status = this.state.isScrolledOver ? 'fixed top' : 'hidden'
-    const { sectionList } = this.props
-    let sortedList = _.sortBy(sectionList.sections, (o)=>{ return o.sortOrder } )
 
     return (
       <div>
-        <div className={ classNames('ui borderless main menu mobile-hide', status) }>
-          <div className="ui text container" style={{ maxWidth: 100 +'% !important', width: 100 +'%' }}>
-            <Link to="/" className="header item" style={{ marginLeft: '42px' }}>        
-              <img className="logo header" src={logo} />
-            </Link>
-              { _.map(sortedList, (s)=>{
-                return (
-                  <Link to={'/section/' + s.name} key={s.id} className="item">{s.title}</Link>
-                )
-              })}
-            <div className="right menu">
-              <div className="item" style={{ marginTop: '10px', paddingRight: '42px' }}>
-                <a onClick={this._openSearchbar} style={{ cursor: 'pointer' }}><img src="/asset/icon/search@2x.png" className="header-icon search" /></a>
-              </div>
-            </div>
-          </div>
-        </div>
         <div className={ classNames('ui borderless main menu mobile-only', status) }>
           <div className="ui text container" style={{ maxWidth: 100 +'% !important', width: 100 +'%' }}>
             <div className="item" >
@@ -133,13 +135,39 @@ export default class Header extends Component {
   }
 
   render() {
-    const { sectionList } = this.props
+    let status = this.state.isScrolledOver ? 'fixed top nav-scrolled' : ''
+    const { sectionList, topics } = this.props
     let sortedList = _.sortBy(sectionList.sections, (o)=>{ return o.sortOrder } )
+    let itemsForMenu = []
+
+    GenerateNav()
+
+    function GenerateNav() {
+      _.each(topics.items, (t)=> { 
+        if(t.isFeatured) {
+          t.belongTo = 'topics'
+          itemsForMenu.push(t) 
+        } 
+      })
+      _.each(sectionList.sections, (s)=> {
+        if(s.isFeatured) {
+          s.belongTo = 'sections'
+          itemsForMenu.push(s)
+        } 
+      })
+      _.each(sectionList.sections, (s)=> {
+        _.each(s.categories, (c)=> { 
+          if(c.isFeatured) {
+            c.belongTo = 'categories'
+            itemsForMenu.push(c)
+          } 
+        })
+      })
+    } 
 
     return (
       <div ref="headerbox">
         <div className="ui borderless header main menu">
-
           <div className="ui text container" style={{ maxWidth: 1024 +'px !important' }}>
             <Link to="/" className="header item" style={{ marginLeft: '122px' }}>        
               <img className="logo main" src={logo} />
@@ -158,6 +186,31 @@ export default class Header extends Component {
               <div className="item mobile-only" style={{ marginTop: '25px' }}>
                 <a href="#" onClick={this._openSearchbar} ><img src="/asset/icon/search@2x.png" className="header-icon search" /></a>
               </div>
+            </div>
+          </div>
+        </div>
+        <div className={ classNames('ui borderless header main menu menu-item mobile-hide', status) }>
+          <div className="ui text container" style={{ maxWidth: 100 +'% !important', width: 100 +'%' }}>
+            <div className="container" style={{ position:'relative', overflow: 'hidden' }}>
+              <div className="nav-container">
+                { _.map(itemsForMenu, (i)=>{
+                  switch(i.belongTo) {
+                    case 'sections':
+                      return (
+                        <Link to={'/section/' + i.name} key={i.id} className="item nav-item" >{i.title}</Link>
+                      )
+                    case 'categories':
+                      return (
+                        <Link to={'/category/' + i.name} key={i.id} className="item nav-item" >{i.title}</Link>
+                      )
+                    case 'topics':
+                      return (
+                        <Link to={'/topic/' + i.id} key={i.id} className="item nav-item">{i.name}</Link>
+                      )
+                  }
+                })}
+              </div>
+              <Link className={ classNames('item item-navClick') } onClick={ this._expandNavigation }>》</Link>
             </div>
           </div>
         </div>

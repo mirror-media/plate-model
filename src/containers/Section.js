@@ -2,7 +2,7 @@
 import { SECTION, SITE_META, SITE_NAME, GAID } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded } from '../actions/articles'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchTopics } from '../actions/articles'
 import { setPageType } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
@@ -31,6 +31,8 @@ class Section extends Component {
       max_results: MAXRESULT
     }).then(() => {
       return store.dispatch( fetchIndexArticles( [ 'sections', 'sectionfeatured' ] ) )
+    }).then(() => {
+      return store.dispatch( fetchTopics() )
     })
   }
 
@@ -44,7 +46,7 @@ class Section extends Component {
   }
 
   componentWillMount() {
-    const { articlesByUuids, fetchArticlesByUuidIfNeeded, fetchIndexArticles, sectionList, sectionFeatured } = this.props
+    const { articlesByUuids, fetchArticlesByUuidIfNeeded, fetchIndexArticles, sectionList, topics, sectionFeatured } = this.props
     let catId = this.state.catId
 
     //TODO: We should not get all the keys
@@ -52,6 +54,10 @@ class Section extends Component {
     let checkSectionFeatured = _.get(sectionFeatured, 'fetched', undefined)
     if ( !checkSectionList || !checkSectionFeatured) {
       fetchIndexArticles([ 'sections', 'sectionfeatured' ])
+    }
+
+    if ( !_.get(topics, 'fetched', undefined) ) {
+      this.props.fetchTopics()
     }
 
     // if fetched before, do nothing
@@ -63,7 +69,7 @@ class Section extends Component {
       page: PAGE,
       max_results: MAXRESULT
     })
-
+    
   }
 
   componentDidMount() {
@@ -121,7 +127,7 @@ class Section extends Component {
   }
 
   render() {
-    const { articlesByUuids, entities, sectionFeatured, params, sectionList } = this.props
+    const { articlesByUuids, entities, sectionFeatured, params, sectionList, topics } = this.props
     const catId = _.get(params, 'section')
 
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
@@ -141,8 +147,8 @@ class Section extends Component {
 
     return (
       <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionList.response} />
-        <Header sectionList={sectionList.response} />
+        <Sidebar sectionList={sectionList.response} topics={topics}/>
+        <Header sectionList={sectionList.response} topics={topics}/>
 
         <div id="main" className="pusher">
           <Featured articles={featured} categories={entities.categories} />
@@ -166,7 +172,8 @@ function mapStateToProps(state) {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
     sectionList: state.sectionList || {},
-    sectionFeatured: state.sectionFeatured || {}
+    sectionFeatured: state.sectionFeatured || {},
+    topics: state.topics || {}
   }
 }
 
@@ -175,4 +182,4 @@ Section.contextTypes = {
 }
 
 export { Section }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, setPageType })(Section)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTopics, setPageType })(Section)
