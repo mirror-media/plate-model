@@ -53,7 +53,7 @@ class Topic extends Component {
       fetchIndexArticles([ 'sections' ])
     }
 
-    this.props.fetchImages('TOPIC', '581bf3ce9f5a0d6f27821d74', {})
+    this.props.fetchImages(TOPIC, topicId, {})
 
     // if fetched before, do nothing
     if (_.get(articlesByUuids, [ topicId, 'items', 'length' ], 0) > 0) {
