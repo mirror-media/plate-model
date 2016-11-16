@@ -13,8 +13,8 @@ import List from '../components/List'
 import React, { Component } from 'react'
 import Sidebar from '../components/Sidebar'
 
-const MAXRESULT = 4
-const PAGE = 0
+const MAXRESULT = 10
+const PAGE = 1
 
 if (process.env.BROWSER) {
   require('./Topic.css')
@@ -22,10 +22,10 @@ if (process.env.BROWSER) {
 
 class Topic extends Component {
   static fetchData({ params, store }) {
-    return store.dispatch(fetchArticlesByUuidIfNeeded(params.topicId, TOPIC), {
+    return store.dispatch(fetchArticlesByUuidIfNeeded(params.topicId, TOPIC, {
       page: PAGE,
       max_results: MAXRESULT
-    }).then(() => {
+    })).then(() => {
       return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
     })
   }
