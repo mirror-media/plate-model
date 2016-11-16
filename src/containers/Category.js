@@ -211,7 +211,7 @@ function mapStateToProps(state) {
     entities: state.entities || {},
     sectionList: state.sectionList || {},
     topics: state.topics || {},
-    youtubePlaylist: state.youtubePlaylist || {},
+    youtubePlaylist: state.youtubePlaylist || {}
   }
 }
 
