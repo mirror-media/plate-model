@@ -210,8 +210,8 @@ function mapStateToProps(state) {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
     sectionList: state.sectionList || {},
+    topics: state.topics || {},
     youtubePlaylist: state.youtubePlaylist || {},
-    topics: state.topics || {}
   }
 }
 
