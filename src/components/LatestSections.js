@@ -80,7 +80,7 @@ export default class LatestSections extends Component {
             )
           })}
 
-          <div className="ui column" style={{ backgroundColor: 'rgba(0, 77, 162, 0.1)', marginTop: '-10px', marginBottom: '20px' }}>
+          <div className="ui column" style={{ backgroundColor: 'rgba(0, 77, 162, 0.1)', marginTop: '-10px', marginBottom: '20px', height: '270px' }}>
             <a href="https://goo.gl/yqJaVY"  target="_blank">
               <div className="sectionBlock" style={{ marginTop: '10px', marginBottom: '10px' }}>
                 <AdSlot sizes={ [ [ 300, 250 ] ] }
