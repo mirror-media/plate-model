@@ -110,7 +110,7 @@ class Tag extends Component {
   }
 
   render() {
-    const { articlesByUuids, entities, params, sectionList, topics, location } = this.props
+    const { articlesByUuids, entities, params, sectionList, topics } = this.props
     const tagId = _.get(params, 'tagId')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ tagId, 'items' ], []), entities)
     let sectionListResponse = _.get(sectionList, 'response', {})

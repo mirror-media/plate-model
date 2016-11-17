@@ -103,7 +103,7 @@ class Search extends Component {
   }
 
   render() {
-    const { entities, params, sectionList, searchResult, topics, location } = this.props
+    const { entities, params, sectionList, searchResult, topics } = this.props
     const keyword = _.get(params, 'keyword', null)
 
     const meta = {

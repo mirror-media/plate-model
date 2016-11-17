@@ -123,7 +123,7 @@ class Topic extends Component {
   }
 
   render() {
-    const { articlesByUuids, entities, params, sectionList, topics, location } = this.props  
+    const { articlesByUuids, entities, params, sectionList, topics } = this.props  
     const images  = _.get(this.props.images, [ 'items', 'items' ])
 
     const topicId = _.get(params, 'topicId')

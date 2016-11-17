@@ -128,7 +128,7 @@ class Section extends Component {
   }
 
   render() {
-    const { articlesByUuids, entities, sectionFeatured, params, sectionList, topics, location } = this.props
+    const { articlesByUuids, entities, sectionFeatured, params, sectionList, topics } = this.props
     const catId = _.get(params, 'section')
 
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)

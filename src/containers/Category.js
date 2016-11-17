@@ -180,7 +180,7 @@ class Category extends Component {
   }
 
   render() {
-    const { params, sectionList, topics, location } = this.props
+    const { params, sectionList, topics } = this.props
 
     const category = _.get(params, 'category', null)
     const catName = _.get(sectionList.response, [ 'categories', category, 'title' ], null)
