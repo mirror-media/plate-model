@@ -146,7 +146,7 @@ class Topic extends Component {
       meta: { property: { } },
       title: ogTitle ? ogTitle + SITE_NAME.SEPARATOR + SITE_NAME.FULL : (topicName ? topicName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL)
     }
-    
+
     return (
       <DocumentMeta {...meta}>
         <Sidebar sectionList={sectionListResponse} topics={topics} pathName={location.pathname}/>
@@ -164,6 +164,7 @@ class Topic extends Component {
             title={ topicName }
             hasMore={ _.get(articlesByUuids, [ topicId, 'hasMore' ])}
             loadMore={ this.loadMore }
+            pathName={this.props.location.pathname}
           />
           { this.props.children }
           <Footer sectionList={ sectionListResponse } />
