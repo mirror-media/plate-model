@@ -121,8 +121,8 @@ class HomeB extends Component {
     if (posts) {
       return (
         <DocumentMeta {...meta} >
-          <Sidebar sectionList={sectionListResponse} topics={topics} pathname={this.props.location.pathname}/>
-          <Header sectionList={sectionListResponse} topics={topics} pathname={this.props.location.pathname}/>
+          <Sidebar sectionList={sectionListResponse} topics={topics} pathname={location.pathname}/>
+          <Header sectionList={sectionListResponse} topics={topics} pathname={location.pathname}/>
 
           <div id="main" className="pusher">
             <TopChoice 

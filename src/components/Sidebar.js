@@ -49,29 +49,27 @@ export default class Sidebar extends Component {
   render() {
     const { sectionList, topics } = this.props
 
-    let itemsForMenu = []
+    let itemsForHeader = {}
+    itemsForHeader.topics = []
+    itemsForHeader.sections = []
+    itemsForHeader.categories = []
 
     GenerateNav()
 
     function GenerateNav() {
       _.each(topics.items, (t)=> { 
         if(t.isFeatured) {
-          t.belongTo = 'topics'
-          itemsForMenu.push(t) 
-        }
+          itemsForHeader.topics.push(t) 
+        } 
       })
       _.each(sectionList.sections, (s)=> {
         if(s.isFeatured) {
-          s.belongTo = 'sections'
-          itemsForMenu.push(s)
-        }
-      })
-      _.each(sectionList.sections, (s)=> {
+          itemsForHeader.sections.push(s)
+        } 
         _.each(s.categories, (c)=> { 
           if(c.isFeatured) {
-            c.belongTo = 'categories'
-            itemsForMenu.push(c)
-          }
+            itemsForHeader.categories.push(c)
+          } 
         })
       })
     } 
@@ -91,21 +89,20 @@ export default class Sidebar extends Component {
             <a className="item closeSidebar" onClick={this._closeSidebar}><img src="/asset/icon/white@2x.png" className="sidebar-icon white" /></a>
           </div>
           <div className="ui borderless vertical menu" style={{ marginLeft: '40px', marginTop: '70px !important', background: 'transparent', border: 'none', boxShadow: 'none' }}>
-            { _.map(itemsForMenu, (i)=>{
-              switch(i.belongTo) {
-                case 'sections':
-                  return (
-                    <Link to={'/section/' + i.name} key={i.id} className="item" onClick={ this._handleClick } style={{ color: '#FFF', marginBottom: '30px', fontWeight: 'normal !important' }}>{i.title}</Link>
-                  )
-                case 'categories':
-                  return (
-                    <Link to={'/category/' + i.name} key={i.id} className="item" onClick={ this._handleClick } style={{ color: '#FFF', marginBottom: '30px', fontWeight: 'normal !important' }}>{i.title}</Link>
-                  )
-                case 'topics':
-                  return (
-                    <Link to={'/topic/' + i.id} key={i.id} className="item" onClick={ this._handleClick } style={{ color: '#FFF', marginBottom: '30px', fontWeight: 'normal !important' }}>{i.name}</Link>
-                  )
-              }
+            { _.map(itemsForHeader.topics, (i)=>{
+              return (
+                <Link to={'/topic/' + i.id} key={i.id} className="item" onClick={ this._handleClick } style={{ color: '#FFF', marginBottom: '30px', fontWeight: 'normal !important' }}>{i.name}</Link>
+              )
+            })}
+            { _.map(itemsForHeader.sections, (i)=>{
+              return (
+                <Link to={'/section/' + i.name} key={i.id} className="item" onClick={ this._handleClick } style={{ color: '#FFF', marginBottom: '30px', fontWeight: 'normal !important' }}>{i.title}</Link>
+              )
+            })}
+            { _.map(itemsForHeader.categories, (i)=>{
+              return (
+                <Link to={'/category/' + i.name} key={i.id} className="item" onClick={ this._handleClick } style={{ color: '#FFF', marginBottom: '30px', fontWeight: 'normal !important' }}>{i.title}</Link>
+              )
             })}
           </div>
           <div style={{ marginLeft: '40px', marginTop: '90px' }}>

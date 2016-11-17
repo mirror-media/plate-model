@@ -103,7 +103,7 @@ class Search extends Component {
   }
 
   render() {
-    const { entities, params, sectionList, searchResult, topics } = this.props
+    const { entities, params, sectionList, searchResult, topics, location } = this.props
     const keyword = _.get(params, 'keyword', null)
 
     const meta = {
@@ -116,8 +116,8 @@ class Search extends Component {
 
     return (
       <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionList.response} topics={topics} pathName={this.props.location.pathname}/>
-        <Header sectionList={sectionList.response} topics={topics} pathName={this.props.location.pathname}/>
+        <Sidebar sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
+        <Header sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
 
         <div id="main" className="pusher">
           <List 

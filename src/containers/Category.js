@@ -189,7 +189,7 @@ class Category extends Component {
   }
 
   render() {
-    const { params, sectionList, topics } = this.props
+    const { params, sectionList, topics, location } = this.props
 
     const category = _.get(params, 'category', null)
     const catId = _.get(sectionList.response, [ 'categories', category, 'id' ], null)
@@ -208,9 +208,9 @@ class Category extends Component {
     return (
       <DFPSlotsProvider dfpNetworkId={DFPID}>
         <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionList.response} topics={topics} pathName={this.props.location.pathname}/>
-        <Header sectionList={sectionList.response} topics={topics} pathName={this.props.location.pathname}/>
-
+        <Sidebar sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
+        <Header sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
+        
           <div id="main" className="pusher">
             <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
               <AdSlot sizes={ [ [ 970, 90 ],  [ 970, 250 ] ] }
