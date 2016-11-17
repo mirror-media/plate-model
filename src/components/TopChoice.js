@@ -10,9 +10,10 @@ if (process.env.BROWSER) {
 export default class TopChoice extends Component {
   constructor(props, context) {
     super(props, context)
+    this._handleClick = this._handleClick.bind(this)
   }
 
-  handleClick() {
+  _handleClick() {
     ga.event({
       category: 'home',
       action: 'click',
@@ -29,7 +30,7 @@ export default class TopChoice extends Component {
       <div className="container tablet-hide computer-hide">
         <div className="choice-main">
           <div className="choice-block" key={'choice' + a.id}>
-            <a href={linkStyle + a.slug + '/'} onClick={this.handleClick.bind(this)}>
+            <a href={linkStyle + a.slug + '/'} onClick={ this._handleClick }>
               <div className="choice-img " style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
               </div>
             </a>
@@ -40,7 +41,7 @@ export default class TopChoice extends Component {
                 { _.get(categories, [ _.first(a.categories), 'title' ], '　　') }
             </div>
             <div className="choice-content ">
-              <a href={linkStyle + a.slug + '/'} onClick={this.handleClick.bind(this)}>
+              <a href={linkStyle + a.slug + '/'} onClick={ this._handleClick }>
                 <h2>
                     {a.title}
                 </h2>

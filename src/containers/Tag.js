@@ -110,7 +110,7 @@ class Tag extends Component {
   }
 
   render() {
-    const { articlesByUuids, entities, params, sectionList, topics } = this.props
+    const { articlesByUuids, entities, params, sectionList, topics, location } = this.props
     const tagId = _.get(params, 'tagId')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ tagId, 'items' ], []), entities)
     let sectionListResponse = _.get(sectionList, 'response', {})
@@ -125,8 +125,8 @@ class Tag extends Component {
 
     return (
       <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionListResponse} topics={topics}/>
-        <Header sectionList={sectionListResponse} topics={topics}/>
+        <Sidebar sectionList={sectionListResponse} topics={topics} pathName={this.props.location.pathname}/>
+        <Header sectionList={sectionListResponse} topics={topics} pathName={this.props.location.pathname}/>
 
         <div id="main" className="pusher">
           <List 

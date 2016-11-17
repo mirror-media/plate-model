@@ -180,7 +180,7 @@ class Category extends Component {
   }
 
   render() {
-    const { params, sectionList, topics } = this.props
+    const { params, sectionList, topics, location } = this.props
 
     const category = _.get(params, 'category', null)
     const catName = _.get(sectionList.response, [ 'categories', category, 'title' ], null)
@@ -194,8 +194,8 @@ class Category extends Component {
 
     return (
       <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionList.response} topics={topics}/>
-        <Header sectionList={sectionList.response} topics={topics}/>
+        <Sidebar sectionList={sectionList.response} topics={topics} pathName={this.props.location.pathname}/>
+        <Header sectionList={sectionList.response} topics={topics} pathName={this.props.location.pathname}/>
 
         <div id="main" className="pusher">
           {this.renderList()}

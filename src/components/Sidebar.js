@@ -1,8 +1,9 @@
 /* global $ */
-import { SOCIAL_LINK } from '../constants/index'
-import React, { Component } from 'react'
-import _ from 'lodash'
 import { Link } from 'react-router'
+import { SOCIAL_LINK } from '../constants/index'
+import _ from 'lodash'
+import ga from 'react-ga'
+import React, { Component } from 'react'
 
 if (process.env.BROWSER) {
   require('./Sidebar.css')
@@ -11,6 +12,7 @@ if (process.env.BROWSER) {
 export default class Sidebar extends Component {
   constructor(props, context) {
     super(props, context)
+    this._handleClick = this._handleClick.bind(this)
   }
 
   componentDidMount() {
@@ -34,6 +36,14 @@ export default class Sidebar extends Component {
   _closeSidebar() {
     // console.log('close sidebar')
     $('.ui.left.sidebar').sidebar('toggle')
+  }
+
+  _handleClick() {
+    ga.event({
+      category: this.props.pathName,
+      action: 'click',
+      label: 'sidebar'
+    })
   }
 
   render() {
@@ -85,15 +95,15 @@ export default class Sidebar extends Component {
               switch(i.belongTo) {
                 case 'sections':
                   return (
-                    <Link to={'/section/' + i.name} key={i.id} className="item" style={{ color: '#FFF', marginBottom: '30px', fontWeight: 'normal !important' }}>{i.title}</Link>
+                    <Link to={'/section/' + i.name} key={i.id} className="item" onClick={ this._handleClick } style={{ color: '#FFF', marginBottom: '30px', fontWeight: 'normal !important' }}>{i.title}</Link>
                   )
                 case 'categories':
                   return (
-                    <Link to={'/category/' + i.name} key={i.id} className="item" style={{ color: '#FFF', marginBottom: '30px', fontWeight: 'normal !important' }}>{i.title}</Link>
+                    <Link to={'/category/' + i.name} key={i.id} className="item" onClick={ this._handleClick } style={{ color: '#FFF', marginBottom: '30px', fontWeight: 'normal !important' }}>{i.title}</Link>
                   )
                 case 'topics':
                   return (
-                    <Link to={'/topic/' + i.id} key={i.id} className="item" style={{ color: '#FFF', marginBottom: '30px', fontWeight: 'normal !important' }}>{i.name}</Link>
+                    <Link to={'/topic/' + i.id} key={i.id} className="item" onClick={ this._handleClick } style={{ color: '#FFF', marginBottom: '30px', fontWeight: 'normal !important' }}>{i.name}</Link>
                   )
               }
             })}
