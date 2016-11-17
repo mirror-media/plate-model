@@ -53,6 +53,10 @@
 	color: rgba(0, 0, 0, 0.8);
 }
 
+.sectionImg {
+	background-size: cover;
+}
+
 .section-cat {
   position:absolute;
   left:15px;

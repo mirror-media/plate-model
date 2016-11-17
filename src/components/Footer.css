@@ -70,6 +70,10 @@
 	text-align: center;
 }
 
+.footer .ui.center.aligned.grid {
+	margin: 70px 0 0 0 !important;
+}
+
 .ui.grid>.row {
 	padding: 0;
 }

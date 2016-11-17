@@ -3,7 +3,7 @@ import { SITE_META, SITE_NAME, TAG, GAID } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchTopics } from '../actions/articles'
-import { setPageType } from '../actions/header'
+import { setPageType, setPageTitle } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
 import Footer from '../components/Footer'
@@ -57,14 +57,18 @@ class Tag extends Component {
       page: PAGE,
       max_results: MAXRESULT
     })
-    this.props.fetchTopics()
   }
 
   componentDidMount() {
+    const { entities, params } = this.props
+    let tagId = _.get(params, 'tagId')
+    let tagName = _.get(entities, [ 'tags', tagId, 'name' ], '')
+
     ga.initialize(GAID, { debug: __DEVELOPMENT__ })
     ga.pageview(this.props.location.pathname)
 
     this.props.setPageType(TAG)
+    this.props.setPageTitle('', tagName ? tagName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL)
   }
 
   componentWillUpdate(nextProps) {
@@ -153,4 +157,4 @@ Tag.contextTypes = {
 }
 
 export { Tag }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTopics, setPageType })(Tag)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTopics, setPageType, setPageTitle })(Tag)

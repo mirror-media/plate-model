@@ -76,7 +76,6 @@ class Topic extends Component {
       max_results: MAXRESULT
     })
 
-    this.props.fetchTopics()
   }
 
   componentWillUpdate(nextProps) {
