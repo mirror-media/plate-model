@@ -123,7 +123,7 @@ class Topic extends Component {
   }
 
   render() {
-    const { articlesByUuids, entities, params, sectionList, topics } = this.props  
+    const { articlesByUuids, entities, params, sectionList, topics, location } = this.props  
     const images  = _.get(this.props.images, [ 'items', 'items' ])
 
     const topicId = _.get(params, 'topicId')
@@ -149,10 +149,10 @@ class Topic extends Component {
     
     return (
       <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionListResponse} topics={topics} pathName={this.props.location.pathname}/>
+        <Sidebar sectionList={sectionListResponse} topics={topics} pathName={location.pathname}/>
 
         <div className="top">
-          <Header sectionList={sectionListResponse} topics={topics} pathName={this.props.location.pathname}/>
+          <Header sectionList={sectionListResponse} topics={topics} pathName={location.pathname}/>
           <div className="topic-title"><h2>Title Here</h2></div>
           <Leading leading={ leading } mediaSource={ { 'images': images, 'heroImage': heroImage, 'heroVideo': heroVideo } } device={ this.context.device } />
         </div>

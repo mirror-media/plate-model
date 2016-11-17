@@ -138,8 +138,8 @@ class Home extends Component {
       return (
         <DFPSlotsProvider dfpNetworkId={DFPID}>
           <DocumentMeta {...meta} >
-            <Sidebar sectionList={sectionListResponse} topics={topics} pathName={this.props.location.pathname}/>
-            <Header sectionList={sectionListResponse} topics={topics} pathName={this.props.location.pathname}/>
+            <Sidebar sectionList={sectionListResponse} topics={topics} pathName={location.pathname}/>
+            <Header sectionList={sectionListResponse} topics={topics} pathName={location.pathname}/>
 
             <div className="ui dimmer">
               <div className="content" style={ { height: '480px', width: '320px', position: 'fixed', top: 'calc(50% - 240px)', left: 'calc(50% - 160px)' } }>

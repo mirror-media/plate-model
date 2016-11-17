@@ -129,7 +129,7 @@ class Section extends Component {
   }
 
   render() {
-    const { articlesByUuids, entities, sectionFeatured, params, sectionList, topics } = this.props
+    const { articlesByUuids, entities, sectionFeatured, params, sectionList, topics, location } = this.props
     const catId = _.get(params, 'section')
 
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
@@ -150,8 +150,8 @@ class Section extends Component {
     return (
       <DFPSlotsProvider dfpNetworkId={DFPID}>
         <DocumentMeta {...meta}>
-          <Sidebar sectionList={sectionList.response} topics={topics} pathName={this.props.location.pathname}/>
-          <Header sectionList={sectionList.response} topics={topics} pathName={this.props.location.pathname}/>
+          <Sidebar sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
+          <Header sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
 
           <div id="main" className="pusher">
             <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>

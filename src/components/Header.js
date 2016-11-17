@@ -148,32 +148,31 @@ export default class Header extends Component {
     let status = this.state.isScrolledOver ? 'fixed top nav-scrolled' : ''
     const { sectionList, topics } = this.props
     let sortedList = _.sortBy(sectionList.sections, (o)=>{ return o.sortOrder } )
-    let itemsForMenu = []
+    
+    let itemsForHeader = {}
+    itemsForHeader.topics = []
+    itemsForHeader.sections = []
+    itemsForHeader.categories = []
 
     GenerateNav()
 
     function GenerateNav() {
       _.each(topics.items, (t)=> { 
         if(t.isFeatured) {
-          t.belongTo = 'topics'
-          itemsForMenu.push(t) 
+          itemsForHeader.topics.push(t) 
         } 
       })
       _.each(sectionList.sections, (s)=> {
         if(s.isFeatured) {
-          s.belongTo = 'sections'
-          itemsForMenu.push(s)
+          itemsForHeader.sections.push(s)
         } 
-      })
-      _.each(sectionList.sections, (s)=> {
         _.each(s.categories, (c)=> { 
           if(c.isFeatured) {
-            c.belongTo = 'categories'
-            itemsForMenu.push(c)
+            itemsForHeader.categories.push(c)
           } 
         })
       })
-    } 
+    }
 
     return (
       <div ref="headerbox">
@@ -203,21 +202,20 @@ export default class Header extends Component {
           <div className="ui text container" style={{ maxWidth: 100 +'% !important', width: 100 +'%' }}>
             <div className="container" style={{ position:'relative', overflow: 'hidden' }}>
               <div className="nav-container">
-                { _.map(itemsForMenu, (i)=>{
-                  switch(i.belongTo) {
-                    case 'sections':
-                      return (
-                        <Link to={'/section/' + i.name} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.title}</Link>
-                      )
-                    case 'categories':
-                      return (
-                        <Link to={'/category/' + i.name} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.title}</Link>
-                      )
-                    case 'topics':
-                      return (
-                        <Link to={'/topic/' + i.id} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.name}</Link>
-                      )
-                  }
+                { _.map(itemsForHeader.topics, (i)=>{
+                  return (
+                    <Link to={'/topic/' + i.id} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.name}</Link>
+                  )
+                })}
+                { _.map(itemsForHeader.sections, (i)=>{
+                  return (
+                    <Link to={'/section/' + i.name} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.title}</Link>
+                  )
+                })}
+                { _.map(itemsForHeader.categories, (i)=>{
+                  return (
+                    <Link to={'/category/' + i.name} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.title}</Link>
+                  )
                 })}
               </div>
               <Link className={ classNames('item item-navClick') } onClick={ this._expandNavigation }>》</Link>
