@@ -34,8 +34,8 @@ export default class Leading extends Component {
       speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,
-      // autoplay: true,
-      // autoplaySpeed: 500,
+      autoplay: true,
+      autoplaySpeed: 3000,
       cssEase: 'linear',
       fade: (this.props.device === 'desktop')? true: false,
       draggable: (this.props.device === 'desktop')? false: true,
@@ -63,8 +63,9 @@ export default class Leading extends Component {
             <Slider {...settings}>
             {_.map(imageInfo, (img) => {
               return (
-                <div className="slide" key={ img.filename } style={{ background: 'url(' + img.url + ') no-repeat center center', backgroundSize: 'cover', height: img.height + 'px', maxHeight: '400px' }}></div>
-                // <div className="slide" key={idx} style={{ background: 'url(' + img + ') no-repeat center center', backgroundSize: 'cover', height: '500px', maxHeight: '500px' }}></div>
+                <div className = "slide-container" key={ img.filename } style = {{ height: '100%', backgroundColor: 'rgba(255,255,255,0.1)' }}>
+                  <div className="slide" style={{ background: 'url(' + img.url + ') no-repeat center center', backgroundSize: 'contain', height: img.height + 'px', maxHeight: '400px' }}></div>
+                </div>
               )
             })}
             </Slider>
