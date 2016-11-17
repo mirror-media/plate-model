@@ -14,9 +14,10 @@ if (process.env.BROWSER) {
 export default class Choices extends Component {
   constructor(props, context) {
     super(props, context)
+    this._handleClick = this._handleClick.bind(this)
   }
 
-  handleClick() {
+  _handleClick() {
     ga.event({
       category: 'home',
       action: 'click',
@@ -54,7 +55,7 @@ export default class Choices extends Component {
 
             return (
               <div className="choice-block" key={'choice' + a.id}>
-                <a href={linkStyle + a.slug + '/' } onClick={this.handleClick.bind(this)}>
+                <a href={linkStyle + a.slug + '/' } onClick={ this._handleClick }>
                   <div className="choice-img " style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
                 </a>
@@ -62,7 +63,7 @@ export default class Choices extends Component {
                     { _.get(categories, [ _.first(a.categories), 'title' ]) }
                 </div>
                 <div className="choice-content ">
-                  <a href={linkStyle + a.slug + '/' } onClick={this.handleClick.bind(this)}>
+                  <a href={linkStyle + a.slug + '/' } onClick={ this._handleClick }>
                     <h2>
                         {a.title}
                     </h2>
@@ -107,13 +108,13 @@ export default class Choices extends Component {
             return (
               <div className="column" style={{ padding: 0 }} key={'choice' + a.id}>
                 <div className="choice-block">
-                  <a href={linkStyle + a.slug + '/' } onClick={this.handleClick.bind(this)}><div className="column-choice-img" style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
+                  <a href={linkStyle + a.slug + '/' } onClick={ this._handleClick }><div className="column-choice-img" style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                     <div className="choice-cat">
                       { _.get(categories, [ _.first(a.categories), 'title' ]) }
                     </div>
                   </div></a>
                   <div className="column-choice-content">
-                    <a href={linkStyle + a.slug + '/' } onClick={this.handleClick.bind(this)}><h2>{ a.title }</h2></a>
+                    <a href={linkStyle + a.slug + '/' } onClick={ this._handleClick }><h2>{ a.title }</h2></a>
                     <div className="line"></div>
                     <div className="brief">
                       { truncate(entities.decodeHTML(briefContent), 75) }

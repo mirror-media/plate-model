@@ -125,8 +125,8 @@ class Tag extends Component {
 
     return (
       <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionListResponse} topics={topics}/>
-        <Header sectionList={sectionListResponse} topics={topics}/>
+        <Sidebar sectionList={sectionListResponse} topics={topics} pathName={this.props.location.pathname}/>
+        <Header sectionList={sectionListResponse} topics={topics} pathName={this.props.location.pathname}/>
 
         <div id="main" className="pusher">
           <List 

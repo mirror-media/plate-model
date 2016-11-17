@@ -116,8 +116,8 @@ class Search extends Component {
 
     return (
       <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionList.response} topics={topics}/>
-        <Header sectionList={sectionList.response} topics={topics}/>
+        <Sidebar sectionList={sectionList.response} topics={topics} pathName={this.props.location.pathname}/>
+        <Header sectionList={sectionList.response} topics={topics} pathName={this.props.location.pathname}/>
 
         <div id="main" className="pusher">
           <List 

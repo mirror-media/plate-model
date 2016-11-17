@@ -102,7 +102,7 @@ class HomeB extends Component {
 
   render() {
     const { device } = this.context
-    const { articlesByUuids, entities, sectionFeatured, sectionList, choices, latestPosts, topics } = this.props
+    const { articlesByUuids, entities, sectionFeatured, sectionList, choices, latestPosts, topics, location } = this.props
 
     let sections = sectionFeatured
     // let choicesPosts = _.filter(entities.articles, (v,k)=>{ return _.indexOf(choices.items, k) > -1 })
@@ -121,8 +121,8 @@ class HomeB extends Component {
     if (posts) {
       return (
         <DocumentMeta {...meta} >
-          <Sidebar sectionList={sectionListResponse} topics={topics}/>
-          <Header sectionList={sectionListResponse} topics={topics}/>
+          <Sidebar sectionList={sectionListResponse} topics={topics} pathname={this.props.location.pathname}/>
+          <Header sectionList={sectionListResponse} topics={topics} pathname={this.props.location.pathname}/>
 
           <div id="main" className="pusher">
             <TopChoice 

@@ -14,9 +14,10 @@ if (process.env.BROWSER) {
 export default class LatestArticles extends Component {
   constructor(props, context) {
     super(props, context)
+    this._handleClick = this._handleClick.bind(this)
   }
 
-  handleClick() {
+  _handleClick() {
     ga.event({
       category: 'home',
       action: 'click',
@@ -53,12 +54,12 @@ export default class LatestArticles extends Component {
 
             return (
               <div className="latest-block" key={a.id} >
-                <a href={linkStyle+a.slug+'/'} onClick={this.handleClick.bind(this)}>
+                <a href={linkStyle+a.slug+'/'} onClick={ this._handleClick }>
                   <div className="latest-img" style={{ background: 'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
                 </a>
                 <div className="latest-content">
-                  <a href={linkStyle+a.slug+'/'} onClick={this.handleClick.bind(this)}>
+                  <a href={linkStyle+a.slug+'/'} onClick={ this._handleClick }>
                     <h2>
                         {a.title}<div className="cat-label"><div className="separator"></div><span>{ _.get(categories, [ _.first(a.categories), 'title' ]) }</span></div>
                     </h2>

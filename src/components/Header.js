@@ -1,10 +1,11 @@
 /* global $ */
+import { Link } from 'react-router'
 import { SOCIAL_LINK } from '../constants/index'
+import _ from 'lodash'
+import classNames from 'classnames'
+import ga from 'react-ga'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import classNames from 'classnames'
-import { Link } from 'react-router'
-import _ from 'lodash'
 
 import logo from '../../static/asset/logo.svg'
 
@@ -22,6 +23,7 @@ export default class Header extends Component {
     }
     this._getHeaderHeight = this._getHeaderHeight.bind(this)
     this._handleScroll = this._handleScroll.bind(this)
+    this._handleClick = this._handleClick.bind(this)
     this._renderMenu = this._renderMenu.bind(this)
     this._openSidebar = this._openSidebar.bind(this)
     this._openSearchbar = this._openSearchbar.bind(this)
@@ -47,6 +49,14 @@ export default class Header extends Component {
     } else if(scrollPos <= this.state.height && this.state.isScrolledOver) {
       this.setState({ isScrolledOver: false })
     }
+  }
+
+  _handleClick() {
+    ga.event({
+      category: this.props.pathName,
+      action: 'click',
+      label: 'header'
+    })
   }
 
   _getHeaderHeight() {
@@ -197,15 +207,15 @@ export default class Header extends Component {
                   switch(i.belongTo) {
                     case 'sections':
                       return (
-                        <Link to={'/section/' + i.name} key={i.id} className="item nav-item" >{i.title}</Link>
+                        <Link to={'/section/' + i.name} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.title}</Link>
                       )
                     case 'categories':
                       return (
-                        <Link to={'/category/' + i.name} key={i.id} className="item nav-item" >{i.title}</Link>
+                        <Link to={'/category/' + i.name} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.title}</Link>
                       )
                     case 'topics':
                       return (
-                        <Link to={'/topic/' + i.id} key={i.id} className="item nav-item">{i.name}</Link>
+                        <Link to={'/topic/' + i.id} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.name}</Link>
                       )
                   }
                 })}
@@ -219,7 +229,7 @@ export default class Header extends Component {
           { _.map(sortedList, (s)=>{
             return (
               <div className="section-item" key={s.id}>
-                <Link to={'/section/' + s.name}>{s.title}</Link>
+                <Link to={'/section/' + s.name} onClick={ this._handleClick }>{s.title}</Link>
               </div>
             )
           })}
