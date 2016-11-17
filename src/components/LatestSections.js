@@ -107,10 +107,6 @@ export default class LatestSections extends Component {
                 />
               </div>
             </a>
-            <ul className="sectionList">
-              <li><a href={'https://goo.gl/6Taigi'} target="_blank">全新視野 訂閱最勁爆的鏡週刊</a></li>
-              <li><a href={'https://goo.gl/U55PFt'} target="_blank">現在就訂閱 創刊超優惠 即日起至11/30止</a></li>
-            </ul>
           </div>
 
           { _.map(_.slice(sortedList, 2), (s) => {
