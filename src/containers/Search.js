@@ -62,7 +62,6 @@ class Search extends Component {
     if (_.get(sectionList, [ 'response', 'length' ], 0) == 0 ) {
       fetchIndexArticles( [ 'sections' ] )
     }
-    this.props.fetchTopics()
   }
 
   componentDidMount() {
