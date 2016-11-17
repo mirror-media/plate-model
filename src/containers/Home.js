@@ -6,7 +6,7 @@ import { denormalizeArticles } from '../utils/index'
 import { devCatListId, prodCatListId } from '../conf/list-id'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchLatestPosts, fetchTopics } from '../actions/articles'
 import { HOME, CATEGORY, SITE_NAME, SITE_META, GAID } from '../constants/index'
-import { setPageType } from '../actions/header'
+import { setPageType, setPageTitle } from '../actions/header'
 import _ from 'lodash'
 import async from 'async'
 import Choices from '../components/Choices'
@@ -50,6 +50,7 @@ class Home extends Component {
     ga.pageview(this.props.location.pathname)
 
     this.props.setPageType(HOME)
+    this.props.setPageTitle('', SITE_NAME.FULL)
   }
 
   componentWillUpdate(nextProps) {
@@ -183,5 +184,6 @@ export default connect(mapStateToProps, {
   fetchIndexArticles,
   fetchLatestPosts,
   fetchTopics,
-  setPageType
+  setPageType,
+  setPageTitle
 })(Home)

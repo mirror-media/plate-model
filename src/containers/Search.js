@@ -66,10 +66,14 @@ class Search extends Component {
   }
 
   componentDidMount() {
+    const { params } = this.props
+    const keyword = _.get(params, 'keyword', null)
+
     ga.initialize(GAID, { debug: __DEVELOPMENT__ })
     ga.pageview(this.props.location.pathname)
 
     this.props.setPageType(SEARCH)
+    this.props.setPageTitle('', keyword ? '「' + keyword + '」' + + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL)
   }
 
   componentWillUpdate(nextProps) {
@@ -104,7 +108,7 @@ class Search extends Component {
     const keyword = _.get(params, 'keyword', null)
 
     const meta = {
-      title: keyword ? keyword + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL,
+      title: keyword ? '「' + keyword + '」' + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL,
       description: SITE_META.DESC,
       canonical: `${SITE_META.URL}search/${keyword}`,
       meta: { property: {} },

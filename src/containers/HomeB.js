@@ -6,7 +6,7 @@ import { denormalizeArticles } from '../utils/index'
 import { devCatListId, prodCatListId } from '../conf/list-id'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchLatestPosts, fetchTopics } from '../actions/articles'
 import { HOME, CATEGORY, SITE_NAME, SITE_META, GAID } from '../constants/index'
-import { setPageType } from '../actions/header'
+import { setPageType, setPageTitle } from '../actions/header'
 import _ from 'lodash'
 import async from 'async'
 import Choices from '../components/Choices'
@@ -32,7 +32,9 @@ if (process.env.BROWSER) {
 
 class HomeB extends Component {
   static fetchData({ store }) {
-    return store.dispatch(fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])) 
+    return store.dispatch(fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])).then(() => {
+      return store.dispatch( fetchTopics() )
+    })
   }
 
   constructor(props, context) {
@@ -48,6 +50,7 @@ class HomeB extends Component {
     ga.pageview(this.props.location.pathname)
 
     this.props.setPageType(HOME)
+    this.props.setPageTitle('', SITE_NAME.FULL)
   }
 
   componentWillUpdate(nextProps) {
@@ -58,13 +61,13 @@ class HomeB extends Component {
 
   componentWillMount() {
     const { fetchArticlesByUuidIfNeeded, fetchIndexArticles } = this.props
-    const { articlesByUuids, entities, sectionFeatured, sectionList, choices, fetchLatestPosts, latestPosts } = this.props
+    const { articlesByUuids, entities, sectionFeatured, sectionList, choices, fetchLatestPosts, topics, latestPosts } = this.props
 
     let checkSectionList = _.get(sectionList, 'fetched', undefined)
     let checkSectionFeatured = _.get(sectionFeatured, 'fetched', undefined)
     let checkChoices = _.get(choices, 'fetched', undefined)
     let checkLatestPosts = _.get(latestPosts, 'fetched', undefined)
-    
+
     let unfetched = []
 
     if ( !checkLatestPosts ) unfetched.push('posts')
@@ -75,7 +78,10 @@ class HomeB extends Component {
     if ( unfetched.length != 0 ) {
       this.props.fetchIndexArticles( unfetched )
     }
-    this.props.fetchTopics()
+
+    if ( !_.get(topics, 'fetched', undefined) ) {
+      this.props.fetchTopics()
+    }
   }
 
   _loadMore() {
@@ -117,7 +123,7 @@ class HomeB extends Component {
         <DocumentMeta {...meta} >
           <Sidebar sectionList={sectionListResponse} topics={topics}/>
           <Header sectionList={sectionListResponse} topics={topics}/>
-          <h2>This is Home B</h2>
+
           <div id="main" className="pusher">
             <TopChoice 
               article={ _.get(entities.articles, _.first( _.get(choices, 'items', []) ), {}) } 
@@ -178,5 +184,6 @@ export default connect(mapStateToProps, {
   fetchIndexArticles,
   fetchLatestPosts,
   fetchTopics,
-  setPageType
+  setPageType,
+  setPageTitle
 })(HomeB)

@@ -3,7 +3,7 @@ import { CATEGORY, SITE_META, SITE_NAME, GAID } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchYoutubePlaylist, fetchTopics } from '../actions/articles'
-import { setPageType } from '../actions/header'
+import { setPageType, setPageTitle } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
 import Header from '../components/Header'
@@ -89,6 +89,7 @@ class Category extends Component {
   componentDidMount() {
     const category = _.get(this.props.params, 'category', null)
     const catId = _.get(this.props.sectionList.response, [ 'categories', category, 'id' ], null)
+    const catName = _.get(this.props.sectionList.response, [ 'categories', category, 'title' ], null)
     const section = _.find(_.get(this.props.sectionList, [ 'response', 'sections' ]), function (o) { return _.find(o.categories, { 'id': catId }) })
     const sectionName = _.get(section, 'title', '')
 
@@ -97,6 +98,7 @@ class Category extends Component {
     ga.pageview(this.props.location.pathname)
 
     this.props.setPageType(CATEGORY)
+    this.props.setPageTitle('', catName ? catName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL)
   }
 
   componentWillUpdate(nextProps) {
@@ -220,4 +222,4 @@ Category.contextTypes = {
 }
 
 export { Category }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchYoutubePlaylist, fetchTopics, setPageType })(Category)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchYoutubePlaylist, fetchTopics, setPageType, setPageTitle })(Category)
