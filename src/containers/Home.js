@@ -1,10 +1,6 @@
 /*eslint no-unused-vars:0, no-console:0 */
 /* global __DEVELOPMENT__, $ */
 'use strict'
-<<<<<<< c3acc371092f2800ab4b7c0ae5bdb01947022636
-
-=======
->>>>>>> clean and sort variables
 import _ from 'lodash'
 import async from 'async'
 import Choices from '../components/Choices'
