@@ -1,16 +1,6 @@
 /*eslint no-unused-vars:0, no-console:0 */
 /* global __DEVELOPMENT__, $ */
 'use strict'
-<<<<<<< c7b5b3658f6642799d6de1eae5d01843cf97c848
-=======
-import { connect } from 'react-redux'
-import { denormalizeArticles } from '../utils/index'
-import { devCatListId, prodCatListId } from '../conf/list-id'
-import { DFPManager, DFPSlotsProvider, AdSlot } from 'react-dfp'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchLatestPosts } from '../actions/articles'
-import { HOME, CATEGORY, SITE_NAME, SITE_META, GAID, DFPID } from '../constants/index'
-import { setPageType } from '../actions/header'
->>>>>>> implement full screen DFS slot (cookie)
 import _ from 'lodash'
 import async from 'async'
 import Choices from '../components/Choices'
