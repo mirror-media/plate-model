@@ -1,9 +1,11 @@
 import _ from 'lodash'
-import React, { Component } from 'react'
 import classNames from 'classnames'
-import { imageComposer } from '../utils/index'
-import { camelize } from 'humps'
 import ga from 'react-ga'
+import React, { Component } from 'react'
+import { AdSlot } from 'react-dfp'
+import { camelize } from 'humps'
+import { DFPID } from '../constants/index'
+import { imageComposer } from '../utils/index'
 
 if (process.env.BROWSER) {
   require('./LatestSections.css')
@@ -78,16 +80,33 @@ export default class LatestSections extends Component {
             )
           })}
 
-          <div className="ui column" style={{ backgroundColor: 'rgba(0, 77, 162, 0.1)', marginTop: '-10px', marginBottom: '20px' }}>
+          <div className="ui column" style={{ backgroundColor: 'rgba(0, 77, 162, 0.1)', marginTop: '-10px', marginBottom: '20px', height: '270px' }}>
             <a href="https://goo.gl/yqJaVY"  target="_blank">
               <div className="sectionBlock" style={{ marginTop: '10px', marginBottom: '10px' }}>
-                <div className="sectionImg AD" style={{ background: 'url(/asset/ads/subscribe1130.jpg) no-repeat center center', backgroundSize: 'cover', width: '300px', height: '250px' }}></div>
+                <AdSlot sizes={ [ [ 300, 250 ] ] }
+                  dfpNetworkId={DFPID}
+                  slotId={ 'mm_pc_hp_300x250_1st' }
+                  adUnit={ 'mm_pc_hp_300x250_1st' } 
+                  sizeMapping={
+                    [ 
+                      { viewport: [   0,   0 ], sizes: [ ] },
+                      { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
+                    ] 
+                  }
+                />
+                <AdSlot sizes={ [ [ 300, 250 ] ] }
+                  dfpNetworkId={DFPID}
+                  slotId={ 'mm_mobile_hp_300x250_1st' }
+                  adUnit={ 'mm_mobile_hp_300x250_1st' } 
+                  sizeMapping={
+                    [ 
+                      { viewport: [   1,   1 ], sizes: [ [ 300, 250 ] ] },
+                      { viewport: [ 970, 200 ], sizes: [ ]  }
+                    ] 
+                  }
+                />
               </div>
             </a>
-            <ul className="sectionList">
-              <li><a href={'https://goo.gl/6Taigi'} target="_blank">全新視野 訂閱最勁爆的鏡週刊</a></li>
-              <li><a href={'https://goo.gl/U55PFt'} target="_blank">現在就訂閱 創刊超優惠 即日起至11/30止</a></li>
-            </ul>
           </div>
 
           { _.map(_.slice(sortedList, 2), (s) => {

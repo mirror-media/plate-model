@@ -34,6 +34,14 @@ export const LINK_PREFIX = {
   TOPIC: '/topic/'
 }
 
+export const AD_UNIT_PREFIX = {
+  'news-people': 'np',
+  'entertainment': 'ent',
+  'foodtravel': 'fnt',
+  'hotvideo': 'wat',
+  'watch': 'hv'
+}
+
 export const groupEnum = {
   CATEGORY: 'category',
   TAG: 'tag',
@@ -102,6 +110,8 @@ export const TOPIC = 'TOPIC'
 export const basePath = 'https://www.mirrormedia.mg'
 
 export const GAID = 'UA-83609754-1'
+
+export const DFPID = '40175602'
 
 export const FBPageId = 1855418728011324
 
