@@ -57,14 +57,16 @@ class Topic extends Component {
     if ( !_.get(topics, 'fetched', undefined) ) {
       this.props.fetchTopics()
     }
-    
+
     // if fetched before, do nothing
     let checkSectionList = _.get(sectionList, 'fetched', undefined)
     if ( !checkSectionList ) {
       fetchIndexArticles([ 'sections' ])
     }
 
-    this.props.fetchImages(TOPIC, topicId, {})
+    this.props.fetchImages(TOPIC, topicId, {
+      max_results: 25
+    })
 
     // if fetched before, do nothing
     if (_.get(articlesByUuids, [ topicId, 'items', 'length' ], 0) > 0) {
@@ -121,12 +123,12 @@ class Topic extends Component {
   }
 
   render() {
-    const { articlesByUuids, entities, params, sectionList, topics } = this.props    
+    const { articlesByUuids, entities, params, sectionList, topics } = this.props
     const images  = _.get(this.props.images, [ 'items', 'items' ])
-    
+
     const topicId = _.get(params, 'topicId')
     const topicUUID = _.get(_.find( _.get(topics, 'items', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'id')
-    
+
     const heroImage = _.get(topics, [ 'items', topicUUID, 'heroImage' ] )
     const heroVideo = _.get(topics, [ 'items', topicUUID, 'heroVideo' ] )
     const leading = _.get(topics, [ 'items', topicUUID, 'leading' ] )
@@ -136,7 +138,7 @@ class Topic extends Component {
 
     let articles = denormalizeArticles(_.get(articlesByUuids, [ topicId, 'items' ], []), entities)
     let sectionListResponse = _.get(sectionList, 'response', {})
-    
+
     const meta = {
       auto: { ograph: true },
       canonical: `${SITE_META.URL}topic/${topicId}`,
