@@ -3,11 +3,12 @@ import entities from 'entities'
 import ga from 'react-ga'
 import More from '../components/More'
 import React, { Component } from 'react'
-import truncate from 'truncate'
 import sanitizeHtml from 'sanitize-html'
+import truncate from 'truncate'
 import { AdSlot } from 'react-dfp'
 import { AD_UNIT_PREFIX, DFPID } from '../constants/index'
 import { imageComposer } from '../utils/index'
+
 
 
 if (process.env.BROWSER) {
