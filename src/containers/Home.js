@@ -195,7 +195,8 @@ class Home extends Component {
                 article={ _.get(entities.articles, _.first( _.get(choices, 'items', []) ), {}) } 
                 categories={entities.categories}
               />
-              <LatestSections 
+              <LatestSections
+                choices={_.get(choices, 'items', [])} 
                 sections={sections} 
                 entities={entities} 
                 sectionList={sectionListResponse}
