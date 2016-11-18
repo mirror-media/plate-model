@@ -170,6 +170,8 @@ class Topic extends Component {
         </div>
 
         <style dangerouslySetInnerHTML={ { __html: _.get(topics, [ 'items', topicUUID, 'style' ], '') } } />
+        <script dangerouslySetInnerHTML={ { __html: _.get(topics, [ 'items', topicUUID, 'javascript' ], '') } } />
+        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-582e858f529d0edb"></script> 
       </DocumentMeta>
     )
   }
