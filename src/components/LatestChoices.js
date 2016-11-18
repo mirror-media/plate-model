@@ -7,7 +7,7 @@ import { DFPID } from '../constants/index'
 import { imageComposer } from '../utils/index'
 
 if (process.env.BROWSER) {
-  require('./LatestSections.css')
+  require('./LatestChoices.css')
 }
 
 export default class LatestChoices extends Component {
@@ -35,7 +35,7 @@ export default class LatestChoices extends Component {
     ]
 
     return (
-      <div className="container">
+      <div className="container LatestChoices">
         <div className={classNames(styles)}>
           { _.map(_.take(choices, 2), (c) => {
             let a = _.get(articles, c, {})
@@ -43,7 +43,7 @@ export default class LatestChoices extends Component {
             let image = imageComposer(a).mobileImage
 
             return (
-              <div className="ui column" key={'choice' + a.id}>
+              <div className="ui column" key={'choice' + a.id} style={{ marginBottom: '20px' }}>
                 <a href={linkStyle + a.slug + '/' } onClick={ this._handleClick }>
                   <div className="sectionBlock">
                     <div className="section-cat">
@@ -58,7 +58,7 @@ export default class LatestChoices extends Component {
               </div>
             )
           })}
-          <div className="ui column" style={{ backgroundColor: 'rgba(0, 77, 162, 0.1)', marginTop: '-10px', marginBottom: '20px', height: '270px' }}>
+          <div className="ui column" style={{ backgroundColor: 'rgba(0, 77, 162, 0.1)', marginTop: '-10px', marginBottom: '10px', height: '270px' }}>
             <a href="https://goo.gl/yqJaVY"  target="_blank">
               <div className="sectionBlock" style={{ marginTop: '10px', marginBottom: '10px' }}>
                 <AdSlot sizes={ [ [ 300, 250 ] ] }
@@ -96,6 +96,7 @@ export default class LatestChoices extends Component {
                 <a href={linkStyle + a.slug + '/' } onClick={ this._handleClick }>
                   <div className="sectionBlock">
                     <div className="section-cat">
+                      { _.get(categories, [ _.first(a.categories), 'title' ]) }
                     </div>
                     <div className="sectionImg" style={{ background: 'url('+image+') no-repeat center center', backgroundSize: 'cover', width: '300px', height: '250px' }}></div>
                     <div className="sectionTopic">
