@@ -11,6 +11,7 @@ import ga from 'react-ga'
 import Header from '../components/Header'
 import LatestArticles from '../components/LatestArticles'
 import LatestSections from '../components/LatestSections'
+import LatestChoices from '../components/LatestChoices'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Sidebar from '../components/Sidebar'
@@ -195,10 +196,10 @@ class Home extends Component {
                 article={ _.get(entities.articles, _.first( _.get(choices, 'items', []) ), {}) } 
                 categories={entities.categories}
               />
-              <LatestSections 
-                sections={sections} 
-                entities={entities} 
-                sectionList={sectionListResponse}
+              <LatestChoices
+                articles={entities.articles}
+                categories={entities.categories}
+                choices={_.get(choices, 'items', [])}
               />
               <Choices 
                 choices={_.get(choices, 'items', [])}
