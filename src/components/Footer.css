@@ -111,6 +111,9 @@
 	footer .ui.left.aligned.grid {
 		display: none;
 	}
+	.footer .ui.center.aligned.grid {
+		margin: 20px 0 0 0 !important;
+	}
 	.ui.grid>.column:not(.row) {
 		padding: 0;
 	}

@@ -205,7 +205,7 @@ class HomeB extends Component {
                 loadMore={this.loadMore}
               />
 
-              <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
+              <div style={ { margin: '20px auto', 'maxWidth': '970px' } }>
                 <AdSlot sizes={ [ [ 970, 90 ] ] }
                   dfpNetworkId={DFPID}
                   slotId={ 'mm_pc_hp_970x90_FT' }
@@ -218,7 +218,7 @@ class HomeB extends Component {
                   }
                 />
               </div>
-              <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px' } }>
+              <div style={ { margin: '20px auto', 'maxWidth': '320px' } }>
                 <AdSlot sizes={ [ [ 320, 100 ] ] }
                   dfpNetworkId={DFPID}
                   slotId={ 'mm_mobile_hp_320x100_FT' }
