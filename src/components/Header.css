@@ -140,6 +140,28 @@
 .header-icon.facebook { width: 20px !important; height: 20px; }
 .header-icon.instagram { width: 20px !important; height: 20px; }
 
+.HeaderB .ui.text.container .container  {
+	text-align: center;
+}
+.HeaderB .main.menu-item {
+	height: auto;
+}
+
+.HeaderB .ui.menu a.item {
+	font-size: 15px;
+}
+
+.HeaderB .nav-container {
+	max-width: 100%;
+	width:auto;
+	display: inline-flex;
+}
+
+.HeaderB .ui.menu .item.nav-item  {
+	width: 80px;
+	padding: 17px 2px;
+}
+
 /* Mobile */
 @media only screen and (max-width: 767px) {
     .mobile-hide{
@@ -168,6 +190,10 @@
 	    padding: 0 !important;
 	    padding-top: 15px !important;
 	    left: calc(50% - 48px);
+	}
+
+	.HeaderB .header.item {
+		left: 0;
 	}
 
 	.ui.borderless.header.main.menu {
