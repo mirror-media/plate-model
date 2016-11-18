@@ -4,7 +4,7 @@
 import Choices from '../components/Choices'
 import DocumentMeta from 'react-document-meta'
 import Footer from '../components/Footer'
-import Header from '../components/Header'
+import HeaderB from '../components/HeaderB'
 import LatestArticles from '../components/LatestArticles'
 import LatestChoices from '../components/LatestChoices'
 import LatestSections from '../components/LatestSections'
@@ -139,7 +139,7 @@ class HomeB extends Component {
         <DFPSlotsProvider dfpNetworkId={DFPID}>
           <DocumentMeta {...meta} >
             <Sidebar sectionList={sectionListResponse} topics={topics} pathName={location.pathname}/>
-            <Header sectionList={sectionListResponse} topics={topics} pathName={location.pathname}/>
+            <HeaderB sectionList={sectionListResponse} topics={topics} pathName={location.pathname}/>
 
             <div className="ui dimmer">
               <div className="content" style={ { height: '480px', width: '320px', position: 'fixed', top: 'calc(50% - 240px)', left: 'calc(50% - 160px)' } }>

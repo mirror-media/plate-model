@@ -13,7 +13,7 @@ if (process.env.BROWSER) {
   require('./Header.css')
 }
 
-export default class Header extends Component {
+export default class HeaderB extends Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
@@ -145,9 +145,7 @@ export default class Header extends Component {
   }
 
   render() {
-    let status = this.state.isScrolledOver ? 'fixed top nav-scrolled' : ''
     const { sectionList, topics } = this.props
-    let sortedList = _.sortBy(sectionList.sections, (o)=>{ return o.sortOrder } )
     
     let itemsForHeader = {}
     itemsForHeader.topics = []
@@ -175,9 +173,14 @@ export default class Header extends Component {
     }
 
     return (
-      <div className="Header" ref="headerbox">
+      <div className="HeaderB" ref="headerbox">
         <div className="ui borderless header main menu">
           <div className="ui text container" style={{ maxWidth: 1024 +'px !important' }}>
+            <div className="left menu" >
+              <div className="item mobile-only hamburger" style={{ marginTop: '25px' }}>
+                <a onClick={this._openSidebar} style={{ cursor: 'pointer' }}><img src="/asset/icon/hamburger@2x.png" className="header-icon hamburger" /></a>
+              </div>
+            </div> 
             <Link to="/" className="header item" style={{ marginLeft: '122px' }}>        
               <img className="logo main" src={logo} />
             </Link>
@@ -198,7 +201,7 @@ export default class Header extends Component {
             </div>
           </div>
         </div>
-        <div className={ classNames('ui borderless header main menu menu-item mobile-hide', status) }>
+        <div className={ classNames('ui borderless header main menu menu-item mobile-hide') }>
           <div className="ui text container" style={{ maxWidth: 100 +'% !important', width: 100 +'%' }}>
             <div className="container" style={{ position:'relative', overflow: 'hidden' }}>
               <div className="nav-container">
@@ -218,19 +221,8 @@ export default class Header extends Component {
                   )
                 })}
               </div>
-              <Link className={ classNames('item item-navClick') } onClick={ this._expandNavigation }>》</Link>
             </div>
           </div>
-        </div>
-        <div className="sections mobile-only">
-          <div className="line mobile-only" />
-          { _.map(sortedList, (s)=>{
-            return (
-              <div className="section-item" key={s.id}>
-                <Link to={'/section/' + s.name} onClick={ this._handleClick }>{s.title}</Link>
-              </div>
-            )
-          })}
         </div>
         {this._renderMenu()}
       </div>
@@ -238,4 +230,4 @@ export default class Header extends Component {
   }
 }
 
-export { Header }
+export { HeaderB }
