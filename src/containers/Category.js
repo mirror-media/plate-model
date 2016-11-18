@@ -159,7 +159,7 @@ class Category extends Component {
   _renderList() {
     const { articlesByUuids, entities, params, sectionList , youtubePlaylist } = this.props
     const catId = _.get(params, 'category')
-    const section = _.find(_.get(sectionList, [ 'response', 'sections' ]), function (o) { return _.find(o.categories, { 'id': catId }) })
+    const section = _.find(_.get(sectionList, [ 'response', 'sections' ]), function (o) { return _.find(o.categories, { 'name': catId }) })
     const sectionName = _.get(section, 'name', '')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
     const category = _.get(params, 'category', null)
