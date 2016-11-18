@@ -86,7 +86,7 @@ export default class LatestChoices extends Component {
               </div>
             </a>
           </div>
-          { _.map(_.slice(choices, 2), (c) => {
+          { _.map( _.take(_.slice(choices, 2), 3) , (c) => {
             let a = _.get(articles, c, {})
             let linkStyle = (_.get(a, 'style', '') == 'projects') ? '/projects/' : '/story/'
             let image = imageComposer(a).mobileImage
