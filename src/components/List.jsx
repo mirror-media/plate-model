@@ -1,13 +1,15 @@
-import React, { Component } from 'react'
 import _ from 'lodash'
+import entities from 'entities'
+import ga from 'react-ga'
+import More from '../components/More'
+import React, { Component } from 'react'
 import sanitizeHtml from 'sanitize-html'
 import truncate from 'truncate'
-import entities from 'entities'
-import { imageComposer } from '../utils/index'
-import { AD_UNIT_PREFIX, DFPID } from '../constants/index'
-
-import More from '../components/More'
 import { AdSlot } from 'react-dfp'
+import { AD_UNIT_PREFIX, DFPID } from '../constants/index'
+import { imageComposer } from '../utils/index'
+
+
 
 if (process.env.BROWSER) {
   require('./LatestArticles.css')
@@ -16,8 +18,17 @@ if (process.env.BROWSER) {
 export default class List extends Component {
   constructor(props, context) {
     super(props, context)
+    this._handleClick = this._handleClick.bind(this)
     this.renderTitle = this.renderTitle.bind(this)
     this.renderAD = this.renderAD.bind(this)
+  }
+
+  _handleClick() {
+    ga.event({
+      category: this.props.pathName,
+      action: 'click',
+      label: 'list'
+    })
   }
 
   renderTitle() {
@@ -38,18 +49,19 @@ export default class List extends Component {
       <div className="computer-hide" style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '300px' } }>
         <AdSlot sizes={ [ [ 300, 250 ] ] }
           dfpNetworkId={DFPID}
-          slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_300x250_L1' } 
-          adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_300x250_L1' } 
+          slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_300x250_L1' }
+          adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_300x250_L1' }
           sizeMapping={
-            [ 
+            [
               { viewport: [   1,   1 ], sizes: [ [ 300, 250 ] ] },
               { viewport: [ 970, 200 ], sizes: [ ]  }
-            ] 
+            ]
           }
         />
       </div>
     )
   }
+
 
   render() {
     const { articles, categories, hasMore, loadMore } = this.props
@@ -76,12 +88,12 @@ export default class List extends Component {
 
             return (
               <div className="latest-block" key={a.id || a._id} >
-                <a href={linkStyle+a.slug+'/'}>
+                <a href={linkStyle+a.slug+'/'}  onClick={ this._handleClick }>
                   <div className="latest-img" style={{ background: 'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
                 </a>
                 <div className="latest-content">
-                  <a href={linkStyle+a.slug+'/'}>
+                  <a href={linkStyle+a.slug+'/'}   onClick={ this._handleClick }>
                     <h2>
                         <span dangerouslySetInnerHTML={{__html: title }}/><div className="cat-label"><div className="separator"></div><span>{ _.get(a, [ 'categories', 0, 'title' ], '') }</span></div>
                     </h2>
