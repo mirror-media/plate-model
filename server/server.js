@@ -168,6 +168,9 @@ server.get('*', async function (req, res) {
         // }
 
         if ( getCurrentUrl() === reqUrl ) {
+          if (!res.headersSent) {
+            res.header('Cache-Control', 'public, max-age=900')
+          }
           let reduxState = escape(JSON.stringify(store.getState()))
           let html = ReactDOMServer.renderToString(
               <Provider store={store} >
