@@ -97,6 +97,7 @@
 	max-width: -webkit-calc(100% - 57.55px);
 	max-width: -moz-calc(100% - 57.55px);
 	margin: 0 auto;
+	justify-content: center;
 }
 
 .nav-item {
@@ -194,6 +195,12 @@
 
 	.HeaderB .header.item {
 		left: 0;
+	}
+
+	.HeaderB .left {
+		display: flex;
+		margin-right: auto !important;
+		margin: 0;
 	}
 
 	.ui.borderless.header.main.menu {
