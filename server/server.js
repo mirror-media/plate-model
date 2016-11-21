@@ -181,6 +181,7 @@ server.get('*', async function (req, res) {
             <!DOCTYPE html>
             <html lang="zh-Hant-TW">
               <head>
+                  ${expGA}
                   <title>${title}</title>
                   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
                   <meta http-equiv="Cache-control" content="public">
@@ -220,7 +221,6 @@ server.get('*', async function (req, res) {
                   ${styles}
               </head>
               <body>
-                ${expGA} 
                 <div id="root">${html}</div>
                 <!-- Load Intl Polyfill -->
                 <script async src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.zh-Hant-TW"></script>
