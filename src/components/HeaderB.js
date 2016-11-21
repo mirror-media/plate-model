@@ -176,7 +176,7 @@ export default class HeaderB extends Component {
       <div className="HeaderB" ref="headerbox">
         <div className="ui borderless header main menu">
           <div className="ui text container" style={{ maxWidth: 1024 +'px !important' }}>
-            <div className="left menu" >
+            <div className="left" >
               <div className="item mobile-only hamburger" style={{ marginTop: '25px' }}>
                 <a onClick={this._openSidebar} style={{ cursor: 'pointer' }}><img src="/asset/icon/hamburger@2x.png" className="header-icon hamburger" /></a>
               </div>
