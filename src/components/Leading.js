@@ -28,20 +28,10 @@ export default class Leading extends Component {
 
   render() {
     const { leading, mediaSource } = this.props
-    const settings = {
-      dots: false,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      autoplay: true,
-      autoplaySpeed: 3000,
-      cssEase: 'linear',
-      fade: (this.props.device === 'desktop')? true: false,
-      draggable: (this.props.device === 'desktop')? false: true,
-      prevArrow: <PrevArrow src="/asset/icon/golden_Horse_arrow_left.png" />,
-      nextArrow: <NextArrow src="/asset/icon/golden_Horse_arrow_right.png" />
-    }
+    const embed = mediaSource.embed
+    const eventPeriod = mediaSource.eventPeriod ? mediaSource.eventPeriod : [ null, null ]
+    const flag = mediaSource.flag ? mediaSource.flag : null
+    const heroImage = _.get( mediaSource.heroImage, [ 'image' ], {} )
     const imageInfo = _.map(mediaSource.images, (itm) => {
       return {
         'filename' : _.get(itm, [ 'image', 'filename' ]),
@@ -51,66 +41,114 @@ export default class Leading extends Component {
         'url' : _.get(itm, [ 'image', 'url' ])
       }
     })
-    const heroImage = _.get( mediaSource.heroImage, [ 'image' ], {} )
+    const isFeatured = mediaSource.isFeatured ? mediaSource.isFeatured : false
+    const settings = {
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      autoplay: true,
+      autoplaySpeed: 3000,
+      cssEase: 'linear',
+      fade: (this.props.device === 'desktop') ? true : false,
+      draggable: (this.props.device === 'desktop') ? false : true,
+      prevArrow: <PrevArrow src="/asset/icon/golden_Horse_arrow_left.png" />,
+      nextArrow: <NextArrow src="/asset/icon/golden_Horse_arrow_right.png" />
+    }
     const video = _.get(mediaSource.heroVideo, [ 'video' ], {})
 
-    switch(leading) {
-      case 'slideshow':
-        if(imageInfo.length > 0) {
-          return (
-            <div className = "container">
-            <div className = "leading-container">
-            <Slider {...settings}>
-            {_.map(imageInfo, (img) => {
-              return (
-                <div className = "slide-container" key={ img.filename } style = {{ height: '100%', backgroundColor: 'rgba(255,255,255,0.1)' }}>
-                  <div className="slide" style={{ background: 'url(' + img.url + ') no-repeat center center', backgroundSize: 'contain', height: img.height + 'px', maxHeight: '400px' }}></div>
+    if(EventStuff.ifShowLeading(eventPeriod[0], eventPeriod[1], flag, isFeatured)) {
+      switch(leading) {
+        case 'slideshow':
+          if(imageInfo.length > 0) {
+            return (
+              <div className = "container">
+                <div className = "leading-container">
+                  <Slider {...settings}>
+                    {_.map(imageInfo, (img) => {
+                      return (
+                        <div className = "slide-container" key={ img.filename } style = {{ height: '100%', backgroundColor: 'rgba(255,255,255,0.1)' }}>
+                          <div className="slide" style={{ background: 'url(' + img.url + ') no-repeat center center', backgroundSize: 'contain', height: img.height + 'px', maxHeight: '400px' }}></div>
+                        </div>
+                      )
+                    })}
+                  </Slider>
                 </div>
-              )
-            })}
-            </Slider>
-            </div>
-            </div>
-          )
-        } else {
-          return (<div></div>)
-        }
-        break
-      case 'image':
-        if(heroImage.url && heroImage.url.length > 0) {
-          return (
-            <div className = "container">
-              <div className = "leading-container">
-                <a href="#"><div className="img" style={{ maxHeight: '550px', overflow: 'hidden' }}>
-                  <img src={ heroImage.url } style={{ width: '100%' }} />
-                </div></a>
               </div>
-            </div>
-          )
-        } else {
-          return (<div></div>)
-        }
-        break
-      case 'video':
-        if(video.url && video.url.length > 0) {
-          return (
-            <div className = "container">
-              <div className = "leading-container">
-                <video style={{ width: '100%' }}>
-                  <source src={video.url} type={video.filetype} />
-                </video>
+            )
+          } else {
+            return (<ShowNothing />)
+          }
+          break
+        case 'image':
+          if(heroImage.url && heroImage.url.length > 0) {
+            return (
+              <div className = "container">
+                <div className = "leading-container">
+                  <div className = "leading-container--fit">
+                    <a href="#"><div className="img" style={{ maxHeight: '550px', overflow: 'hidden' }}>
+                      <img src={ heroImage.url } style={{ width: '100%' }} />
+                    </div></a>
+                  </div>
+                </div>
               </div>
-            </div>
-          )
-        } else {
-          return (<div></div>)
-        }
-        break
-      default:
-        return (
-          <div></div>
-        )
+            )
+          } else {
+            return (<ShowNothing />)
+          }
+          break
+        case 'video':
+          if(video.url && video.url.length > 0) {
+            return (
+              <div className = "container">
+                <div className = "leading-container">
+                  <div className = "leading-container--fit">
+                    <video style={{ width: '100%' }}>
+                      <source src={video.url} type={video.filetype} />
+                    </video>
+                  </div>
+                </div>
+              </div>
+            )
+          } else {
+            return (<ShowNothing />)
+          }
+          break
+        case 'embedded':
+          if(embed && _.trim(embed).length > 0) {
+            return (
+              <div className = "container">
+                <div className = "leading-container">
+                  <div className = "leading-container--fit">
+                    <div className = "leading-container_embedded" dangerouslySetInnerHTML={{ __html: embed }}></div>
+                  </div>
+                </div>
+              </div>
+            )
+          } else {
+            return (<ShowNothing />)
+          }
+          break
+        default:
+          return (<ShowNothing />)
+      }
+    } else {
+      return (<ShowNothing />)
     }
   }
 }
 export { Leading }
+
+const ShowNothing = () => (
+  <div></div>
+)
+
+class EventStuff {
+  static ifShowLeading(startDate = Date.now(), endDate = Date.now(), flag, isFeatured) {
+    let dNow = new Date()
+    let sDt = new Date(startDate)
+    let eDt = new Date(endDate)
+    return ((flag !== 'event' || (isFeatured && flag === 'event' && (dNow <= eDt && dNow >= sDt)))) ? true : false
+  }
+}

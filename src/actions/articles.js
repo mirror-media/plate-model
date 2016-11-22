@@ -95,6 +95,13 @@ function requestIndexArticles(url) {
   }
 }
 
+function requestEvent(url) {
+  return {
+    type: types.FETCH_EVENT_REQUEST,
+    url
+  }
+}
+
 function requestTopics(url) {
   return {
     type: types.FETCH_TOPICS_REQUEST,
@@ -127,6 +134,14 @@ function failToReceiveIndexArticles(error) {
 function failToReceiveLatestPosts(error) {
   return {
     type: types.FETCH_LATEST_POSTS_FAILURE,
+    error,
+    failedAt: Date.now()
+  }
+}
+
+function failToReceiveEvent(error) {
+  return {
+    type: types.FETCH_EVENT_FAILURE,
     error,
     failedAt: Date.now()
   }
@@ -191,6 +206,16 @@ function failToReceiveChoices(error) {
 function receiveLatestPosts(response, meta, links) {
   return {
     type: types.FETCH_LATEST_POSTS_SUCCESS,
+    response,
+    meta,
+    links,
+    receivedAt: Date.now()
+  }
+}
+
+function receiveEvent(response, meta, links) {
+  return {
+    type: types.FETCH_EVENT_SUCCESS,
     response,
     meta,
     links,
@@ -319,6 +344,11 @@ function _buildTopicQueryUrl(params = {}, slug= '') {
   return formatUrl(`topics/${slug}?${query}`)
 }
 
+function _buildEventQueryUrl(params = {}) {
+  let query = _buildQuery(params)
+  return formatUrl(`event?${query}`)
+}
+
 function _buildImageQueryUrl(params = {}) {
   let query = _buildQuery(params)
   return formatUrl(`images?${query}`)
@@ -401,6 +431,22 @@ export function fetchLatestPosts(params = {}) {
         dispatch(receiveLatestPosts(response, meta, links))
       }, (error) => {
         return dispatch(failToReceiveLatestPosts(error))
+      })
+  }
+}
+
+export function fetchEvent(params = {}) {
+  let url = _buildEventQueryUrl(params)
+  return (dispatch) => {
+    dispatch(requestEvent('Request Event: ' + url))
+    return _fetchArticles(url)
+      .then((response) => {
+        let meta = response._meta
+        let links = response._links
+        let camelizedJson = camelizeKeys(response)
+        dispatch(receiveEvent(camelizedJson.items, meta, links))
+      }, (error) => {
+        return dispatch(failToReceiveEvent(error))
       })
   }
 }
@@ -511,7 +557,7 @@ export function fetchIndexArticles(endpoints = []) {
               let camelizedJson = camelizeKeys(resp_data[e])
               let dispatch_data = {}
               dispatch_data['sections'] = camelizedJson['items']
-              dispatch_data['categories'] = {} 
+              dispatch_data['categories'] = {}
               for (let c in camelizedJson['items']) {
                 for (let i in camelizedJson['items'][c]['categories']) {
                   if( _.get( camelizedJson, [ 'items', c, 'categories', i, 'name' ], undefined) )

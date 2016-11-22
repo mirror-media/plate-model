@@ -7,6 +7,7 @@ import Footer from '../components/Footer'
 import Header from '../components/Header'
 import LatestArticles from '../components/LatestArticles'
 import LatestSections from '../components/LatestSections'
+import Leading from '../components/Leading'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Sidebar from '../components/Sidebar'
@@ -17,12 +18,12 @@ import _ from 'lodash'
 import async from 'async'
 import cookie from 'react-cookie'
 import ga from 'react-ga'
-import { DFPManager, DFPSlotsProvider, AdSlot } from 'react-dfp'
+import { AdSlot, DFPManager, DFPSlotsProvider } from 'react-dfp'
 import { HOME, CATEGORY, SITE_NAME, SITE_META, GAID, DFPID } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { devCatListId, prodCatListId } from '../conf/list-id'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchLatestPosts, fetchTopics } from '../actions/articles'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchLatestPosts, fetchEvent, fetchTopics, makeSearchQuery } from '../actions/articles'
 import { setPageType, setPageTitle } from '../actions/header'
 
 const MAXRESULT = 10
@@ -52,7 +53,7 @@ class Home extends Component {
     ga.pageview(this.props.location.pathname)
     this.props.setPageType(HOME)
     this.props.setPageTitle('', SITE_NAME.FULL)
-    
+
     DFPManager.attachSlotRenderEnded((id, event) => {
       if (id.slotId == 'mm_mobile_hp_320x480_FS' && !id.event.isEmpty) {
         console.log(id)
@@ -95,6 +96,10 @@ class Home extends Component {
       this.props.fetchIndexArticles( unfetched )
     }
 
+    this.props.fetchEvent({
+      max_results: 1
+    })
+
     if ( !_.get(topics, 'fetched', undefined) ) {
       this.props.fetchTopics()
     }
@@ -119,11 +124,19 @@ class Home extends Component {
   render() {
     const { device } = this.context
     const { articlesByUuids, entities, sectionFeatured, sectionList, choices, latestPosts, topics, location } = this.props
-    
+    const event = _.get(this.props.event, [ 'items', 0 ])
+
+    const embed = _.get(event, [ 'embed' ] )
+    const eventType = _.get(event, [ 'eventType' ] )
+    const eventPeriod = [ _.get(event, [ 'startDate' ]), _.get(event, [ 'endDate' ]) ]
+    const image = _.get(event, [ 'image' ] )
+    const isFeatured = _.get(event, [ 'isFeatured' ])
+    const video = _.get(event, [ 'video' ] )
+
     let sections = sectionFeatured
     // let choicesPosts = _.filter(entities.articles, (v,k)=>{ return _.indexOf(choices.items, k) > -1 })
     let posts = _.filter(entities.articles, (v,k)=>{ return _.indexOf(latestPosts.items, k) > -1 })
-    
+
     let sectionListResponse = _.get(sectionList, 'response', {})
 
     const meta = {
@@ -150,12 +163,12 @@ class Home extends Component {
                   <AdSlot sizes={ [ [ 320, 480 ] ] }
                     dfpNetworkId={DFPID}
                     slotId={ 'mm_mobile_hp_320x480_FS' }
-                    adUnit={ 'mm_mobile_hp_320x480_FS' } 
+                    adUnit={ 'mm_mobile_hp_320x480_FS' }
                     sizeMapping={
-                      [ 
+                      [
                         { viewport: [   1,   1 ], sizes: [ [ 320, 480 ] ] },
                         { viewport: [ 970, 200 ], sizes: [ ]  }
-                      ] 
+                      ]
                     }
                   />
                 </div>
@@ -167,13 +180,13 @@ class Home extends Component {
               <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
                 <AdSlot sizes={ [ [ 970, 90 ],  [ 970, 250 ] ] }
                   dfpNetworkId={DFPID}
-                  slotId={ 'mm_pc_hp_970x250_HD' } 
-                  adUnit={ 'mm_pc_hp_970x250_HD' } 
+                  slotId={ 'mm_pc_hp_970x250_HD' }
+                  adUnit={ 'mm_pc_hp_970x250_HD' }
                   sizeMapping={
-                    [ 
+                    [
                       { viewport: [   0,   0 ], sizes: [ ] },
                       { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ] ]  }
-                    ] 
+                    ]
                   }
                 />
               </div>
@@ -181,37 +194,37 @@ class Home extends Component {
                 <AdSlot sizes={ [ [ 320, 100 ] ] }
                   dfpNetworkId={DFPID}
                   slotId={ 'mm_mobile_hp_320x100_HD' }
-                  adUnit={ 'mm_mobile_hp_320x100_HD' } 
+                  adUnit={ 'mm_mobile_hp_320x100_HD' }
                   sizeMapping={
-                    [ 
+                    [
                       { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
                       { viewport: [ 970, 200 ], sizes: [ ]  }
-                    ] 
+                    ]
                   }
                 />
               </div>
-
-              <TopChoice 
-                article={ _.get(entities.articles, _.first( _.get(choices, 'items', []) ), {}) } 
+              <Leading leading={ eventType } mediaSource={ { 'heroImage': image, 'heroVideo': video, 'embed': embed, 'eventPeriod': eventPeriod, 'flag': 'event', 'isFeatured': isFeatured } } device={ this.context.device } />
+              <TopChoice
+                article={ _.get(entities.articles, _.first( _.get(choices, 'items', []) ), {}) }
                 categories={entities.categories}
               />
               <LatestSections
-                choices={_.get(choices, 'items', [])} 
-                sections={sections} 
-                entities={entities} 
+                choices={_.get(choices, 'items', [])}
+                sections={sections}
+                entities={entities}
                 sectionList={sectionListResponse}
               />
-              <Choices 
+              <Choices
                 choices={_.get(choices, 'items', [])}
-                articles={entities.articles} 
-                categories={entities.categories} 
-                authors={entities.authors} 
+                articles={entities.articles}
+                categories={entities.categories}
+                authors={entities.authors}
               />
-              <LatestArticles 
-                articles={posts} 
-                categories={entities.categories} 
-                authors={entities.authors} 
-                title={"最新文章"} 
+              <LatestArticles
+                articles={posts}
+                categories={entities.categories}
+                authors={entities.authors}
+                title={"最新文章"}
                 hasMore={ _.get(latestPosts, [ 'items', 'length' ], 0) < _.get(latestPosts, [ 'meta', 'total' ], 0) }
                 loadMore={this.loadMore}
               />
@@ -220,12 +233,12 @@ class Home extends Component {
                 <AdSlot sizes={ [ [ 970, 90 ] ] }
                   dfpNetworkId={DFPID}
                   slotId={ 'mm_pc_hp_970x90_FT' }
-                  adUnit={ 'mm_pc_hp_970x90_FT' } 
+                  adUnit={ 'mm_pc_hp_970x90_FT' }
                   sizeMapping={
-                    [ 
+                    [
                       { viewport: [   0,   0 ], sizes: [ ] },
                       { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
-                    ] 
+                    ]
                   }
                 />
               </div>
@@ -233,12 +246,12 @@ class Home extends Component {
                 <AdSlot sizes={ [ [ 320, 100 ] ] }
                   dfpNetworkId={DFPID}
                   slotId={ 'mm_mobile_hp_320x100_FT' }
-                  adUnit={ 'mm_mobile_hp_320x100_FT' } 
+                  adUnit={ 'mm_mobile_hp_320x100_FT' }
                   sizeMapping={
-                    [ 
+                    [
                       { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
                       { viewport: [ 970, 200 ], sizes: [ ]  }
-                    ] 
+                    ]
                   }
                 />
               </div>
@@ -258,9 +271,10 @@ class Home extends Component {
 function mapStateToProps(state) {
   return {
     articlesByUuids: state.articlesByUuids || {},
-    entities: state.entities || {},
-    indexArticles: state.indexArticles || {},
     choices: state.choices || {},
+    entities: state.entities || {},
+    event: state.event || {},
+    indexArticles: state.indexArticles || {},
     latestPosts: state.latestPosts || {},
     sectionList: state.sectionList || {},
     sectionFeatured: state.sectionFeatured || {},
@@ -276,6 +290,7 @@ export { Home }
 
 export default connect(mapStateToProps, {
   fetchArticlesByUuidIfNeeded,
+  fetchEvent,
   fetchIndexArticles,
   fetchLatestPosts,
   fetchTopics,

@@ -146,7 +146,7 @@ export function choices(state = {}, action = {}) {
         lastUpdated: action.failedAt
       })
     default:
-      return state 
+      return state
   }
 }
 
@@ -172,7 +172,31 @@ export function latestPosts(state = {}, action = {}) {
         lastUpdated: action.failedAt
       })
     default:
-      return state 
+      return state
+  }
+}
+
+export function event(state = {}, action = {}) {
+  switch (action.type) {
+    case types.FETCH_EVENT_SUCCESS:
+      return _.merge({}, state, {
+        isFetching: false,
+        fetched: true,
+        error: null,
+        items: action.response,
+        meta: action.meta,
+        links: action.links,
+        lastUpdated: action.receivedAt
+      })
+    case types.FETCH_EVENT_FAILURE:
+      return _.merge({}, state, {
+        isFetching: false,
+        fetched: false,
+        error: action.error,
+        lastUpdated: action.failedAt
+      })
+    default:
+      return state
   }
 }
 
@@ -200,7 +224,7 @@ export function topics(state = {}, action = {}) {
         lastUpdated: action.failedAt
       })
     default:
-      return state 
+      return state
   }
 }
 
@@ -222,7 +246,7 @@ export function topic(state = {}, action = {}) {
         lastUpdated: action.failedAt
       })
     default:
-      return state 
+      return state
   }
 }
 
@@ -244,7 +268,7 @@ export function images(state = {}, action = {}) {
         lastUpdated: action.failedAt
       })
     default:
-      return state 
+      return state
   }
 }
 

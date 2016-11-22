@@ -14,14 +14,14 @@ function rewriteAliasUrl(query, content) {
     for (let collection in where_obj) {
       if (_.indexOf(WHERE_REWRITE, collection)) {
         if  (_.has(where_obj[collection], '$in')) {
-          url = `${API_PROTOCOL}://${API_HOST}:${API_PORT}/posts-alias`       
+          url = `${API_PROTOCOL}://${API_HOST}:${API_PORT}/posts-alias`
           query['collection'] = collection
           query['name'] = where_obj[collection]['$in'][0]
           query['where'] = undefined
           if (content == 'meta') { query['content'] = 'meta' }
         }
       }
-    }    
+    }
   }
   return { 'url': url, 'query': query }
 }
@@ -121,6 +121,26 @@ export function loadTopicList(req, params = []) {
     const query = req.query
     const { API_PROTOCOL, API_PORT, API_HOST } = config
     let url = `${API_PROTOCOL}://${API_HOST}:${API_PORT}/topics`
+    let slug = typeof params[0] === 'string' ? params[0] : null
+    url = slug ? `${url}/${slug}` : url
+    superAgent['get'](url)
+      .timeout(constants.timeout)
+      .query(query)
+      .end(function (err, res) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(res.body)
+        }
+      })
+  })
+}
+
+export function loadEventList(req, params = []) {
+  return new Promise((resolve, reject) => {
+    const query = req.query
+    const { API_PROTOCOL, API_PORT, API_HOST } = config
+    let url = `${API_PROTOCOL}://${API_HOST}:${API_PORT}/event`
     let slug = typeof params[0] === 'string' ? params[0] : null
     url = slug ? `${url}/${slug}` : url
     superAgent['get'](url)
