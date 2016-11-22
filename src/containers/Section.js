@@ -64,7 +64,6 @@ class Section extends Component {
     this.props.fetchEvent({
       max_results: 1,
       where: {
-        isFeatured: true,
         sections: sectionID
       }
     })
@@ -100,11 +99,20 @@ class Section extends Component {
   componentWillUpdate(nextProps) {
     const section = _.get(nextProps.params, 'section', null)
     const catName = _.get( _.find( _.get(nextProps.sectionList, [ 'response', 'sections' ]), { name: section }), [ 'title' ], null)
+    const sectionID = _.get( _.find( _.get(nextProps.sectionList, [ 'response', 'sections' ]), { name: section }), [ 'id' ], null)
 
     if (nextProps.location.pathname !== this.props.location.pathname) {
       if(section != null) ga.set( { 'contentGroup1': catName } )
       ga.pageview(nextProps.location.pathname)
+
+      this.props.fetchEvent({
+        max_results: 1,
+        where: {
+          sections: sectionID
+        }
+      })
     }
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -163,7 +171,7 @@ class Section extends Component {
     const eventType = _.get(event, [ 'eventType' ] )
     const eventPeriod = [ _.get(event, [ 'startDate' ]), _.get(event, [ 'endDate' ]) ]
     const image = _.get(event, [ 'image' ] )
-    const isFeatured = _.get(event, [ 'isFeatured' ])
+    // const isFeatured = _.get(event, [ 'isFeatured' ])
     const video = _.get(event, [ 'video' ] )
 
 
@@ -200,7 +208,7 @@ class Section extends Component {
                 }
               />
             </div>
-            <Leading leading={ eventType } mediaSource={ { 'heroImage': image, 'heroVideo': video, 'embed': embed, 'eventPeriod': eventPeriod, 'flag': 'event', 'isFeatured': isFeatured } } device={ this.context.device } />
+            <Leading leading={ eventType } mediaSource={ { 'heroImage': image, 'heroVideo': video, 'embed': embed, 'eventPeriod': eventPeriod, 'flag': 'event', 'isFeatured': true } } device={ this.context.device }  pathName={location.pathname}/>
             <Featured articles={featured} categories={entities.categories} />
             <List
               articles={articles}
