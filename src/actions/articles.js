@@ -344,9 +344,9 @@ function _buildTopicQueryUrl(params = {}, slug= '') {
   return formatUrl(`topics/${slug}?${query}`)
 }
 
-function _buildEventQueryUrl(params = {}, slug= '') {
+function _buildEventQueryUrl(params = {}) {
   let query = _buildQuery(params)
-  return formatUrl(`event/${slug}?${query}`)
+  return formatUrl(`event?${query}`)
 }
 
 function _buildImageQueryUrl(params = {}) {

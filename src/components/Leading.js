@@ -29,8 +29,8 @@ export default class Leading extends Component {
   render() {
     const { leading, mediaSource } = this.props
     const embed = mediaSource.embed
-    const eventPeriod = mediaSource.eventPeriod? mediaSource.eventPeriod : [ null, null ]
-    const flag = mediaSource.flag? mediaSource.flag : 'NA'
+    const eventPeriod = mediaSource.eventPeriod ? mediaSource.eventPeriod : [ null, null ]
+    const flag = mediaSource.flag ? mediaSource.flag : null
     const heroImage = _.get( mediaSource.heroImage, [ 'image' ], {} )
     const imageInfo = _.map(mediaSource.images, (itm) => {
       return {
@@ -41,7 +41,7 @@ export default class Leading extends Component {
         'url' : _.get(itm, [ 'image', 'url' ])
       }
     })
-    const isFeatured = mediaSource.isFeatured? mediaSource.isFeatured : false
+    const isFeatured = mediaSource.isFeatured ? mediaSource.isFeatured : false
     const settings = {
       dots: false,
       infinite: true,
@@ -51,8 +51,8 @@ export default class Leading extends Component {
       autoplay: true,
       autoplaySpeed: 3000,
       cssEase: 'linear',
-      fade: (this.props.device === 'desktop')? true: false,
-      draggable: (this.props.device === 'desktop')? false: true,
+      fade: (this.props.device === 'desktop') ? true : false,
+      draggable: (this.props.device === 'desktop') ? false : true,
       prevArrow: <PrevArrow src="/asset/icon/golden_Horse_arrow_left.png" />,
       nextArrow: <NextArrow src="/asset/icon/golden_Horse_arrow_right.png" />
     }
@@ -149,6 +149,6 @@ class EventStuff {
     let dNow = new Date()
     let sDt = new Date(startDate)
     let eDt = new Date(endDate)
-    return ((flag !== 'event' || (isFeatured && flag === 'event' && (dNow <= eDt && dNow >= sDt))))? true : false
+    return ((flag !== 'event' || (isFeatured && flag === 'event' && (dNow <= eDt && dNow >= sDt)))) ? true : false
   }
 }
