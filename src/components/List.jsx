@@ -46,7 +46,7 @@ export default class List extends Component {
   renderAD() {
     let sectionName = _.get(this.props, 'section')
     return (
-      <div className="computer-hide" style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '300px' } }>
+      <div className="computer-hide" style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '300px', textAlign: 'center' } }>
         <AdSlot sizes={ [ [ 300, 250 ] ] }
           dfpNetworkId={DFPID}
           slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_300x250_L1' }
