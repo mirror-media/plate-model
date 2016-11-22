@@ -123,7 +123,7 @@ class Topic extends Component {
   }
 
   render() {
-    const { articlesByUuids, entities, params, sectionList, topics, location } = this.props  
+    const { articlesByUuids, entities, params, sectionList, topics, location } = this.props
     const images  = _.get(this.props.images, [ 'items', 'items' ])
 
     const topicId = _.get(params, 'topicId')
@@ -154,7 +154,7 @@ class Topic extends Component {
         <div className="top">
           <Header sectionList={sectionListResponse} topics={topics} pathName={location.pathname}/>
           <div className="topic-title"><h2>Title Here</h2></div>
-          <Leading leading={ leading } mediaSource={ { 'images': images, 'heroImage': heroImage, 'heroVideo': heroVideo } } device={ this.context.device } />
+          <Leading leading={ leading } mediaSource={ { 'images': images, 'heroImage': heroImage, 'heroVideo': heroVideo, 'flag' : 'topic' } } device={ this.context.device } />
         </div>
 
         <div id="main" className="pusher middle">
@@ -172,7 +172,7 @@ class Topic extends Component {
 
         <style dangerouslySetInnerHTML={ { __html: _.get(topics, [ 'items', topicUUID, 'style' ], '') } } />
         <script dangerouslySetInnerHTML={ { __html: _.get(topics, [ 'items', topicUUID, 'javascript' ], '') } } />
-        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-582e858f529d0edb"></script> 
+        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-582e858f529d0edb"></script>
       </DocumentMeta>
     )
   }

@@ -3,9 +3,33 @@
   max-width: 740px;
   margin: 0 auto;
 }
+.leading-container--fit {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2em;
+}
 .leading-video-container {
   max-height: 400px;
   overflow: hidden;
+}
+.leading-container_embedded {
+  text-align: center;
+  width: 100%;
+  position: relative;
+  padding-bottom: 56.25%;
+  /* 16:9 */
+  padding-top: 25px;
+  height: 0;
+}
+.leading-container_embedded iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 .slick-next::before,
 .slick-prev::before {
