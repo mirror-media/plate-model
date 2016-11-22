@@ -78,7 +78,7 @@ export default class Leading extends Component {
               </div>
             )
           } else {
-            return (<div></div>)
+            return (<ShowNothing />)
           }
           break
         case 'image':
@@ -95,7 +95,7 @@ export default class Leading extends Component {
               </div>
             )
           } else {
-            return (<div></div>)
+            return (<ShowNothing />)
           }
           break
         case 'video':
@@ -112,7 +112,7 @@ export default class Leading extends Component {
               </div>
             )
           } else {
-            return (<div></div>)
+            return (<ShowNothing />)
           }
           break
         case 'embedded':
