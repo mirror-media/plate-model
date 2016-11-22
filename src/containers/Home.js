@@ -97,7 +97,10 @@ class Home extends Component {
     }
 
     this.props.fetchEvent({
-      max_results: 1
+      max_results: 1,
+      where: {
+        isFeatured: true
+      }
     })
 
     if ( !_.get(topics, 'fetched', undefined) ) {
