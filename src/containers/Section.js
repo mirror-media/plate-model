@@ -1,20 +1,21 @@
 /* global __DEVELOPMENT__ */
-import { SECTION, SITE_META, SITE_NAME, GAID, AD_UNIT_PREFIX, DFPID } from '../constants/index'
+import { AD_UNIT_PREFIX, DFPID, GAID, SECTION, SITE_META, SITE_NAME } from '../constants/index'
 import { connect } from 'react-redux'
+import { camelize } from 'humps'
 import { denormalizeArticles } from '../utils/index'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchTopics } from '../actions/articles'
+import { DFPSlotsProvider, AdSlot } from 'react-dfp'
+import { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchEvent, fetchTopics } from '../actions/articles'
 import { setPageType, setPageTitle } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
-import Header from '../components/Header'
-import Sidebar from '../components/Sidebar'
-import Footer from '../components/Footer'
-import React, { Component } from 'react'
-import List from '../components/List'
 import Featured from '../components/Featured'
-import { DFPSlotsProvider, AdSlot } from 'react-dfp'
+import Footer from '../components/Footer'
 import ga from 'react-ga'
-import { camelize } from 'humps'
+import Header from '../components/Header'
+import Leading from '../components/Leading'
+import List from '../components/List'
+import React, { Component } from 'react'
+import Sidebar from '../components/Sidebar'
 
 if (process.env.BROWSER) {
   require('./Section.css')
@@ -56,6 +57,17 @@ class Section extends Component {
     if ( !checkSectionList || !checkSectionFeatured) {
       fetchIndexArticles([ 'sections', 'sectionfeatured' ])
     }
+
+    const section = _.get(this.props.params, 'section', null)
+    const sectionID = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'id' ], null)
+
+    this.props.fetchEvent({
+      max_results: 1,
+      where: {
+        isFeatured: true,
+        sections: sectionID
+      }
+    })
 
     if ( !_.get(topics, 'fetched', undefined) ) {
       this.props.fetchTopics()
@@ -133,7 +145,6 @@ class Section extends Component {
     const catId = _.get(params, 'section')
 
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
-
     let featured = _.filter(entities.articles, (v,k)=>{ return _.indexOf(_.get(sectionFeatured, [ 'items', camelize(catId) ], []), k) > -1 })
 
     const section = _.get(params, 'section', null)
@@ -146,6 +157,15 @@ class Section extends Component {
       meta: { property: {} },
       auto: { ograph: true }
     }
+
+    const event = _.get(this.props.event, [ 'items', 0 ])
+    const embed = _.get(event, [ 'embed' ] )
+    const eventType = _.get(event, [ 'eventType' ] )
+    const eventPeriod = [ _.get(event, [ 'startDate' ]), _.get(event, [ 'endDate' ]) ]
+    const image = _.get(event, [ 'image' ] )
+    const isFeatured = _.get(event, [ 'isFeatured' ])
+    const video = _.get(event, [ 'video' ] )
+
 
     return (
       <DFPSlotsProvider dfpNetworkId={DFPID}>
@@ -180,6 +200,7 @@ class Section extends Component {
                 }
               />
             </div>
+            <Leading leading={ eventType } mediaSource={ { 'heroImage': image, 'heroVideo': video, 'embed': embed, 'eventPeriod': eventPeriod, 'flag': 'event', 'isFeatured': isFeatured } } device={ this.context.device } />
             <Featured articles={featured} categories={entities.categories} />
             <List
               articles={articles}
@@ -230,6 +251,7 @@ function mapStateToProps(state) {
   return {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
+    event: state.event || {},
     sectionList: state.sectionList || {},
     sectionFeatured: state.sectionFeatured || {},
     topics: state.topics || {}
@@ -241,4 +263,4 @@ Section.contextTypes = {
 }
 
 export { Section }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTopics, setPageType, setPageTitle })(Section)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchEvent, fetchIndexArticles, fetchTopics, setPageType, setPageTitle })(Section)
