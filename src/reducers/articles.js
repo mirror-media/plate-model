@@ -183,7 +183,7 @@ export function event(state = {}, action = {}) {
         isFetching: false,
         fetched: true,
         error: null,
-        items: action.response,
+        items: (action.response.length > 0) ? action.response : {},
         meta: action.meta,
         links: action.links,
         lastUpdated: action.receivedAt
