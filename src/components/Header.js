@@ -204,17 +204,17 @@ export default class Header extends Component {
               <div className="nav-container">
                 { _.map(itemsForHeader.topics, (i)=>{
                   return (
-                    <Link to={'/topic/' + i.id} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.name}</Link>
+                    <a href={'/topic/' + i.id} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.name}</a>
                   )
                 })}
                 { _.map(itemsForHeader.sections, (i)=>{
                   return (
-                    <Link to={'/section/' + i.name} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.title}</Link>
+                    <a href={'/section/' + i.name} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.title}</a>
                   )
                 })}
                 { _.map(itemsForHeader.categories, (i)=>{
                   return (
-                    <Link to={'/category/' + i.name} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.title}</Link>
+                    <a href={'/category/' + i.name} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.title}</a>
                   )
                 })}
               </div>
@@ -227,7 +227,7 @@ export default class Header extends Component {
           { _.map(sortedList, (s)=>{
             return (
               <div className="section-item" key={s.id}>
-                <Link to={'/section/' + s.name} onClick={ this._handleClick }>{s.title}</Link>
+                <a href={'/section/' + s.name} onClick={ this._handleClick }>{s.title}</a>
               </div>
             )
           })}

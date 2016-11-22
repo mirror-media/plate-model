@@ -182,7 +182,7 @@ class Section extends Component {
           <Header sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
 
           <div id="main" className="pusher">
-            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
+            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px', textAlign: 'center' } }>
               <AdSlot sizes={ [ [ 970, 90 ],  [ 970, 250 ] ] }
                 dfpNetworkId={DFPID}
                 slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x250_HD' }
@@ -195,7 +195,7 @@ class Section extends Component {
                 }
               />
             </div>
-            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px' } }>
+            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px', textAlign: 'center' } }>
               <AdSlot sizes={ [ [ 300, 250 ], [ 320, 100 ] ] }
                 dfpNetworkId={DFPID}
                 slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_300x250_HD' }
@@ -221,7 +221,7 @@ class Section extends Component {
             />
             {this.props.children}
 
-            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px' } }>
+            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px', textAlign: 'center' } }>
               <AdSlot sizes={ [ [ 970, 90 ] ] }
                 dfpNetworkId={DFPID}
                 slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x90_FT' }
@@ -234,7 +234,7 @@ class Section extends Component {
                 }
               />
             </div>
-            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px' } }>
+            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px', textAlign: 'center' } }>
               <AdSlot sizes={ [ [ 320, 100 ] ] }
                 dfpNetworkId={DFPID}
                 slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_320x100_FT' }
