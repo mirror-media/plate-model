@@ -2,7 +2,7 @@
 import { SITE_META, SITE_NAME, SEARCH, GAID } from '../constants/index'
 import { connect } from 'react-redux'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchTopics } from '../actions/articles'
-import { setPageType } from '../actions/header'
+import { setPageType, setPageTitle } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
 import Header from '../components/Header'
@@ -150,4 +150,4 @@ Search.contextTypes = {
 }
 
 export { Search }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchIndexArticles, fetchTopics, setPageType })(Search)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, makeSearchQuery, fetchIndexArticles, fetchTopics, setPageType, setPageTitle })(Search)
