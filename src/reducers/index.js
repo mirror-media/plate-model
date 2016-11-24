@@ -1,5 +1,21 @@
 'use strict'
-import { articlesByUuids, choices, event, featureArticles, indexArticles, latestPosts, topics, topic, relatedArticles, searchResult, youtubePlaylist, sectionFeatured, sectionList, images } from './articles'
+import { 
+  articlesByUuids, 
+  audios,
+  choices, 
+  event, 
+  featureArticles, 
+  images,
+  indexArticles, 
+  latestPosts, 
+  relatedArticles, 
+  searchResult, 
+  sectionFeatured, 
+  sectionList, 
+  topic, 
+  topics, 
+  youtubePlaylist
+} from './articles'
 import { categories, tags } from './groups'
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
@@ -64,28 +80,29 @@ function fatalError(state = null, action) {
 
 const rootReducer = combineReducers({
   articlesByUuids,
+  audios,
   categories,
   choices,
   device,
+  entities,
   event,
-  featureArticles,
-  latestPosts,
-  topics,
-  topic,
-  indexArticles,
-  relatedArticles,
   fatalError,
-  selectedArticle,
-  tags,
-  routing: routerReducer,
+  featureArticles,
   header,
+  images,
+  indexArticles,
+  latestPosts,
+  relatedArticles,
+  routing: routerReducer,
   searchResult,
-  youtubePlaylist,
   sectionFeatured,
   sectionList,
+  selectedArticle,
   slugToId,
-  entities,
-  images
+  tags,
+  topic,
+  topics,
+  youtubePlaylist
 })
 
 export default rootReducer
