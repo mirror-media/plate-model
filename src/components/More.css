@@ -1,6 +1,7 @@
 .more-articles {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
+  margin: 20px 0;
 }
 
 .more-articles > div {
