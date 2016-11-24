@@ -123,6 +123,13 @@ function requestImages(url) {
   }
 }
 
+function requestAudios(url) {
+  return {
+    type: types.FETCH_IMAGES_REQUEST,
+    url
+  }
+}
+
 function failToReceiveIndexArticles(error) {
   return {
     type: types.FETCH_INDEX_ARTICLES_FAILURE,
@@ -164,6 +171,14 @@ function failToReceiveTopic(error) {
 }
 
 function failToReceiveImages(error) {
+  return {
+    type: types.FETCH_IMAGES_FAILURE,
+    error,
+    failedAt: Date.now()
+  }
+}
+
+function failToReceiveAudios(error) {
   return {
     type: types.FETCH_IMAGES_FAILURE,
     error,
@@ -245,6 +260,16 @@ function receiveImages(response) {
   return {
     type: types.FETCH_IMAGES_SUCCESS,
     response,
+    receivedAt: Date.now()
+  }
+}
+
+function receiveAudios(response, meta, links) {
+  return {
+    type: types.FETCH_AUDIOS_SUCCESS,
+    response,
+    meta,
+    links,
     receivedAt: Date.now()
   }
 }
@@ -353,6 +378,12 @@ function _buildImageQueryUrl(params = {}) {
   let query = _buildQuery(params)
   return formatUrl(`images?${query}`)
 }
+
+function _buildAudioQueryUrl(params = {}) {
+  let query = _buildQuery(params)
+  return formatUrl(`audios?${query}`)
+}
+
 
 function _buildUrl(params = {}, target) {
   params = params || {}
@@ -507,6 +538,22 @@ export function fetchImages(type = '', uuid, params = {}) {
         dispatch(receiveImages(camelizedJson))
       }, (error) => {
         return dispatch(failToReceiveImages(error))
+      })
+  }
+}
+
+export function fetchAudios(params = {}) {
+  let url = _buildAudioQueryUrl(params)
+  return (dispatch) => {
+    dispatch(requestAudios('Request Audios: ' + url))
+    return _fetchArticles(url)
+      .then((response) => {
+        let meta = response._meta
+        let links = response._links
+        let camelizedJson = camelizeKeys(response)
+        dispatch(receiveAudios(camelizedJson.items, meta, links))
+      }, (error) => {
+        return dispatch(failToReceiveAudios(error))
       })
   }
 }
