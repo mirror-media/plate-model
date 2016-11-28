@@ -111,7 +111,6 @@ server.get('*', async function (req, res) {
         let promise = comp.fetchData ?
           comp.fetchData({ query, params, store, history }) :
           Promise.resolve()
-
         return promise
       }
 
