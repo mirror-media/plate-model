@@ -7,7 +7,7 @@ import ga from 'react-ga'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
-import logo from '../../static/asset/logo.svg'
+import logo from '../../static/asset/logo_new.svg'
 
 if (process.env.BROWSER) {
   require('./Header.css')

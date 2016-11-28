@@ -115,7 +115,8 @@
 }
 
 .header.item .logo.main {
-	width: 128px !important;
+	/*width: 128px !important;*/
+	width: 100px !important;
 }
 
 .header.logo {
