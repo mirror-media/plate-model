@@ -6,13 +6,10 @@ class Option extends Component {
   }
   render() {
     const { designatedAnsId, optionId, ans } = this.props
-    const style = {
-      color: (designatedAnsId === optionId)? 'GREEN' : ((ans === optionId) ? 'RED' : 'BLACK')
-    }
+    const className = (designatedAnsId === optionId)? 'option option--right' : ((ans === optionId) ? 'option option--wrong' : 'option option--left')
     return (
-      <div className="option" data-qId={ this.props.qId } data-nextQId={ this.props.nextQId } data-ans={ this.props.optionId }
-            style={ style }>
-          { (Number(this.props.optionIndex) + 1) + ', ' + this.props.optionTitle }
+      <div className={ className } data-qId={ this.props.qId } data-nextQId={ this.props.nextQId } data-ans={ this.props.optionId }>
+          { this.props.optionTitle }
       </div>
     )
   }

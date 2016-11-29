@@ -4,15 +4,26 @@
   "type": "quiz",
   "status": "active",
   "description": "",
-  "image": {},
+  "image": {
+    "url": "/asset/ads/hero.jpg",
+    "filetype": "image/jpg"
+  },
   "categories": [],
   "tags": [],
+  "leading": "image",
   "questions": [
     {
       "id": "q1",
       "title": "這是哪位歌手的聲音？",
       "explanation": "是個樂團",
-      "image": {},
+      "image": {
+        "url": "https://storage.googleapis.com/mirrormedia-dev/assets/images/20160929105931-e571265587f0e44472258b18e304404a.jpg",
+        "filetype": "image/jpg"
+      },
+      "audio": {
+        "url": "/asset/quest/audio/mayday.mp3",
+        "filetype": "audio/mpeg"
+      },
       "options": [
         {"id": "a1", "title": "張信哲", "score": 0},
         {"id": "a2", "title": "蘇打綠青峰", "score": 0},
@@ -25,7 +36,14 @@
       "id": "q2",
       "title": "這是哪位演員的聲音？",
       "explanation": "會功敷",
-      "image": {},
+      "image": {
+        "url": "https://storage.googleapis.com/mirrormedia-dev/assets/images/20160929105931-e571265587f0e44472258b18e304404a.jpg",
+        "filetype": "image/jpg"
+      },
+      "audio": {
+        "url": "/asset/quest/audio/jackiechan.mp3",
+        "filetype": "audio/mpeg"
+      },
       "options": [
         {"id": "a1", "title": "梁朝偉", "score": 0},
         {"id": "a2", "title": "成龍", "score": 1},
@@ -38,7 +56,14 @@
       "id": "q3",
       "title": "這是哪位導演的聲音？",
       "explanation": "好萊屋",
-      "image": {},
+      "image": {
+        "url": "https://storage.googleapis.com/mirrormedia-dev/assets/images/20160929105931-e571265587f0e44472258b18e304404a.jpg",
+        "filetype": "image/jpg"
+      },
+      "audio": {
+        "url": "/asset/quest/audio/anglee.mp3",
+        "filetype": "audio/mpeg"
+      },
       "options": [
         {"id": "a1", "title": "九把刀", "score": 0},
         {"id": "a2", "title": "吳念真", "score": 0},
@@ -51,20 +76,34 @@
       "id": "q4",
       "title": "這是哪位主持人的聲音？",
       "explanation": "第三",
-      "image": {},
+      "image": {
+        "url": "https://storage.googleapis.com/mirrormedia-dev/assets/images/20160929105931-e571265587f0e44472258b18e304404a.jpg",
+        "filetype": "image/jpg"
+      },
+      "audio": {
+        "url": "/asset/quest/audio/sisychen.mp3",
+        "filetype": "audio/mpeg"
+      },
       "options": [
         {"id": "a1", "title": "張小燕", "score": 0},
         {"id": "a2", "title": "于美人", "score": 0},
-        {"id": "a3", "title": "陳雅琳", "score": 1},
-        {"id": "a4", "title": "陳文茜", "score": 0}
+        {"id": "a3", "title": "陳雅琳", "score": 0},
+        {"id": "a4", "title": "陳文茜", "score": 1}
       ],
-      "designated_option": "a3"
+      "designated_option": "a4"
     },
     {
       "id": "q5",
       "title": "這是哪位政治人物的聲音？",
       "explanation": "兩個字",
-      "image": {},
+      "image": {
+        "url": "https://storage.googleapis.com/mirrormedia-dev/assets/images/20160929105931-e571265587f0e44472258b18e304404a.jpg",
+        "filetype": "image/jpg"
+      },
+      "audio": {
+        "url": "/asset/quest/audio/chuchen.mp3",
+        "filetype": "audio/mpeg"
+      },
       "options": [
         {"id": "a1", "title": "蔡英文", "score": 0},
         {"id": "a2", "title": "羅淑蕾", "score": 0},
@@ -79,7 +118,10 @@
       "id": "r1",
       "title": "太厲害了！你完全就是聽聲辨人專家！",
       "comment": "",
-      "image": {},
+      "image": {
+        "url": "/asset/ads/hero.jpg",
+        "filetype": "image/jpg"
+      },
       "range": {
         "from": 5,
         "to": 6
@@ -89,7 +131,10 @@
       "id": "r2",
       "title": "拍拍手，很不錯了！",
       "comment": "",
-      "image": {},
+      "image": {
+        "url": "/asset/ads/hero.jpg",
+        "filetype": "image/jpg"
+      },
       "range": {
         "from": 4,
         "to": 5
@@ -99,7 +144,10 @@
       "id": "r3",
       "title": "還可以啦，差強人意！",
       "comment": "",
-      "image": {},
+      "image": {
+        "url": "/asset/ads/hero.jpg",
+        "filetype": "image/jpg"
+      },
       "range": {
         "from": 3,
         "to": 4
@@ -109,7 +157,10 @@
       "id": "r4",
       "title": "聽聲辨人的能力還要再加油！",
       "comment": "",
-      "image": {},
+      "image": {
+        "url": "/asset/ads/hero.jpg",
+        "filetype": "image/jpg"
+      },
       "range": {
         "from": 2,
         "to": 3
@@ -119,7 +170,10 @@
       "id": "r5",
       "title": "天哪！也太慘了吧！",
       "comment": "",
-      "image": {},
+      "image": {
+        "url": "/asset/ads/hero.jpg",
+        "filetype": "image/jpg"
+      },
       "range": {
         "from": 0,
         "to": 2
@@ -129,7 +183,7 @@
   "created": "",
   "updated": "",
   "editor": "",
-  "gameFlow": "ONCE",
+  "gameFlow": "QA",
   "curr_report": {
    	"questionStat": [],
   	"resultStat": {

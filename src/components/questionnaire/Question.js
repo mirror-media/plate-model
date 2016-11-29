@@ -3,9 +3,9 @@
 import React from 'react'
 
 const Question = (props) => (
-  <div className="quesiton">
+  <div className="question">
     <div className="question-container">
-      { props.questionTitle }
+      <h3>{ props.questionTitle }</h3>
     </div>
   </div>
 )

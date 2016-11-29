@@ -18,8 +18,8 @@ class Result extends Component {
                   return (score >= itm.range.from && score < itm.range.to)
                 }).first().value()
     return (
-      <div className="result" >
-        { rs.title }
+      <div className="result-container" >
+        <h3>{ rs.title }</h3>
       </div>
     )
   }
