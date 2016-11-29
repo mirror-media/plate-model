@@ -8,8 +8,12 @@ class QuestHeader extends Component {
   render() {
     const { questionnaireTitle, imageSource } = this.props
     const url = _.get(imageSource, [ 'url' ], '')
+    const style = { backgroundImage: 'url(' + url + ')'
+                  , backgroundRepeat: 'no-repeat'
+                  , backgroundPosition: 'center center'
+                  , backgroundSize: 'cover' }
     return (
-      <div className="questionnaire-title" style={{ background: 'url(' + url + ') no-repeat center center', backgroundSize: 'cover' }}>
+      <div className="questionnaire-title" style={ style }>
         <div className="questionnaire-title-container">
           <h2>{ questionnaireTitle }</h2>
         </div>

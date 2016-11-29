@@ -38,6 +38,12 @@ class Questionnaire extends Component {
     this.props.setPageTitle('', questionnaireTitle)
   }
 
+  componentWillMount() {
+    if(!_.get(this.props, [ 'questSetting' ], null) || !_.get(this.props, [ 'questSetting', 'setting' ], null)) {
+      this.props.fetchQuestionnaire(_.get(this.props.params, [ 'questionnaireId' ], ''))
+    }
+  }
+
   _checkAnsClick() {
     let answerSheet = _.get(this.refs, [ 'answer-sheet' ], {})
     answerSheet && answerSheet.slickGoTo(1)
@@ -230,7 +236,7 @@ function mapStateToProps(state) {
     ans: state.questionnaire.ans || [],
     currQuestionId: state.questionnaire.currQuestionId || null,
     finished: state.questionnaire.finished || false,
-    questSetting: state.questSetting || {},
+    questSetting: state.questSetting || null,
     showExplanation: state.questionnaire.showExplanation || false
   }
 }
