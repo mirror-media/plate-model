@@ -1,25 +1,26 @@
 'use strict'
-import { 
-  articlesByUuids, 
+import {
+  articlesByUuids,
   audios,
-  choices, 
-  event, 
-  featureArticles, 
+  choices,
+  event,
+  featureArticles,
   images,
-  indexArticles, 
-  latestPosts, 
-  relatedArticles, 
-  searchResult, 
-  sectionFeatured, 
-  sectionList, 
-  topic, 
-  topics, 
+  indexArticles,
+  latestPosts,
+  relatedArticles,
+  searchResult,
+  sectionFeatured,
+  sectionList,
+  topic,
+  topics,
   youtubePlaylist
 } from './articles'
 import { categories, tags } from './groups'
 import { combineReducers } from 'redux'
-import { routerReducer } from 'react-router-redux'
 import { FatalError } from '../lib/custom-error'
+import { routerReducer } from 'react-router-redux'
+import { questionnaire, questSetting } from './questionnaire'
 import _ from 'lodash'
 import * as types from '../constants/action-types'
 import device from './device'
@@ -92,6 +93,8 @@ const rootReducer = combineReducers({
   images,
   indexArticles,
   latestPosts,
+  questionnaire,
+  questSetting,
   relatedArticles,
   routing: routerReducer,
   searchResult,

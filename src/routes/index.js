@@ -9,6 +9,7 @@ import Search from '../containers/Search'
 import Section from '../containers/Section'
 import Tag from '../containers/Tag'
 import Topic from '../containers/Topic'
+import Questionnaire from '../containers/Questionnaire'
 
 export default function (history = browserHistory) {
   return (
@@ -21,6 +22,7 @@ export default function (history = browserHistory) {
         <Route path="section/:section" component={Section}/>
         <Route path="tag/:tagId" component={Tag} />
         <Route path="topic/:topicId" component={Topic} />
+        <Route path="q/:questionnaireId" component={Questionnaire} />
       </Route>
     </Router>
   )
