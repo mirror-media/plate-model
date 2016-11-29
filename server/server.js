@@ -209,9 +209,9 @@ server.get('*', async function (req, res) {
                   <link rel="stylesheet" async type="text/css" href="/asset/reset.css" >
                   <link rel="stylesheet" async type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.css" >
 
-                  <link rel="icon" type="image/png" href="/asset/favicon-32x32.png" sizes="32x32">
-                  <link rel="icon" type="image/png" href="/asset/favicon-16x16.png" sizes="16x16">
-                  <link rel="shortcut icon" href="/asset/favicon.ico">
+                  <link rel="icon" type="image/png" href="/asset/favicon_new-32x32.png" sizes="32x32">
+                  <link rel="icon" type="image/png" href="/asset/favicon_new-16x16.png" sizes="16x16">
+                  <link rel="shortcut icon" href="/asset/favicon_new.ico">
 
                   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"/>
                   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css"/>
