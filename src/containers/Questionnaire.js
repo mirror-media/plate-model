@@ -14,7 +14,6 @@ import { fetchQuestionnaire, goNextQuestion, passAnswer, resetQuestionnaire } fr
 import { QUESTIONNAIRE, SITE_META } from '../constants/index'
 import { setPageType, setPageTitle } from '../actions/header'
 
-
 if (process.env.BROWSER) {
   require('./Questionnaire.css')
 }

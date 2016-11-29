@@ -1,5 +1,7 @@
 'use strict'
 import * as types from '../constants/action-types'
+import { formatUrl } from '../utils/index'
+import { InternalServerError, NotFoundError } from '../lib/custom-error'
 
 
 function requestPassAnswer(qId, ans, nextQId, finished, showExplanation) {
@@ -112,16 +114,17 @@ function _passAnswer(qId, ans, nextQId, finished, showExplanation) {
     reject('[ qId, ans, nextQId ] got bad values supposed to be checked.')
   )))
 }
-function _fetchQuestionnaire(questionnaireId) {
-  return questionnaireId ? (new Promise((resolve) => {
-    let tmp_set = require('../../static/asset/quest/' + questionnaireId + '.json')
-    resolve({
-      questSetting: tmp_set,
-      questionnaireId: questionnaireId
+function _fetchQuestionnaire(url) {
+  return fetch(url)
+    .then((response) => {
+      let status = response.status
+      if (status === 404) {
+        throw new NotFoundError('Resource are not found by url: ', url)
+      } else if (status >= 400) {
+        throw new InternalServerError('Bad response from API, response: ' + JSON.stringify(response))
+      }
+      return response.json()
     })
-  })) : (new Promise((resolve, reject) => (
-    reject('got a bad questionnaireId(' + questionnaireId + ') supposed to be checked')
-  )))
 }
 function _resetQuestionnaire(questionnaireId, qId) {
   return (questionnaireId && qId) ? (new Promise((resolve) => {
@@ -158,11 +161,12 @@ export function passAnswer(qId, ans, nextQId, finished, showExplanation = false)
   }
 }
 export function fetchQuestionnaire(questionnaireId) {
+  let url = _buildQuestionnaireQueryUrl(questionnaireId)
   return (dispatch) => {
     dispatch(requestFetchQuestionnaire(questionnaireId))
-    return _fetchQuestionnaire(questionnaireId)
+    return _fetchQuestionnaire(url)
       .then((response) => {
-        dispatch(completeFetchQuestionnaire(response.questionnaireId, response.questSetting))
+        dispatch(completeFetchQuestionnaire(questionnaireId, response))
       }, (error) => {
         return dispatch(failToFetchQuestionnaire(error))
       })
@@ -189,4 +193,8 @@ export function goNextQuestion(nextQId, finished) {
         return dispatch(failToGoNextQuestion(error))
       })
   }
+}
+
+function _buildQuestionnaireQueryUrl(questionnaireId) {
+  return formatUrl('questionnaire/' + questionnaireId)
 }

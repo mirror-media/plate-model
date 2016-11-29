@@ -92,7 +92,7 @@ export default class Leading extends Component {
           }
           break
         case 'image':
-          if(heroImage.url && heroImage.url.length > 0) {
+          if(heroImage && heroImage.url && heroImage.url.length > 0) {
             return (
               <div className = "container">
                 <div className = "leading-container">
