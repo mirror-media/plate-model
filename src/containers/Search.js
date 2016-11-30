@@ -120,10 +120,10 @@ class Search extends Component {
         <Header sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
 
         <div id="main" className="pusher">
-          <List 
-            articles={ _.get(searchResult, [ 'response', 'hits' ], []) } 
-            categories={entities.categories} 
-            title={params.keyword} 
+          <List
+            articles={ _.get(searchResult, [ 'response', 'hits' ], []) }
+            categories={entities.categories}
+            title={params.keyword}
             hasMore={ _.get(searchResult, [ 'response', 'nbHits' ], 0) > (_.get(searchResult, [ 'response', 'length' ], 0)) }
             loadMore={this.loadMore}
           />
