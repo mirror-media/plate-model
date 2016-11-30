@@ -7,7 +7,7 @@ import ga from 'react-ga'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
-import logo from '../../static/asset/logo_new.svg'
+import logo from '../../static/asset/logo.svg'
 
 if (process.env.BROWSER) {
   require('./Header.css')
@@ -132,7 +132,7 @@ export default class HeaderB extends Component {
             </div>            
             <div className="right menu">
               <Link to="/" className="item">        
-                <img className="logo" src="/asset/icon/logo_new@2x.png" className="header-icon logo" />
+                <img className="logo" src="/asset/icon/logo@2x.png" className="header-icon logo" />
               </Link>
               <div className="item">
                 <a onClick={this._openSearchbar} style={{ cursor: 'pointer' }}><img src="/asset/icon/search@2x.png" className="header-icon search" /></a>
