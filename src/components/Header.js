@@ -13,7 +13,7 @@ if (process.env.BROWSER) {
   require('./Header.css')
 }
 
-export default class HeaderB extends Component {
+export default class Header extends Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
@@ -173,7 +173,7 @@ export default class HeaderB extends Component {
     }
 
     return (
-      <div className="HeaderB" ref="headerbox">
+      <div className="Header" ref="headerbox">
         <div className="ui borderless header main menu">
           <div className="ui text container" style={{ maxWidth: 1024 +'px !important' }}>
             <div className="left" >
@@ -230,4 +230,4 @@ export default class HeaderB extends Component {
   }
 }
 
-export { HeaderB }
+export { Header }
