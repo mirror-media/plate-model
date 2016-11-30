@@ -1,9 +1,12 @@
 /*eslint no-unused-vars:0, no-console:0 */
 /* global __DEVELOPMENT__, $ */
 'use strict'
+import async from 'async'
 import Choices from '../components/Choices'
+import cookie from 'react-cookie'
 import DocumentMeta from 'react-document-meta'
 import Footer from '../components/Footer'
+import ga from 'react-ga'
 import Header from '../components/Header'
 import LatestArticles from '../components/LatestArticles'
 import LatestChoices from '../components/LatestChoices'
@@ -15,15 +18,12 @@ import Sidebar from '../components/Sidebar'
 import SystemError from '../components/SystemError'
 import TopNews from '../components/TopNews'
 import _ from 'lodash'
-import async from 'async'
-import cookie from 'react-cookie'
-import ga from 'react-ga'
-import { DFPManager, DFPSlotsProvider, AdSlot } from 'react-dfp'
-import { HOME, CATEGORY, SITE_NAME, SITE_META, GAID, DFPID } from '../constants/index'
+import { AdSlot, DFPManager, DFPSlotsProvider } from 'react-dfp'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { devCatListId, prodCatListId } from '../conf/list-id'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchLatestPosts, fetchEvent, fetchTopics , makeSearchQuery } from '../actions/articles'
+import { HOME, CATEGORY, SITE_NAME, SITE_META, GAID, DFPID } from '../constants/index'
 import { setPageType, setPageTitle } from '../actions/header'
 
 const MAXRESULT = 10
@@ -33,7 +33,7 @@ if (process.env.BROWSER) {
   require('./Home.css')
 }
 
-class HomeB extends Component {
+class Home extends Component {
   static fetchData({ store }) {
     return store.dispatch(fetchIndexArticles([ 'choices', 'posts', 'sections', 'sectionfeatured' ])).then(() => {
       return store.dispatch( fetchTopics() )
@@ -276,11 +276,11 @@ function mapStateToProps(state) {
   }
 }
 
-HomeB.contextTypes = {
+Home.contextTypes = {
   device: React.PropTypes.string
 }
 
-export { HomeB }
+export { Home }
 
 export default connect(mapStateToProps, {
   fetchArticlesByUuidIfNeeded,
@@ -290,4 +290,4 @@ export default connect(mapStateToProps, {
   fetchTopics,
   setPageType,
   setPageTitle
-})(HomeB)
+})(Home)
