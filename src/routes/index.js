@@ -3,7 +3,6 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 
 import App from '../containers/App'
 import Category from '../containers/Category'
-import Home from '../containers/Home'
 import HomeB from '../containers/HomeB'
 import Search from '../containers/Search'
 import Section from '../containers/Section'
@@ -14,9 +13,8 @@ export default function (history = browserHistory) {
   return (
     <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
       <Route path="/" component={App}>
-        <IndexRoute component={Home} />
+        <IndexRoute component={HomeB} />
         <Route path="category/:category" component={Category}/>
-        <Route path="HomeB" component={HomeB}/>
         <Route path="search/:keyword" component={Search} />
         <Route path="section/:section" component={Section}/>
         <Route path="tag/:tagId" component={Tag} />
