@@ -131,7 +131,7 @@ export default class Header extends Component {
               <a onClick={this._openSidebar} style={{ cursor: 'pointer' }}><img src="/asset/icon/hamburger@2x.png" className="header-icon hamburger" /></a>
             </div>
             <div className="right menu">
-              <Link to="/" className="item">        
+              <Link to="/" className="item">
                 <img className="logo" src="/asset/icon/logo@2x.png" className="header-icon logo" />
               </Link>
               <div className="item">
@@ -215,6 +215,8 @@ export default class Header extends Component {
                     <a href={'/category/' + i.name} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.title}</a>
                   )
                 })}
+              </div>
+              <div className="nav-container">
                 { _.map(itemsForHeader.topics, (i)=>{
                   return (
                     <a href={'/topic/' + i.id} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.name}</a>
