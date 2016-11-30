@@ -129,7 +129,7 @@ export default class Header extends Component {
           <div className="ui text container" style={{ maxWidth: 100 +'% !important', width: 100 +'%' }}>
             <div className="item" >
               <a onClick={this._openSidebar} style={{ cursor: 'pointer' }}><img src="/asset/icon/hamburger@2x.png" className="header-icon hamburger" /></a>
-            </div>            
+            </div>
             <div className="right menu">
               <Link to="/" className="item">        
                 <img className="logo" src="/asset/icon/logo@2x.png" className="header-icon logo" />
@@ -145,10 +145,8 @@ export default class Header extends Component {
   }
 
   render() {
-    let status = this.state.isScrolledOver ? 'fixed top nav-scrolled' : ''
     const { sectionList, topics } = this.props
-    let sortedList = _.sortBy(sectionList.sections, (o)=>{ return o.sortOrder } )
-    
+
     let itemsForHeader = {}
     itemsForHeader.topics = []
     itemsForHeader.sections = []
@@ -157,19 +155,19 @@ export default class Header extends Component {
     GenerateNav()
 
     function GenerateNav() {
-      _.each(topics.items, (t)=> { 
+      _.each(topics.items, (t)=> {
         if(t.isFeatured) {
-          itemsForHeader.topics.push(t) 
-        } 
+          itemsForHeader.topics.push(t)
+        }
       })
       _.each(sectionList.sections, (s)=> {
         if(s.isFeatured) {
           itemsForHeader.sections.push(s)
-        } 
-        _.each(s.categories, (c)=> { 
+        }
+        _.each(s.categories, (c)=> {
           if(c.isFeatured) {
             itemsForHeader.categories.push(c)
-          } 
+          }
         })
       })
     }
@@ -178,7 +176,12 @@ export default class Header extends Component {
       <div className="Header" ref="headerbox">
         <div className="ui borderless header main menu">
           <div className="ui text container" style={{ maxWidth: 1024 +'px !important' }}>
-            <Link to="/" className="header item" style={{ marginLeft: '122px' }}>        
+            <div className="left" >
+              <div className="item mobile-only hamburger" style={{ marginTop: '25px' }}>
+                <a onClick={this._openSidebar} style={{ cursor: 'pointer' }}><img src="/asset/icon/hamburger@2x.png" className="header-icon hamburger" /></a>
+              </div>
+            </div>
+            <Link to="/" className="header item" style={{ marginLeft: '122px' }}>
               <img className="logo main" src={logo} />
             </Link>
             <div className="right menu">
@@ -198,15 +201,10 @@ export default class Header extends Component {
             </div>
           </div>
         </div>
-        <div className={ classNames('ui borderless header main menu menu-item mobile-hide', status) }>
+        <div className={ classNames('ui borderless header main menu menu-item mobile-hide') }>
           <div className="ui text container" style={{ maxWidth: 100 +'% !important', width: 100 +'%' }}>
             <div className="container" style={{ position:'relative', overflow: 'hidden' }}>
               <div className="nav-container">
-                { _.map(itemsForHeader.topics, (i)=>{
-                  return (
-                    <a href={'/topic/' + i.id} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.name}</a>
-                  )
-                })}
                 { _.map(itemsForHeader.sections, (i)=>{
                   return (
                     <a href={'/section/' + i.name} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.title}</a>
@@ -217,20 +215,14 @@ export default class Header extends Component {
                     <a href={'/category/' + i.name} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.title}</a>
                   )
                 })}
+                { _.map(itemsForHeader.topics, (i)=>{
+                  return (
+                    <a href={'/topic/' + i.id} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.name}</a>
+                  )
+                })}
               </div>
-              <Link className={ classNames('item item-navClick') } onClick={ this._expandNavigation }>》</Link>
             </div>
           </div>
-        </div>
-        <div className="sections mobile-only">
-          <div className="line mobile-only" />
-          { _.map(sortedList, (s)=>{
-            return (
-              <div className="section-item" key={s.id}>
-                <a href={'/section/' + s.name} onClick={ this._handleClick }>{s.title}</a>
-              </div>
-            )
-          })}
         </div>
         {this._renderMenu()}
       </div>
