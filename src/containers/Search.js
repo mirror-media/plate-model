@@ -5,7 +5,7 @@ import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery, fetch
 import { setPageType, setPageTitle } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
-import HeaderB from '../components/HeaderB'
+import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 import Footer from '../components/Footer'
 import React, { Component } from 'react'
@@ -117,7 +117,7 @@ class Search extends Component {
     return (
       <DocumentMeta {...meta}>
         <Sidebar sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
-        <HeaderB sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
+        <Header sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
 
         <div id="main" className="pusher">
           <List

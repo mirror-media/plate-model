@@ -9,7 +9,7 @@ import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
 import Footer from '../components/Footer'
 import ga from 'react-ga'
-import HeaderB from '../components/HeaderB'
+import Header from '../components/Header'
 import List from '../components/List'
 import React, { Component } from 'react'
 import Sidebar from '../components/Sidebar'
@@ -209,7 +209,7 @@ class Category extends Component {
       <DFPSlotsProvider dfpNetworkId={DFPID}>
         <DocumentMeta {...meta}>
         <Sidebar sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
-        <HeaderB sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
+        <Header sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
 
           <div id="main" className="pusher">
             <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px', textAlign: 'center' } }>
