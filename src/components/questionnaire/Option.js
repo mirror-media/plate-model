@@ -1,13 +1,6 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
 
-
-// const initialState = {
-//   percent: 0,
-//   progressInterval: null,
-//   animationTimeout: null,
-// }
-
 class Option extends Component {
   constructor(props, context) {
     super(props, context)
@@ -50,7 +43,6 @@ class Option extends Component {
 
   componentWillUnmount() {
     clearInterval(this.state.animateInterval)
-    // clearTimeout(this.state.animationTimeout)
   }
 
   render() {
