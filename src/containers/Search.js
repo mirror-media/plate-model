@@ -5,7 +5,7 @@ import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, makeSearchQuery, fetch
 import { setPageType, setPageTitle } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
-import Header from '../components/Header'
+import HeaderB from '../components/HeaderB'
 import Sidebar from '../components/Sidebar'
 import Footer from '../components/Footer'
 import React, { Component } from 'react'
@@ -117,13 +117,13 @@ class Search extends Component {
     return (
       <DocumentMeta {...meta}>
         <Sidebar sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
-        <Header sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
+        <HeaderB sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
 
         <div id="main" className="pusher">
-          <List 
-            articles={ _.get(searchResult, [ 'response', 'hits' ], []) } 
-            categories={entities.categories} 
-            title={params.keyword} 
+          <List
+            articles={ _.get(searchResult, [ 'response', 'hits' ], []) }
+            categories={entities.categories}
+            title={params.keyword}
             hasMore={ _.get(searchResult, [ 'response', 'nbHits' ], 0) > (_.get(searchResult, [ 'response', 'length' ], 0)) }
             loadMore={this.loadMore}
           />

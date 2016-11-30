@@ -11,7 +11,7 @@ import DocumentMeta from 'react-document-meta'
 import Featured from '../components/Featured'
 import Footer from '../components/Footer'
 import ga from 'react-ga'
-import Header from '../components/Header'
+import HeaderB from '../components/HeaderB'
 import Leading from '../components/Leading'
 import List from '../components/List'
 import React, { Component } from 'react'
@@ -179,7 +179,7 @@ class Section extends Component {
       <DFPSlotsProvider dfpNetworkId={DFPID}>
         <DocumentMeta {...meta}>
           <Sidebar sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
-          <Header sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
+          <HeaderB sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
 
           <div id="main" className="pusher">
             <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px', textAlign: 'center' } }>

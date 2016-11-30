@@ -8,7 +8,7 @@ import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
 import Footer from '../components/Footer'
 import ga from 'react-ga'
-import Header from '../components/Header'
+import HeaderB from '../components/HeaderB'
 import Leading from '../components/Leading'
 import List from '../components/List'
 import React, { Component } from 'react'
@@ -152,7 +152,7 @@ class Topic extends Component {
         <Sidebar sectionList={sectionListResponse} topics={topics} pathName={location.pathname}/>
 
         <div className="top">
-          <Header sectionList={sectionListResponse} topics={topics} pathName={location.pathname}/>
+          <HeaderB sectionList={sectionListResponse} topics={topics} pathName={location.pathname}/>
           <div className="topic-title"><h2>Title Here</h2></div>
           <Leading leading={ leading } mediaSource={ { 'images': images, 'heroImage': heroImage, 'heroVideo': heroVideo, 'flag' : 'topic' } } device={ this.context.device } />
         </div>

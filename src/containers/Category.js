@@ -9,7 +9,7 @@ import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
 import Footer from '../components/Footer'
 import ga from 'react-ga'
-import Header from '../components/Header'
+import HeaderB from '../components/HeaderB'
 import List from '../components/List'
 import React, { Component } from 'react'
 import Sidebar from '../components/Sidebar'
@@ -165,22 +165,22 @@ class Category extends Component {
     const category = _.get(params, 'category', null)
     const catName = _.get(sectionList.response, [ 'categories', category, 'title' ], null)
 
-    if (catId != 'videohub') { 
+    if (catId != 'videohub') {
       return (
-        <List 
-          articles={articles} 
+        <List
+          articles={articles}
           categories={entities.categories}
           section={sectionName}
-          title={catName} 
+          title={catName}
           hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
           loadMore={this.loadMore}
         />
       )
     } else {
       return (
-        <VideoList 
+        <VideoList
           playlist={youtubePlaylist.items}
-          title={'VideoHub'} 
+          title={'VideoHub'}
           hasMore={ _.get(youtubePlaylist, [ 'nextPageToken' ])}
           loadMore={this.loadMoreVideo}
         />
@@ -209,19 +209,19 @@ class Category extends Component {
       <DFPSlotsProvider dfpNetworkId={DFPID}>
         <DocumentMeta {...meta}>
         <Sidebar sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
-        <Header sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
-        
+        <HeaderB sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
+
           <div id="main" className="pusher">
             <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px', textAlign: 'center' } }>
               <AdSlot sizes={ [ [ 970, 90 ],  [ 970, 250 ] ] }
                 dfpNetworkId={DFPID}
-                slotId={ 'mm_pc_'+AD_UNIT_PREFIX[sectionName]+'_970x250_HD' } 
-                adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[sectionName]+'_970x250_HD' } 
+                slotId={ 'mm_pc_'+AD_UNIT_PREFIX[sectionName]+'_970x250_HD' }
+                adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[sectionName]+'_970x250_HD' }
                 sizeMapping={
-                  [ 
+                  [
                     { viewport: [   0,   0 ], sizes: [ ] },
                     { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ] ]  }
-                  ] 
+                  ]
                 }
               />
             </div>
@@ -229,12 +229,12 @@ class Category extends Component {
               <AdSlot sizes={ [ [ 320, 100 ], [ 300, 250 ] ] }
                 dfpNetworkId={DFPID}
                 slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_300x250_HD' }
-                adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_300x250_HD' } 
+                adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_300x250_HD' }
                 sizeMapping={
-                  [ 
+                  [
                     { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
                     { viewport: [ 970, 200 ], sizes: [ ]  }
-                  ] 
+                  ]
                 }
               />
             </div>
@@ -244,12 +244,12 @@ class Category extends Component {
               <AdSlot sizes={ [ [ 970, 90 ] ] }
                 dfpNetworkId={DFPID}
                 slotId={ 'mm_pc_'+AD_UNIT_PREFIX[sectionName]+'_970x90_FT' }
-                adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[sectionName]+'_970x90_FT' } 
+                adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[sectionName]+'_970x90_FT' }
                 sizeMapping={
-                  [ 
+                  [
                     { viewport: [   0,   0 ], sizes: [ ] },
                     { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
-                  ] 
+                  ]
                 }
               />
             </div>
@@ -257,12 +257,12 @@ class Category extends Component {
               <AdSlot sizes={ [ [ 320, 100 ] ] }
                 dfpNetworkId={DFPID}
                 slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_320x100_FT' }
-                adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_320x100_FT' } 
+                adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[sectionName]+'_320x100_FT' }
                 sizeMapping={
-                  [ 
+                  [
                     { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
                     { viewport: [ 970, 200 ], sizes: [ ]  }
-                  ] 
+                  ]
                 }
               />
             </div>
