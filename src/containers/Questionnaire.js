@@ -30,6 +30,7 @@ class Questionnaire extends Component {
     this._nextQuestionClick = this._nextQuestionClick.bind(this)
     this._optionClick = this._optionClick.bind(this)
     this._playAgainClick = this._playAgainClick.bind(this)
+    // this.optionListner = document.addEventListener('click', this._optionClick)
   }
 
   componentDidMount() {
@@ -148,6 +149,7 @@ class Questionnaire extends Component {
                       </div>
                     </div>
                   ))
+                  //
                   return (
                     <div className="question-set">
                       <Question questionTitle={ currQuestionTitle } />
@@ -156,8 +158,9 @@ class Questionnaire extends Component {
                         { _.map(currOption, (opt, idx) => {
                           return (
                             <div className="option-container" onClick={ (!showExplanation) ? this._optionClick : null } style={{ cursor: 'pointer' }} key={ _.get(opt, [ 'id' ], '') }>
-                              <Option optionTitle={ _.get(opt, [ 'title' ], '') } optionIndex={ idx } {...extraProps}
-                              qId={ currQuestionId } nextQId={ nextQuestionId } optionId={ _.get(opt, [ 'id' ], '') }/>
+                              <Option optionIndex={ idx } {...extraProps}>
+                                <div data-qId={ currQuestionId } data-nextQId={ nextQuestionId } data-ans={ _.get(opt, [ 'id' ], '') }>{ _.get(opt, [ 'title' ], '') }</div>
+                              </Option>
                             </div>
                           )
                         })}
@@ -201,8 +204,9 @@ class Questionnaire extends Component {
                                 { _.map(_.get(quest, [ 'options' ]), (opt, i) => {
                                   return (
                                     <div className="option-container" key={ _.get(opt, [ 'id' ], '') }>
-                                    <Option optionTitle={ _.get(opt, [ 'title' ], '') }  optionIndex={ i } ans={ ans }
-                                      designatedAnsId={ designatedAnsId } optionId={ _.get(opt, [ 'id' ], '') }/>
+                                      <Option optionIndex={ i }>
+                                        <div data-qId={ _.get(opt, [ 'id' ], '') } data-designatedAnsId={ designatedAnsId } data-ans={ ans }>{ _.get(opt, [ 'title' ], '') }</div>
+                                      </Option>
                                     </div>
                                   )
                                 })}
