@@ -115,8 +115,7 @@
 }
 
 .header.item .logo.main {
-	/*width: 128px !important;*/
-	width: 100px !important;
+	width: 128px !important;
 }
 
 .header.logo {
@@ -142,24 +141,28 @@
 .header-icon.facebook { width: 20px !important; height: 20px; }
 .header-icon.instagram { width: 20px !important; height: 20px; }
 
-.HeaderB .ui.text.container .container  {
+.Header .ui.text.container .container  {
 	text-align: center;
 }
-.HeaderB .main.menu-item {
+.Header .main.menu-item {
 	height: auto;
 }
 
-.HeaderB .ui.menu a.item {
+.Header .ui.menu a.item {
 	font-size: 15px;
 }
 
-.HeaderB .nav-container {
+.Header .nav-container {
 	max-width: 100%;
 	width:auto;
 	display: inline-flex;
 }
 
-.HeaderB .ui.menu .item.nav-item  {
+.Header .nav-container--independent {
+	width: 100%;
+}
+
+.Header .ui.menu .item.nav-item  {
 	width: 80px;
 	padding: 17px 2px;
 }
@@ -194,11 +197,11 @@
 	    left: calc(50% - 48px);
 	}
 
-	.HeaderB .header.item {
+	.Header .header.item {
 		left: 0;
 	}
 
-	.HeaderB .left {
+	.Header .left {
 		display: flex;
 		margin-right: auto !important;
 		margin: 0;
