@@ -9,6 +9,7 @@ import QuestHeader from '../components/questionnaire/QuestHeader'
 import React, { Component } from 'react'
 import Result from '../components/questionnaire/Result'
 import Slider from 'react-slick'
+import WorkingProcessBar from '../components/questionnaire/WorkingProcessBar'
 import { connect } from 'react-redux'
 import { fetchQuestionnaire, goNextQuestion, passAnswer, resetQuestionnaire } from '../actions/questionnaire.js'
 import { QUESTIONNAIRE, SITE_META } from '../constants/index'
@@ -88,6 +89,7 @@ class Questionnaire extends Component {
     const questionnaireTitle = _.get(this.props, [ 'questSetting', 'setting', 'title' ])
     const questionnaireDesc = _.get(this.props, [ 'questSetting', 'setting', 'description' ])
     const questionnaireImg = _.get(this.props, [ 'questSetting', 'setting', 'image' ], null)
+    const totalQuestions = _.get(questions, [ 'length' ], 0)
 
     const leadingType = _.get(this.props, [ 'questSetting', 'setting', 'leading' ], 'image')
     const mediaSource = {
@@ -152,6 +154,7 @@ class Questionnaire extends Component {
                   //
                   return (
                     <div className="question-set">
+                      <WorkingProcessBar processTitle={ '第 ' + (currQuestionIdx + 1) + ' 題／共 ' +  totalQuestions + ' 題'} width={ (currQuestionIdx/totalQuestions)*100 + '%' }/>
                       <Question questionTitle={ currQuestionTitle } />
                       <Leading leading={ leadingType } mediaSource={ mediaSource }/>
                       <div className="options">
