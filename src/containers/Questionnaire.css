@@ -29,8 +29,7 @@
 .options {
   padding: 0 1em; }
 
-.option {
-  box-shadow: 1px 1px 5px rgba(197, 197, 197, 0.5);
+.option div {
   padding: 0px 15px; }
 
 .option--wrong {
@@ -43,7 +42,8 @@
 
 .option-container {
   margin-top: 0.5em;
-  margin-bottom: 0.5em; }
+  margin-bottom: 0.5em;
+  box-shadow: 1px 1px 5px rgba(197, 197, 197, 0.5); }
 
 .result {
   height: 20%;
@@ -100,7 +100,7 @@
         min-height: 100px; }
     .question-set .options {
       font-size: 1.5em; }
-      .question-set .options .option {
+      .question-set .options .option div {
         padding: 10px 15px; }
 
   .result-set {

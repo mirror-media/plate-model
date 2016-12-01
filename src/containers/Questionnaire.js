@@ -9,6 +9,7 @@ import QuestHeader from '../components/questionnaire/QuestHeader'
 import React, { Component } from 'react'
 import Result from '../components/questionnaire/Result'
 import Slider from 'react-slick'
+import WorkingProcessBar from '../components/questionnaire/WorkingProcessBar'
 import { connect } from 'react-redux'
 import { fetchQuestionnaire, goNextQuestion, passAnswer, resetQuestionnaire } from '../actions/questionnaire.js'
 import { QUESTIONNAIRE, SITE_META } from '../constants/index'
@@ -30,6 +31,7 @@ class Questionnaire extends Component {
     this._nextQuestionClick = this._nextQuestionClick.bind(this)
     this._optionClick = this._optionClick.bind(this)
     this._playAgainClick = this._playAgainClick.bind(this)
+    // this.optionListner = document.addEventListener('click', this._optionClick)
   }
 
   componentDidMount() {
@@ -87,6 +89,7 @@ class Questionnaire extends Component {
     const questionnaireTitle = _.get(this.props, [ 'questSetting', 'setting', 'title' ])
     const questionnaireDesc = _.get(this.props, [ 'questSetting', 'setting', 'description' ])
     const questionnaireImg = _.get(this.props, [ 'questSetting', 'setting', 'image' ], null)
+    const totalQuestions = _.get(questions, [ 'length' ], 0)
 
     const leadingType = _.get(this.props, [ 'questSetting', 'setting', 'leading' ], 'image')
     const mediaSource = {
@@ -148,16 +151,19 @@ class Questionnaire extends Component {
                       </div>
                     </div>
                   ))
+                  //
                   return (
                     <div className="question-set">
+                      <WorkingProcessBar processTitle={ '第 ' + (currQuestionIdx + 1) + ' 題／共 ' +  totalQuestions + ' 題'} width={ (currQuestionIdx/totalQuestions)*100 + '%' }/>
                       <Question questionTitle={ currQuestionTitle } />
                       <Leading leading={ leadingType } mediaSource={ mediaSource }/>
                       <div className="options">
                         { _.map(currOption, (opt, idx) => {
                           return (
                             <div className="option-container" onClick={ (!showExplanation) ? this._optionClick : null } style={{ cursor: 'pointer' }} key={ _.get(opt, [ 'id' ], '') }>
-                              <Option optionTitle={ _.get(opt, [ 'title' ], '') } optionIndex={ idx } {...extraProps}
-                              qId={ currQuestionId } nextQId={ nextQuestionId } optionId={ _.get(opt, [ 'id' ], '') }/>
+                              <Option optionIndex={ idx } {...extraProps}>
+                                <div data-qId={ currQuestionId } data-nextQId={ nextQuestionId } data-ans={ _.get(opt, [ 'id' ], '') }>{ _.get(opt, [ 'title' ], '') }</div>
+                              </Option>
                             </div>
                           )
                         })}
@@ -201,8 +207,9 @@ class Questionnaire extends Component {
                                 { _.map(_.get(quest, [ 'options' ]), (opt, i) => {
                                   return (
                                     <div className="option-container" key={ _.get(opt, [ 'id' ], '') }>
-                                    <Option optionTitle={ _.get(opt, [ 'title' ], '') }  optionIndex={ i } ans={ ans }
-                                      designatedAnsId={ designatedAnsId } optionId={ _.get(opt, [ 'id' ], '') }/>
+                                      <Option optionIndex={ i }>
+                                        <div data-qId={ _.get(opt, [ 'id' ], '') } data-designatedAnsId={ designatedAnsId } data-ans={ ans }>{ _.get(opt, [ 'title' ], '') }</div>
+                                      </Option>
                                     </div>
                                   )
                                 })}

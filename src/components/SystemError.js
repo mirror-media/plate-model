@@ -6,7 +6,7 @@ export default class SystemError extends Component {
       <div>
         <div className="nav-menu">
           <div className="nav_logo">
-            <a href="#"><img height="81" src="/asset/logo_new.png"/></a>
+            <a href="#"><img height="81" src="/asset/logo.png"/></a>
           </div>
         </div>
         <div style={{ textAlign: 'center' }}>

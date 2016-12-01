@@ -1,15 +1,59 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 
 class Option extends Component {
   constructor(props, context) {
     super(props, context)
+    this.state = {
+      style: {},
+      animateInterval: null,
+      currOpacity: 1
+    }
+    this._optionClick = this._optionClick.bind(this)
   }
+  _optionClick() {
+    let { animateInterval } = this.state
+    if(!animateInterval) {
+      animateInterval = setInterval(
+        () => {
+          let { animateInterval, currOpacity, style } = this.state
+          let tmp = currOpacity
+          if(tmp > 0) {
+            tmp = (tmp - 0.1)
+            style = { background: 'rgba(218, 218, 218, ' + tmp + ')' }
+          } else {
+            clearInterval(animateInterval)
+            animateInterval = null
+            style = {}
+          }
+          this.setState({
+            style: style,
+            animateInterval: animateInterval,
+            currOpacity: tmp
+          })
+        },
+        35
+      )
+    }
+    this.setState({
+      animateInterval: animateInterval,
+      currOpacity: 1
+    })
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.animateInterval)
+  }
+
   render() {
-    const { designatedAnsId, optionId, ans } = this.props
+    const child = _.get(this.props, [ 'children' ])
+    const designatedAnsId = _.get(child, [ 'props', 'data-designatedAnsId' ], null)
+    const ans = _.get(child, [ 'props', 'data-ans' ], null)
+    const optionId = _.get(child, [ 'props', 'data-qId' ], null)
     const className = (designatedAnsId === optionId)? 'option option--right' : ((ans === optionId) ? 'option option--wrong' : 'option option--left')
     return (
-      <div className={ className } data-qId={ this.props.qId } data-nextQId={ this.props.nextQId } data-ans={ this.props.optionId }>
-          { this.props.optionTitle }
+      <div className={ className } onClick={ ((designatedAnsId === optionId) || (ans === optionId)) ? null : this._optionClick } style={ this.state.style }>
+          { this.props.children }
       </div>
     )
   }
