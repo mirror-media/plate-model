@@ -158,6 +158,10 @@
 	display: inline-flex;
 }
 
+.Header .nav-container--independent {
+	width: 100%;
+}
+
 .Header .ui.menu .item.nav-item  {
 	width: 80px;
 	padding: 17px 2px;

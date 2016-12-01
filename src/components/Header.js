@@ -33,7 +33,6 @@ export default class Header extends Component {
   componentDidMount() {
     this._getHeaderHeight()
     window.addEventListener('resize', this._getHeaderHeight)
-
     // detect sroll position
     window.addEventListener('scroll', this._handleScroll)
   }
@@ -146,7 +145,6 @@ export default class Header extends Component {
 
   render() {
     const { sectionList, topics } = this.props
-
     let itemsForHeader = {}
     itemsForHeader.topics = []
     itemsForHeader.sections = []
@@ -216,7 +214,7 @@ export default class Header extends Component {
                   )
                 })}
               </div>
-              <div className="nav-container">
+              <div className="nav-container nav-container--independent " >
                 { _.map(itemsForHeader.topics, (i)=>{
                   return (
                     <a href={'/topic/' + i.id} key={i.id} className="item nav-item" onClick={ this._handleClick }>{i.name}</a>
@@ -230,6 +228,10 @@ export default class Header extends Component {
       </div>
     )
   }
+}
+
+Header.contextTypes = {
+  device: React.PropTypes.string
 }
 
 export { Header }
