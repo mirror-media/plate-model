@@ -165,8 +165,9 @@ class Category extends Component {
   }
 
   _loadMoreAudio() {
+    const { audios } = this.props
     this.props.fetchAudios({
-      page: 2,
+      page: Math.floor( _.get(audios, [ 'items', 'length' ], 0) / MAXRESULT ) + 1, 
       max_results: MAXRESULT
     })
   }
