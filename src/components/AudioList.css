@@ -9,7 +9,6 @@
 
 .audioList .latest {
   align-items: center;
-  justify-content: center;
 }
 
 .audioList .audio-box {
@@ -56,7 +55,7 @@
   height: 80px;
   margin: 10px;
   background-color: #004ea2;
-  background-image: url('/asset/icon/audio@2x.png');
+  background-image: url('///asset/icon/audio@2x.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 80px 40px;
@@ -70,13 +69,13 @@
   top:0; bottom:0; left:0; right:0; margin:auto;
 }
 .audioList .audio-box .audio-cover .audio-btn.play {
-  background-image: url('/asset/icon/pause-btn@2x.png');
+  background-image: url('//localhost:3000/asset/icon/pause-btn@2x.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
 }
 .audioList .audio-box .audio-cover .audio-btn.pause {
-  background-image: url('/asset/icon/play-btn@2x.png');
+  background-image: url('//localhost:3000/asset/icon/play-btn@2x.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -100,4 +99,11 @@
   color: rgba(0, 0, 0, 0.5);
   padding-top: 5px;
   padding-right: 10px;
+}
+
+/* Tablet */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .audioList .latest {
+    justify-content: center;
+  }
 }

@@ -1,3 +1,4 @@
+import AudioBox from './AudioBox'
 import More from '../components/More'
 import React, { Component } from 'react'
 import _ from 'lodash'
@@ -34,48 +35,16 @@ export default class AudioList extends Component {
         <div className="latest">
 
           { _.map(audios, (a)=>{
-            //let image = imageComposer(a).mobileImage
-            let title = _.get(a, [ 'title' ], '')
-            // let brief = sanitizeHtml( _.get(a, [ 'description', 'html' ], ''), { allowedTags: [ ] })
-            
 
-            // return (
-            //   <div className="latest-block" key={a.id || a._id} >
-            //     <a href={link}>
-            //       <div className="latest-img" style={{ background: 'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
-            //       </div>
-            //     </a>
-            //     <div className="latest-content">
-            //       <a href={link}>
-            //         <h2>
-            //             <span dangerouslySetInnerHTML={{ __html: title }}/><div className="cat-label"><div className="separator"></div><span>Audio</span></div>
-            //         </h2>
-            //       </a>
-            //       <div className="line">
-            //       </div>
-            //       <div className="brief">
-            //         {truncate(brief, 75)}
-            //       </div>
-            //     </div>
-            //   </div>
-            // )
+            let id = _.get(a, [ 'audio', 'id' ] )
+            let title = _.get(a, [ 'title' ], '')
+            let url = _.get(a, [ 'audio', 'url' ] )
+
             return (
-              <div className="audio-box" key={a.id || a._id}>
-                  <div className="audio-container ">
-                      <div className="audio-time"><span className="left">00:00</span> / 07:42</div>
-                      <div className="audio-progress">
-                          <div className="bar"></div>
-                      </div>
-                      <div className="audio-cover">
-                          <div className="audio-btn pause"></div>
-                      </div>
-                      <div className="audio-title"><span dangerouslySetInnerHTML={{ __html: title }}/></div>
-                      <div className="audio-desc"></div>
-                      <audio src="https://www.mirrormedia.mg/assets/audios/20161104173058-faca0aa139dba138532140a11957e7ef.wav"> </audio>
-                  </div>
-              </div>
+              <AudioBox id={id} title={title} url={url} key={a.id || a._id} />
             )
           })}
+
         </div>
         {hasMore ? <More loadMore={loadMore} /> : null}
       </div>
