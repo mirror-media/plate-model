@@ -88,7 +88,13 @@ export default class AudioBox extends Component {
   }
 
   render() {
-    const { id, title, url } = this.props
+    const { id, title, url, cover } = this.props
+    let coverStyle = {}
+
+    if (cover) { 
+      coverStyle = { background: 'url('+ cover +') no-repeat center center', backgroundSize: 'contain' }
+    }
+
     return  (
       <div className="audio-box">
         <div className="audio-container ">
@@ -96,7 +102,7 @@ export default class AudioBox extends Component {
           <div className="audio-progress">
               <div className="bar" ref={(ref) => { this.audioProgress = ref }}></div>
           </div>
-          <div className="audio-cover">
+          <div className="audio-cover" style={ coverStyle }>
               <div className="audio-btn pause" ref={(ref) => { this.audioBtn = ref }} onClick={()=> this.togglePlay(id)}></div>
           </div>
           <div className="audio-title"><span dangerouslySetInnerHTML={{ __html: title }}/></div>

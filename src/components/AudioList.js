@@ -39,9 +39,10 @@ export default class AudioList extends Component {
             let id = _.get(a, [ 'audio', 'id' ] )
             let title = _.get(a, [ 'title' ], '')
             let url = _.get(a, [ 'audio', 'url' ] )
+            let cover = _.get(a, [ 'coverPhoto', 'image', 'resizedTargets', 'tiny', 'url' ] )
 
             return (
-              <AudioBox id={id} title={title} url={url} key={a.id || a._id} />
+              <AudioBox id={id} title={title} url={url} cover={cover} key={a.id || a._id} />
             )
           })}
 
