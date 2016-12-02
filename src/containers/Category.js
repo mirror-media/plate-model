@@ -59,6 +59,7 @@ class Category extends Component {
     }
     this.loadMore = this._loadMore.bind(this)
     this.loadMoreVideo = this._loadMoreVideo.bind(this)
+    this.loadMoreAudio = this._loadMoreAudio.bind(this)
     this.renderList = this._renderList.bind(this)
   }
 
@@ -163,6 +164,13 @@ class Category extends Component {
     this.props.fetchYoutubePlaylist(MAXRESULT, this.props.youtubePlaylist.nextPageToken)
   }
 
+  _loadMoreAudio() {
+    this.props.fetchAudios({
+      page: 2,
+      max_results: MAXRESULT
+    })
+  }
+
   _renderList() {
     const { articlesByUuids, entities, params, sectionList , youtubePlaylist, audios } = this.props
     const catId = _.get(params, 'category')
@@ -187,8 +195,8 @@ class Category extends Component {
           <AudioList
             audios={audios.items}
             title={'Audio'}
-            hasMore={false}
-            loadMore={null}
+            hasMore={ ( _.get(audios, [ 'meta', 'total' ]) > _.get(audios, [ 'items', 'length' ]) ) }
+            loadMore={this.loadMoreAudio}
           />
         )
       default:

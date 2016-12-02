@@ -39,6 +39,12 @@ export default class AudioBox extends Component {
       this.props.onPause && this.props.onPause(e)
     })
 
+    audio.addEventListener('loadedmetadata', () => {
+      this.setState({
+        duration: audio.duration
+      })
+    })
+
     this.setState({
       duration: audio.duration
     })
