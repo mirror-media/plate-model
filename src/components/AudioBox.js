@@ -10,6 +10,7 @@ export default class AudioBox extends Component {
       duration: 0
     }
     this.togglePlay = this.togglePlay.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount() {
@@ -59,6 +60,7 @@ export default class AudioBox extends Component {
         currentTime: audio.currentTime
       })
     })
+
   }
 
   togglePlay() {
@@ -77,6 +79,14 @@ export default class AudioBox extends Component {
         playing: true
       })
     }
+  }
+
+  handleChange(e) {
+    const audio = this.audioEl
+    audio.currentTime = e.target.value
+    this.setState({
+      currentTime: e.target.value
+    })
   }
 
   toMMSS(seconds) {
@@ -99,8 +109,11 @@ export default class AudioBox extends Component {
       <div className="audio-box">
         <div className="audio-container ">
           <div className="audio-time"><span className="left">{this.toMMSS(this.state.currentTime)}</span> / {this.toMMSS(this.state.duration)}</div>
-          <div className="audio-progress">
-              <div className="bar" ref={(ref) => { this.audioProgress = ref }}></div>
+          <div className="audio-progress" ref={(ref) => { this.seekbar = ref }}>
+              <input type="range" value={this.state.currentTime} min="0" max={this.state.duration} onChange={this.handleChange} step="1" style={ { width: '100%' } } />
+              <div className="bar" ref={(ref) => { this.audioProgress = ref }}>
+                <div className="circle"></div>
+              </div>
           </div>
           <div className="audio-cover" style={ coverStyle }>
               <div className="audio-btn pause" ref={(ref) => { this.audioBtn = ref }} onClick={()=> this.togglePlay(id)}></div>
