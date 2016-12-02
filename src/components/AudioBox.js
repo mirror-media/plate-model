@@ -1,3 +1,4 @@
+/* global $ */
 import React, { Component } from 'react'
 
 export default class AudioBox extends Component {
@@ -44,6 +45,10 @@ export default class AudioBox extends Component {
 
     // When the audio time update
     audio.addEventListener('timeupdate', () => {
+      let pos = (audio.currentTime / audio.duration) * 100
+
+      $(this.audioProgress).width(pos + '%')
+
       this.setState({
         currentTime: audio.currentTime
       })
@@ -53,11 +58,15 @@ export default class AudioBox extends Component {
   togglePlay() {
     if(this.state.playing) {
       this.audioEl.pause()
+      $(this.audioBtn).removeClass('play')
+      $(this.audioBtn).addClass('pause')
       this.setState({
         playing: false
       })
     } else {
       this.audioEl.play()
+      $(this.audioBtn).removeClass('pause')
+      $(this.audioBtn).addClass('play')
       this.setState({
         playing: true
       })
@@ -79,10 +88,10 @@ export default class AudioBox extends Component {
         <div className="audio-container ">
           <div className="audio-time"><span className="left">{this.toMMSS(this.state.currentTime)}</span> / {this.toMMSS(this.state.duration)}</div>
           <div className="audio-progress">
-              <div className="bar"></div>
+              <div className="bar" ref={(ref) => { this.audioProgress = ref }}></div>
           </div>
           <div className="audio-cover">
-              <div className="audio-btn pause" onClick={()=> this.togglePlay(id)}></div>
+              <div className="audio-btn pause" ref={(ref) => { this.audioBtn = ref }} onClick={()=> this.togglePlay(id)}></div>
           </div>
           <div className="audio-title"><span dangerouslySetInnerHTML={{ __html: title }}/></div>
           <div className="audio-desc"></div>
