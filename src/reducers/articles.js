@@ -275,11 +275,13 @@ export function images(state = {}, action = {}) {
 export function audios(state = {}, action = {}) {
   switch (action.type) {
     case types.FETCH_AUDIOS_SUCCESS:
+      let orig = _.values(state['items'])
+      let new_array = _.values(_.get(action, 'response'))
       return _.merge({}, state, {
         isFetching: false,
         fetched: true,
         error: null,
-        items: action.response,
+        items: orig.concat(new_array),
         meta: action.meta,
         links: action.links,
         lastUpdated: action.receivedAt
