@@ -144,6 +144,7 @@ server.get('*', async function (req, res) {
           let topicId = _.get(getCurrentUrl().split('/'), '2')
           title = _.get(pageState, [ 'entities', 'topics', topicId, 'ogTitle' ]) ? _.get(pageState, [ 'entities', 'topics', topicId, 'ogTitle' ]) + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL
           desc = _.get(pageState, [ 'entities', 'topics', topicId, 'ogDescription' ], SITE_META.DESC)
+          ogImage = _.get(pageState, [ 'topics', 'items', topicId, 'ogImage', 'image', 'resizedTargets', 'desktop', 'url' ]) ? _.get(pageState, [ 'topics', 'items', topicId, 'ogImage', 'image', 'resizedTargets', 'desktop', 'url' ]) : _.get(pageState, [ 'topics', 'items', topicId, 'heroImage', 'image', 'resizedTargets', 'desktop', 'url' ], SITE_META.LOGO)
         }
 
         let expGA = ''
