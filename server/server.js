@@ -130,7 +130,7 @@ server.get('*', async function (req, res) {
         let pageState = store.getState()
         let ogImage = SITE_META.LOGO
         let title = SITE_NAME.FULL
-        let canonical = SITE_META.URL
+        let canonical = SITE_META.URL + getCurrentUrl().substr(1)
         let desc = SITE_META.DESC
         let ogType = 'website'
         if ( _.includes(getCurrentUrl(), 'section') ) {
