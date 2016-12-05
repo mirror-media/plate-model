@@ -244,7 +244,7 @@ class Questionnaire extends Component {
                       <Slider ref="answer-sheet" {...settings}>
                         <div className="result-set">
                           <div className="result-detail">
-                            你的測驗結果 
+                            你的測驗結果
                             <div className="correcting" >
                               <img src="/asset/circle.svg"/> { answerState.correct } 題
                             </div>
@@ -269,9 +269,9 @@ class Questionnaire extends Component {
                         </div>
 
                         { _.map(questions, (quest, idx) => {
-                          const tmpDesignatedAnsId = _.get(quest, [ 'designated_option' ])
-                          const tmpAns = _.get(answers, [ idx ], null)
-                          const tmp_mediaSource = {
+                          const thisDesignatedAnsId = _.get(quest, [ 'designated_option' ])
+                          const thisAns = _.get(answers, [ idx ], null)
+                          const this_mediaSource = {
                             heroImage: { image: _.get(quest, [ 'image' ] , null) },
                             heroVideo: { video: _.get(quest, [ 'video' ] , null) },
                             audio: { audio: _.get(quest, [ 'audio' ] , null) }
@@ -285,19 +285,19 @@ class Questionnaire extends Component {
                                 <div className="question-content">
                                   <div className="question-content--alignbox">
                                     <Question questionTitle={ _.get(quest, [ 'title' ]) } />
-                                    <Leading leading={ leadingType } mediaSource={ tmp_mediaSource }/>
+                                    <Leading leading={ leadingType } mediaSource={ this_mediaSource }/>
                                   </div>
                                 </div>
                               </div>
                               <div className="options">
                                 { _.map(_.get(quest, [ 'options' ]), (opt, i) => {
                                   const Correcting = (() => (
-                                    (tmpDesignatedAnsId === _.get(opt, [ 'id' ], '')) ? (<img className="correcting" src="/asset/circle.svg"/>) : ((tmpAns === _.get(opt, [ 'id' ], '')) ? (<img className="correcting" src="/asset/cross.svg"/>) : (<span></span>))
+                                    (thisDesignatedAnsId === _.get(opt, [ 'id' ], '')) ? (<img className="correcting" src="/asset/circle.svg"/>) : ((thisAns === _.get(opt, [ 'id' ], '')) ? (<img className="correcting" src="/asset/cross.svg"/>) : (<span></span>))
                                   ))
                                   return (
                                     <div className={ 'option-container' + (((i + 1) !== currOption.length) ? ' border--bottom' : '') } key={ _.get(opt, [ 'id' ], '') }>
                                       <Option optionIndex={ i }>
-                                        <div data-qId={ _.get(opt, [ 'id' ], '') } data-designatedAnsId={ tmpDesignatedAnsId } data-ans={ tmpAns }>
+                                        <div data-qId={ _.get(opt, [ 'id' ], '') } data-designatedAnsId={ thisDesignatedAnsId } data-ans={ thisAns }>
                                           <span className="option-index">{ (i + 1) }</span>{ _.get(opt, [ 'title' ], '') }<Correcting />
                                         </div>
                                       </Option>

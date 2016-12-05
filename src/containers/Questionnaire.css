@@ -129,7 +129,7 @@ body {
 .result-set {
   height: 70%; }
   .result-set .result-detail {
-    padding: 1em 2em;
+    padding: 1em 1em;
     font-size: 1.2em;
     background-color: #fafafa;
     border: 1px solid #d6d6d6;

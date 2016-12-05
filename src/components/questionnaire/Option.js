@@ -17,10 +17,10 @@ class Option extends Component {
       animateInterval = setInterval(
         () => {
           let { animateInterval, currOpacity, style } = this.state
-          let tmp = currOpacity
-          if(tmp > 0) {
-            tmp = (tmp - 0.02)
-            style = { background: 'linear-gradient(to right, rgba(16, 95, 166,0), rgba(16, 95, 166, ' + (tmp - 0.2) + '), rgba(16, 95, 166, ' + tmp + '), rgba(16, 95, 166, ' + (tmp - 0.2) + '), rgba(16, 95, 166,0))' }
+          let thisOpacity = currOpacity
+          if(thisOpacity > 0) {
+            thisOpacity = (thisOpacity - 0.02)
+            style = { background: 'linear-gradient(to right, rgba(16, 95, 166,0), rgba(16, 95, 166, ' + (thisOpacity - 0.2) + '), rgba(16, 95, 166, ' + thisOpacity + '), rgba(16, 95, 166, ' + (thisOpacity - 0.2) + '), rgba(16, 95, 166,0))' }
           } else {
             clearInterval(animateInterval)
             animateInterval = null
@@ -29,7 +29,7 @@ class Option extends Component {
           this.setState({
             style: style,
             animateInterval: animateInterval,
-            currOpacity: tmp
+            currOpacity: thisOpacity
           })
         },
         10

@@ -162,7 +162,7 @@ export function loadQuestionnaire(req, params = []) {
     const { API_PROTOCOL, QUESTIONNAIRE_HOST } = config
     let url = `${API_PROTOCOL}://${QUESTIONNAIRE_HOST}/questionnaire`
     let slug = typeof params[0] === 'string' ? params[0] : null
-    url = slug ? `${url}/${slug}/${slug}.json?v16` : url
+    url = slug ? `${url}/${slug}/${slug}.json` : url
     superAgent['get'](url)
       .timeout(constants.timeout)
       .query(query)
