@@ -39,7 +39,7 @@
   .slick-next {
     display: none;
     right: 0px !important;
-    background-color: rgba(0, 0, 0, 0.7) !important;
+    /*background-color: rgba(0, 0, 0, 0.7) !important;*/
     height: 20% !important;
     background-size: contain !important;
     z-index: 99;
@@ -47,7 +47,7 @@
   .slick-prev {
     display: none;
     left: 0px !important;
-    background-color: rgba(0, 0, 0, 0.7) !important;
+    /*background-color: rgba(0, 0, 0, 0.7) !important;*/
     height: 20% !important;
     background-size: contain !important;
     z-index: 99;
