@@ -107,6 +107,8 @@ export const SEARCH = 'SEARCH'
 
 export const TOPIC = 'TOPIC'
 
+export const QUESTIONNAIRE = 'QUESTIONNAIRE'
+
 export const basePath = 'https://www.mirrormedia.mg'
 
 export const GAID = 'UA-83609754-1'

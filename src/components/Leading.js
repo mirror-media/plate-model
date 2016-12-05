@@ -26,6 +26,15 @@ export default class Leading extends Component {
     super(props, context)
   }
 
+  componentDidUpdate() {
+    if(this.refs.video) {
+      this.refs.video.load()
+    }
+    if(this.refs.audio) {
+      this.refs.audio.load()
+    }
+  }
+
   render() {
     const { leading, mediaSource } = this.props
     const embed = mediaSource.embed
@@ -57,6 +66,7 @@ export default class Leading extends Component {
       nextArrow: <NextArrow src="/asset/icon/golden_Horse_arrow_right.png" />
     }
     const video = _.get(mediaSource.heroVideo, [ 'video' ], {})
+    const audio = _.get(mediaSource.audio, [ 'audio' ], {})
 
     if(EventStuff.ifShowLeading(eventPeriod[0], eventPeriod[1], flag, isFeatured)) {
       switch(leading) {
@@ -82,14 +92,14 @@ export default class Leading extends Component {
           }
           break
         case 'image':
-          if(heroImage.url && heroImage.url.length > 0) {
+          if(heroImage && heroImage.url && heroImage.url.length > 0) {
             return (
               <div className = "container">
                 <div className = "leading-container">
                   <div className = "leading-container--fit">
-                    <a href="#"><div className="img" style={{ maxHeight: '550px', overflow: 'hidden' }}>
+                    <div className="img" style={{ maxHeight: '550px', overflow: 'hidden' }}>
                       <img src={ heroImage.url } style={{ width: '100%' }} />
-                    </div></a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -104,9 +114,26 @@ export default class Leading extends Component {
               <div className = "container">
                 <div className = "leading-container">
                   <div className = "leading-container--fit">
-                    <video style={{ width: '100%' }}>
+                    <video style={{ width: '100%' }} controls ref="video">
                       <source src={video.url} type={video.filetype} />
                     </video>
+                  </div>
+                </div>
+              </div>
+            )
+          } else {
+            return (<ShowNothing />)
+          }
+          break
+        case 'audio':
+          if(audio.url && audio.url.length > 0) {
+            return (
+              <div className = "container">
+                <div className = "leading-container">
+                  <div className = "leading-container--fit">
+                    <audio style={{ width: '100%' }} data-file={audio.url} controls ref="audio">
+                      <source src={audio.url} type={audio.filetype} />
+                    </audio>
                   </div>
                 </div>
               </div>
