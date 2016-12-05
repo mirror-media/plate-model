@@ -19,8 +19,8 @@ class Option extends Component {
           let { animateInterval, currOpacity, style } = this.state
           let tmp = currOpacity
           if(tmp > 0) {
-            tmp = (tmp - 0.1)
-            style = { background: 'rgba(218, 218, 218, ' + tmp + ')' }
+            tmp = (tmp - 0.02)
+            style = { background: 'linear-gradient(to right, rgba(16, 95, 166,0), rgba(16, 95, 166, ' + (tmp - 0.2) + '), rgba(16, 95, 166, ' + tmp + '), rgba(16, 95, 166, ' + (tmp - 0.2) + '), rgba(16, 95, 166,0))' }
           } else {
             clearInterval(animateInterval)
             animateInterval = null
@@ -32,7 +32,7 @@ class Option extends Component {
             currOpacity: tmp
           })
         },
-        35
+        10
       )
     }
     this.setState({
@@ -50,7 +50,8 @@ class Option extends Component {
     const designatedAnsId = _.get(child, [ 'props', 'data-designatedAnsId' ], null)
     const ans = _.get(child, [ 'props', 'data-ans' ], null)
     const optionId = _.get(child, [ 'props', 'data-qId' ], null)
-    const className = (designatedAnsId === optionId)? 'option option--right' : ((ans === optionId) ? 'option option--wrong' : 'option option--left')
+    // const className = (designatedAnsId === optionId)? 'option option--right' : ((ans === optionId) ? 'option option--wrong' : 'option option--left')
+    const className = (designatedAnsId === optionId)? 'option' : ((ans === optionId) ? 'option' : 'option')
     return (
       <div className={ className } onClick={ ((designatedAnsId === optionId) || (ans === optionId)) ? null : this._optionClick } style={ this.state.style }>
           { this.props.children }

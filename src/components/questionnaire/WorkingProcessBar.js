@@ -9,13 +9,12 @@ class WorkingProcessBar extends Component {
     super(props, context)
   }
   render() {
-    const { processTitle, width } = this.props
+    const { width } = this.props
     return (
       <div className="workingProcessBar">
         <div className="workingProcessBar_bar">
           <span style={{ width: width }}></span>
         </div>
-        <div className="workingProcessBar_title">{ processTitle }</div>
       </div>
     )
   }

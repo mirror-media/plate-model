@@ -15,8 +15,9 @@ class QuestHeader extends Component {
     return (
       <div className="questionnaire-title" style={ style }>
         <div className="questionnaire-title-container">
-          <h2>{ questionnaireTitle }</h2>
+          <h2 dangerouslySetInnerHTML={{ __html: questionnaireTitle }}></h2>
         </div>
+        { this.props.children }
       </div>
     )
   }
