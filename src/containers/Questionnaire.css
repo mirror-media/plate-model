@@ -161,7 +161,7 @@ body {
       .result-set .result .button-set .button-container {
         background-color: #0076dc;
         background-image: none;
-        width: 120px;
+        width: 115px;
         display: inline-block; }
         .result-set .result .button-set .button-container .renew {
           background-repeat: no-repeat;
@@ -228,7 +228,7 @@ body {
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4); }
 
 .button-set {
-  padding: 0 1em;
+  padding: 0 0;
   text-align: center; }
   .button-set .button-container {
     width: 100%;
@@ -238,7 +238,7 @@ body {
     background: linear-gradient(to right, #08cbbb, #0076dc);
     display: inline-block;
     box-shadow: 1px 1px 5px rgba(197, 197, 197, 0.5);
-    padding: 5px 15px;
+    padding: 5px 10px;
     color: #ffffff;
     border-radius: 5px; }
 
