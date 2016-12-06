@@ -214,7 +214,7 @@ server.get('*', async function (req, res) {
                   <link rel="shortcut icon" href="/asset/favicon.ico">
 
                   <link rel="icon" sizes="192x192" href="/asset/android-chrome-192x192.png">
-                  <link rel="apple-touch-icon" sizes="152x152" href="/asset/apple-touch-icon-180x180.png">
+                  <link rel="apple-touch-icon" sizes="180x180" href="/asset/apple-touch-icon-180x180.png">
 
                   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"/>
                   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css"/>
