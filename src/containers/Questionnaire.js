@@ -93,9 +93,10 @@ class Questionnaire extends Component {
       const { score } = _.find(_.get(questions, [ idx, 'options' ]), { id: aid })
       return score
     })
+    const { '0': countWrong = 0 } = _.countBy(scoreArr)
     return {
-      correct: (questions.length - _.countBy(scoreArr)[ '0' ]),
-      wrong: _.countBy(scoreArr)[ '0' ]
+      correct: (questions.length - countWrong),
+      wrong: countWrong
     }
   }
 
@@ -110,10 +111,11 @@ class Questionnaire extends Component {
           description: questionnaireDesc = '',
           image: questionnaireImg = null,
           leading: leadingType = 'image',
+          questions = [],
+          subtitle: questionnaireSubTitle = '',
           title: questionnaireTitle = '',
           titleCustomized: questionnaireTitleCust = '',
-          questions = [],
-          subtitle: questionnaireSubTitle = ''
+          type: questionnaireType = 'quiz'
         }
       },
       showExplanation
@@ -155,7 +157,8 @@ class Questionnaire extends Component {
       // autoplaySpeed: 3000,
       cssEase: 'linear',
       fade: (this.props.device === 'desktop') ? true : false,
-      draggable: (this.props.device === 'desktop') ? false : true,
+      draggable: (this.props.device === 'desktop' || questionnaireType !== 'quiz') ? false : true,
+      swipeToSlide : (questionnaireType !== 'quiz') ? false : true,
       prevArrow: <PrevArrow />,
       nextArrow: <NextArrow />
     }
@@ -203,7 +206,6 @@ class Questionnaire extends Component {
                       </div>
                     </div>
                   ))
-                  //
                   return (
                     <div className="question-set">
                       <div className="question-top">
@@ -213,7 +215,9 @@ class Questionnaire extends Component {
                         <div className="question-content">
                           <div className="question-content--alignbox">
                             <Question questionTitle={ currQuestionTitle } />
-                            <Leading leading={ leadingType } mediaSource={ mediaSource }/>
+                            <div style={{ minHeight: '20px' }}>
+                              <Leading leading={ leadingType } mediaSource={ mediaSource }/>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -226,7 +230,9 @@ class Questionnaire extends Component {
                             <div className={ 'option-container' + (((idx + 1) !== currOption.length) ? ' border--bottom' : '') } onClick={ (!showExplanation) ? this._optionClick : null } style={{ cursor: 'pointer' }} key={ _.get(opt, [ 'id' ], '') }>
                               <Option optionIndex={ idx } {...extraProps}>
                                 <div data-qId={ currQuestionId } data-nextQId={ nextQuestionId } data-ans={ _.get(opt, [ 'id' ], '') }>
-                                  <span className="option-index">{ (idx + 1) }</span>{ _.get(opt, [ 'title' ], '') }{ (!showExplanation) ? '' : <Correcting /> }
+                                  <span className="option-index" data-qId={ currQuestionId } data-nextQId={ nextQuestionId } data-ans={ _.get(opt, [ 'id' ], '') }>{ (idx + 1) }</span>
+                                  <div className="option-content" data-qId={ currQuestionId } data-nextQId={ nextQuestionId } data-ans={ _.get(opt, [ 'id' ], '') }>{ _.get(opt, [ 'title' ], '') }</div>
+                                  { (!showExplanation) ? '' : <Correcting /> }
                                 </div>
                               </Option>
                             </div>
@@ -245,12 +251,7 @@ class Questionnaire extends Component {
                         <div className="result-set">
                           <div className="result-detail">
                             你的測驗結果
-                            <div className="correcting" >
-                              <img src="/asset/circle.svg"/> { answerState.correct } 題
-                            </div>
-                            <div className="wrong">
-                              <img src="/asset/cross.svg"/> { answerState.wrong } 題
-                            </div>
+                            <ShowResultDetail answerState={ answerState } ifShow={ (questionnaireType === 'quiz') ? true : false }/>
                           </div>
                           <div className="result">
                             <Result results={ _.get(this.props, [ 'questSetting', 'setting', 'results' ], []) }
@@ -260,15 +261,17 @@ class Questionnaire extends Component {
                                 <div className="renew" style={ { backgroundImage: 'url(/asset/icon02_1.svg)' } }></div>
                                 <Button value="再玩一次" />
                               </div>　
-                              <div className="button-container" onClick={ this._checkAnsClick } style={{ cursor: 'pointer' }} >
-                                <div className="check" style={ { backgroundImage: 'url(/asset/icon02_1.svg)' } }></div>
-                                <Button value="看答案" />
-                              </div>
+                              { (questionnaireType === 'quiz') ? (
+                                <div className="button-container" onClick={ this._checkAnsClick } style={{ cursor: 'pointer' }} >
+                                  <div className="check" style={ { backgroundImage: 'url(/asset/icon02_1.svg)' } }></div>
+                                  <Button value="看答案" />
+                                </div>
+                              ) : (<div></div>) }
                             </div>
                           </div>
                         </div>
 
-                        { _.map(questions, (quest, idx) => {
+                        { (questionnaireType === 'quiz') ? _.map(questions, (quest, idx) => {
                           const thisDesignatedAnsId = _.get(quest, [ 'designated_option' ])
                           const thisAns = _.get(answers, [ idx ], null)
                           const this_mediaSource = {
@@ -298,7 +301,9 @@ class Questionnaire extends Component {
                                     <div className={ 'option-container' + (((i + 1) !== currOption.length) ? ' border--bottom' : '') } key={ _.get(opt, [ 'id' ], '') }>
                                       <Option optionIndex={ i }>
                                         <div data-qId={ _.get(opt, [ 'id' ], '') } data-designatedAnsId={ thisDesignatedAnsId } data-ans={ thisAns }>
-                                          <span className="option-index">{ (i + 1) }</span>{ _.get(opt, [ 'title' ], '') }<Correcting />
+                                          <span className="option-index">{ (i + 1) }</span>
+                                          <div className="option-content">{ _.get(opt, [ 'title' ], '') }</div>
+                                          <Correcting />
                                         </div>
                                       </Option>
                                     </div>
@@ -317,7 +322,7 @@ class Questionnaire extends Component {
                               </div>
                             </div>
                           )
-                        })}
+                        }) : null }
                       </Slider>
                     </div>
 
@@ -362,6 +367,23 @@ const NextArrow = (props) => (
 
 NextArrow.defaultProps = {
   src: '/asset/icon/arrow_right.png'
+}
+
+const ShowResultDetail = (props) => (
+  (props.ifShow) ? (
+    <div style={ { display: 'inline-block' } }>
+      <div className="correcting" >
+        <img src="/asset/circle.svg"/> { props.answerState.correct } 題
+      </div>
+      <div className="wrong">
+        <img src="/asset/cross.svg"/> { props.answerState.wrong } 題
+      </div>
+    </div>
+  ) : (<div></div>)
+)
+
+ShowResultDetail.defaultProps = {
+  ifShow: true
 }
 
 export { Questionnaire }
