@@ -213,6 +213,7 @@ server.get('*', async function (req, res) {
                   <link rel="icon" type="image/png" href="/asset/favicon-16x16.png" sizes="16x16">
                   <link rel="shortcut icon" href="/asset/favicon.ico">
 
+                  <link rel="icon" sizes="192x192" href="/asset/android-chrome-192x192">
                   <link rel="apple-touch-icon" sizes="76x76" href="/asset/apple-touch-icon-76x76.png">
                   <link rel="apple-touch-icon" sizes="120x120" href="/asset/apple-touch-icon-120x120.png">
                   <link rel="apple-touch-icon" sizes="152x152" href="/asset/apple-touch-icon-152x152.png">
