@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import Leading from '../Leading'
 import React, { Component } from 'react'
 
 class Result extends Component {
@@ -17,8 +18,14 @@ class Result extends Component {
                 .filter((itm) => {
                   return (score >= itm.range.from && score < itm.range.to)
                 }).first().value()
+    const mediaSource = {
+      heroImage: { image: _.get(rs, [ 'image' ] , null) },
+      heroVideo: { video: _.get(rs, [ 'video' ] , null) },
+      audio: { audio: _.get(rs, [ 'audio' ] , null) }
+    }
     return (
       <div className="result-container" >
+        <Leading leading="image" mediaSource={ mediaSource }/>
         <h3>{ rs.title }</h3>
       </div>
     )
