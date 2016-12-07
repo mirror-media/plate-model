@@ -158,6 +158,8 @@ class Section extends Component {
     const section = _.get(params, 'section', null)
     const catName = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'title' ], null)
     const catDesc = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'description' ], null)
+    const customCSS = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'css' ], null)
+    const customJS = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'javascript' ], null)
     const meta = {
       title: catName ? catName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL,
       description: catDesc,
@@ -249,6 +251,8 @@ class Section extends Component {
             </div>
             <Footer sectionList={sectionList.response} />
           </div>
+          <style dangerouslySetInnerHTML={ { __html: customCSS } } />
+          <script dangerouslySetInnerHTML={ { __html: customJS } } />
         </DocumentMeta>
       </DFPSlotsProvider>
     )
