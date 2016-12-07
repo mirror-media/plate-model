@@ -81,11 +81,12 @@
   background-size: contain;
 }
 .audioList .audio-container .audio-progress {
-  width: 100%;
-  height: 5px;
   background-color: rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.08);
+  height: 5px;
   position: relative;
+  text-align: initial;
+  width: 100%;
 }
 .audioList .audio-container .audio-progress .bar {
   height: 5px;
