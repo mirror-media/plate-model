@@ -1,4 +1,4 @@
-/* global __DEVELOPMENT__ */
+/* global __DEVELOPMENT__, addthis */
 import { SITE_META, SITE_NAME, GAID, TOPIC } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
@@ -48,6 +48,14 @@ class Topic extends Component {
 
     this.props.setPageType(TOPIC)
     this.props.setPageTitle('', topicName ? topicName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL)
+
+    addthis.addEventListener('addthis.menu.share', function () {
+      ga.event({
+        category: 'topic',
+        action: 'click',
+        label: 'social-share addthis'
+      })
+    })
   }
 
   componentWillMount() {
