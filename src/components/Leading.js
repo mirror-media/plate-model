@@ -131,7 +131,7 @@ export default class Leading extends Component {
               <div className = "container">
                 <div className = "leading-container">
                   <div className = "leading-container--fit">
-                    <audio style={{ width: '100%' }} data-file={audio.url} controls ref="audio">
+                    <audio style={{ width: '100%' }} data-file={audio.url} controls ref="audio" style="min-width: 100%;">
                       <source src={audio.url} type={audio.filetype} />
                     </audio>
                   </div>
