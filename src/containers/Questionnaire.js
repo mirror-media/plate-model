@@ -119,26 +119,30 @@ class Questionnaire extends Component {
         }
       },
       showExplanation
-     } = this.props
+    } = this.props
     const currQuestionId = this.props.currQuestionId ? this.props.currQuestionId : _.get(questions, [ 0, 'id' ])
     const currQuestion = _.find(questions, { id : currQuestionId })
+    const currQuestionIdx = _.findIndex(questions, { id : currQuestionId })
+    const { [ currQuestionIdx ] : ans = null } = answers
+    const {
+      length: totalQuestions = 0,
+      [currQuestionIdx + 1]: {
+        id: nextQuestionId
+      } = { id: undefined }
+    } = questions
 
+    const finishedFlag = ((currQuestionIdx + 1) === totalQuestions) ? true : false
     const {
       designated_option: designatedAnsId = '',
-      title: currQuestionTitle = '',
-      options: currOption = []
+      options: currOption = [],
+      title: currQuestionTitle = ''
     } = currQuestion
-    const currQuestionIdx = _.findIndex(questions, { id : currQuestionId })
-    const finishedFlag = ((currQuestionIdx + 1) === questions.length) ? true : false
-    const nextQuestionId = _.get(questions, [ (currQuestionIdx + 1), 'id' ])
-    const totalQuestions = _.get(questions, [ 'length' ], 0)
 
-    const ans = _.get(answers, [ currQuestionIdx ], null)
 
     const mediaSource = {
+      audio: { audio: _.get(currQuestion, [ 'audio' ] , null) },
       heroImage: { image: _.get(currQuestion, [ 'image' ] , null) },
-      heroVideo: { video: _.get(currQuestion, [ 'video' ] , null) },
-      audio: { audio: _.get(currQuestion, [ 'audio' ] , null) }
+      heroVideo: { video: _.get(currQuestion, [ 'video' ] , null) }
     }
     const meta = {
       auto: { ograph: true },
