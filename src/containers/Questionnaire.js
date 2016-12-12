@@ -172,7 +172,7 @@ class Questionnaire extends Component {
 
         <div id="main" className="pusher middle">
           <div className="Questionnaire" ref="questionnaire"
-          data-questionnaireId={ _.get(this.props.params, [ 'questionnaireId' ], '') }
+          data-questionnaireId={ questionnaireId }
           data-firstQId={ _.get(questions, [ 0, 'id' ]) }
           data-finished={ finishedFlag }
           data-nextQId={ nextQuestionId }>
