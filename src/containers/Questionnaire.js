@@ -28,10 +28,12 @@ class Questionnaire extends Component {
   constructor(props, context) {
     super(props, context)
     this._checkAnsClick = this._checkAnsClick.bind(this)
+    this._computeResult = this._computeResult.bind(this)
     this._nextQuestionClick = this._nextQuestionClick.bind(this)
     this._optionClick = this._optionClick.bind(this)
     this._playAgainClick = this._playAgainClick.bind(this)
     // this.optionListner = document.addEventListener('click', this._optionClick)
+    this._goCheckNextQuestClick =this._goCheckNextQuestClick.bind(this)
   }
 
   componentDidMount() {
@@ -49,6 +51,11 @@ class Questionnaire extends Component {
   _checkAnsClick() {
     let answerSheet = _.get(this.refs, [ 'answer-sheet' ], {})
     answerSheet && answerSheet.slickGoTo(1)
+  }
+
+  _goCheckNextQuestClick() {
+    let answerSheet = _.get(this.refs, [ 'answer-sheet' ], {})
+    answerSheet && answerSheet.slickNext()
   }
 
   _nextQuestionClick() {
@@ -73,25 +80,59 @@ class Questionnaire extends Component {
                                   , _.get(this.refs, [ 'questionnaire', 'attributes', 'data-firstQId', 'value' ], ''))
   }
 
+  _computeResult() {
+    const {
+      ans: answers = [],
+      questSetting: {
+        setting: {
+          questions = []
+        }
+      }
+    } = this.props
+    const scoreArr = _.map(answers, (aid, idx) => {
+      const { score } = _.find(_.get(questions, [ idx, 'options' ]), { id: aid })
+      return score
+    })
+    return {
+      correct: (questions.length - _.countBy(scoreArr)[ '0' ]),
+      wrong: _.countBy(scoreArr)[ '0' ]
+    }
+  }
+
 
   render() {
-    const { finished, showExplanation } = this.props
-    const answers = _.get(this.props, [ 'ans' ], null)
-    const questions = _.get(this.props, [ 'questSetting', 'setting', 'questions' ], [])
+    const {
+      ans: answers = null,
+      finished,
+      params: questionnaireId = '',
+      questSetting: {
+        setting: {
+          description: questionnaireDesc = '',
+          image: questionnaireImg = null,
+          leading: leadingType = 'image',
+          title: questionnaireTitle = '',
+          titleCustomized: questionnaireTitleCust = '',
+          questions = [],
+          subtitle: questionnaireSubTitle = ''
+        }
+      },
+      showExplanation
+     } = this.props
     const currQuestionId = this.props.currQuestionId ? this.props.currQuestionId : _.get(questions, [ 0, 'id' ])
     const currQuestion = _.find(questions, { id : currQuestionId })
-    const currQuestionTitle = _.get(currQuestion, [ 'title' ], '')
+
+    const {
+      designated_option: designatedAnsId = '',
+      title: currQuestionTitle = '',
+      options: currOption = []
+    } = currQuestion
     const currQuestionIdx = _.findIndex(questions, { id : currQuestionId })
-    const currOption = _.get(currQuestion, [ 'options' ], [])
     const finishedFlag = ((currQuestionIdx + 1) === questions.length) ? true : false
     const nextQuestionId = _.get(questions, [ (currQuestionIdx + 1), 'id' ])
-    const questionnaireId = _.get(this.props.params, [ 'questionnaireId' ], '')
-    const questionnaireTitle = _.get(this.props, [ 'questSetting', 'setting', 'title' ])
-    const questionnaireDesc = _.get(this.props, [ 'questSetting', 'setting', 'description' ])
-    const questionnaireImg = _.get(this.props, [ 'questSetting', 'setting', 'image' ], null)
     const totalQuestions = _.get(questions, [ 'length' ], 0)
 
-    const leadingType = _.get(this.props, [ 'questSetting', 'setting', 'leading' ], 'image')
+    const ans = _.get(answers, [ currQuestionIdx ], null)
+
     const mediaSource = {
       heroImage: { image: _.get(currQuestion, [ 'image' ] , null) },
       heroVideo: { video: _.get(currQuestion, [ 'video' ] , null) },
@@ -104,7 +145,6 @@ class Questionnaire extends Component {
       meta: { property: { } },
       title: questionnaireTitle ? questionnaireTitle : ''
     }
-
     const settings = {
       dots: false,
       infinite: true,
@@ -130,7 +170,19 @@ class Questionnaire extends Component {
           data-finished={ finishedFlag }
           data-nextQId={ nextQuestionId }>
             <div className="container questionnaire">
-              <QuestHeader questionnaireTitle={ questionnaireTitle } imageSource={ questionnaireImg }/>
+              <QuestHeader questionnaireTitle={ (questionnaireTitleCust && questionnaireTitleCust.trim().length > 0) ? questionnaireTitleCust : questionnaireTitle } imageSource={ questionnaireImg }>
+                <div className="questionnaire-info">
+                  <div className="mm-mark">
+                    <div>MirrorMedia</div>
+                  </div>
+                  <div className="process-hint-title">
+                    <div>
+                      { ((!finishedFlag || (answers.length !== totalQuestions))  && !finished) ? ('' + (currQuestionIdx + 1) + '／' +  totalQuestions + '　' + questionnaireSubTitle) : ('作答完成　'  + questionnaireSubTitle) }
+                    </div>
+                  </div>
+                </div>
+              </QuestHeader>
+              <WorkingProcessBar width={ ((!finishedFlag || (answers.length !== totalQuestions)) && !finished) ? ((currQuestionIdx/totalQuestions) * 100 + '%') : '100%' }/>
               {(() => {
                 if(!finished) {
                   const extraProps = (!showExplanation) ? {} : {
@@ -154,15 +206,28 @@ class Questionnaire extends Component {
                   //
                   return (
                     <div className="question-set">
-                      <WorkingProcessBar processTitle={ '第 ' + (currQuestionIdx + 1) + ' 題／共 ' +  totalQuestions + ' 題'} width={ (currQuestionIdx/totalQuestions)*100 + '%' }/>
-                      <Question questionTitle={ currQuestionTitle } />
-                      <Leading leading={ leadingType } mediaSource={ mediaSource }/>
+                      <div className="question-top">
+                        <div className="question-index">
+                          <h3>Ｑ{ (currQuestionIdx + 1) }</h3>
+                        </div>
+                        <div className="question-content">
+                          <div className="question-content--alignbox">
+                            <Question questionTitle={ currQuestionTitle } />
+                            <Leading leading={ leadingType } mediaSource={ mediaSource }/>
+                          </div>
+                        </div>
+                      </div>
                       <div className="options">
                         { _.map(currOption, (opt, idx) => {
+                          const Correcting = (() => (
+                            (designatedAnsId === _.get(opt, [ 'id' ], '')) ? (<img className="correcting" src="/asset/circle.svg"/>) : ((ans === _.get(opt, [ 'id' ], '')) ? (<img className="correcting" src="/asset/cross.svg"/>) : (<span></span>))
+                          ))
                           return (
-                            <div className="option-container" onClick={ (!showExplanation) ? this._optionClick : null } style={{ cursor: 'pointer' }} key={ _.get(opt, [ 'id' ], '') }>
+                            <div className={ 'option-container' + (((idx + 1) !== currOption.length) ? ' border--bottom' : '') } onClick={ (!showExplanation) ? this._optionClick : null } style={{ cursor: 'pointer' }} key={ _.get(opt, [ 'id' ], '') }>
                               <Option optionIndex={ idx } {...extraProps}>
-                                <div data-qId={ currQuestionId } data-nextQId={ nextQuestionId } data-ans={ _.get(opt, [ 'id' ], '') }>{ _.get(opt, [ 'title' ], '') }</div>
+                                <div data-qId={ currQuestionId } data-nextQId={ nextQuestionId } data-ans={ _.get(opt, [ 'id' ], '') }>
+                                  <span className="option-index">{ (idx + 1) }</span>{ _.get(opt, [ 'title' ], '') }{ (!showExplanation) ? '' : <Correcting /> }
+                                </div>
                               </Option>
                             </div>
                           )
@@ -173,50 +238,81 @@ class Questionnaire extends Component {
                     </div>
                   )
                 } else {
+                  const answerState = this._computeResult()
                   return (
                     <div className="answer-sheet">
                       <Slider ref="answer-sheet" {...settings}>
                         <div className="result-set">
+                          <div className="result-detail">
+                            你的測驗結果
+                            <div className="correcting" >
+                              <img src="/asset/circle.svg"/> { answerState.correct } 題
+                            </div>
+                            <div className="wrong">
+                              <img src="/asset/cross.svg"/> { answerState.wrong } 題
+                            </div>
+                          </div>
                           <div className="result">
                             <Result results={ _.get(this.props, [ 'questSetting', 'setting', 'results' ], []) }
                                       questions={ questions } answers={ answers } />
-                          </div>
-                          <div className="button-set">
-                            <div className="button-container" onClick={ this._playAgainClick } style={{ cursor: 'pointer' }} >
-                              <Button value="play again" />
-                            </div>
-                            <div className="button-container" onClick={ this._checkAnsClick } style={{ cursor: 'pointer' }} >
-                              <Button value="看答案" />
+                            <div className="button-set">
+                              <div className="button-container" onClick={ this._playAgainClick } style={{ cursor: 'pointer' }} >
+                                <div className="renew" style={ { backgroundImage: 'url(/asset/icon02_1.svg)' } }></div>
+                                <Button value="再玩一次" />
+                              </div>　
+                              <div className="button-container" onClick={ this._checkAnsClick } style={{ cursor: 'pointer' }} >
+                                <div className="check" style={ { backgroundImage: 'url(/asset/icon02_1.svg)' } }></div>
+                                <Button value="看答案" />
+                              </div>
                             </div>
                           </div>
                         </div>
 
                         { _.map(questions, (quest, idx) => {
-                          const designatedAnsId = _.get(quest, [ 'designated_option' ])
-                          const ans = _.get(this.props, [ 'ans', idx ], null)
-                          const tmp_mediaSource = {
+                          const thisDesignatedAnsId = _.get(quest, [ 'designated_option' ])
+                          const thisAns = _.get(answers, [ idx ], null)
+                          const this_mediaSource = {
                             heroImage: { image: _.get(quest, [ 'image' ] , null) },
                             heroVideo: { video: _.get(quest, [ 'video' ] , null) },
                             audio: { audio: _.get(quest, [ 'audio' ] , null) }
                           }
                           return (
                             <div className="question-set" key={ _.get(quest, [ 'id' ]) }>
-                              <Question questionTitle={ _.get(quest, [ 'title' ]) } />
-                              <Leading leading={ leadingType } mediaSource={ tmp_mediaSource }/>
+                              <div className="question-top">
+                                <div className="question-index">
+                                  <h3>Ｑ{ (idx + 1) }</h3>
+                                </div>
+                                <div className="question-content">
+                                  <div className="question-content--alignbox">
+                                    <Question questionTitle={ _.get(quest, [ 'title' ]) } />
+                                    <Leading leading={ leadingType } mediaSource={ this_mediaSource }/>
+                                  </div>
+                                </div>
+                              </div>
                               <div className="options">
                                 { _.map(_.get(quest, [ 'options' ]), (opt, i) => {
+                                  const Correcting = (() => (
+                                    (thisDesignatedAnsId === _.get(opt, [ 'id' ], '')) ? (<img className="correcting" src="/asset/circle.svg"/>) : ((thisAns === _.get(opt, [ 'id' ], '')) ? (<img className="correcting" src="/asset/cross.svg"/>) : (<span></span>))
+                                  ))
                                   return (
-                                    <div className="option-container" key={ _.get(opt, [ 'id' ], '') }>
+                                    <div className={ 'option-container' + (((i + 1) !== currOption.length) ? ' border--bottom' : '') } key={ _.get(opt, [ 'id' ], '') }>
                                       <Option optionIndex={ i }>
-                                        <div data-qId={ _.get(opt, [ 'id' ], '') } data-designatedAnsId={ designatedAnsId } data-ans={ ans }>{ _.get(opt, [ 'title' ], '') }</div>
+                                        <div data-qId={ _.get(opt, [ 'id' ], '') } data-designatedAnsId={ thisDesignatedAnsId } data-ans={ thisAns }>
+                                          <span className="option-index">{ (i + 1) }</span>{ _.get(opt, [ 'title' ], '') }<Correcting />
+                                        </div>
                                       </Option>
                                     </div>
                                   )
                                 })}
                               </div>
-                              <div className="explanation">
+                              <div className="explanation explanation--check-answer">
                                 <div className="explanation-container">
-                                  { _.get(currQuestion, [ 'explanation' ]) }
+                                  { _.get(quest, [ 'explanation' ]) }
+                                </div>
+                              </div>
+                              <div className="button-set">
+                                <div className="button-container" style={{ cursor: 'pointer' }} onClick={ this._goCheckNextQuestClick }>
+                                  <Button value="下一題" />
                                 </div>
                               </div>
                             </div>
@@ -253,7 +349,7 @@ Questionnaire.contextTypes = {
 }
 
 const PrevArrow = (props) => (
-  <div {...props} style={{ background: 'url(' + props.src + ') no-repeat center center', height: '50px', width: '50px', left: '-50px', backgroundSize: 'cover', display: 'block', backgroundColor: { value: 'rgba(255,255,255,0)', important: 'true' } }}></div>
+  <div {...props} style={{ background: 'url(' + props.src + ') no-repeat center center', height: '50px', width: '50px', left: '-50px', backgroundSize: 'cover', backgroundColor: { value: 'rgba(255,255,255,0)', important: 'true' } }}></div>
 )
 
 PrevArrow.defaultProps = {
@@ -261,7 +357,7 @@ PrevArrow.defaultProps = {
 }
 
 const NextArrow = (props) => (
-  <div {...props} style={{ background: 'url(' + props.src + ') no-repeat center center', height: '50px', width: '50px', right: '-50px', backgroundSize: 'cover', display: 'block', backgroundColor: { value: 'rgba(255,255,255,0)', important: 'true' } }}></div>
+  <div {...props} style={{ background: 'url(' + props.src + ') no-repeat center center', height: '50px', width: '50px', right: '-50px', backgroundSize: 'cover', backgroundColor: { value: 'rgba(255,255,255,0)', important: 'true' } }}></div>
 )
 
 NextArrow.defaultProps = {

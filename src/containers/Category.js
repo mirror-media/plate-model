@@ -3,17 +3,18 @@ import { CATEGORY, SITE_META, SITE_NAME, GAID, AD_UNIT_PREFIX, DFPID } from '../
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { DFPSlotsProvider, DFPManager, AdSlot } from 'react-dfp'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchYoutubePlaylist, fetchTopics } from '../actions/articles'
+import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchYoutubePlaylist, fetchTopics, fetchAudios } from '../actions/articles'
 import { setPageType, setPageTitle } from '../actions/header'
-import _ from 'lodash'
+import AudioList from '../components/AudioList'
 import DocumentMeta from 'react-document-meta'
 import Footer from '../components/Footer'
-import ga from 'react-ga'
 import Header from '../components/Header'
 import List from '../components/List'
 import React, { Component } from 'react'
 import Sidebar from '../components/Sidebar'
 import VideoList from '../components/VideoList'
+import _ from 'lodash'
+import ga from 'react-ga'
 
 if (process.env.BROWSER) {
   require('./Category.css')
@@ -24,21 +25,29 @@ const PAGE = 0
 
 class Category extends Component {
   static fetchData({ params, store }) {
-    if (params.category == 'videohub') {
-      return store.dispatch(fetchYoutubePlaylist(MAXRESULT)).then(() => {
-        return store.dispatch( fetchIndexArticles( [ 'sections' ] ) ).then(() => {
+
+    switch (params.category) {
+      case 'videohub':
+        return store.dispatch(fetchYoutubePlaylist(MAXRESULT)).then(() => {
+          return store.dispatch( fetchIndexArticles( [ 'sections' ] ) ).then(() => {
+            return store.dispatch( fetchTopics() )
+          })
+        })
+      case 'audio':
+        return store.dispatch( fetchAudios() ).then(() => {
+          return store.dispatch( fetchIndexArticles( [ 'sections' ] ) ).then(() => {
+            return store.dispatch( fetchTopics() )
+          })
+        })
+      default:
+        return store.dispatch(fetchArticlesByUuidIfNeeded(params.category, CATEGORY), {
+          page: PAGE,
+          max_results: MAXRESULT
+        }).then(() => {
+          return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
+        }).then(() => {
           return store.dispatch( fetchTopics() )
         })
-      })
-    } else {
-      return store.dispatch(fetchArticlesByUuidIfNeeded(params.category, CATEGORY), {
-        page: PAGE,
-        max_results: MAXRESULT
-      }).then(() => {
-        return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
-      }).then(() => {
-        return store.dispatch( fetchTopics() )
-      })
     }
   }
 
@@ -50,6 +59,7 @@ class Category extends Component {
     }
     this.loadMore = this._loadMore.bind(this)
     this.loadMoreVideo = this._loadMoreVideo.bind(this)
+    this.loadMoreAudio = this._loadMoreAudio.bind(this)
     this.renderList = this._renderList.bind(this)
   }
 
@@ -74,7 +84,7 @@ class Category extends Component {
     }
 
     // if fetched before, do nothing
-    if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0 || catId == 'videohub') {
+    if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0 || catId == 'videohub' || catId == 'audio') {
       return
     }
 
@@ -82,8 +92,6 @@ class Category extends Component {
       page: PAGE,
       max_results: MAXRESULT
     })
-
-    this.props.fetchTopics()
 
   }
 
@@ -124,7 +132,7 @@ class Category extends Component {
     let catId = _.get(params, 'category')
 
     // if fetched before, do nothing
-    if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0) {
+    if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0 || catId == 'videohub' || catId == 'audio') {
       return
     }
 
@@ -156,8 +164,16 @@ class Category extends Component {
     this.props.fetchYoutubePlaylist(MAXRESULT, this.props.youtubePlaylist.nextPageToken)
   }
 
+  _loadMoreAudio() {
+    const { audios } = this.props
+    this.props.fetchAudios({
+      page: Math.floor( _.get(audios, [ 'items', 'length' ], 0) / MAXRESULT ) + 1, 
+      max_results: MAXRESULT
+    })
+  }
+
   _renderList() {
-    const { articlesByUuids, entities, params, sectionList , youtubePlaylist } = this.props
+    const { articlesByUuids, entities, params, sectionList , youtubePlaylist, audios } = this.props
     const catId = _.get(params, 'category')
     const section = _.find(_.get(sectionList, [ 'response', 'sections' ]), function (o) { return _.find(o.categories, { 'name': catId }) })
     const sectionName = _.get(section, 'name', '')
@@ -165,26 +181,36 @@ class Category extends Component {
     const category = _.get(params, 'category', null)
     const catName = _.get(sectionList.response, [ 'categories', category, 'title' ], null)
 
-    if (catId != 'videohub') {
-      return (
-        <List
-          articles={articles}
-          categories={entities.categories}
-          section={sectionName}
-          title={catName}
-          hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
-          loadMore={this.loadMore}
-        />
-      )
-    } else {
-      return (
-        <VideoList
-          playlist={youtubePlaylist.items}
-          title={'VideoHub'}
-          hasMore={ _.get(youtubePlaylist, [ 'nextPageToken' ])}
-          loadMore={this.loadMoreVideo}
-        />
-      )
+    switch (catId) {
+      case 'videohub':
+        return (
+          <VideoList
+            playlist={youtubePlaylist.items}
+            title={'VideoHub'}
+            hasMore={ _.get(youtubePlaylist, [ 'nextPageToken' ])}
+            loadMore={this.loadMoreVideo}
+          />
+        )
+      case 'audio':
+        return (
+          <AudioList
+            audios={audios.items}
+            title={'Audio'}
+            hasMore={ ( _.get(audios, [ 'meta', 'total' ]) > _.get(audios, [ 'items', 'length' ]) ) }
+            loadMore={this.loadMoreAudio}
+          />
+        )
+      default:
+        return (
+          <List
+            articles={articles}
+            categories={entities.categories}
+            section={sectionName}
+            title={catName}
+            hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
+            loadMore={this.loadMore}
+          />
+        )
     }
   }
 
@@ -280,7 +306,8 @@ function mapStateToProps(state) {
     entities: state.entities || {},
     sectionList: state.sectionList || {},
     topics: state.topics || {},
-    youtubePlaylist: state.youtubePlaylist || {}
+    youtubePlaylist: state.youtubePlaylist || {},
+    audios: state.audios || {}
   }
 }
 
@@ -289,4 +316,12 @@ Category.contextTypes = {
 }
 
 export { Category }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchYoutubePlaylist, fetchTopics, setPageType, setPageTitle })(Category)
+export default connect(mapStateToProps, { 
+  fetchArticlesByUuidIfNeeded, 
+  fetchIndexArticles, 
+  fetchYoutubePlaylist, 
+  fetchTopics, 
+  fetchAudios, 
+  setPageType,
+  setPageTitle 
+})(Category)

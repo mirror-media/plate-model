@@ -130,7 +130,7 @@ server.get('*', async function (req, res) {
         let pageState = store.getState()
         let ogImage = SITE_META.LOGO
         let title = SITE_NAME.FULL
-        let canonical = SITE_META.URL
+        let canonical = SITE_META.URL + getCurrentUrl().substr(1)
         let desc = SITE_META.DESC
         let ogType = 'website'
         if ( _.includes(getCurrentUrl(), 'section') ) {
@@ -144,6 +144,7 @@ server.get('*', async function (req, res) {
           let topicId = _.get(getCurrentUrl().split('/'), '2')
           title = _.get(pageState, [ 'entities', 'topics', topicId, 'ogTitle' ]) ? _.get(pageState, [ 'entities', 'topics', topicId, 'ogTitle' ]) + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL
           desc = _.get(pageState, [ 'entities', 'topics', topicId, 'ogDescription' ], SITE_META.DESC)
+          ogImage = _.get(pageState, [ 'topics', 'items', topicId, 'ogImage', 'image', 'resizedTargets', 'desktop', 'url' ]) ? _.get(pageState, [ 'topics', 'items', topicId, 'ogImage', 'image', 'resizedTargets', 'desktop', 'url' ]) : _.get(pageState, [ 'topics', 'items', topicId, 'heroImage', 'image', 'resizedTargets', 'desktop', 'url' ], SITE_META.LOGO)
         }
 
         let expGA = ''
