@@ -147,7 +147,7 @@ server.get('*', async function (req, res) {
           ogImage = _.get(pageState, [ 'topics', 'items', topicId, 'ogImage', 'image', 'resizedTargets', 'desktop', 'url' ]) ? _.get(pageState, [ 'topics', 'items', topicId, 'ogImage', 'image', 'resizedTargets', 'desktop', 'url' ]) : _.get(pageState, [ 'topics', 'items', topicId, 'heroImage', 'image', 'resizedTargets', 'desktop', 'url' ], SITE_META.LOGO)
         }
 
-        if ( _.includes(getCurrentUrl(), '/q') ) {
+        if ( _.includes(getCurrentUrl(), '/q/') ) {
           let resultIdForOg = _.get(getCurrentUrl().split('/'), '3')
           const setting = _.get(pageState, [ 'questSetting', 'setting' ])
           title = _.get(setting, [ 'title' ]) ? _.get(setting, [ 'title' ]) + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL
