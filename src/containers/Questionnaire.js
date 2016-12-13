@@ -12,7 +12,7 @@ import Slider from 'react-slick'
 import WorkingProcessBar from '../components/questionnaire/WorkingProcessBar'
 import { connect } from 'react-redux'
 import { fetchQuestionnaire, goNextQuestion, passAnswer, resetQuestionnaire } from '../actions/questionnaire.js'
-import { QUESTIONNAIRE } from '../constants/index'
+import { QUESTIONNAIRE, SITE_META } from '../constants/index'
 import { setPageType, setPageTitle } from '../actions/header'
 
 if (process.env.BROWSER) {
@@ -122,8 +122,7 @@ class Questionnaire extends Component {
       ans: answers = null,
       finished,
       params: {
-        questionnaireId = '',
-        resultIdForOg = ''
+        questionnaireId = ''
       },
       questSetting: {
         setting: {
@@ -158,12 +157,6 @@ class Questionnaire extends Component {
       title: currQuestionTitle = ''
     } = currQuestion
 
-
-    const defaultOg = {
-      desc: (resultIdForOg.length > 0) ? _.get(_.find(results, { id : resultIdForOg }), [ 'title' ], '') : '',
-      image: (resultIdForOg.length > 0) ? _.get(_.find(results, { id : resultIdForOg }), [ 'image', 'url' ], '') : ''
-    }
-
     const mediaSource = {
       audio: { audio: _.get(currQuestion, [ 'audio' ] , null) },
       heroImage: { image: _.get(currQuestion, [ 'image' ] , null) },
@@ -171,11 +164,9 @@ class Questionnaire extends Component {
     }
     const meta = {
       auto: { ograph: true },
-      canonical: `http://stage.mirrormedia.mg/q/${questionnaireId}`,
-      description: (defaultOg.desc.length > 0)? defaultOg.desc : (questionnaireDesc? questionnaireDesc : ''),
-      meta: { property: {
-        'og:image': (defaultOg.image.length > 0)? defaultOg.image : (questionnaireImg? questionnaireImg.url : '')
-      } },
+      canonical: `${SITE_META.URL}q/${questionnaireId}`,
+      description: questionnaireDesc? questionnaireDesc : '',
+      meta: { property: { } },
       title: questionnaireTitle ? questionnaireTitle : ''
     }
 
