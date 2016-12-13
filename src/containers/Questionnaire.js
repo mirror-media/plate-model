@@ -12,7 +12,7 @@ import Slider from 'react-slick'
 import WorkingProcessBar from '../components/questionnaire/WorkingProcessBar'
 import { connect } from 'react-redux'
 import { fetchQuestionnaire, goNextQuestion, passAnswer, resetQuestionnaire } from '../actions/questionnaire.js'
-import { QUESTIONNAIRE, SITE_META } from '../constants/index'
+import { QUESTIONNAIRE } from '../constants/index'
 import { setPageType, setPageTitle } from '../actions/header'
 
 if (process.env.BROWSER) {
@@ -122,7 +122,8 @@ class Questionnaire extends Component {
       ans: answers = null,
       finished,
       params: {
-        questionnaireId = ''
+        questionnaireId = '',
+        resultIdForOg = ''
       },
       questSetting: {
         setting: {
@@ -130,6 +131,7 @@ class Questionnaire extends Component {
           image: questionnaireImg = null,
           leading: leadingType = 'image',
           questions = [],
+          results = [],
           subtitle: questionnaireSubTitle = '',
           title: questionnaireTitle = '',
           titleCustomized: questionnaireTitleCust = '',
@@ -156,6 +158,12 @@ class Questionnaire extends Component {
       title: currQuestionTitle = ''
     } = currQuestion
 
+
+    const defaultOg = {
+      desc: (resultIdForOg.length > 0) ? _.get(_.find(results, { id : resultIdForOg }), [ 'title' ], '') : '',
+      image: (resultIdForOg.length > 0) ? _.get(_.find(results, { id : resultIdForOg }), [ 'image', 'url' ], '') : ''
+    }
+
     const mediaSource = {
       audio: { audio: _.get(currQuestion, [ 'audio' ] , null) },
       heroImage: { image: _.get(currQuestion, [ 'image' ] , null) },
@@ -163,9 +171,11 @@ class Questionnaire extends Component {
     }
     const meta = {
       auto: { ograph: true },
-      canonical: `${SITE_META.URL}q/${questionnaireId}`,
-      description: questionnaireDesc? questionnaireDesc : '',
-      meta: { property: { } },
+      canonical: `http://stage.mirrormedia.mg/q/${questionnaireId}`,
+      description: (defaultOg.desc.length > 0)? defaultOg.desc : (questionnaireDesc? questionnaireDesc : ''),
+      meta: { property: {
+        'og:image': (defaultOg.image.length > 0)? defaultOg.image : (questionnaireImg? questionnaireImg.url : '')
+      } },
       title: questionnaireTitle ? questionnaireTitle : ''
     }
 
@@ -275,7 +285,7 @@ class Questionnaire extends Component {
                             <ShowResultDetail answerState={ answerState } ifShow={ (questionnaireType === 'quiz') ? true : false }/>
                           </div>
                           <div className="result">
-                            <Result results={ _.get(this.props, [ 'questSetting', 'setting', 'results' ], []) }
+                            <Result results={ results }
                                       questions={ questions } answers={ answers } />
                             <div className="button-set">
                               <div className="button-container" onClick={ this._playAgainClick } style={{ cursor: 'pointer' }} >
