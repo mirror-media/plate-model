@@ -36,6 +36,7 @@ class Questionnaire extends Component {
     this._goCheckNextQuestClick = this._goCheckNextQuestClick.bind(this)
     this._shareResultClick = this._shareResultClick.bind(this)
     this._closeShareToolBox = this._closeShareToolBox.bind(this)
+    this._getResultTitle = this._getResultTitle.bind(this)
   }
 
   componentDidMount() {
@@ -105,6 +106,29 @@ class Questionnaire extends Component {
     }
   }
 
+  _getResultTitle() {
+    const {
+      ans: answers = [],
+      questSetting: {
+        setting: {
+          questions = [],
+          results = []
+        }
+      }
+    } = this.props
+    const score = _.chain(questions)
+                    .map((itm, idx) => {
+                      let { options } = itm
+                      let s = _.find(options, { id: answers[ idx ] })[ 'score' ]
+                      return s
+                    }).reduce((t, n) => (t + n)).value()
+    const rs = _.chain(results)
+                .filter((itm) => {
+                  return (score >= itm.range.from && score < itm.range.to)
+                }).first().value()
+    return rs
+  }
+
   _closeShareToolBox() {
     this.setState({
       openShareBtn : false
@@ -112,8 +136,18 @@ class Questionnaire extends Component {
   }
 
   _shareResultClick() {
+    const rs = this._getResultTitle()
+    window.addthis.update('share', 'url', `${SITE_META.URL}q/${_.get(this.props, [ 'params', 'questionnaireId' ])}/r3`)
+    window.addthis.update('share', 'description', rs.title)
+    window.addthis.update('share', 'picture', 'https:' + _.get(rs, [ 'image', 'url' ], ''))
+    window.addthis.update('share', 'image', 'https:' + _.get(rs, [ 'image', 'url' ], ''))
+    window.addthis.url = `${SITE_META.URL}q/${_.get(this.props, [ 'params', 'questionnaireId' ])}/r3`
+    window.addthis.picture = 'https:' + _.get(rs, [ 'image', 'url' ])
+    window.addthis.image = 'https:' + _.get(rs, [ 'image', 'url' ])
+    window.addthis.toolbox('.addtaddthis_inline_share_toolboxhis_toolbox')
     this.setState({
-      openShareBtn : true
+      openShareBtn : true,
+      dataUrl : `${SITE_META.URL}q/${_.get(this.props, [ 'params', 'questionnaireId' ])}/r3`
     })
   }
 
@@ -122,7 +156,8 @@ class Questionnaire extends Component {
       ans: answers = null,
       finished,
       params: {
-        questionnaireId = ''
+        questionnaireId = '',
+        resultIdForOg = ''
       },
       questSetting: {
         setting: {
@@ -130,6 +165,7 @@ class Questionnaire extends Component {
           image: questionnaireImg = null,
           leading: leadingType = 'image',
           questions = [],
+          results = [],
           subtitle: questionnaireSubTitle = '',
           title: questionnaireTitle = '',
           titleCustomized: questionnaireTitleCust = '',
@@ -165,7 +201,9 @@ class Questionnaire extends Component {
       auto: { ograph: true },
       canonical: `${SITE_META.URL}q/${questionnaireId}`,
       description: questionnaireDesc? questionnaireDesc : '',
-      meta: { property: { } },
+      meta: { property: {
+        'og:image' : (resultIdForOg.length > 0) ? _.get(_.find(results, { id : resultIdForOg }), [ 'image', 'url' ], '') : (questionnaireImg? questionnaireImg.url : '')
+      } },
       title: questionnaireTitle ? questionnaireTitle : ''
     }
 
@@ -275,7 +313,7 @@ class Questionnaire extends Component {
                             <ShowResultDetail answerState={ answerState } ifShow={ (questionnaireType === 'quiz') ? true : false }/>
                           </div>
                           <div className="result">
-                            <Result results={ _.get(this.props, [ 'questSetting', 'setting', 'results' ], []) }
+                            <Result results={ results }
                                       questions={ questions } answers={ answers } />
                             <div className="button-set">
                               <div className="button-container" onClick={ this._playAgainClick } style={{ cursor: 'pointer' }} >
@@ -352,7 +390,7 @@ class Questionnaire extends Component {
                 }
               })()}
               <div className="shareToolBox" style={ !(_.get(this.state, [ 'openShareBtn' ], false)) ? { display: 'none' } : {} } onClick={ this._closeShareToolBox }>
-                <div className={ !(_.get(this.state, [ 'openShareBtn' ], false)) ? 'addthis_inline_share_toolbox' : 'addthis_inline_share_toolbox openShareBtn' }></div>
+                <div className="addthis_inline_share_toolbox"></div>
               </div>
             </div>
           </div>

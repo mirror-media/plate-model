@@ -20,7 +20,7 @@ export default function (history = browserHistory) {
         <Route path="section/:section" component={Section}/>
         <Route path="tag/:tagId" component={Tag} />
         <Route path="topic/:topicId" component={Topic} />
-        <Route path="q/:questionnaireId" component={Questionnaire} />
+        <Route path="q/:questionnaireId(/:resultIdForOg)" component={Questionnaire} />
       </Route>
     </Router>
   )

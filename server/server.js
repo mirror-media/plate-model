@@ -147,6 +147,14 @@ server.get('*', async function (req, res) {
           ogImage = _.get(pageState, [ 'topics', 'items', topicId, 'ogImage', 'image', 'resizedTargets', 'desktop', 'url' ]) ? _.get(pageState, [ 'topics', 'items', topicId, 'ogImage', 'image', 'resizedTargets', 'desktop', 'url' ]) : _.get(pageState, [ 'topics', 'items', topicId, 'heroImage', 'image', 'resizedTargets', 'desktop', 'url' ], SITE_META.LOGO)
         }
 
+        if ( _.includes(getCurrentUrl(), '/q/') ) {
+          let resultIdForOg = _.get(getCurrentUrl().split('/'), '3')
+          const setting = _.get(pageState, [ 'questSetting', 'setting' ])
+          title = _.get(setting, [ 'title' ]) ? _.get(setting, [ 'title' ]) + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL
+          desc = _.get(_.find(_.get(setting, [ 'results' ], []), { id : resultIdForOg }), [ 'title' ], SITE_META.DESC)
+          ogImage = _.get(_.find(_.get(setting, [ 'results' ], []), { id : resultIdForOg }), [ 'image', 'url' ]) ? _.get(_.find(_.get(setting, [ 'results' ], []), { id : resultIdForOg }), [ 'image', 'url' ]) : _.get(setting, [ 'image', 'url' ], SITE_META.LOGO)
+        }
+
         let expGA = ''
         if ( location.pathname == '/' ) {
           expGA = '<!-- Google Analytics Content Experiment code --><script>function utmx_section(){}function utmx(){}(function(){var k=\'129051472-2\',d=document,l=d.location,c=d.cookie;if(l.search.indexOf(\'utm_expid=\'+k)>0)return;function f(n){if(c){var i=c.indexOf(n+\'=\');if(i>-1){var j=c.indexOf(\';\',i);return escape(c.substring(i+n.length+1,j<0?c.length:j))}}}var x=f(\'__utmx\'),xx=f(\'__utmxx\'),h=l.hash;d.write(\'<sc\'+\'ript src="\'+\'http\'+(l.protocol==\'https:\'?\'s://ssl\':\'://www\')+\'.google-analytics.com/ga_exp.js?\'+\'utmxkey=\'+k+\'&utmx=\'+(x?x:\'\')+\'&utmxx=\'+(xx?xx:\'\')+\'&utmxtime=\'+new Date().valueOf()+(h?\'&utmxhash=\'+escape(h.substr(1)):\'\')+\'" type="text/javascript" charset="utf-8"><\/sc\'+\'ript>\')})();</script><script>utmx(\'url\',\'A/B\');</script><!-- End of Google Analytics Content Experiment code -->'
