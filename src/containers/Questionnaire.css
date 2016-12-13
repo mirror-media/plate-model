@@ -242,6 +242,24 @@ body {
     color: #ffffff;
     border-radius: 5px; }
 
+.shareToolBox {
+  position: fixed;
+  background-color: rgba(1, 1, 1, 0.8);
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+  .shareToolBox .addthis_inline_share_toolbox.openShareBtn {
+    transition: 20s;
+    transform: rotateX(1440deg);
+    -webkit-transform: rotateX(1440deg);
+    -moz-transform: rotateX(1440deg);
+    -o-transform: rotateX(1440deg);
+    -ms-transform: rotateX(1440deg); }
+
 @media only screen and (max-width: 767px) {
   body {
     min-width: 0; }

@@ -33,7 +33,9 @@ class Questionnaire extends Component {
     this._optionClick = this._optionClick.bind(this)
     this._playAgainClick = this._playAgainClick.bind(this)
     // this.optionListner = document.addEventListener('click', this._optionClick)
-    this._goCheckNextQuestClick =this._goCheckNextQuestClick.bind(this)
+    this._goCheckNextQuestClick = this._goCheckNextQuestClick.bind(this)
+    this._shareResultClick = this._shareResultClick.bind(this)
+    this._closeShareToolBox = this._closeShareToolBox.bind(this)
   }
 
   componentDidMount() {
@@ -46,6 +48,9 @@ class Questionnaire extends Component {
     if(!_.get(this.props, [ 'questSetting' ], null) || !_.get(this.props, [ 'questSetting', 'setting' ], null)) {
       this.props.fetchQuestionnaire(_.get(this.props.params, [ 'questionnaireId' ], ''))
     }
+  }
+
+  componentDidUpdate() {
   }
 
   _checkAnsClick() {
@@ -100,12 +105,25 @@ class Questionnaire extends Component {
     }
   }
 
+  _closeShareToolBox() {
+    this.setState({
+      openShareBtn : false
+    })
+  }
+
+  _shareResultClick() {
+    this.setState({
+      openShareBtn : true
+    })
+  }
 
   render() {
     const {
       ans: answers = null,
       finished,
-      params: questionnaireId = '',
+      params: {
+        questionnaireId = ''
+      },
       questSetting: {
         setting: {
           description: questionnaireDesc = '',
@@ -138,7 +156,6 @@ class Questionnaire extends Component {
       title: currQuestionTitle = ''
     } = currQuestion
 
-
     const mediaSource = {
       audio: { audio: _.get(currQuestion, [ 'audio' ] , null) },
       heroImage: { image: _.get(currQuestion, [ 'image' ] , null) },
@@ -151,6 +168,7 @@ class Questionnaire extends Component {
       meta: { property: { } },
       title: questionnaireTitle ? questionnaireTitle : ''
     }
+
     const settings = {
       dots: false,
       infinite: true,
@@ -166,7 +184,6 @@ class Questionnaire extends Component {
       prevArrow: <PrevArrow />,
       nextArrow: <NextArrow />
     }
-
     return (
       <DocumentMeta {...meta}>
 
@@ -270,11 +287,13 @@ class Questionnaire extends Component {
                                   <div className="check" style={ { backgroundImage: 'url(/asset/icon02_1.svg)' } }></div>
                                   <Button value="看答案" />
                                 </div>
-                              ) : (<div></div>) }
+                              ) : (<div style={{ display: 'inline-block' }}></div>) }
+                              <div className="button-container share" onClick={ this._shareResultClick } style={{ cursor: 'pointer', marginLeft: '15px' }}>
+                                <Button value="分享結果" />
+                              </div>
                             </div>
                           </div>
                         </div>
-
                         { (questionnaireType === 'quiz') ? _.map(questions, (quest, idx) => {
                           const thisDesignatedAnsId = _.get(quest, [ 'designated_option' ])
                           const thisAns = _.get(answers, [ idx ], null)
@@ -329,20 +348,21 @@ class Questionnaire extends Component {
                         }) : null }
                       </Slider>
                     </div>
-
                   )
                 }
               })()}
-
+              <div className="shareToolBox" style={ !(_.get(this.state, [ 'openShareBtn' ], false)) ? { display: 'none' } : {} } onClick={ this._closeShareToolBox }>
+                <div className={ !(_.get(this.state, [ 'openShareBtn' ], false)) ? 'addthis_inline_share_toolbox' : 'addthis_inline_share_toolbox openShareBtn' }></div>
+              </div>
             </div>
           </div>
+          <script src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-584ebe7679d47dc7"></script>
         </div>
       </DocumentMeta>
     )
 
   }
 }
-
 function mapStateToProps(state) {
   return {
     ans: state.questionnaire.ans || [],
