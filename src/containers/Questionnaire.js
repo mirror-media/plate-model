@@ -137,17 +137,16 @@ class Questionnaire extends Component {
 
   _shareResultClick() {
     const rs = this._getResultTitle()
-    window.addthis.update('share', 'url', `${SITE_META.URL}q/${_.get(this.props, [ 'params', 'questionnaireId' ])}/r3`)
+    window.addthis.update('share', 'url', `${SITE_META.URL}q/${_.get(this.props, [ 'params', 'questionnaireId' ])}/${rs.id}`)
     window.addthis.update('share', 'description', rs.title)
     window.addthis.update('share', 'picture', 'https:' + _.get(rs, [ 'image', 'url' ], ''))
     window.addthis.update('share', 'image', 'https:' + _.get(rs, [ 'image', 'url' ], ''))
-    window.addthis.url = `${SITE_META.URL}q/${_.get(this.props, [ 'params', 'questionnaireId' ])}/r3`
+    window.addthis.url = `${SITE_META.URL}q/${_.get(this.props, [ 'params', 'questionnaireId' ])}/${rs.id}`
     window.addthis.picture = 'https:' + _.get(rs, [ 'image', 'url' ])
     window.addthis.image = 'https:' + _.get(rs, [ 'image', 'url' ])
-    window.addthis.toolbox('.addtaddthis_inline_share_toolboxhis_toolbox')
     this.setState({
       openShareBtn : true,
-      dataUrl : `${SITE_META.URL}q/${_.get(this.props, [ 'params', 'questionnaireId' ])}/r3`
+      dataUrl : `${SITE_META.URL}q/${_.get(this.props, [ 'params', 'questionnaireId' ])}/${rs.id}`
     })
   }
 
