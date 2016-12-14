@@ -4,13 +4,13 @@ import { connect } from 'react-redux'
 import { DFPSlotsProvider } from 'react-dfp'
 import { fetchIndexArticles, fetchTopics, fetchTwitterTimeline } from '../actions/articles'
 import { setPageType, setPageTitle } from '../actions/header'
-import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
 import Footer from '../components/Footer'
-import ga from 'react-ga'
 import Header from '../components/Header'
 import React, { Component } from 'react'
 import Sidebar from '../components/Sidebar'
+import _ from 'lodash'
+import ga from 'react-ga'
 
 if (process.env.BROWSER) {
   require('./Timeline.css')
