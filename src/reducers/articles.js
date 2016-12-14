@@ -394,6 +394,33 @@ export function youtubePlaylist(state = {}, action = {}) {
   }
 }
 
+export function twitterTimeline(state = {}, action = {}) {
+  switch (action.type) {
+    case types.FETCH_TWITTER_TIMELINE_REQUEST:
+      return _.merge({}, state, {
+        isFetching: true,
+        url: action.url,
+        requestAt: action.requestAt
+      })
+    case types.FETCH_TWITTER_TIMELINE_SUCCESS:
+      let orig = _.values(state['items'])
+      let new_array = _.values(action)
+      return _.merge({}, state, {
+        isFetching: false,
+        items: orig.concat(new_array),
+        receivedAt: action.receivedAt
+      })
+    case types.FETCH_TWITTER_TIMELINE_FAILURE:
+      return _.merge({}, state, {
+        isFetching: false,
+        error: action.error,
+        failedAt: action.failedAt
+      })
+    default:
+      return state
+  }
+}
+
 export function featureArticles(state = {}, action = {})  {
   switch (action.type) {
     case types.FETCH_FEATURE_ARTICLES_REQUEST:

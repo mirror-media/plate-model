@@ -2,7 +2,7 @@
 import { DFPID, GAID, SECTION, SITE_META, SITE_NAME } from '../constants/index'
 import { connect } from 'react-redux'
 import { DFPSlotsProvider } from 'react-dfp'
-import { fetchIndexArticles, fetchTopics } from '../actions/articles'
+import { fetchIndexArticles, fetchTopics, fetchTwitterTimeline } from '../actions/articles'
 import { setPageType, setPageTitle } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
@@ -58,6 +58,9 @@ class Timeline extends Component {
 
     this.props.setPageType(SECTION)
     this.props.setPageTitle('', catName ? catName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL)
+
+    this.props.fetchTwitterTimeline()
+
   }
 
   componentWillUpdate(nextProps) {
@@ -145,7 +148,8 @@ class Timeline extends Component {
 function mapStateToProps(state) {
   return {
     sectionList: state.sectionList || {},
-    topics: state.topics || {}
+    topics: state.topics || {},
+    twitterTimeline: state.twitterTimeline || {}
   }
 }
 
@@ -154,4 +158,4 @@ Timeline.contextTypes = {
 }
 
 export { Timeline }
-export default connect(mapStateToProps, { fetchIndexArticles, fetchTopics, setPageType, setPageTitle })(Timeline)
+export default connect(mapStateToProps, { fetchIndexArticles, fetchTopics, setPageType, setPageTitle, fetchTwitterTimeline })(Timeline)
