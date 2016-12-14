@@ -241,6 +241,8 @@ body {
     padding: 5px 10px;
     color: #ffffff;
     border-radius: 5px; }
+    .button-set .button-container.share {
+      margin-left: 15px; }
 
 .shareToolBox {
   position: fixed;
@@ -260,6 +262,14 @@ body {
     -o-transform: rotateX(1440deg);
     -ms-transform: rotateX(1440deg); }
 
+@media only screen and (max-width: 300px) {
+  .button-set {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; }
+    .button-set .button-container.share {
+      margin-left: 0; } }
 @media only screen and (max-width: 767px) {
   body {
     min-width: 0; }
