@@ -1,0 +1,175 @@
+footer > figure {
+	margin: 0;
+}
+
+.section-footer {
+	display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+	display: flex;
+	flex-direction: column;
+	padding: 0 32px;
+}
+
+.section-footer--black {
+	background-color: #000;
+}
+
+.section-footer--black a {
+	color: rgba(255, 255, 255, .9);
+}
+
+.footer-logo {
+	-webkit-order: 1;
+	order: 1;
+	padding: 40px 0;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.footer-logo img {
+	height: 48px;
+}
+
+.footer-menu {
+	display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+	display: flex;
+	-webkit-order: 2;
+	order: 2;
+	flex-direction: column;
+	flex-wrap: wrap;
+	width: 100%;
+  height: 170px;
+  padding: 0 10px;
+}
+
+.footer-menu a {
+	font-size: 18px;
+	font-weight: 300;
+}
+
+.footer-menu__item {
+	width: calc(100%/3);
+	padding: 10px 0;
+}
+
+.footer-vertDivider {
+	display: none;
+	-webkit-order: 3;
+	order: 3;
+}
+
+.footer-subscrShare {
+	-webkit-order: 4;
+	order: 4;
+}
+
+.footer-subscrShare__subscribe {
+	padding: 35px 0;
+	font-size: 15px;
+	font-weight: 300;
+	text-align: center;
+	color: rgba(255, 255, 255, .5);
+}
+
+.footer-subscrShare__horizDivider {
+	width: 100%;
+	height: 1px;
+	margin: 0 auto;
+	border-bottom: 1px solid rgba(255, 255, 255, .5);
+}
+
+.footer-subscrShare__share {
+	display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+	display: flex;
+	justify-content: space-around;
+	padding: 25px 4em;
+}
+
+.footerFull-icon.facebook,
+.footerFull-icon.line,
+.footerFull-icon.weibo { 
+	height: 20px;
+	vertical-align: middle; 
+}
+
+/* for Monitor */
+@media only screen 
+	and (min-width: 992px) {
+		.section-footer {
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: space-around;
+			padding: 40px 95px;
+		}
+
+		.footer-logo {
+			padding: 32.5px 0;
+			margin: 0 ;
+			margin-right: 95px;
+		}
+
+		.footer-menu {
+			width: 445px;
+			min-width: 445px;
+			height: 117px;
+		}
+
+		.footer-menu a {
+			font-size: 15px;
+		}
+
+		.footer-menu__item {
+			width: 25%;
+		}
+
+		.footer-vertDivider {
+			display: initial;
+			width: 1px;
+			height: inherit;
+			background-color: rgba(255, 255, 255, .5);
+		}
+
+		.footer-subscrShare__horizDivider {
+			display: none;
+		}
+
+		.footer-subscrShare {
+			width: 180px;
+		}
+
+		.footer-subscrShare__subscribe {
+			padding: 25px 0;
+			margin: 0 auto;
+		}
+
+		.footer-subscrShare__share {
+			padding: 0;
+		}
+}
+
+/* for Tablet */
+@media only screen 
+	and (min-device-width: 768px) 
+	and (max-device-width: 991px) {
+}
+
+/* for Small Monitor */
+@media only screen 
+	and (min-width: 992px) 
+	and (max-width:1199px) {
+		
+}
+
+/* for Large Monitor */
+@media only screen 
+	and (min-width: 1200px) {
+		
+}

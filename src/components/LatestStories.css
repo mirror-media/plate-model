@@ -1,0 +1,106 @@
+#latestStories {
+	padding: 35px 32px; 
+}
+
+#latestStories .post-block {
+	padding: 20px 0;
+}
+
+.story-container {
+	width: 100%;
+}
+ 
+.story-container .story-img {
+	width: 100vw;
+	height: calc(100vw * 2/3);
+  margin: 0 -32px;
+}
+
+.story-title {
+	padding: 13px 0 0;
+}
+
+.story-title h2 {
+	font-size: 22px;
+}
+
+.story-brief {
+	display: none;
+}
+
+.story-meta {
+	display: table;
+	width: 100%;
+	padding: 1em 0 30px;
+}
+
+.story-author {
+	height: auto;
+	display: table-cell;
+	font-size: 13px;
+	font-weight: 700;
+	color: rgba(0,0,0,.8);
+}
+
+.story-date {
+	height: auto;
+	display: table-cell;
+	text-align: right;
+	color: rgba(0,0,0,.5);
+}
+
+.story-brief {
+	display: none;
+}
+
+/* for Monitor */
+@media only screen  
+	and (min-width: 992px) {
+		#latestStories {
+			padding: 40px 40px 0; 
+		}
+
+		#latestStories .section-title {
+			padding-bottom: 35px;
+		}
+
+		#latestStories .post-block {
+			padding: 0 0 70px;
+		}
+
+		.story-container {
+			width: 640px;
+			padding-bottom: 25px;
+		}
+
+		.story-container > a {
+			display: inline-block;
+			width: 280px;
+		}
+
+		.story-container .story-img {
+			margin: 0;
+			width: 280px;
+			height: 205px;
+		}
+
+		.story-container .story-content {
+			display: inline-block;
+			vertical-align: top;
+			padding-left: 25px;
+			width: 360px;
+		}
+
+		.story-title {
+			padding: 0;
+		}
+
+		.story-meta {
+			width: 100%;
+			padding: 25px 0;
+		}
+
+		.story-brief {
+			display: initial;
+		}
+}
