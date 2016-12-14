@@ -11,5 +11,6 @@ export {
     loadQuestionnaire as questionnaire,
     loadSearch as search,
     loadSectionList as sectionlist,
-    loadTopicList as topics
+    loadTopicList as topics,
+    loadTwitterTimeline as twitter
 } from './loadArticles'

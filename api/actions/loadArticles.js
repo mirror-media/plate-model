@@ -5,6 +5,7 @@ import superAgent from 'superagent'
 import config from '../config'
 import constants from '../constants'
 import querystring from 'qs'
+import Twitter from 'twitter'
 
 function rewriteAliasUrl(query, content) {
   const { API_PROTOCOL, API_PORT, API_HOST, WHERE_REWRITE } = config
@@ -77,6 +78,23 @@ export function loadPlaylist(req) {
           resolve(res.body)
         }
       })
+  })
+}
+
+export function loadTwitterTimeline(req) {
+  return new Promise((resolve, reject) => {
+    const query = req.query
+    const { TWITTER_API } = config
+    let client = new Twitter(TWITTER_API)
+
+    client.get('statuses/user_timeline', query, function (err, res) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(res)
+      }
+    })
+
   })
 }
 
