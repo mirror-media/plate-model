@@ -64,16 +64,18 @@
     z-index: 99;
   }
 }
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 400px){
   .leading-container {
     min-height: 200px;
   }
-}@media screen and (max-width: 500px) {
+}
+@media screen and (max-width: 550px) and (min-width: 401px) {
   .leading-container {
-    min-height: 300px;
+    min-height: 250px;
   }
-}@media screen and (max-width: 600px) {
+}
+@media screen and (max-width: 700px) and (min-width: 551px) {
   .leading-container {
-    min-height: 400px;
+    min-height: 350px;
   }
 }

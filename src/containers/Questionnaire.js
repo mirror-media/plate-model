@@ -320,12 +320,12 @@ class Questionnaire extends Component {
                                 <Button value="再玩一次" />
                               </div>　
                               { (questionnaireType === 'quiz') ? (
-                                <div className="button-container" onClick={ this._checkAnsClick } style={{ cursor: 'pointer' }} >
+                                <div className="button-container" onClick={ this._checkAnsClick } style={{ cursor: 'pointer', marginBottom: '20px' }} >
                                   <div className="check" style={ { backgroundImage: 'url(/asset/icon02_1.svg)' } }></div>
                                   <Button value="看答案" />
                                 </div>
                               ) : (<div style={{ display: 'inline-block' }}></div>) }
-                              <div className="button-container share" onClick={ this._shareResultClick } style={{ cursor: 'pointer', marginLeft: '15px' }}>
+                              <div className="button-container share" onClick={ this._shareResultClick } style={{ cursor: 'pointer' }}>
                                 <Button value="分享結果" />
                               </div>
                             </div>
