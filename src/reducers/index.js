@@ -14,6 +14,7 @@ import {
   sectionList,
   topic,
   topics,
+  twitterTimeline,
   youtubePlaylist
 } from './articles'
 import { categories, tags } from './groups'
@@ -105,6 +106,7 @@ const rootReducer = combineReducers({
   tags,
   topic,
   topics,
+  twitterTimeline,
   youtubePlaylist
 })
 

@@ -338,6 +338,30 @@ function failToReceiveYoutubePlaylist(error) {
   }
 }
 
+function requestTwitterTimeline(url) {
+  return {
+    type: types.FETCH_TWITTER_TIMELINE_REQUEST,
+    url,
+    requestAt: Date.now()
+  }
+}
+
+function receiveTwitterTimeline(response) {
+  return {
+    type: types.FETCH_TWITTER_TIMELINE_SUCCESS,
+    response,
+    receivedAt: Date.now()
+  }
+}
+
+function failToReceiveTwitterTimeline(error) {
+  return {
+    type: types.FETCH_TWITTER_TIMELINE_FAILURE,
+    error,
+    failedAt: Date.now()
+  }
+}
+
 function _buildQuery(params = {}) {
   let query = {}
   let whitelist = [ 'where', 'embedded', 'max_results', 'page', 'sort' ]
@@ -445,6 +469,19 @@ export function fetchYoutubePlaylist(limit = 10, pageToken = '') {
         dispatch(receiveYoutubePlaylist(response))
       }, (error) => {
         dispatch(failToReceiveYoutubePlaylist(error))
+      })
+  }
+}
+
+export function fetchTwitterTimeline(screen_name = 'MirrorWatchTW', count = 10) {
+  let url = formatUrl('twitter?screen_name=' + screen_name + '&count=' + count)
+  return (dispatch) => {
+    dispatch(requestTwitterTimeline(url))
+    return _fetchArticles(url)
+      .then((response) => {
+        dispatch(receiveTwitterTimeline(response))
+      }, (error) => {
+        dispatch(failToReceiveTwitterTimeline(error))
       })
   }
 }
