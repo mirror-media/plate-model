@@ -133,20 +133,37 @@ server.get('*', async function (req, res) {
         let canonical = SITE_META.URL + getCurrentUrl().substr(1)
         let desc = SITE_META.DESC
         let ogType = 'website'
+
+        /* Sections */
         if ( _.includes(getCurrentUrl(), 'section') ) {
           let sectionName = _.get(getCurrentUrl().split('/'), '2')
           let sectionList = _.get(pageState, [ 'sectionList', 'response', 'sections' ], [])
           let section = _.find(sectionList, { name: sectionName } )
           desc = _.get(section, 'description', desc)
+          if ( !section ) {
+            res.status(404).render('404')
+          }
         }
-
+        /* Categories */
+        if ( _.includes(getCurrentUrl(), 'category') ) {
+          let categoryName = _.get(getCurrentUrl().split('/'), '2')
+          let category = _.get(pageState, [ 'sectionList', 'response', 'categories', categoryName ])
+          if ( !category && categoryName != 'videohub' && categoryName != 'audio' ) {
+            res.status(404).render('404')
+          }
+        }
+        /* Topics */
         if ( _.includes(getCurrentUrl(), 'topic') ) {
           let topicId = _.get(getCurrentUrl().split('/'), '2')
+          let topic = _.get(pageState, [ 'entities', 'topics', topicId ])
           title = _.get(pageState, [ 'entities', 'topics', topicId, 'ogTitle' ]) ? _.get(pageState, [ 'entities', 'topics', topicId, 'ogTitle' ]) + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL
           desc = _.get(pageState, [ 'entities', 'topics', topicId, 'ogDescription' ], SITE_META.DESC)
           ogImage = _.get(pageState, [ 'topics', 'items', topicId, 'ogImage', 'image', 'resizedTargets', 'desktop', 'url' ]) ? _.get(pageState, [ 'topics', 'items', topicId, 'ogImage', 'image', 'resizedTargets', 'desktop', 'url' ]) : _.get(pageState, [ 'topics', 'items', topicId, 'heroImage', 'image', 'resizedTargets', 'desktop', 'url' ], SITE_META.LOGO)
+          if ( !topic ) {
+            res.status(404).render('404')
+          }
         }
-
+        /* Questionnaire */
         if ( _.includes(getCurrentUrl(), '/q/') ) {
           let resultIdForOg = _.get(getCurrentUrl().split('/'), '3')
           const setting = _.get(pageState, [ 'questSetting', 'setting' ])
