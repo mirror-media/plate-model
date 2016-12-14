@@ -64,8 +64,16 @@
     z-index: 99;
   }
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 400px) {
   .leading-container {
     min-height: 200px;
+  }
+}@media screen and (max-width: 500px) {
+  .leading-container {
+    min-height: 300px;
+  }
+}@media screen and (max-width: 600px) {
+  .leading-container {
+    min-height: 400px;
   }
 }
