@@ -1,0 +1,148 @@
+#HeaderBlack {
+	opacity: 0;
+}
+
+.HeaderFull {
+	height: 55px;
+}
+
+.HeaderFull a {
+	cursor: pointer;
+}
+
+.HeaderFull.ui.menu.fixed.top {
+	background-color: transparent;
+	border: none;
+	border-radius: 0 !important;
+	box-shadow: none;
+}
+
+.HeaderFull.ui.menu.fixed.top.black {
+	background-color: #000;
+	z-index: 100;
+}
+
+.HeaderFull.ui.menu.fixed.top .item {
+	height: 55px;
+}
+
+.HeaderFull .ui.borderless.menu {
+	border: none;
+	border-radius: 0 !important;
+	background-color: transparent;
+	box-shadow: none;
+}
+
+.HeaderFull .left.item {
+	position: absolute;
+	padding: 9px 25px;
+}
+
+.HeaderFull .left.item a {
+	line-height: 0.9 !important;
+}
+
+.HeaderFull .item.logo {
+	position: absolute;
+	top: 7.5px;
+	left: 50%;
+	transform: translate(-50%, 0);
+	height: 40px !important;
+	padding: 0;
+}
+
+.HeaderFull .item.logo a {
+	line-height: 0.9 !important;
+}
+
+.HeaderFull .item.logo img {
+	height: 40px;
+}
+
+.HeaderFull .right.item {
+	position: absolute;
+	right: 0;
+	padding: 16px 0;
+	padding-right: 25px;
+}
+
+.HeaderFull .right.item .desktop-only {
+	padding: 0 1.2em;
+}
+
+.desktop-only {
+	display: none;
+}
+
+.headerFull-icon.hamburger {
+	width: 30px;
+	height: 37px;
+}
+
+.headerFull-icon.facebook,
+.headerFull-icon.instagram,
+.headerFull-icon.line,
+.headerFull-icon.logo,
+.headerFull-icon.search,
+.headerFull-icon.weibo { 
+	height: 20px; 
+}
+
+/* for Monitor */
+
+@media only screen 
+	and (min-width: 992px) {
+		.HeaderFull {
+			height: 60px;
+		}
+
+		.HeaderFull.ui.menu.fixed.top .item {
+			height: 60px;
+		}
+
+		.HeaderFull .left.item {
+			top: 20px;
+			left: 25px;
+			height: 37px !important;
+			padding: 0;
+		}
+
+		#HeaderBlack .left.item {
+			top: 11.5px;
+		}
+
+		.HeaderFull .item.logo {
+			top: 22px;
+			height: 52px !important;
+		}
+
+		.HeaderFull .item.logo img {
+			height: 52px;
+		}
+
+		.HeaderFull .item.logo.logo--s {
+			top: 11.5px;
+			height: 37px !important;
+		}
+
+		.HeaderFull .item.logo.logo--s img {
+			height: 37px !important;
+		}
+
+		.HeaderFull .right.item {
+			top: 20px;
+			right: 30px;
+			height: 23px !important;
+			padding: 0
+		}
+
+		#HeaderBlack .right.item {
+			top: 18.5px;
+		}
+
+		.desktop-only {
+			display: block;
+		}
+		
+}
+
