@@ -33,7 +33,7 @@ export default class ChoicesFull extends Component {
         <div className="section-title">
           <h2>
             <div className="colorBlock"></div>
-            編輯精選 Editor's Picks
+            編輯精選 Editor\'s Picks
           </h2>
         </div>
         <div className="choice-post-block">
