@@ -144,7 +144,6 @@ class Section extends Component {
       }
     })
     //let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
-
     let featured = _.filter(entities.articles, (v,k)=>{ return _.indexOf(_.get(sectionFeatured, [ 'items', camelize(catId) ], []), k) > -1 })
 
     const section = _.get(params, 'section', null)
