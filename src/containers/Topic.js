@@ -1,7 +1,8 @@
 /* global __DEVELOPMENT__, addthis */
-import { SITE_META, SITE_NAME, GAID, TOPIC } from '../constants/index'
+import { DFPID, SITE_META, SITE_NAME, GAID, TOPIC } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
+import { DFPSlotsProvider, AdSlot } from 'react-dfp'
 import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchTopics, fetchImages } from '../actions/articles'
 import { setPageType, setPageTitle } from '../actions/header'
 import _ from 'lodash'
@@ -156,32 +157,41 @@ class Topic extends Component {
     }
 
     return (
-      <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionListResponse} topics={topics} pathName={location.pathname}/>
+      <DFPSlotsProvider dfpNetworkId={DFPID}>
+        <DocumentMeta {...meta}>
+          <Sidebar sectionList={sectionListResponse} topics={topics} pathName={location.pathname}/>
 
-        <div className="top">
-          <Header sectionList={sectionListResponse} topics={topics} pathName={location.pathname}/>
-          <div className="topic-title"><h2>Title Here</h2></div>
-          <Leading leading={ leading } mediaSource={ { 'images': images, 'heroImage': heroImage, 'heroVideo': heroVideo, 'flag' : 'topic' } } device={ this.context.device } />
-        </div>
+          <div className="top">
+            <Header sectionList={sectionListResponse} topics={topics} pathName={location.pathname}/>
+            <div className="topic-title"><h2>Title Here</h2></div>
+            <Leading leading={ leading } mediaSource={ { 'images': images, 'heroImage': heroImage, 'heroVideo': heroVideo, 'flag' : 'topic' } } device={ this.context.device } />
+          </div>
 
-        <div id="main" className="pusher middle">
-          <List
-            articles={ articles }
-            categories={ entities.categories }
-            title={ topicName }
-            hasMore={ _.get(articlesByUuids, [ topicId, 'hasMore' ])}
-            loadMore={ this.loadMore }
-            pathName={this.props.location.pathname}
-          />
-          { this.props.children }
-          <Footer sectionList={ sectionListResponse } />
-        </div>
+          <div id="main" className="pusher middle">
+            <List
+              articles={ articles }
+              categories={ entities.categories }
+              title={ topicName }
+              hasMore={ _.get(articlesByUuids, [ topicId, 'hasMore' ])}
+              loadMore={ this.loadMore }
+              pathName={this.props.location.pathname}
+            />
+            { this.props.children }
+            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px', textAlign: 'center' } }>
+              <AdSlot sizes={ [ [ 970, 90 ], [ 970, 250 ], [ 320, 100 ], [ 300, 250 ], [ 320, 480 ] ] }
+                dfpNetworkId={DFPID}
+                slotId={ _.get(topics, [ 'items', topicUUID, 'dfp' ], '') }
+                adUnit={ _.get(topics, [ 'items', topicUUID, 'dfp' ], '') }
+              />
+            </div>
+            <Footer sectionList={ sectionListResponse } />
+          </div>
 
-        <style dangerouslySetInnerHTML={ { __html: _.get(topics, [ 'items', topicUUID, 'style' ], '') } } />
-        <script dangerouslySetInnerHTML={ { __html: _.get(topics, [ 'items', topicUUID, 'javascript' ], '') } } />
-        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-582e858f529d0edb"></script>
-      </DocumentMeta>
+          <style dangerouslySetInnerHTML={ { __html: _.get(topics, [ 'items', topicUUID, 'style' ], '') } } />
+          <script dangerouslySetInnerHTML={ { __html: _.get(topics, [ 'items', topicUUID, 'javascript' ], '') } } />
+          <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-582e858f529d0edb"></script>
+        </DocumentMeta>
+      </DFPSlotsProvider>
     )
   }
 }
