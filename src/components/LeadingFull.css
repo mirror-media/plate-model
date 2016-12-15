@@ -23,9 +23,9 @@ section {
 
 .post-block {
 	display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
 	display: flex;
 	flex-wrap: wrap;
 	width: 100%;
@@ -64,9 +64,9 @@ section {
 	font-size: 16px;
 	line-height: 1.5;
 	letter-spacing: .6px;
-  color: rgba(0,0,0,.7);
-  text-overflow: ellipsis;
-  text-align: justify;
+	color: rgba(0,0,0,.7);
+	text-overflow: ellipsis;
+	text-align: justify;
 }
 
 .post.dfp {
@@ -78,10 +78,10 @@ section {
 
 .post-container h2 {
 	font-size: 24px;
-  font-weight: 700;
-  line-height: 1.5;
-  letter-spacing: .5px;
-  color: rgba(0,0,0,.8);
+	font-weight: 700;
+	line-height: 1.5;
+	letter-spacing: .5px;
+	color: rgba(0,0,0,.8);
 }
 
 .post-container .brief {
@@ -89,9 +89,9 @@ section {
 	font-size: 17px;
 	line-height: 1.5;
 	letter-spacing: .9px;
-  color: rgba(0,0,0,.7);
-  text-overflow: ellipsis;
-  text-align: justify;
+	color: rgba(0,0,0,.7);
+	text-overflow: ellipsis;
+	text-align: justify;
 }
 
 .related-post-block {
@@ -106,16 +106,16 @@ section {
 	display: inline-block;
 	width: 265px;
 	font-size: 22px;
-  font-weight: 700;
-  line-height: 1.5;
-  letter-spacing: .5px;
-  color: #222;
+	font-weight: 700;
+	line-height: 1.5;
+	letter-spacing: .5px;
+	color: #222;
 }
 
 .related-divider {
 	display: inline-block;
 	width: calc(100% - 265px);
-  border-bottom: 2px solid;
+	border-bottom: 2px solid;
 }
 
 .related-post {
@@ -210,7 +210,7 @@ section {
 		.related-post-block {
 			padding-left: 190px;
 			padding-bottom: 60px;
-    	padding-right: 340px;
+			padding-right: 340px;
 		}
 
 		.related-post-container {
@@ -262,7 +262,7 @@ section {
 		.related-post-block {
 			padding-left: 210px;
 			padding-bottom: 60px;
-    	padding-right: 340px;
+			padding-right: 340px;
 		}
 
 		.related-post-container {

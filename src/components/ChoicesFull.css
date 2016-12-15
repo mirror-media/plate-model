@@ -6,10 +6,10 @@
 .section-title h2 {
 	position: relative;
 	font-size: 22px;
-  font-weight: 700;
-  line-height: 1.5;
-  letter-spacing: .5px;
-  color: rgba(0,0,0,.8);
+	font-weight: 700;
+	line-height: 1.5;
+	letter-spacing: .5px;
+	color: rgba(0,0,0,.8);
 }
 
 .section-title .colorBlock {
@@ -42,9 +42,9 @@
 	font-size: 15px;
 	line-height: 1.5;
 	letter-spacing: .6px;
-  color: rgba(0,0,0,.7);
-  text-overflow: ellipsis;
-  text-align: justify;
+	color: rgba(0,0,0,.7);
+	text-overflow: ellipsis;
+	text-align: justify;
 }
 
 .choice.meta {

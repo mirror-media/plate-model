@@ -2,8 +2,8 @@
 import { Link } from 'react-router'
 // import { SOCIAL_LINK } from '../constants/index'
 import _ from 'lodash'
-import ga from 'react-ga'
 import React, { Component } from 'react'
+import ga from 'react-ga'
 
 if (process.env.BROWSER) {
   require('./SidebarFull.css')

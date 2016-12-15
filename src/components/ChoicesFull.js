@@ -1,9 +1,9 @@
 import { imageComposer } from '../utils/index'
 import _ from 'lodash'
+import React, { Component } from 'react'
 import dateformat from 'dateformat'
 import entities from 'entities'
 import ga from 'react-ga'
-import React, { Component } from 'react'
 import sanitizeHtml from 'sanitize-html'
 import truncate from 'truncate'
 
@@ -38,11 +38,11 @@ export default class ChoicesFull extends Component {
         </div>
         <div className="choice-post-block">
           { _.map(_.take(articles, 3), (a)=>{
+            let brief = sanitizeHtml( _.get(a, [ 'brief','html' ], ''), { allowedTags: [ ] })
+            let briefContent = (brief.length >0) ? brief : content
+            let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
             let image = imageComposer(a).mobileImage
             let linkStyle = (_.get(a, 'style', '') == 'projects') ? '/projects/' : '/story/'
-            let brief = sanitizeHtml( _.get(a, [ 'brief','html' ], ''), { allowedTags: [ ] })
-            let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
-            let briefContent = (brief.length >0) ? brief : content
             let writers = '文｜' + _.pluck(a.writers, 'name').join('、') + '｜'
 
             return (

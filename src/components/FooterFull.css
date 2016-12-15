@@ -4,9 +4,9 @@ footer > figure {
 
 .section-footer {
 	display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
 	display: flex;
 	flex-direction: column;
 	padding: 0 32px;
@@ -34,9 +34,9 @@ footer > figure {
 
 .footer-menu {
 	display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
 	display: flex;
 	-webkit-order: 2;
 	order: 2;
@@ -85,9 +85,9 @@ footer > figure {
 
 .footer-subscrShare__share {
 	display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
 	display: flex;
 	justify-content: space-around;
 	padding: 25px 4em;
@@ -153,23 +153,4 @@ footer > figure {
 		.footer-subscrShare__share {
 			padding: 0;
 		}
-}
-
-/* for Tablet */
-@media only screen 
-	and (min-device-width: 768px) 
-	and (max-device-width: 991px) {
-}
-
-/* for Small Monitor */
-@media only screen 
-	and (min-width: 992px) 
-	and (max-width:1199px) {
-		
-}
-
-/* for Large Monitor */
-@media only screen 
-	and (min-width: 1200px) {
-		
 }

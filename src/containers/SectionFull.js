@@ -1,20 +1,21 @@
 /* global __DEVELOPMENT__ */
-import { DFPID, GAID, SECTION, SITE_META, SITE_NAME } from '../constants/index'
 import { connect } from 'react-redux'
 import { camelize } from 'humps'
+import { DFPID, GAID, SECTION, SITE_META, SITE_NAME } from '../constants/index'
 import { DFPSlotsProvider } from 'react-dfp'
 import { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTopics } from '../actions/articles'
-import { setPageType, setPageTitle } from '../actions/header'
+import { setPageTitle, setPageType } from '../actions/header'
 import _ from 'lodash'
-import DocumentMeta from 'react-document-meta'
 import ChoicesFull from '../components/ChoicesFull'
+import DocumentMeta from 'react-document-meta'
 import FooterFull from '../components/FooterFull'
-import ga from 'react-ga'
 import HeaderFull from '../components/HeaderFull'
 import LatestStories from '../components/LatestStories'
 import LeadingFull from '../components/LeadingFull'
 import React, { Component } from 'react'
 import SidebarFull from '../components/SidebarFull'
+import ga from 'react-ga'
+
 
 if (process.env.BROWSER) {
   require('./SectionFull.css')
@@ -47,7 +48,7 @@ class Section extends Component {
   }
 
   componentWillMount() {
-    const { articlesByUuids, fetchArticlesByUuidIfNeeded, fetchIndexArticles, sectionList, topics, sectionFeatured } = this.props
+    const { articlesByUuids, fetchArticlesByUuidIfNeeded, fetchIndexArticles, sectionFeatured, sectionList, topics } = this.props
     let catId = this.state.catId
 
     //TODO: We should not get all the keys
@@ -130,7 +131,7 @@ class Section extends Component {
   }
 
   render() {
-    const { articlesByUuids, entities, sectionFeatured, params, sectionList, location } = this.props
+    const { articlesByUuids, entities, location, params, sectionFeatured, sectionList } = this.props
     const catId = _.get(params, 'section')
     const sectionLogo = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'logo' ], null)
     const customCSS = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'css' ], null)
@@ -193,8 +194,8 @@ function mapStateToProps(state) {
   return {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
-    sectionList: state.sectionList || {},
     sectionFeatured: state.sectionFeatured || {},
+    sectionList: state.sectionList || {},
     topics: state.topics || {}
   }
 }
@@ -204,4 +205,4 @@ Section.contextTypes = {
 }
 
 export { Section }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTopics, setPageType, setPageTitle })(Section)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTopics, setPageTitle, setPageType })(Section)

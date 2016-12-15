@@ -1,8 +1,8 @@
 /* global $ */
 import { Link } from 'react-router'
 import { SOCIAL_LINK } from '../constants/index'
-import ga from 'react-ga'
 import React, { Component } from 'react'
+import ga from 'react-ga'
 
 if (process.env.BROWSER) {
   require('./HeaderFull.css')
