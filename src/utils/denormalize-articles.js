@@ -12,7 +12,7 @@ function getArticleFieldToEntity() {
     field: 'photographers',
     entity: 'authors'
   }, {
-    field: 'writters',
+    field: 'writers',
     entity: 'authors'
   }, {
     field: 'relateds',
@@ -50,7 +50,6 @@ export function denormalizeArticles(ids = [], entities = {}) {
   // extract entities articles need
   const { articles } = entities
   const fieldToEntity = getArticleFieldToEntity()
-
   ids = Array.isArray(ids) ? ids : [ ids ]
   ids.forEach((id) => {
     if (articles.hasOwnProperty(id)) {

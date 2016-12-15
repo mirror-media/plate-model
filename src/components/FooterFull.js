@@ -32,9 +32,11 @@ export default class FooterFull extends Component {
 
     return (
       <footer className="section-footer section-footer--black">
-        <figure className="footer-logo" >
-          <img className="" src={ '/asset/icon/section-' + currentSection + '_s.png' } />
-        </figure>
+        <Link to={ '/section/' + currentSection } >
+          <figure className="footer-logo" >
+          <img className="" src={ '/asset/icon/section-' + 'watch' + '_s.png' } />
+          </figure>
+        </Link>
         <div className="footer-menu">
           { _.map(footerMenu.sections, (s)=>{
             return (

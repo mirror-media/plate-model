@@ -14,11 +14,10 @@ article.define({
   designers: arrayOf(author),
   engineers: arrayOf(author),
   photographers: arrayOf(author),
-  writers: arrayOf(author),
+  writters: arrayOf(author),
   sections: arrayOf(section),
   tags: arrayOf(tag),
-  topics: topic,
-  relateds: arrayOf(article)
+  topics: topic
 })
 
 export { article }

@@ -119,15 +119,47 @@ section {
 }
 
 .related-post {
-	margin-top: 23px;
+	padding: 23px 0;
+}
+
+.related-post__title {
+	margin-bottom: 15px;
+	font-size: 18px;
+	font-weight: 700;
+	color: #222;
 }
 
 .related-post__img {
 	display: inline-block;
+	height: 70px;
+	width: 70px;
+	margin: 0;
 }
 
 .related-post__content {
 	display: inline-block;
+	width: calc(100% - 70px);
+	padding-left: 15px;
+	vertical-align: top;
+}
+
+.related-post__brief {
+	display: none;
+}
+
+.related-post__author {
+	display: inline-block;
+	font-size: 12px;
+	font-weight: 700;
+	color: #222;
+}
+
+.related-post__date {
+	display: inline-block;
+	float: right;
+	font-size: 12px;
+	font-weight: 700;
+	color: #999;
 }
 
 /* for Monitor */
@@ -184,6 +216,35 @@ section {
 		.related-post-container {
 			width: 450px;
 			margin: 0 auto;
+		}
+
+		.related-post__img {
+			height: 140px;
+			width: 140px;
+		}
+
+		.related-post__content {
+			width: calc(100% - 140px);
+		}
+
+		.related-post__title {
+			margin-bottom: 10px;
+		}
+
+		.related-post__brief {
+			display: block;
+			margin-bottom: 27px;
+			font-size: 15px;
+			color: #222;
+		}
+
+		.related-post__author {
+			display: block;
+		}
+
+		.related-post__date {
+			display: block;
+			float: left;
 		}
 }
 
