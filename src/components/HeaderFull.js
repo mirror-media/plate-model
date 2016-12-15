@@ -52,26 +52,22 @@ export default class HeaderFull extends Component {
   _openSearchbar() {
     $('.ui.top.sidebar')
       .sidebar({
-        dimPage: false,
         exclusive: true,
         scrollLock: true,
         transition: 'overlay',
         mobileTransition: 'overlay'
       }).sidebar('toggle')
-    $('#curtain').show()
   }
 
   _openSidebar() {
     // console.log('open sidebar')
     $('.ui.left.sidebar')
       .sidebar({
-        dimPage: false,
         exclusive: true,
         scrollLock: true,
         transition: 'overlay',
         mobileTransition: 'overlay'
       }).sidebar('toggle')
-    $('#curtain').show()
   }
 
   render() {
@@ -88,7 +84,7 @@ export default class HeaderFull extends Component {
           </div>
           <div className="item logo">
             <Link to={ '/section/' + currentSection } >
-              <img src={ '/asset/icon/section-' + currentSection + '_b.png' } />
+              <img src={ '/asset/icon/section-' + 'watch' + '_b.png' } />
             </Link>
           </div>
           <div className="right item">
@@ -117,7 +113,7 @@ export default class HeaderFull extends Component {
             </div>
             <div className="item logo logo--s">
               <Link to={ '/section/' + currentSection } >
-                <img src={ '/asset/icon/section-' + currentSection + '_s.png' } />
+                <img src={ '/asset/icon/section-' + 'watch' + '_s.png' } />
               </Link>
             </div>
             <div className="right item">

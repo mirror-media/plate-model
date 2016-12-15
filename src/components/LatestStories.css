@@ -6,50 +6,51 @@
 	padding: 20px 0;
 }
 
-.story-container {
+.latestStories-divider {
+	display: none;
+}
+
+.latestStories-story {
 	width: 100%;
 }
  
-.story-container .story-img {
+.latestStories-story__img {
 	width: 100vw;
 	height: calc(100vw * 2/3);
   margin: 0 -32px;
 }
 
-.story-title {
+.latestStories-story__title {
 	padding: 13px 0 0;
 }
 
-.story-title h2 {
+.latestStories-story__title h2 {
 	font-size: 22px;
 }
 
-.story-brief {
+.latestStories-story__brief {
 	display: none;
 }
 
-.story-meta {
-	display: table;
-	width: 100%;
+.latestStories-story__meta {
 	padding: 1em 0 30px;
 }
 
-.story-author {
-	height: auto;
-	display: table-cell;
+.latestStories-story__author {
+	display: inline-block;
 	font-size: 13px;
 	font-weight: 700;
 	color: rgba(0,0,0,.8);
 }
 
-.story-date {
-	height: auto;
-	display: table-cell;
-	text-align: right;
+.latestStories-story__date {
+	display: inline-block;
+	margin-left: 2px;
+	text-align: left;
 	color: rgba(0,0,0,.5);
 }
 
-.story-brief {
+.latestStories-story__brief {
 	display: none;
 }
 
@@ -68,39 +69,75 @@
 			padding: 0 0 70px;
 		}
 
-		.story-container {
-			width: 640px;
-			padding-bottom: 25px;
+		.latestStories-container {
+			width: calc(100% - 380px);
 		}
 
-		.story-container > a {
+		.latestStories-container div:first-child .latestStories-divider {
+			display: none;
+		}
+
+		.latestStories-divider {
+			display: block;
+			height: 1px;
+			margin: 25px 0;
+			background-color: #ccc;
+		}
+		
+		.latestStories-story {
+			width: 100%;
+		}
+
+		.latestStories-story > a {
 			display: inline-block;
 			width: 280px;
 		}
 
-		.story-container .story-img {
+		.latestStories-story__img {
 			margin: 0;
 			width: 280px;
 			height: 205px;
 		}
 
-		.story-container .story-content {
+		.latestStories-story__content {
 			display: inline-block;
 			vertical-align: top;
 			padding-left: 25px;
-			width: 360px;
+			width: calc(100% - 305px);
 		}
 
-		.story-title {
+		.latestStories-story__title {
 			padding: 0;
 		}
 
-		.story-meta {
+		.latestStories-story__meta {
 			width: 100%;
 			padding: 25px 0;
+			font-size: 13px;
+			font-weight: 700;
 		}
 
-		.story-brief {
+		.latestStories-story__brief {
 			display: initial;
+			font-size: 17px;
+			color: #444;
+		}
+}
+
+/* for Large Monitor */
+@media only screen 
+	and (min-width: 1200px) {
+		.latestStories-story > a {
+			width: 380px;
+		}
+
+		.latestStories-story__img {
+			margin: 0;
+			width: 380px;
+			height: 280px;
+		}
+
+		.latestStories-story__content {
+			width: calc(100% - 405px);
 		}
 }

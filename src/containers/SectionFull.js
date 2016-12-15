@@ -2,9 +2,8 @@
 import { DFPID, GAID, SECTION, SITE_META, SITE_NAME } from '../constants/index'
 import { connect } from 'react-redux'
 import { camelize } from 'humps'
-import { denormalizeArticles } from '../utils/index'
 import { DFPSlotsProvider } from 'react-dfp'
-import { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchEvent, fetchTopics } from '../actions/articles'
+import { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTopics } from '../actions/articles'
 import { setPageType, setPageTitle } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
@@ -58,16 +57,6 @@ class Section extends Component {
       fetchIndexArticles([ 'sections', 'sectionfeatured' ])
     }
 
-    const section = _.get(this.props.params, 'section', null)
-    const sectionID = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'id' ], null)
-
-    this.props.fetchEvent({
-      max_results: 1,
-      where: {
-        sections: sectionID
-      }
-    })
-
     if ( !_.get(topics, 'fetched', undefined) ) {
       this.props.fetchTopics()
     }
@@ -99,18 +88,10 @@ class Section extends Component {
   componentWillUpdate(nextProps) {
     const section = _.get(nextProps.params, 'section', null)
     const catName = _.get( _.find( _.get(nextProps.sectionList, [ 'response', 'sections' ]), { name: section }), [ 'title' ], null)
-    const sectionID = _.get( _.find( _.get(nextProps.sectionList, [ 'response', 'sections' ]), { name: section }), [ 'id' ], null)
 
     if (nextProps.location.pathname !== this.props.location.pathname) {
       if(section != null) ga.set( { 'contentGroup1': catName } )
       ga.pageview(nextProps.location.pathname)
-
-      this.props.fetchEvent({
-        max_results: 1,
-        where: {
-          sections: sectionID
-        }
-      })
     }
 
   }
@@ -151,8 +132,19 @@ class Section extends Component {
   render() {
     const { articlesByUuids, entities, sectionFeatured, params, sectionList, location } = this.props
     const catId = _.get(params, 'section')
+    const sectionLogo = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'logo' ], null)
+    const customCSS = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'css' ], null)
+    const customJS = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'javascript' ], null)
 
-    let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
+    let ids = _.get(articlesByUuids, [ catId, 'items' ], [])
+    let articles = []
+    ids.forEach((id) => {
+      if (entities.articles.hasOwnProperty(id)) {
+        articles.push(entities.articles[id])
+      }
+    })
+    //let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
+
     let featured = _.filter(entities.articles, (v,k)=>{ return _.indexOf(_.get(sectionFeatured, [ 'items', camelize(catId) ], []), k) > -1 })
 
     const section = _.get(params, 'section', null)
@@ -172,26 +164,25 @@ class Section extends Component {
       <DFPSlotsProvider dfpNetworkId={DFPID}>
         <DocumentMeta {...meta}>
           <SidebarFull pathName={location.pathname} sectionList={sectionList.response}/>
-          <HeaderFull pathName={location.pathname} />
-            <LeadingFull 
-              articles={articles}
-              pathName={location.pathname}
-              section={section}
-              title={catName} />
-            <ChoicesFull 
-              articles={featured}
-              authors={entities.authors}
-              categories={entities.categories} />
-            <LatestStories
-              articles={articles}
-              authors={entities.authors}
-              categories={entities.categories}
-              section={section}
-              title={catName}
-              hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
-              loadMore={this.loadMore}
-              pathName={this.props.location.pathname} />
-            <FooterFull pathName={location.pathname} sectionList={sectionList.response} />
+          <HeaderFull pathName={location.pathname} sectionLogo={sectionLogo}/>
+          <LeadingFull 
+            articles={articles}
+            pathName={location.pathname}
+            section={section}
+            title={catName} />
+          <ChoicesFull 
+            articles={featured}
+            authors={entities.authors}
+            categories={entities.categories}
+            pathName={location.pathname} />
+          <LatestStories
+            articles={articles}
+            hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
+            loadMore={this.loadMore}
+            pathName={location.pathname} />
+          <FooterFull pathName={location.pathname} sectionList={sectionList.response} sectionLogo={sectionLogo}/>
+          <style dangerouslySetInnerHTML={ { __html: customCSS } } />
+          <script dangerouslySetInnerHTML={ { __html: customJS } } />
         </DocumentMeta>
       </DFPSlotsProvider>
     )
@@ -202,7 +193,6 @@ function mapStateToProps(state) {
   return {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
-    event: state.event || {},
     sectionList: state.sectionList || {},
     sectionFeatured: state.sectionFeatured || {},
     topics: state.topics || {}
@@ -214,4 +204,4 @@ Section.contextTypes = {
 }
 
 export { Section }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchEvent, fetchIndexArticles, fetchTopics, setPageType, setPageTitle })(Section)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTopics, setPageType, setPageTitle })(Section)
