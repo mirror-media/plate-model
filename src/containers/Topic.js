@@ -178,7 +178,7 @@ class Topic extends Component {
             />
             { this.props.children }
             <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px', textAlign: 'center' } }>
-              <AdSlot sizes={ [ [ 970, 90 ] ] }
+              <AdSlot sizes={ [ [ 970, 90 ], [ 970, 250 ], [ 320, 100 ], [ 300, 250 ], [ 320, 480 ] ] }
                 dfpNetworkId={DFPID}
                 slotId={ _.get(topics, [ 'items', topicUUID, 'dfp' ], '') }
                 adUnit={ _.get(topics, [ 'items', topicUUID, 'dfp' ], '') }
