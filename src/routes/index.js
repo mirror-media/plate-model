@@ -1,15 +1,16 @@
-import React from 'react'
-import { Router, Route, IndexRoute, browserHistory } from 'react-router'
-
 import App from '../containers/App'
 import Category from '../containers/Category'
 import Home from '../containers/Home'
+import Questionnaire from '../containers/Questionnaire'
+import React from 'react'
 import Search from '../containers/Search'
 import Section from '../containers/Section'
+// import SectionFull from '../containers/SectionFull'
 import Tag from '../containers/Tag'
 import Timeline from '../containers/Timeline'
 import Topic from '../containers/Topic'
-import Questionnaire from '../containers/Questionnaire'
+
+import { browserHistory, IndexRoute, Route, Router } from 'react-router'
 
 export default function (history = browserHistory) {
   return (
