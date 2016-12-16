@@ -1,21 +1,28 @@
 /* global __DEVELOPMENT__ */
 import { AD_UNIT_PREFIX, DFPID, GAID, SECTION, SITE_META, SITE_NAME } from '../constants/index'
+import { AdSlot, DFPSlotsProvider } from 'react-dfp'
 import { connect } from 'react-redux'
 import { camelize } from 'humps'
 import { denormalizeArticles } from '../utils/index'
-import { DFPSlotsProvider, AdSlot } from 'react-dfp'
-import { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchEvent, fetchTopics } from '../actions/articles'
-import { setPageType, setPageTitle } from '../actions/header'
+import { fetchArticlesByUuidIfNeeded, fetchEvent, fetchIndexArticles, fetchTopics } from '../actions/articles'
+import { setPageTitle, setPageType } from '../actions/header'
 import _ from 'lodash'
+import ChoicesFull from '../components/ChoicesFull'
 import DocumentMeta from 'react-document-meta'
 import Featured from '../components/Featured'
 import Footer from '../components/Footer'
-import ga from 'react-ga'
+import FooterFull from '../components/FooterFull'
 import Header from '../components/Header'
+import HeaderFull from '../components/HeaderFull'
+import LatestStories from '../components/LatestStories'
 import Leading from '../components/Leading'
+import LeadingFull from '../components/LeadingFull'
 import List from '../components/List'
 import React, { Component } from 'react'
 import Sidebar from '../components/Sidebar'
+import SidebarFull from '../components/SidebarFull'
+import ga from 'react-ga'
+
 
 if (process.env.BROWSER) {
   require('./Section.css')
@@ -155,13 +162,15 @@ class Section extends Component {
   }
 
   render() {
-    const { articlesByUuids, entities, sectionFeatured, params, sectionList, topics, location } = this.props
+    const { articlesByUuids, entities, location, params, sectionFeatured, sectionList, topics } = this.props
     const catId = _.get(params, 'section')
 
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
     let featured = _.filter(entities.articles, (v,k)=>{ return _.indexOf(_.get(sectionFeatured, [ 'items', camelize(catId) ], []), k) > -1 })
 
     const section = _.get(params, 'section', null)
+    const sectionLogo = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'logo' ], null)
+    const sectionStyle = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'style' ], null)
     const catName = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'title' ], null)
     const catDesc = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'description' ], null)
     const customCSS = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'css' ], null)
@@ -182,86 +191,114 @@ class Section extends Component {
     // const isFeatured = _.get(event, [ 'isFeatured' ])
     const video = _.get(event, [ 'video' ] )
 
+    if (sectionStyle == 'feature') {
+      return (
+        <DFPSlotsProvider dfpNetworkId={DFPID}>
+          <DocumentMeta {...meta}>
+            <Sidebar sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
+            <Header sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
 
-    return (
-      <DFPSlotsProvider dfpNetworkId={DFPID}>
-        <DocumentMeta {...meta}>
-          <Sidebar sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
-          <Header sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
+            <div id="main" className="pusher">
+              <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px', textAlign: 'center' } }>
+                <AdSlot sizes={ [ [ 970, 90 ],  [ 970, 250 ] ] }
+                  dfpNetworkId={DFPID}
+                  slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x250_HD' }
+                  adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x250_HD' }
+                  sizeMapping={
+                    [
+                      { viewport: [   0,   0 ], sizes: [ ] },
+                      { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ] ]  }
+                    ]
+                  }
+                />
+              </div>
+              <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px', textAlign: 'center' } }>
+                <AdSlot sizes={ [ [ 300, 250 ], [ 320, 100 ] ] }
+                  dfpNetworkId={DFPID}
+                  slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_300x250_HD' }
+                  adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_300x250_HD' }
+                  sizeMapping={
+                    [
+                      { viewport: [   1,   1 ], sizes: [ [ 300, 250 ], [ 320, 100 ] ] },
+                      { viewport: [ 970, 200 ], sizes: [ ]  }
+                    ]
+                  }
+                />
+              </div>
+              <Leading leading={ eventType } mediaSource={ { 'heroImage': image, 'heroVideo': video, 'embed': embed, 'eventPeriod': eventPeriod, 'flag': 'event', 'isFeatured': true } } device={ this.context.device }  pathName={location.pathname}/>
+              <Featured articles={featured} categories={entities.categories} />
+              <List
+                articles={articles}
+                categories={entities.categories}
+                section={section}
+                title={catName}
+                hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
+                loadMore={this.loadMore}
+                pathName={this.props.location.pathname}
+              />
+              {this.props.children}
 
-          <div id="main" className="pusher">
-            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px', textAlign: 'center' } }>
-              <AdSlot sizes={ [ [ 970, 90 ],  [ 970, 250 ] ] }
-                dfpNetworkId={DFPID}
-                slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x250_HD' }
-                adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x250_HD' }
-                sizeMapping={
-                  [
-                    { viewport: [   0,   0 ], sizes: [ ] },
-                    { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ] ]  }
-                  ]
-                }
-              />
+              <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px', textAlign: 'center' } }>
+                <AdSlot sizes={ [ [ 970, 90 ] ] }
+                  dfpNetworkId={DFPID}
+                  slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x90_FT' }
+                  adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x90_FT' }
+                  sizeMapping={
+                    [
+                      { viewport: [   0,   0 ], sizes: [ ] },
+                      { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
+                    ]
+                  }
+                />
+              </div>
+              <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px', textAlign: 'center' } }>
+                <AdSlot sizes={ [ [ 320, 100 ] ] }
+                  dfpNetworkId={DFPID}
+                  slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_320x100_FT' }
+                  adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_320x100_FT' }
+                  sizeMapping={
+                    [
+                      { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
+                      { viewport: [ 970, 200 ], sizes: [ ]  }
+                    ]
+                  }
+                />
+              </div>
+              <Footer sectionList={sectionList.response} />
             </div>
-            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px', textAlign: 'center' } }>
-              <AdSlot sizes={ [ [ 300, 250 ], [ 320, 100 ] ] }
-                dfpNetworkId={DFPID}
-                slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_300x250_HD' }
-                adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_300x250_HD' }
-                sizeMapping={
-                  [
-                    { viewport: [   1,   1 ], sizes: [ [ 300, 250 ], [ 320, 100 ] ] },
-                    { viewport: [ 970, 200 ], sizes: [ ]  }
-                  ]
-                }
-              />
-            </div>
-            <Leading leading={ eventType } mediaSource={ { 'heroImage': image, 'heroVideo': video, 'embed': embed, 'eventPeriod': eventPeriod, 'flag': 'event', 'isFeatured': true } } device={ this.context.device }  pathName={location.pathname}/>
-            <Featured articles={featured} categories={entities.categories} />
-            <List
+            <style dangerouslySetInnerHTML={ { __html: customCSS } } />
+            <script dangerouslySetInnerHTML={ { __html: customJS } } />
+          </DocumentMeta>
+        </DFPSlotsProvider>
+      )
+    } else {
+      return (
+        <DFPSlotsProvider dfpNetworkId={DFPID}>
+          <DocumentMeta {...meta}>
+            <SidebarFull pathName={location.pathname} sectionList={sectionList.response}/>
+            <HeaderFull pathName={location.pathname} sectionLogo={sectionLogo}/>
+            <LeadingFull 
               articles={articles}
-              categories={entities.categories}
+              pathName={location.pathname}
               section={section}
-              title={catName}
+              title={catName} />
+            <ChoicesFull 
+              articles={featured}
+              authors={entities.authors}
+              categories={entities.categories}
+              pathName={location.pathname} />
+            <LatestStories
+              articles={articles}
               hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
               loadMore={this.loadMore}
-              pathName={this.props.location.pathname}
-            />
-            {this.props.children}
-
-            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px', textAlign: 'center' } }>
-              <AdSlot sizes={ [ [ 970, 90 ] ] }
-                dfpNetworkId={DFPID}
-                slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x90_FT' }
-                adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x90_FT' }
-                sizeMapping={
-                  [
-                    { viewport: [   0,   0 ], sizes: [ ] },
-                    { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
-                  ]
-                }
-              />
-            </div>
-            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px', textAlign: 'center' } }>
-              <AdSlot sizes={ [ [ 320, 100 ] ] }
-                dfpNetworkId={DFPID}
-                slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_320x100_FT' }
-                adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_320x100_FT' }
-                sizeMapping={
-                  [
-                    { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
-                    { viewport: [ 970, 200 ], sizes: [ ]  }
-                  ]
-                }
-              />
-            </div>
-            <Footer sectionList={sectionList.response} />
-          </div>
-          <style dangerouslySetInnerHTML={ { __html: customCSS } } />
-          <script dangerouslySetInnerHTML={ { __html: customJS } } />
-        </DocumentMeta>
-      </DFPSlotsProvider>
-    )
+              pathName={location.pathname} />
+            <FooterFull pathName={location.pathname} sectionList={sectionList.response} sectionLogo={sectionLogo}/>
+            <style dangerouslySetInnerHTML={ { __html: customCSS } } />
+            <script dangerouslySetInnerHTML={ { __html: customJS } } />
+          </DocumentMeta>
+        </DFPSlotsProvider>
+      )
+    }
   }
 }
 
@@ -270,8 +307,8 @@ function mapStateToProps(state) {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
     event: state.event || {},
-    sectionList: state.sectionList || {},
     sectionFeatured: state.sectionFeatured || {},
+    sectionList: state.sectionList || {},
     topics: state.topics || {}
   }
 }
