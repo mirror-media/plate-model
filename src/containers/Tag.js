@@ -103,6 +103,12 @@ class Tag extends Component {
     let itemSize = _.get(articlesByTag, 'items.length', 0)
     let page = Math.floor(itemSize / MAXRESULT) + 1
 
+    ga.event({
+      category: 'tag',
+      action: 'click',
+      label: 'loadMore'
+    })
+
     fetchArticlesByUuidIfNeeded(tagId, TAG, {
       page: page,
       max_results: MAXRESULT
