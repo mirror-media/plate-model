@@ -15,8 +15,7 @@ article.define({
   photographers: arrayOf(author),
   sections: arrayOf(section),
   tags: arrayOf(tag),
-  topics: topic,
-  writers: arrayOf(author)
+  topics: topic
 })
 
 export { article }
