@@ -37,6 +37,7 @@ class Topic extends Component {
   constructor(props) {
     super(props)
     this.loadMore = this._loadMore.bind(this)
+    this.renderAdSlot = this._renderAdSlot.bind(this)
   }
 
   componentDidMount() {
@@ -138,6 +139,61 @@ class Topic extends Component {
     })
   }
 
+  _renderAdSlot() {
+    const { topics, params } = this.props
+    const topicId = _.get(params, 'topicId')
+    const topicUUID = _.get(_.find( _.get(topics, 'items', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'id')
+
+    let dfpCode = _.get(topics, [ 'items', topicUUID, 'dfp' ], '')
+    let dfpMobileCode = _.get(topics, [ 'items', topicUUID, 'mobilDfp' ], '')
+
+    let desktopSize = [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]
+    let mobileSize = [ [ 320, 100 ], [ 300, 250 ] ]
+
+    if ( dfpCode == dfpMobileCode ) {
+      return (
+        <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px', textAlign: 'center' } }>
+          <AdSlot sizes={ _.union(desktopSize, mobileSize) }
+            dfpNetworkId={DFPID}
+            slotId={'topic_dfp'}
+            adUnit={ dfpCode }
+          />
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px', textAlign: 'center' } }>
+            <AdSlot sizes={ desktopSize }
+              dfpNetworkId={DFPID}
+              slotId={'topic_desktop_dfp'}
+              adUnit={ _.get(topics, [ 'items', topicUUID, 'dfp' ], '') }
+              sizeMapping={
+                [
+                  { viewport: [   0,   0 ], sizes: [ ] },
+                  { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
+                ]
+              }
+            />
+          </div>
+          <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px', textAlign: 'center' } }>
+            <AdSlot sizes={ mobileSize }
+              dfpNetworkId={DFPID}
+              slotId={'topic_mobile_dfp'}
+              adUnit={ _.get(topics, [ 'items', topicUUID, 'mobil_dfp' ], '') }
+              sizeMapping={
+                [
+                  { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
+                  { viewport: [ 970, 200 ], sizes: [ ]  }
+                ]
+              }
+            />
+          </div>
+        </div>
+      )
+    }
+  }
+
   render() {
     const { articlesByUuids, entities, params, sectionList, topics, location } = this.props
     const images  = _.get(this.props.images, [ 'items', 'items' ])
@@ -184,32 +240,7 @@ class Topic extends Component {
               pathName={this.props.location.pathname}
             />
             { this.props.children }
-            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px', textAlign: 'center' } }>
-              <AdSlot sizes={ [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ] }
-                dfpNetworkId={DFPID}
-                slotId={ _.get(topics, [ 'items', topicUUID, 'dfp' ], '') }
-                adUnit={ _.get(topics, [ 'items', topicUUID, 'dfp' ], '') }
-                sizeMapping={
-                  [
-                    { viewport: [   0,   0 ], sizes: [ ] },
-                    { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
-                  ]
-                }
-              />
-            </div>
-            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px', textAlign: 'center' } }>
-              <AdSlot sizes={ [ [ 320, 100 ], [ 300, 250 ] ] }
-                dfpNetworkId={DFPID}
-                slotId={ _.get(topics, [ 'items', topicUUID, 'mobil_dfp' ], '') }
-                adUnit={ _.get(topics, [ 'items', topicUUID, 'mobil_dfp' ], '') }
-                sizeMapping={
-                  [
-                    { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
-                    { viewport: [ 970, 200 ], sizes: [ ]  }
-                  ]
-                }
-              />
-            </div>
+            { this.renderAdSlot() }
             <Footer sectionList={ sectionListResponse } />
           </div>
 
