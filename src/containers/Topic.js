@@ -178,10 +178,29 @@ class Topic extends Component {
             />
             { this.props.children }
             <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px', textAlign: 'center' } }>
-              <AdSlot sizes={ [ [ 970, 90 ], [ 970, 250 ], [ 320, 100 ], [ 300, 250 ], [ 320, 480 ] ] }
+              <AdSlot sizes={ [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ] }
                 dfpNetworkId={DFPID}
                 slotId={ _.get(topics, [ 'items', topicUUID, 'dfp' ], '') }
                 adUnit={ _.get(topics, [ 'items', topicUUID, 'dfp' ], '') }
+                sizeMapping={
+                  [
+                    { viewport: [   0,   0 ], sizes: [ ] },
+                    { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
+                  ]
+                }
+              />
+            </div>
+            <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px', textAlign: 'center' } }>
+              <AdSlot sizes={ [ [ 320, 100 ], [ 300, 250 ] ] }
+                dfpNetworkId={DFPID}
+                slotId={ _.get(topics, [ 'items', topicUUID, 'mobil_dfp' ], '') }
+                adUnit={ _.get(topics, [ 'items', topicUUID, 'mobil_dfp' ], '') }
+                sizeMapping={
+                  [
+                    { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
+                    { viewport: [ 970, 200 ], sizes: [ ]  }
+                  ]
+                }
               />
             </div>
             <Footer sectionList={ sectionListResponse } />
