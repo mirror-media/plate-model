@@ -145,13 +145,13 @@ class Topic extends Component {
     const topicUUID = _.get(_.find( _.get(topics, 'items', {}), function (o) { return o.name == topicId || o.id == topicId } ), 'id')
 
     let dfpCode = _.get(topics, [ 'items', topicUUID, 'dfp' ], '')
-    let dfpMobileCode = _.get(topics, [ 'items', topicUUID, 'mobilDfp' ], '')
+    let dfpMobileCode = _.get(topics, [ 'items', topicUUID, 'mobileDfp' ], '')
 
     let desktopSize = [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]
     let mobileSize = [ [ 320, 100 ], [ 300, 250 ] ]
 
     if ( dfpCode == dfpMobileCode ) {
-      return (
+      return ( dfpCode != '' ) ? (
         <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px', textAlign: 'center' } }>
           <AdSlot sizes={ _.union(desktopSize, mobileSize) }
             dfpNetworkId={DFPID}
@@ -159,7 +159,7 @@ class Topic extends Component {
             adUnit={ dfpCode }
           />
         </div>
-      )
+      ) : null
     } else {
       return (
         <div>
