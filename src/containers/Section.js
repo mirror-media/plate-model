@@ -1,6 +1,6 @@
 /* global __DEVELOPMENT__ */
 import { AD_UNIT_PREFIX, DFPID, GAID, SECTION, SITE_META, SITE_NAME } from '../constants/index'
-import { DFPSlotsProvider, AdSlot } from 'react-dfp'
+import { AdSlot, DFPSlotsProvider } from 'react-dfp'
 import { connect } from 'react-redux'
 import { camelize } from 'humps'
 import { denormalizeArticles } from '../utils/index'
@@ -307,8 +307,8 @@ function mapStateToProps(state) {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
     event: state.event || {},
-    sectionList: state.sectionList || {},
     sectionFeatured: state.sectionFeatured || {},
+    sectionList: state.sectionList || {},
     topics: state.topics || {}
   }
 }
