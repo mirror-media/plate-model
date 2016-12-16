@@ -5,7 +5,6 @@ import Questionnaire from '../containers/Questionnaire'
 import React from 'react'
 import Search from '../containers/Search'
 import Section from '../containers/Section'
-import SectionFull from '../containers/SectionFull'
 import Tag from '../containers/Tag'
 import Timeline from '../containers/Timeline'
 import Topic from '../containers/Topic'
@@ -20,7 +19,6 @@ export default function (history = browserHistory) {
         <Route path="category/:category" component={Category}/>
         <Route path="search/:keyword" component={Search} />
         <Route path="section/:section" component={Section}/>
-        <Route path="sectionFull/:section" component={SectionFull}/>
         <Route path="tag/:tagId" component={Tag} />
         <Route path="topic/:topicId" component={Topic} />
         <Route path="timeline" component={Timeline}/>
