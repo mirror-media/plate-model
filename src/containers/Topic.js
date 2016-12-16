@@ -108,6 +108,7 @@ class Topic extends Component {
       page: PAGE,
       max_results: MAXRESULT
     })
+
     this.setState({
       topicId: nextProps.params.topicId
     })
@@ -128,6 +129,12 @@ class Topic extends Component {
     fetchArticlesByUuidIfNeeded(topicId, TOPIC, {
       page: page,
       max_results: MAXRESULT
+    })
+
+    ga.event({
+      category: 'topic',
+      action: 'click',
+      label: 'loadMore'
     })
   }
 

@@ -119,9 +119,16 @@ class Home extends Component {
       sort: '-publishedDate'
     })
 
+    ga.event({
+      category: 'home',
+      action: 'click',
+      label: 'loadMore'
+    })
+
     this.setState({
       page: page + 1
     })
+
   }
 
   render() {

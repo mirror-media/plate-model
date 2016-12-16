@@ -158,10 +158,21 @@ class Category extends Component {
       page: page,
       max_results: MAXRESULT
     })
+
+    ga.event({
+      category: 'category',
+      action: 'click',
+      label: 'loadMore'
+    })
   }
 
   _loadMoreVideo() {
     this.props.fetchYoutubePlaylist(MAXRESULT, this.props.youtubePlaylist.nextPageToken)
+    ga.event({
+      category: 'category',
+      action: 'click',
+      label: 'loadMore'
+    })
   }
 
   _loadMoreAudio() {
@@ -169,6 +180,11 @@ class Category extends Component {
     this.props.fetchAudios({
       page: Math.floor( _.get(audios, [ 'items', 'length' ], 0) / MAXRESULT ) + 1, 
       max_results: MAXRESULT
+    })
+    ga.event({
+      category: 'category',
+      action: 'click',
+      label: 'loadMore'
     })
   }
 

@@ -146,6 +146,12 @@ class Section extends Component {
       page: page,
       max_results: MAXRESULT
     })
+
+    ga.event({
+      category: 'section',
+      action: 'click',
+      label: 'loadMore'
+    })
   }
 
   render() {

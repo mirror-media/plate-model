@@ -97,6 +97,12 @@ class Search extends Component {
       return
     })
 
+    ga.event({
+      category: 'search',
+      action: 'click',
+      label: 'loadMore'
+    })
+
     this.setState({
       nlength: length
     })
