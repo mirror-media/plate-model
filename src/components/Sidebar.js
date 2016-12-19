@@ -1,5 +1,4 @@
 /* global $ */
-import { Link } from 'react-router'
 import { SOCIAL_LINK } from '../constants/index'
 import _ from 'lodash'
 import ga from 'react-ga'
@@ -91,17 +90,17 @@ export default class Sidebar extends Component {
           <div className="ui borderless vertical menu" style={{ marginLeft: '40px', marginTop: '70px !important', background: 'transparent', border: 'none', boxShadow: 'none' }}>
             { _.map(itemsForHeader.topics, (i)=>{
               return (
-                <Link to={'/topic/' + i.id} key={i.id} className="item" onClick={ this._handleClick } style={{ color: '#FFF', marginBottom: '30px', fontWeight: 'normal !important' }}>{i.name}</Link>
+                <a href={'/topic/' + i.id} key={i.id} className="item" onClick={ this._handleClick } style={{ color: '#FFF', marginBottom: '30px', fontWeight: 'normal !important' }}>{i.name}</a>
               )
             })}
             { _.map(itemsForHeader.sections, (i)=>{
               return (
-                <Link to={'/section/' + i.name} key={i.id} className="item" onClick={ this._handleClick } style={{ color: '#FFF', marginBottom: '30px', fontWeight: 'normal !important' }}>{i.title}</Link>
+                <a href={'/section/' + i.name} key={i.id} className="item" onClick={ this._handleClick } style={{ color: '#FFF', marginBottom: '30px', fontWeight: 'normal !important' }}>{i.title}</a>
               )
             })}
             { _.map(itemsForHeader.categories, (i)=>{
               return (
-                <Link to={'/category/' + i.name} key={i.id} className="item" onClick={ this._handleClick } style={{ color: '#FFF', marginBottom: '30px', fontWeight: 'normal !important' }}>{i.title}</Link>
+                <a href={'/category/' + i.name} key={i.id} className="item" onClick={ this._handleClick } style={{ color: '#FFF', marginBottom: '30px', fontWeight: 'normal !important' }}>{i.title}</a>
               )
             })}
           </div>
