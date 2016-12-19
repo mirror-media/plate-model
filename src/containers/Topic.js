@@ -51,13 +51,15 @@ class Topic extends Component {
     this.props.setPageType(TOPIC)
     this.props.setPageTitle('', topicName ? topicName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL)
 
-    addthis.addEventListener('addthis.menu.share', function () {
-      ga.event({
-        category: 'topic',
-        action: 'click',
-        label: 'social-share addthis'
+    if(addthis) {
+      addthis.addEventListener('addthis.menu.share', function () {
+        ga.event({
+          category: 'topic',
+          action: 'click',
+          label: 'social-share addthis'
+        })
       })
-    })
+    }
   }
 
   componentWillMount() {
