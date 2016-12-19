@@ -67,8 +67,8 @@ export default class LatestArticles extends Component {
             let brief = sanitizeHtml( _.get(a, [ 'brief','html' ], ''), { allowedTags: [ ] })
             let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
             let briefContent = (brief.length >0) ? brief : content
-
-            let writers = '文｜' + _.map(a.writers, 'name').join('、')
+            
+            let writers = '文｜' + _.map(a.writers, (n)=> { return _.get(authors, [ n, 'name' ], null) } ).join('、')
             let photographers = ' 攝影｜' + _.map(a.photographers, (n)=>{ return _.get(authors, [ n, 'name' ], null) }).join('、')
             let designers = ' 設計｜' + _.map(a.designers, (n)=>{ return _.get(authors, [ n, 'name' ], null) }).join('、')
             let engineers = ' 工程｜' + _.map(a.engineers, (n)=>{ return _.get(authors, [ n, 'name' ], null) }).join('、')
@@ -111,7 +111,7 @@ export default class LatestArticles extends Component {
             let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
             let briefContent = (brief.length >0) ? brief : content
 
-            let writers = '文｜' + _.map(a.writers, 'name').join('、')
+            let writers = '文｜' + _.map(a.writers, (n)=> { return _.get(authors, [ n, 'name' ], null) } ).join('、')
             let photographers = ' 攝影｜' + _.map(a.photographers, (n)=>{ return _.get(authors, [ n, 'name' ], null) }).join('、')
             let designers = ' 設計｜' + _.map(a.designers, (n)=>{ return _.get(authors, [ n, 'name' ], null) }).join('、')
             let engineers = ' 工程｜' + _.map(a.engineers, (n)=>{ return _.get(authors, [ n, 'name' ], null) }).join('、')
