@@ -145,13 +145,13 @@ server.get('*', async function (req, res) {
           }
         }
         /* Categories */
-        if ( _.includes(getCurrentUrl(), 'category') ) {
-          let categoryName = _.get(getCurrentUrl().split('/'), '2')
-          let category = _.get(pageState, [ 'sectionList', 'response', 'categories', categoryName ])
-          if ( !category && categoryName != 'videohub' && categoryName != 'audio' ) {
-            res.status(404).render('404')
-          }
-        }
+        // if ( _.includes(getCurrentUrl(), 'category') ) {
+        //   let categoryName = _.get(getCurrentUrl().split('/'), '2')
+        //   let category = _.get(pageState, [ 'sectionList', 'response', 'categories', categoryName ])
+        //   if ( !category && categoryName != 'videohub' && categoryName != 'audio' ) {
+        //     res.status(404).render('404')
+        //   }
+        // }
         /* Topics */
         if ( _.includes(getCurrentUrl(), 'topic') ) {
           let topicId = _.get(getCurrentUrl().split('/'), '2')
