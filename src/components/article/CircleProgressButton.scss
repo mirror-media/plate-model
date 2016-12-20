@@ -2,6 +2,7 @@
 @import '../../themes/font-mixins.scss';
 
 $red: $harley-davidson-orange;
+$blue: #004ea2;
 .progress-button {
   bottom: 0;
   cursor: pointer;
@@ -15,7 +16,7 @@ $red: $harley-davidson-orange;
 
   button {
     position: absolute;
-    border: 2px solid $red;
+    border: 2px solid $blue;
     border-radius: 40px;
     background: transparent;
   }
@@ -29,7 +30,7 @@ $red: $harley-davidson-orange;
 
     circle {
       fill: none;
-      stroke: $red;
+      stroke: $blue;
       stroke-width: 2;
     }
   }

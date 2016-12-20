@@ -1,0 +1,72 @@
+@import '~bootstrap-sass/assets/stylesheets/bootstrap/variables';
+@import '../../themes/common-variables.scss';
+@import '../../themes/media-queries.scss';
+@import '../../themes/font-mixins.scss';
+
+// mobile
+.video-container {
+  $speed: .5s;
+	position: relative;
+
+  background-color: $white;
+
+  &.mobile {
+    width: 100%;
+  }
+
+  .video-info-container {
+    position: relative;
+    padding: rem(28px) rem(6px) rem(24px) rem(6px);
+
+    h4 {
+      font-size: rem(20px);
+      line-height: 1.5;
+      font-weight: $font-weight-bold;
+      margin-bottom: rem(24px);
+    }
+
+    .html {
+      p, div, span {
+        font-size: rem(15px);
+        line-height: 1.5;
+        color: $gray-50;
+      }
+    }
+
+    // without cover photo
+    &.without-cp {
+      .progress-bt {
+        position: relative;
+        display: inline-block;
+        margin-right: rem(16px);
+        vertical-align: top;
+      }
+
+      h4 {
+        margin: 0;
+      }
+
+      span {
+        font-size: rem(12px);
+      }
+    }
+  }
+}
+
+// tablet
+@include mq($min-width: $screen-sm-min, $max-width: $screen-sm-max) {
+  .video-container {
+    .video-info-container {
+      padding: rem(24px) rem(24px) rem(24px) rem(24px);
+    }
+  }
+}
+
+// desktop. wait for spec
+@include mq($min-width: $screen-md-min) {
+  .video-container {
+    .video-info-container {
+      padding: rem(24px) rem(24px) rem(24px) rem(24px);
+    }
+  }
+}

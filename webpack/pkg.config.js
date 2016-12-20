@@ -29,7 +29,15 @@ module.exports = {
         loader: ExtractTextPlugin.extract('style-loader', 'css-loader', 'postcss-loader'),
       },
       { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml" },
+      { test: /\.png(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/png+xml" },
     ],
+  },
+  resolve: {
+    modulesDirectories: [
+      'src',
+      'node_modules'
+    ],
+    extensions: ['', '.json', '.js', '.jsx']
   },
   postcss: [autoprefixer({ browsers: ['> 1%'] })],
   plugins: [
