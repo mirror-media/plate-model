@@ -9,8 +9,9 @@ import React from 'react' // eslint-disable-line
 import Slider from 'rc-slider'
 import classNames from 'classnames'
 import commonStyles from './Common.scss'
-import playIcon from '../../../static/asset/audio-play.svg'
-import pauseIcon from '../../../static/asset/audio-pause.svg'
+import playIcon from '../../../static/asset/play-btn-2x.png'
+import pauseIcon from '../../../static/asset/pause-btn-2x.png'
+import audioIcon from '../../../static/asset/audio-2x.png'
 import raf from 'raf' // requestAnimationFrame polyfill
 import styles from './Audio.scss'
 
@@ -221,7 +222,7 @@ class Audio extends React.Component {
             max={duration}
           />
           <div className={classNames(styles['audio-info-container'], styles['without-cp'])}>
-            <div className={styles['progress-bt']} style={{ width: btRadius * 2, height: btRadius * 2 }}>
+            <div className={styles['progress-bt']} style={{ width: btRadius * 2, height: btRadius * 2, backgroundImage: 'url(' + audioIcon + ')' }}>
               { isPlaying ? <img onClick={this.handleToggle} src={pauseIcon} /> : <img onClick={this.handleToggle} src={playIcon} /> }
             </div>
             <div style={{ display: 'inline-block' }}>

@@ -1,9 +1,9 @@
 /*eslint no-console:0*/
 'use strict'
 import classNames from 'classnames'
-import defaultIcon from '../../../static/asset/play-icon.svg'
-import playIcon from '../../../static/asset/audio-play.svg'
-import pauseIcon from '../../../static/asset/audio-pause.svg'
+import defaultIcon from '../../../static/asset/play-btn-2x.png'
+import playIcon from '../../../static/asset/play-btn-2x.png'
+import pauseIcon from '../../../static/asset/pause-btn-2x.png'
 import styles from './CircleProgressButton.scss'
 import React, { Component } from 'react'
 
