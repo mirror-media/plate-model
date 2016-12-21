@@ -178,7 +178,7 @@ class Category extends Component {
   _loadMoreAudio() {
     const { audios } = this.props
     this.props.fetchAudios({
-      page: Math.floor( _.get(audios, [ 'items', 'length' ], 0) / MAXRESULT ) + 1, 
+      page: Math.floor( _.get(audios, [ 'items', 'length' ], 0) / MAXRESULT ) + 1,
       max_results: MAXRESULT
     })
     ga.event({
@@ -195,7 +195,7 @@ class Category extends Component {
     const sectionName = _.get(section, 'name', '')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
     const category = _.get(params, 'category', null)
-    const catName = _.get(sectionList.response, [ 'categories', category, 'title' ], null)
+    const catName = _.get(sectionList.response, [ 'categories', category, 'title' ],  _.get(_.find(_.get(entities, [ 'categories' ]), { name: catId }), [ 'title' ], null))
 
     switch (catId) {
       case 'videohub':
@@ -332,12 +332,12 @@ Category.contextTypes = {
 }
 
 export { Category }
-export default connect(mapStateToProps, { 
-  fetchArticlesByUuidIfNeeded, 
-  fetchIndexArticles, 
-  fetchYoutubePlaylist, 
-  fetchTopics, 
-  fetchAudios, 
+export default connect(mapStateToProps, {
+  fetchArticlesByUuidIfNeeded,
+  fetchIndexArticles,
+  fetchYoutubePlaylist,
+  fetchTopics,
+  fetchAudios,
   setPageType,
-  setPageTitle 
+  setPageTitle
 })(Category)
