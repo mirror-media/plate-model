@@ -153,7 +153,8 @@ class Section extends Component {
     let itemSize = _.get(articlesByCat, 'items.length', 0)
     let page = Math.floor(itemSize / MAXRESULT) + 1
 
-    fetchArticlesByUuidIfNeeded(catId, SECTION, { related: 'full' }, {
+    fetchArticlesByUuidIfNeeded(catId, SECTION, {
+      related: 'full',
       page: page,
       max_results: MAXRESULT
     })
@@ -199,8 +200,8 @@ class Section extends Component {
         return (
           <DFPSlotsProvider dfpNetworkId={DFPID}>
             <DocumentMeta {...meta}>
-              <Sidebar sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
-              <Header sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
+              <Sidebar pathName={location.pathname} sectionList={sectionList.response} topics={topics}/>
+              <Header pathName={location.pathname} sectionList={sectionList.response} topics={topics}/>
 
               <div id="main" className="pusher">
                 <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '970px', textAlign: 'center' } }>
@@ -229,16 +230,16 @@ class Section extends Component {
                     }
                   />
                 </div>
-                <Leading leading={ eventType } mediaSource={ { 'heroImage': image, 'heroVideo': video, 'embed': embed, 'eventPeriod': eventPeriod, 'flag': 'event', 'isFeatured': true } } device={ this.context.device }  pathName={location.pathname}/>
+                <Leading device={ this.context.device } leading={ eventType } mediaSource={ { 'heroImage': image, 'heroVideo': video, 'embed': embed, 'eventPeriod': eventPeriod, 'flag': 'event', 'isFeatured': true } } pathName={location.pathname}/>
                 <Featured articles={featured} categories={entities.categories} />
                 <List
                   articles={articles}
                   categories={entities.categories}
-                  section={section}
-                  title={catName}
                   hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
                   loadMore={this.loadMore}
                   pathName={this.props.location.pathname}
+                  section={section}
+                  title={catName}
                 />
                 {this.props.children}
 
