@@ -23,7 +23,6 @@ import Sidebar from '../components/Sidebar'
 import SidebarFull from '../components/SidebarFull'
 import ga from 'react-ga'
 
-
 if (process.env.BROWSER) {
   require('./Section.css')
 }
@@ -57,7 +56,7 @@ class Section extends Component {
   }
 
   componentWillMount() {
-    const { articlesByUuids, fetchArticlesByUuidIfNeeded, fetchIndexArticles, sectionList, topics, sectionFeatured } = this.props
+    const { articlesByUuids, fetchArticlesByUuidIfNeeded, fetchIndexArticles, sectionFeatured, sectionList, topics } = this.props
     let catId = this.state.catId
 
     //TODO: We should not get all the keys
@@ -169,12 +168,11 @@ class Section extends Component {
   render() {
     const { articlesByUuids, entities, location, params, sectionFeatured, sectionList, topics } = this.props
     const catId = _.get(params, 'section')
-
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
     let featured = _.filter(entities.articles, (v,k)=>{ return _.indexOf(_.get(sectionFeatured, [ 'items', camelize(catId) ], []), k) > -1 })
 
     const section = _.get(params, 'section', null)
-    const sectionLogo = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'logo' ], null)
+    const sectionLogo = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'image' ], null)
     const sectionStyle = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'style' ], null)
     const catName = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'title' ], null)
     const catDesc = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'description' ], null)
