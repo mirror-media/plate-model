@@ -15,9 +15,6 @@ function getArticleFieldToEntity() {
     field: 'writers',
     entity: 'authors'
   }, {
-    field: 'relateds',
-    entity: 'articles'
-  }, {
     field: 'tags',
     entity: 'tags'
   }, {
@@ -67,7 +64,6 @@ export function shallowDenormalizeArticles(ids = [], entities = {}) {
   let denormalizedArticles = []
   // extract entities articles need
   const { articles } = entities
-
   ids = Array.isArray(ids) ? ids : [ ids ]
   ids.forEach((id) => {
     if (articles.hasOwnProperty(id)) {

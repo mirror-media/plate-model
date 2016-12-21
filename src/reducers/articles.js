@@ -55,13 +55,11 @@ function articles(state = {}, action = {}) {
 
       // dedup items
       items = _.uniq(items.concat(_.get(action, 'response.result')))
-
       if (items.length >= total) {
         hasMore = false
       } else {
         hasMore = true
       }
-
       return _.merge({}, state, {
         [ id ]: {
           isFetching: false,
