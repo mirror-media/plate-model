@@ -82,7 +82,7 @@ export default class LeadingFull extends Component {
                       let content = sanitizeHtml( _.get(r, [ 'content','html' ], ''), { allowedTags: [ ] })
                       let briefContent = (brief.length >0) ? brief : content
                       let writers = '文｜' + _.map(r.writers, 'name').join('、')
-
+                      
                       return (
                         <div className="related-post" key={ r.id} >
                           <a href={linkStyle+r.slug+'/'} onClick={ this._handleClick }>
