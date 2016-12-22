@@ -33,15 +33,9 @@ const PAGE = 1
 // english to chinese of category
 
 class Section extends Component {
-  static fetchData({ params, store }) {
+  static fetchData({ store }) {
     return store.dispatch(fetchIndexArticles([ 'sections', 'sectionfeatured' ]))
     .then(() => {
-      return store.dispatch(fetchArticlesByUuidIfNeeded(params.section, SECTION, {
-        related: 'full',
-        page: PAGE,
-        max_results: MAXRESULT
-      }))
-    }).then(() => {
       return store.dispatch( fetchTopics() )
     })
   }
@@ -58,7 +52,7 @@ class Section extends Component {
   componentWillMount() {
     const { articlesByUuids, fetchArticlesByUuidIfNeeded, fetchIndexArticles, sectionFeatured, sectionList, topics } = this.props
     let catId = this.state.catId
-
+    
     //TODO: We should not get all the keys
     let checkSectionList = _.get(sectionList, 'fetched', undefined)
     let checkSectionFeatured = _.get(sectionFeatured, 'fetched', undefined)
@@ -68,6 +62,7 @@ class Section extends Component {
 
     const section = _.get(this.props.params, 'section', null)
     const sectionID = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'id' ], null)
+    const sectionStyle = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'style' ], null)
 
     this.props.fetchEvent({
       max_results: 1,
@@ -84,13 +79,20 @@ class Section extends Component {
     if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0) {
       return
     }
-
-    fetchArticlesByUuidIfNeeded(catId, SECTION, {
-      related: 'full',
-      page: PAGE,
-      max_results: MAXRESULT
-    })
-
+    switch (sectionStyle) {
+      case 'feature':
+        fetchArticlesByUuidIfNeeded(catId, SECTION, {
+          page: PAGE,
+          max_results: MAXRESULT
+        })
+        break
+      case 'full':
+        fetchArticlesByUuidIfNeeded(catId, SECTION, {
+          related: 'full',
+          page: PAGE,
+          max_results: MAXRESULT
+        })
+    }
   }
 
   componentDidMount() {
@@ -125,24 +127,39 @@ class Section extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = nextProps
+    const { articlesByUuids, fetchArticlesByUuidIfNeeded, params, sectionList } = nextProps
     let catId = _.get(params, 'section')
+
+    const section = _.get(this.props.params, 'section', null)
+    const sectionStyle = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'style' ], null)
 
     // if fetched before, do nothing
     if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0) {
       return
     }
 
-    fetchArticlesByUuidIfNeeded(catId, SECTION, {
-      related: 'full',
-      page: PAGE,
-      max_results: MAXRESULT
-    })
+    switch (sectionStyle) {
+      case 'feature':
+        fetchArticlesByUuidIfNeeded(catId, SECTION, {
+          page: PAGE,
+          max_results: MAXRESULT
+        })
+        break
+      case 'full':
+        fetchArticlesByUuidIfNeeded(catId, SECTION, {
+          related: 'full',
+          page: PAGE,
+          max_results: MAXRESULT
+        })
+    }
   }
 
   _loadMore() {
-    const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = this.props
+    const { articlesByUuids, fetchArticlesByUuidIfNeeded, params, sectionList } = this.props
     let catId = _.get(params, 'section')
+
+    const section = _.get(this.props.params, 'section', null)
+    const sectionStyle = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'style' ], null)
 
     let articlesByCat = _.get(articlesByUuids, [ catId ], {})
     if (_.get(articlesByCat, 'hasMore') === false) {
@@ -152,11 +169,20 @@ class Section extends Component {
     let itemSize = _.get(articlesByCat, 'items.length', 0)
     let page = Math.floor(itemSize / MAXRESULT) + 1
 
-    fetchArticlesByUuidIfNeeded(catId, SECTION, {
-      related: 'full',
-      page: page,
-      max_results: MAXRESULT
-    })
+    switch (sectionStyle) {
+      case 'feature':
+        fetchArticlesByUuidIfNeeded(catId, SECTION, {
+          page: page,
+          max_results: MAXRESULT
+        })
+        break
+      case 'full':
+        fetchArticlesByUuidIfNeeded(catId, SECTION, {
+          related: 'full',
+          page: page,
+          max_results: MAXRESULT
+        })
+    }
 
     ga.event({
       category: 'section',
