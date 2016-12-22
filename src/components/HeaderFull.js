@@ -1,6 +1,7 @@
 /* global $ */
 import { Link } from 'react-router'
 import { SOCIAL_LINK } from '../constants/index'
+import _ from 'lodash'
 import React, { Component } from 'react'
 import ga from 'react-ga'
 
@@ -73,7 +74,7 @@ export default class HeaderFull extends Component {
   render() {
     const { pathName, sectionLogo } = this.props
     let currentSection = pathName.split('/')[2]
-    let logoUrl = sectionLogo.image.url
+    let logoUrl = _.get(sectionLogo, [ 'image', 'url' ]) ? _.get(sectionLogo, [ 'image', 'url' ]) : '/asset/icon/logo@3x.png'
     
     return (
       <header>

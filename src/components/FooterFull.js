@@ -15,7 +15,7 @@ export default class FooterFull extends Component {
   render() {
     const { pathName, sectionList, sectionLogo } = this.props
     let currentSection = pathName.split('/')[2]
-    let logoUrl = sectionLogo.image.url
+    let logoUrl = _.get(sectionLogo, [ 'image', 'url' ]) ? _.get(sectionLogo, [ 'image', 'url' ]) : '/asset/logo.png'
     let footerMenu = {}
     footerMenu.sections = []
     footerMenu.categories = []
