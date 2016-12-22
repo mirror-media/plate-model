@@ -1,10 +1,13 @@
 /*eslint no-unused-vars:0, no-console:0 */
 /* global __DEVELOPMENT__, $ */
 'use strict'
+import { GAID, QUESTIONNAIRE, SITE_META } from '../constants/index'
+import { connect } from 'react-redux'
+import { fetchQuestionnaire, goNextQuestion, passAnswer, resetQuestionnaire } from '../actions/questionnaire.js'
+import { setPageType, setPageTitle } from '../actions/header'
 import _ from 'lodash'
 import Button from '../components/questionnaire/Button'
 import DocumentMeta from 'react-document-meta'
-import ga from 'react-ga'
 import Leading from '../components/Leading'
 import Option from '../components/questionnaire/Option'
 import Question from '../components/questionnaire/Question'
@@ -13,10 +16,7 @@ import React, { Component } from 'react'
 import Result from '../components/questionnaire/Result'
 import Slider from 'react-slick'
 import WorkingProcessBar from '../components/questionnaire/WorkingProcessBar'
-import { connect } from 'react-redux'
-import { fetchQuestionnaire, goNextQuestion, passAnswer, resetQuestionnaire } from '../actions/questionnaire.js'
-import { GAID, QUESTIONNAIRE, SITE_META } from '../constants/index'
-import { setPageType, setPageTitle } from '../actions/header'
+import ga from 'react-ga'
 
 if (process.env.BROWSER) {
   require('./Questionnaire.css')
