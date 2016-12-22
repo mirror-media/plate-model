@@ -232,12 +232,10 @@ class Questionnaire extends Component {
       speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,
-      // autoplay: true,
-      // autoplaySpeed: 3000,
       cssEase: 'linear',
-      fade: (this.props.device === 'desktop') ? true : false,
-      draggable: (this.props.device === 'desktop' || questionnaireType !== 'quiz') ? false : true,
+      draggable: (questionnaireType !== 'quiz') ? false : true,
       swipeToSlide : (questionnaireType !== 'quiz') ? false : true,
+      touchMove : (questionnaireType !== 'quiz') ? false : true,
       prevArrow: <PrevArrow />,
       nextArrow: <NextArrow />
     }
@@ -309,7 +307,9 @@ class Questionnaire extends Component {
                               <Option optionIndex={ idx } {...extraProps}>
                                 <div data-qId={ currQuestionId } data-nextQId={ nextQuestionId } data-ans={ _.get(opt, [ 'id' ], '') }>
                                   <span className="option-index" data-qId={ currQuestionId } data-nextQId={ nextQuestionId } data-ans={ _.get(opt, [ 'id' ], '') }>{ (idx + 1) }</span>
-                                  <div className="option-content" data-qId={ currQuestionId } data-nextQId={ nextQuestionId } data-ans={ _.get(opt, [ 'id' ], '') }>{ _.get(opt, [ 'title' ], '') }</div>
+                                  <div className="option-content" data-qId={ currQuestionId } data-nextQId={ nextQuestionId } data-ans={ _.get(opt, [ 'id' ], '') }>
+                                    <span data-qId={ currQuestionId } data-nextQId={ nextQuestionId } data-ans={ _.get(opt, [ 'id' ], '') }>{ _.get(opt, [ 'title' ], '') }</span>
+                                  </div>
                                   { (!showExplanation) ? '' : <Correcting /> }
                                 </div>
                               </Option>
@@ -382,7 +382,7 @@ class Questionnaire extends Component {
                                       <Option optionIndex={ i }>
                                         <div data-qId={ _.get(opt, [ 'id' ], '') } data-designatedAnsId={ thisDesignatedAnsId } data-ans={ thisAns }>
                                           <span className="option-index">{ (i + 1) }</span>
-                                          <div className="option-content">{ _.get(opt, [ 'title' ], '') }</div>
+                                          <div className="option-content"><span>{ _.get(opt, [ 'title' ], '') }</span></div>
                                           <Correcting />
                                         </div>
                                       </Option>
