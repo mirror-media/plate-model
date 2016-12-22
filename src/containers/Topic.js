@@ -159,6 +159,12 @@ class Topic extends Component {
             dfpNetworkId={DFPID}
             slotId={'topic_dfp'}
             adUnit={ dfpCode }
+            sizeMapping={
+              [
+                { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
+                { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
+              ]
+            } 
           />
         </div>
       ) : null

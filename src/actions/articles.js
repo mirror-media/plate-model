@@ -364,7 +364,7 @@ function failToReceiveTwitterTimeline(error) {
 
 function _buildQuery(params = {}) {
   let query = {}
-  let whitelist = [ 'where', 'embedded', 'max_results', 'page', 'sort' ]
+  let whitelist = [ 'where', 'embedded', 'max_results', 'page', 'sort', 'related' ]
   _.forEach(whitelist, (ele) => {
     if (params.hasOwnProperty(ele)) {
       if (ele === 'where' || ele === 'embedded') {
@@ -599,6 +599,7 @@ export function fetchIndexArticles(endpoints = []) {
   let mapped = _.map(endpoints, (n) => { return 'endpoint=' + n })
   let combo_params = mapped.join('&')
   let url = formatUrl('combo?' + combo_params)
+  
   return (dispatch) => {
     dispatch(requestIndexArticles(url))
     return _fetchArticles(url)

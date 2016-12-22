@@ -1,4 +1,10 @@
+/*eslint no-unused-vars:0, no-console:0 */
+/* global __DEVELOPMENT__, $ */
 'use strict'
+import { GAID, QUESTIONNAIRE, SITE_META } from '../constants/index'
+import { connect } from 'react-redux'
+import { fetchQuestionnaire, goNextQuestion, passAnswer, resetQuestionnaire } from '../actions/questionnaire.js'
+import { setPageType, setPageTitle } from '../actions/header'
 import _ from 'lodash'
 import Button from '../components/questionnaire/Button'
 import DocumentMeta from 'react-document-meta'
@@ -10,10 +16,7 @@ import React, { Component } from 'react'
 import Result from '../components/questionnaire/Result'
 import Slider from 'react-slick'
 import WorkingProcessBar from '../components/questionnaire/WorkingProcessBar'
-import { connect } from 'react-redux'
-import { fetchQuestionnaire, goNextQuestion, passAnswer, resetQuestionnaire } from '../actions/questionnaire.js'
-import { QUESTIONNAIRE, SITE_META } from '../constants/index'
-import { setPageType, setPageTitle } from '../actions/header'
+import ga from 'react-ga'
 
 if (process.env.BROWSER) {
   require('./Questionnaire.css')
@@ -40,9 +43,13 @@ class Questionnaire extends Component {
   }
 
   componentDidMount() {
+    ga.initialize(GAID, { debug: __DEVELOPMENT__ })
+    ga.pageview(this.props.location.pathname)
+
     const questionnaireTitle = _.get(this.props, [ 'questSetting', 'setting', 'title' ])
     this.props.setPageType(QUESTIONNAIRE)
     this.props.setPageTitle('', questionnaireTitle)
+
   }
 
   componentWillMount() {
@@ -51,7 +58,10 @@ class Questionnaire extends Component {
     }
   }
 
-  componentDidUpdate() {
+  componentWillUpdate(nextProps) {
+    if (nextProps.location.pathname !== this.props.location.pathname) {
+      ga.pageview(nextProps.location.pathname)
+    }
   }
 
   _checkAnsClick() {
@@ -70,10 +80,20 @@ class Questionnaire extends Component {
   }
 
   _optionClick(e) {
+    const { ans: answerSheet = [] } = this.props
     const gameFlow = _.get(this.props, [ 'questSetting', 'setting', 'gameFlow' ], 'ONCE')
     let qId = _.get(e, [ 'target', 'attributes', 'data-qId', 'value' ])
     let nextQId = _.get(e, [ 'target', 'attributes', 'data-nextQId', 'value' ])
     let ans = _.get(e, [ 'target', 'attributes', 'data-ans', 'value' ])
+
+    if(answerSheet.length === 0) {
+      ga.event({
+        category: 'questionnaire',
+        action: 'click',
+        label: 'play'
+      })
+    }
+
     if(gameFlow === 'QA') {
       this.props.passAnswer(qId, ans, qId, false, true)
     } else {

@@ -38,8 +38,8 @@ export const AD_UNIT_PREFIX = {
   'news-people': 'np',
   'entertainment': 'ent',
   'foodtravel': 'fnt',
-  'hotvideo': 'wat',
-  'watch': 'hv'
+  'hotvideo': 'hv',
+  'watch': 'wat'
 }
 
 export const groupEnum = {

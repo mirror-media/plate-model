@@ -13,8 +13,9 @@ export default class FooterFull extends Component {
   }
 
   render() {
-    const { pathName, sectionList } = this.props
+    const { pathName, sectionList, sectionLogo } = this.props
     let currentSection = pathName.split('/')[2]
+    let logoUrl = sectionLogo.image.url
     let footerMenu = {}
     footerMenu.sections = []
     footerMenu.categories = []
@@ -34,7 +35,7 @@ export default class FooterFull extends Component {
       <footer className="section-footer section-footer--black">
         <Link to={ '/section/' + currentSection } >
           <figure className="footer-logo" >
-          <img className="" src={ '/asset/icon/section-' + 'watch' + '_s.png' } />
+          <img className="" src={ logoUrl } />
           </figure>
         </Link>
         <div className="footer-menu">

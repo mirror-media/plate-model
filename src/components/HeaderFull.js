@@ -71,9 +71,10 @@ export default class HeaderFull extends Component {
   }
 
   render() {
-    const { pathName } = this.props
+    const { pathName, sectionLogo } = this.props
     let currentSection = pathName.split('/')[2]
-
+    let logoUrl = sectionLogo.image.url
+    
     return (
       <header>
         <nav id="Header" className="HeaderFull ui menu borderless fixed top">
@@ -84,7 +85,7 @@ export default class HeaderFull extends Component {
           </div>
           <div className="item logo">
             <Link to={ '/section/' + currentSection } >
-              <img src={ '/asset/icon/section-' + 'watch' + '_b.png' } />
+              <img src={ logoUrl } />
             </Link>
           </div>
           <div className="right item">
@@ -113,7 +114,7 @@ export default class HeaderFull extends Component {
             </div>
             <div className="item logo logo--s">
               <Link to={ '/section/' + currentSection } >
-                <img src={ '/asset/icon/section-' + 'watch' + '_s.png' } />
+                <img src={ logoUrl } />
               </Link>
             </div>
             <div className="right item">
