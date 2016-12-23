@@ -27,6 +27,7 @@ class Result extends Component {
       <div className="result-container" >
         <Leading leading="image" mediaSource={ mediaSource }/>
         <h3>{ rs.title }</h3>
+        <div className="result-comment">{ rs.comment }</div>
       </div>
     )
   }
