@@ -1,5 +1,5 @@
 /* global __DEVELOPMENT__ */
-import { GAID, SITE_META, SITE_NAME, TAG  } from '../constants/index'
+import { GAID, SITE_META, SITE_NAME, TAG } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTag, fetchTopics } from '../actions/articles'
