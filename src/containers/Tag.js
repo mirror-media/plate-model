@@ -168,7 +168,7 @@ class Tag extends Component {
       title: tagName ? tagName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL
     }
     switch (tagStyle) {
-      case 'feature':
+      default:
         return (
           <DocumentMeta {...meta}>
             <Sidebar pathName={location.pathname} sectionList={sectionListResponse} topics={topics}/>
