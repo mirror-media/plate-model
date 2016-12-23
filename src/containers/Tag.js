@@ -1,31 +1,37 @@
 /* global __DEVELOPMENT__ */
-import { SITE_META, SITE_NAME, TAG, GAID } from '../constants/index'
+import { GAID, SITE_META, SITE_NAME, TAG } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchTopics } from '../actions/articles'
-import { setPageType, setPageTitle } from '../actions/header'
+import { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTag, fetchTopics } from '../actions/articles'
+import { setPageTitle, setPageType } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
 import Footer from '../components/Footer'
-import ga from 'react-ga'
+import FooterFull from '../components/FooterFull'
 import Header from '../components/Header'
+import HeaderFull from '../components/HeaderFull'
+import LatestArticlesFull from '../components/LatestArticlesFull'
 import List from '../components/List'
 import React, { Component } from 'react'
 import Sidebar from '../components/Sidebar'
+import SidebarFull from '../components/SidebarFull'
+import ga from 'react-ga'
 
+if (process.env.BROWSER) {
+  require('./Tag.css')
+}
 
 const MAXRESULT = 10
+const FULLSTYLEMAXRESULT = 9
 const PAGE = 1
 
 class Tag extends Component {
   static fetchData({ params, store }) {
-    return store.dispatch(fetchArticlesByUuidIfNeeded(params.tagId), TAG, {
-      page: PAGE,
-      max_results: MAXRESULT
-    }).then(() => {
-      return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
-    }).then(() => {
+    return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
+    .then(() => {
       return store.dispatch( fetchTopics() )
+    }).then(() => {
+      return store.dispatch( fetchTag(params.tagId) )
     })
   }
 
@@ -35,11 +41,30 @@ class Tag extends Component {
   }
 
   componentWillMount() {
-    const { articlesByUuids, fetchArticlesByUuidIfNeeded, params, fetchIndexArticles, topics, sectionList } = this.props
+    const { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTag, params, sectionList, tag, topics } = this.props
     let tagId = _.get(params, 'tagId')
-
+    let tagStyle = _.get(tag, [ 'items', 'style' ] ) ? _.get(tag, [ 'items', 'style' ] ) : 'feature'
+    
     if ( !_.get(topics, 'fetched', undefined) ) {
       this.props.fetchTopics()
+    }
+
+    if ( !_.get(tag, 'fetched', undefined) ) {
+      fetchTag(tagId)
+    }
+
+    switch (tagStyle) {
+      case 'feature':
+        fetchArticlesByUuidIfNeeded(tagId, TAG, {
+          page: PAGE,
+          max_results: MAXRESULT
+        })
+        break
+      case 'full':
+        fetchArticlesByUuidIfNeeded(tagId, TAG, {
+          page: PAGE,
+          max_results: FULLSTYLEMAXRESULT
+        })
     }
     
     // if fetched before, do nothing
@@ -47,16 +72,6 @@ class Tag extends Component {
     if ( !checkSectionList ) {
       fetchIndexArticles([ 'sections' ])
     }
-      
-    // if fetched before, do nothing
-    if (_.get(articlesByUuids, [ tagId, 'items', 'length' ], 0) > 0) {
-      return
-    }
-
-    fetchArticlesByUuidIfNeeded(tagId, TAG, {
-      page: PAGE,
-      max_results: MAXRESULT
-    })
   }
 
   componentDidMount() {
@@ -78,48 +93,72 @@ class Tag extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = nextProps
+    const { articlesByUuids, fetchArticlesByUuidIfNeeded, params, tag } = nextProps
     let tagId = _.get(params, 'tagId')
+    let tagStyle = _.get(tag, [ 'items', 'style' ] ) ? _.get(tag, [ 'items', 'style' ] ) : 'feature'
 
     // if fetched before, do nothing
     if (_.get(articlesByUuids, [ tagId, 'items', 'length' ], 0) > 0) {
       return
     }
 
-    fetchArticlesByUuidIfNeeded(tagId, TAG, {
-      page: PAGE,
-      max_results: MAXRESULT
-    })
+    switch (tagStyle) {
+      case 'feature':
+        fetchArticlesByUuidIfNeeded(tagId, TAG, {
+          page: PAGE,
+          max_results: MAXRESULT
+        })
+        break
+      case 'full':
+        fetchArticlesByUuidIfNeeded(tagId, TAG, {
+          page: PAGE,
+          max_results: FULLSTYLEMAXRESULT
+        })
+    }
   }
 
   _loadMore() {
-    const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = this.props
+    const { articlesByUuids, fetchArticlesByUuidIfNeeded, params, tag } = this.props
     const tagId = _.get(params, 'tagId')
+    const tagStyle = _.get(tag, [ 'items', 'style' ] ) ? _.get(tag, [ 'items', 'style' ] ) : 'feature'
+    
     let articlesByTag = _.get(articlesByUuids, [ tagId ], {})
     if (_.get(articlesByTag, 'hasMore') === false) {
       return
     }
 
     let itemSize = _.get(articlesByTag, 'items.length', 0)
-    let page = Math.floor(itemSize / MAXRESULT) + 1
+
+    switch (tagStyle) {
+      case 'feature':
+        let page = Math.floor(itemSize / MAXRESULT) + 1
+        fetchArticlesByUuidIfNeeded(tagId, TAG, {
+          page: page,
+          max_results: MAXRESULT
+        })
+        break
+      case 'full':
+        let pageStyleFull = Math.floor(itemSize / FULLSTYLEMAXRESULT) + 1
+        fetchArticlesByUuidIfNeeded(tagId, TAG, {
+          page: pageStyleFull,
+          max_results: FULLSTYLEMAXRESULT
+        })
+    }
 
     ga.event({
       category: 'tag',
       action: 'click',
       label: 'loadMore'
     })
-
-    fetchArticlesByUuidIfNeeded(tagId, TAG, {
-      page: page,
-      max_results: MAXRESULT
-    })
   }
 
   render() {
-    const { articlesByUuids, entities, params, sectionList, topics, location } = this.props
+    const { articlesByUuids, entities, location, params, sectionList, tag, topics } = this.props
     const tagId = _.get(params, 'tagId')
+    const tagStyle = _.get(tag, [ 'items', 'style' ] ) ? _.get(tag, [ 'items', 'style' ] ) : 'feature'
     let articles = denormalizeArticles(_.get(articlesByUuids, [ tagId, 'items' ], []), entities)
     let sectionListResponse = _.get(sectionList, 'response', {})
+    const customCSS = _.get(tag.items, [ 'css' ])
     let tagName = _.get(entities, [ 'tags', tagId, 'name' ], '')
     const meta = {
       auto: { ograph: true },
@@ -128,24 +167,50 @@ class Tag extends Component {
       meta: { property: {} },
       title: tagName ? tagName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL
     }
+    switch (tagStyle) {
+      default:
+        return (
+          <DocumentMeta {...meta}>
+            <Sidebar pathName={location.pathname} sectionList={sectionListResponse} topics={topics}/>
+            <Header pathName={location.pathname} sectionList={sectionListResponse} topics={topics}/>
 
-    return (
-      <DocumentMeta {...meta}>
-        <Sidebar sectionList={sectionListResponse} topics={topics} pathName={location.pathname}/>
-        <Header sectionList={sectionListResponse} topics={topics} pathName={location.pathname}/>
-
-        <div id="main" className="pusher">
-          <List 
-            articles={articles} 
-            categories={entities.categories}
-            hasMore={ _.get(articlesByUuids, [ tagId, 'hasMore' ])}
-            loadMore={this.loadMore}
-          />
-          {this.props.children}
-          <Footer sectionList={sectionListResponse} />
-        </div>
-      </DocumentMeta>
-    )
+            <div id="main" className="pusher">
+              <List 
+                articles={articles} 
+                categories={entities.categories}
+                hasMore={ _.get(articlesByUuids, [ tagId, 'hasMore' ])}
+                loadMore={this.loadMore}
+              />
+              {this.props.children}
+              <Footer sectionList={sectionListResponse} />
+            </div>
+          </DocumentMeta>
+        )
+      case 'full':
+        return (
+          <DocumentMeta {...meta}>
+            <SidebarFull pathName={location.pathname} sectionList={sectionListResponse}/>
+            <HeaderFull pathName={location.pathname} />
+            <section className="tag-gallery">
+              <div className="tag-gallery-headline">
+                <h1 className="tag-gallery-headline__enName"></h1>
+                <h3 className="tag-gallery-headline__zhName"></h3>
+                <div className="tag-gallery-intro">
+                  <span className="tag-gallery-intro__title"></span>
+                  <img src="/asset/icon/tag-arrow.png"/>
+                </div>
+              </div>
+            </section>
+            <LatestArticlesFull
+                articles={articles}
+                categories={entities.categories}
+                hasMore={ _.get(articlesByUuids, [ tagId, 'hasMore' ])}
+                loadMore={this.loadMore}/>
+            <FooterFull pathName={location.pathname} sectionList={sectionListResponse} />
+            <style dangerouslySetInnerHTML={ { __html: customCSS } } />
+          </DocumentMeta>
+        )
+    }
   }
 }
 
@@ -154,6 +219,7 @@ function mapStateToProps(state) {
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
     sectionList: state.sectionList || {},
+    tag: state.tag || {},
     topics: state.topics || {}
   }
 }
@@ -163,4 +229,4 @@ Tag.contextTypes = {
 }
 
 export { Tag }
-export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTopics, setPageType, setPageTitle })(Tag)
+export default connect(mapStateToProps, { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTag, fetchTopics, setPageTitle, setPageType })(Tag)

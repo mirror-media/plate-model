@@ -8,7 +8,7 @@ function loadGroups(req, path) {
     const query = req.query
     const { API_PROTOCOL, API_PORT, API_HOST } = config
     const url = `${API_PROTOCOL}://${API_HOST}:${API_PORT}/${path}`
-
+    
     superAgent['get'](url)
     .timeout(constants.timeout)
     .query(query)
