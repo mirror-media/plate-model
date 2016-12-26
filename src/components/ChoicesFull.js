@@ -26,14 +26,14 @@ export default class ChoicesFull extends Component {
   }
 
   render() {
-    const { articles } = this.props
+    const { articles, authors } = this.props
 
     return articles ? (
       <section id="editorPicks" className="choice-section">
         <div className="section-title">
           <h2>
             <div className="colorBlock"></div>
-            編輯精選 Editor\'s Picks
+            編輯精選 Editor's Picks
           </h2>
         </div>
         <div className="choice-post-block">
@@ -43,7 +43,11 @@ export default class ChoicesFull extends Component {
             let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
             let image = imageComposer(a).mobileImage
             let linkStyle = (_.get(a, 'style', '') == 'projects') ? '/projects/' : '/story/'
-            let writers = '文｜' + _.pluck(a.writers, 'name').join('、') + '｜'
+            let writersName = []
+            _.map(a.writers, (w)=> { 
+              writersName.push({ 'name': _.result(_.find(authors, { 'id':  w }), 'name') })
+            })
+            let writers = '文｜' + _.pluck(writersName, 'name').join('、') + '｜'
 
             return (
               <div className="post-container" key={'choiceFull' + a.id}>
