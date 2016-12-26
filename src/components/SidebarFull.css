@@ -89,24 +89,25 @@
 @media only screen 
 	and (min-width: 992px) {
 		.sidebarFull.ui.top.sidebar {
-			height: 52px !important;
+			height: 60px !important;
 			/*top: 60px !important;*/
 		}
 
 		.sidebarFull .searchbar {
+			height: 60px;
 			text-align: right;
 		}
 
 		.sidebarFull .ui.transparent.input input {
 			width: 100%;
 			text-align: right;
-			padding: 14px 0 !important;
+			padding: 18px 0 !important;
 			padding-right: 20vw !important;
 		}
 
 		.sidebarFull .close.closeSearchSidebar {
 			right: 20px;
-			top: 15px;
+			top: 19px;
 		}
 
 		.sidebarFull.ui.left.sidebar {
