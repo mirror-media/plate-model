@@ -113,12 +113,12 @@ footer > figure {
 		.footer-logo {
 			padding: 32.5px 0;
 			margin: 0 ;
-			margin-right: 95px;
+			margin-right: 25px;
 		}
 
 		.footer-menu {
-			width: 445px;
-			min-width: 445px;
+			width: 400px;
+			min-width: 400px;
 			height: 117px;
 		}
 
@@ -152,5 +152,18 @@ footer > figure {
 
 		.footer-subscrShare__share {
 			padding: 0;
+		}
+}
+
+/* for Large Monitor */
+@media only screen 
+	and (min-width: 1200px) {
+		.footer-logo {
+			margin-right: 95px;
+		}
+
+		.footer-menu {
+			width: 445px;
+			min-width: 445px;
 		}
 }
