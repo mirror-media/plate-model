@@ -82,6 +82,7 @@ class Section extends Component {
     switch (sectionStyle) {
       case 'feature':
         fetchArticlesByUuidIfNeeded(catId, SECTION, {
+          related: 'full',
           page: PAGE,
           max_results: MAXRESULT
         })
@@ -141,6 +142,7 @@ class Section extends Component {
     switch (sectionStyle) {
       case 'feature':
         fetchArticlesByUuidIfNeeded(catId, SECTION, {
+          related: 'full',
           page: PAGE,
           max_results: MAXRESULT
         })
@@ -172,6 +174,7 @@ class Section extends Component {
     switch (sectionStyle) {
       case 'feature':
         fetchArticlesByUuidIfNeeded(catId, SECTION, {
+          related: 'full',
           page: page,
           max_results: MAXRESULT
         })
