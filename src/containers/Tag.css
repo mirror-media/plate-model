@@ -7,7 +7,9 @@
   align-items: center;
   width: 100vw;
   height: calc(100vw * 0.77);
-  background-color: blue;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .tag-gallery-headline {
