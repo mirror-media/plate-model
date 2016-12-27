@@ -102,6 +102,13 @@ function requestEvent(url) {
   }
 }
 
+function requestTag(url) {
+  return {
+    type: types.FETCH_TAG_REQUEST,
+    url
+  }
+}
+
 function requestTopics(url) {
   return {
     type: types.FETCH_TOPICS_REQUEST,
@@ -149,6 +156,14 @@ function failToReceiveLatestPosts(error) {
 function failToReceiveEvent(error) {
   return {
     type: types.FETCH_EVENT_FAILURE,
+    error,
+    failedAt: Date.now()
+  }
+}
+
+function failToReceiveTag(error) {
+  return {
+    type: types.FETCH_TAG_FAILURE,
     error,
     failedAt: Date.now()
   }
@@ -231,6 +246,16 @@ function receiveLatestPosts(response, meta, links) {
 function receiveEvent(response, meta, links) {
   return {
     type: types.FETCH_EVENT_SUCCESS,
+    response,
+    meta,
+    links,
+    receivedAt: Date.now()
+  }
+}
+
+function receiveTag(response, meta, links) {
+  return {
+    type: types.FETCH_TAG_SUCCESS,
     response,
     meta,
     links,
@@ -388,6 +413,10 @@ function _buildMetaQueryUrl(params = {}) {
   return formatUrl(`meta?${query}`)
 }
 
+function _buildTagQueryUrl(slug= '') {
+  return formatUrl(`tags/${slug}`)
+}
+
 function _buildTopicQueryUrl(params = {}, slug= '') {
   let query = _buildQuery(params)
   return formatUrl(`topics/${slug}?${query}`)
@@ -515,6 +544,22 @@ export function fetchEvent(params = {}) {
         dispatch(receiveEvent(camelizedJson.items, meta, links))
       }, (error) => {
         return dispatch(failToReceiveEvent(error))
+      })
+  }
+}
+
+export function fetchTag(params = {}) {
+  let url = _buildTagQueryUrl(params)
+  return (dispatch) => {
+    dispatch(requestTag('Request Tag: ' + url))
+    return _fetchArticles(url)
+      .then((response) => {
+        let meta = response._meta
+        let links = response._links
+        let camelizedJson = camelizeKeys(response)
+        dispatch(receiveTag(camelizedJson, meta, links))
+      }, (error) => {
+        return dispatch(failToReceiveTag(error))
       })
   }
 }

@@ -97,7 +97,7 @@ export default class LeadingFull extends Component {
                             </div>
                             <div className="related-post__meta">
                               <div className="related-post__author">
-                                { (_.get(a, [ 'writers', 'length' ], 0) > 0) ? writers+' ' : null }
+                                { (_.get(r, [ 'writers', 'length' ], 0) > 0) ? writers+' ' : null }
                               </div>
                               <div className="related-post__date">{ dateformat(r.publishedDate, 'yyyy.mm.dd') }</div>
                             </div>

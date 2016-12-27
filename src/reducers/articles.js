@@ -198,6 +198,34 @@ export function event(state = {}, action = {}) {
   }
 }
 
+export function tag(state = {}, action = {}) {
+  switch (action.type) {
+    case types.FETCH_TAG_SUCCESS:
+      let res = {}
+      for (let tag in action.response) {
+        res[ tag ] = action['response'][tag]
+      }
+      return _.merge({}, state, {
+        isFetching: false,
+        fetched: true,
+        error: null,
+        items: res,
+        meta: action.meta,
+        links: action.links,
+        lastUpdated: action.receivedAt
+      })
+    case types.FETCH_TAG_FAILURE:
+      return _.merge({}, state, {
+        isFetching: false,
+        fetched: false,
+        error: action.error,
+        lastUpdated: action.failedAt
+      })
+    default:
+      return state
+  }
+}
+
 export function topics(state = {}, action = {}) {
   switch (action.type) {
     case types.FETCH_TOPICS_SUCCESS:

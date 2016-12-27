@@ -80,18 +80,19 @@ class Section extends Component {
       return
     }
     switch (sectionStyle) {
-      case 'feature':
-        fetchArticlesByUuidIfNeeded(catId, SECTION, {
-          page: PAGE,
-          max_results: MAXRESULT
-        })
-        break
       case 'full':
         fetchArticlesByUuidIfNeeded(catId, SECTION, {
           related: 'full',
           page: PAGE,
           max_results: MAXRESULT
         })
+        break
+      default:
+        fetchArticlesByUuidIfNeeded(catId, SECTION, {
+          page: PAGE,
+          max_results: MAXRESULT
+        })
+      
     }
   }
 
@@ -139,15 +140,15 @@ class Section extends Component {
     }
 
     switch (sectionStyle) {
-      case 'feature':
+      case 'full':
         fetchArticlesByUuidIfNeeded(catId, SECTION, {
+          related: 'full',
           page: PAGE,
           max_results: MAXRESULT
         })
         break
-      case 'full':
+      default:
         fetchArticlesByUuidIfNeeded(catId, SECTION, {
-          related: 'full',
           page: PAGE,
           max_results: MAXRESULT
         })
@@ -170,15 +171,15 @@ class Section extends Component {
     let page = Math.floor(itemSize / MAXRESULT) + 1
 
     switch (sectionStyle) {
-      case 'feature':
+      case 'full':
         fetchArticlesByUuidIfNeeded(catId, SECTION, {
+          related: 'full',
           page: page,
           max_results: MAXRESULT
         })
         break
-      case 'full':
+      default:
         fetchArticlesByUuidIfNeeded(catId, SECTION, {
-          related: 'full',
           page: page,
           max_results: MAXRESULT
         })
@@ -220,7 +221,7 @@ class Section extends Component {
     // const isFeatured = _.get(event, [ 'isFeatured' ])
     const video = _.get(event, [ 'video' ] )
     switch (sectionStyle) {
-      case 'feature':
+      default:
         return (
           <DFPSlotsProvider dfpNetworkId={DFPID}>
             <DocumentMeta {...meta}>
