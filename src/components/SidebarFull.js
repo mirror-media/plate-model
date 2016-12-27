@@ -44,8 +44,8 @@ export default class SidebarFull extends Component {
   }
 
   render() {
-    const { pathName, sectionList } = this.props
-    let currentSection = pathName.split('/')[2]
+    const { pathName, section, sectionList } = this.props
+    let currentSection = pathName.split('/')[1] == 'section' ? pathName.split('/')[2] : section
     let sidebarList = _.result(_.find(sectionList.sections, { 'name': currentSection }), 'categories')
 
     return (
