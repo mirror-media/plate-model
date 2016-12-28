@@ -1,4 +1,5 @@
 import App from '../containers/App'
+import Author from '../containers/Author'
 import Category from '../containers/Category'
 import Home from '../containers/Home'
 import Questionnaire from '../containers/Questionnaire'
@@ -16,7 +17,8 @@ export default function (history = browserHistory) {
     <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
       <Route path="/" component={App}>
         <IndexRoute component={Home} />
-        <Route path="category/:category(/:specificId)" component={Category}/>
+        <Route path="author/:authorId" component={Author}/>
+        <Route path="category/:category" component={Category}/>
         <Route path="search/:keyword" component={Search} />
         <Route path="section/:section" component={Section}/>
         <Route path="tag/:tagId" component={Tag} />

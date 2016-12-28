@@ -95,6 +95,8 @@ export const LOAD_MORE_ARTICLES = '載入更多文章'
 
 export const ARTICLE = 'ARTICLE'
 
+export const AUTHOR = 'AUTHOR'
+
 export const HOME = 'HOME'
 
 export const CATEGORY = 'CATEGORY'
