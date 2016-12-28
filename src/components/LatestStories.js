@@ -71,7 +71,7 @@ export default class LatestStories extends Component {
                         <div className="latestStories-story__date">{ dateformat(a.publishedDate, 'yyyy.mm.dd') }</div>
                       </div>
                       <div className="latestStories-story__brief">
-                        { truncate(entities.decodeHTML(briefContent), 70) }
+                        <a href={linkStyle + a.slug + '/'} onClick={ this._handleClick }>{ truncate(entities.decodeHTML(briefContent), 70) }</a>
                       </div>
                     </div>
                   </div>
@@ -109,7 +109,7 @@ export default class LatestStories extends Component {
                         <div className="latestStories-story__date">{ dateformat(a.publishedDate, 'yyyy.mm.dd') }</div>
                       </div>
                       <div className="latestStories-story__brief">
-                        { truncate(entities.decodeHTML(briefContent), 70) }
+                        <a href={linkStyle + a.slug + '/'} onClick={ this._handleClick }>{ truncate(entities.decodeHTML(briefContent), 70) }</a>
                       </div>
                     </div>
                   </div>

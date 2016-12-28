@@ -210,7 +210,8 @@ class Tag extends Component {
                 articles={articles}
                 categories={entities.categories}
                 hasMore={ _.get(articlesByUuids, [ tagId, 'hasMore' ])}
-                loadMore={this.loadMore}/>
+                loadMore={this.loadMore}
+                pathName={location.pathname} />
             <FooterFull pathName={location.pathname} sectionList={sectionListResponse} sectionLogo={sectionLogo}/>
             <style dangerouslySetInnerHTML={ { __html: customCSS } } />
           </DocumentMeta>

@@ -64,7 +64,7 @@ export default class LeadingFull extends Component {
                     </div>
                   </a>
                   <div className="post brief">
-                    { truncate(entities.decodeHTML(briefContent), 200) }
+                    <a href={linkStyle+a.slug+'/'} onClick={ this._handleClick }>{ truncate(entities.decodeHTML(briefContent), 100) + ' <more>'}</a>
                   </div>
                 </div>
                 <div className="post dfp">
@@ -93,7 +93,7 @@ export default class LeadingFull extends Component {
                               <div className="related-post__title"> { r.title }</div>
                             </a>
                             <div className="related-post__brief">
-                              { truncate(entities.decodeHTML(briefContent), 55) }
+                              <a href={linkStyle+r.slug+'/'} onClick={ this._handleClick }>{ truncate(entities.decodeHTML(briefContent), 55) }</a>
                             </div>
                             <div className="related-post__meta">
                               <div className="related-post__author">
