@@ -1,6 +1,6 @@
 /* global __DEVELOPMENT__ */
-import { DFPSlotsProvider } from 'react-dfp'
 import { AUTHOR, DFPID, GAID, SITE_META, SITE_NAME } from '../constants/index'
+import { DFPSlotsProvider } from 'react-dfp'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { fetchArticleByAuthor, fetchIndexArticles, fetchTopics } from '../actions/articles'
