@@ -7,6 +7,7 @@ function articles(state = {}, action = {}) {
   let id = action.id
   switch (action.type) {
     case types.FETCH_ARTICLES_BY_GROUP_UUID_REQUEST:
+    case types.FETCH_ARTICLES_BY_AUTHOR_REQUEST:
     case types.FETCH_RELATED_ARTICLES_REQUEST:
       if (state.hasOwnProperty(id)) {
         _.merge(_state, {
@@ -25,6 +26,7 @@ function articles(state = {}, action = {}) {
       })
 
     case types.FETCH_ARTICLES_BY_GROUP_UUID_FAILURE:
+    case types.FETCH_ARTICLES_BY_AUTHOR_FAILURE:
     case types.FETCH_RELATED_ARTICLES_FAILURE:
       _.merge(_state, {
         isFetching: false,
@@ -48,11 +50,12 @@ function articles(state = {}, action = {}) {
       })
 
     case types.FETCH_ARTICLES_BY_GROUP_UUID_SUCCESS:
+    case types.FETCH_ARTICLES_BY_AUTHOR_SUCCESS:
       _state = _.get(state, id)
       let total = _.get(_state, 'total') || _.get(action, 'response.meta.total')
       let items = _.get(_state, 'items')
       let hasMore = _.get(_state, 'hasMore')
-
+      
       // dedup items
       items = _.uniq(items.concat(_.get(action, 'response.result')))
       if (items.length >= total) {
@@ -80,6 +83,17 @@ export function relatedArticles(state = {}, action = {}) {
     case types.FETCH_RELATED_ARTICLES_REQUEST:
     case types.FETCH_RELATED_ARTICLES_FAILURE:
     case types.FETCH_RELATED_ARTICLES_SUCCESS:
+      return articles(state, action)
+    default:
+      return state
+  }
+}
+
+export function articleByAuthor(state = {}, action = {}) {
+  switch (action.type) {
+    case types.FETCH_ARTICLES_BY_AUTHOR_REQUEST:
+    case types.FETCH_ARTICLES_BY_AUTHOR_FAILURE:
+    case types.FETCH_ARTICLES_BY_AUTHOR_SUCCESS:
       return articles(state, action)
     default:
       return state
