@@ -1,6 +1,6 @@
 /* global __DEVELOPMENT__ */
 import { AdSlot, DFPSlotsProvider, DFPManager } from 'react-dfp'
-import { CATEGORY, SITE_META, SITE_NAME, GAID, AD_UNIT_PREFIX, DFPID } from '../constants/index'
+import { AD_UNIT_PREFIX, CATEGORY, DFPID, GAID, SITE_META, SITE_NAME } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { fetchArticleByAuthor, fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchYoutubePlaylist, fetchTopics, fetchAudios } from '../actions/articles'
