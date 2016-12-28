@@ -1,6 +1,6 @@
 /* global __DEVELOPMENT__ */
+import { AdSlot, DFPSlotsProvider, DFPManager } from 'react-dfp'
 import { CATEGORY, SITE_META, SITE_NAME, GAID, AD_UNIT_PREFIX, DFPID } from '../constants/index'
-import { DFPSlotsProvider, DFPManager, AdSlot } from 'react-dfp'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { fetchArticleByAuthor, fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchYoutubePlaylist, fetchTopics, fetchAudios } from '../actions/articles'
@@ -76,7 +76,7 @@ class Category extends Component {
   }
 
   componentWillMount() {
-    const { fetchArticleByAuthor, fetchArticlesByUuidIfNeeded, articlesByUuids, fetchIndexArticles, fetchYoutubePlaylist, params, sectionList, topics, youtubePlaylist } = this.props
+    const { articlesByUuids, fetchArticleByAuthor, fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchYoutubePlaylist, params, sectionList, topics, youtubePlaylist } = this.props
     let catId = this.state.catId
 
     if ( !_.get(topics, 'fetched', undefined) ) {
