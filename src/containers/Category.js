@@ -1,9 +1,9 @@
 /* global __DEVELOPMENT__ */
 import { CATEGORY, SITE_META, SITE_NAME, GAID, AD_UNIT_PREFIX, DFPID } from '../constants/index'
+import { DFPSlotsProvider, DFPManager, AdSlot } from 'react-dfp'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
-import { DFPSlotsProvider, DFPManager, AdSlot } from 'react-dfp'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchYoutubePlaylist, fetchTopics, fetchAudios } from '../actions/articles'
+import { fetchArticleByAuthor, fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchYoutubePlaylist, fetchTopics, fetchAudios } from '../actions/articles'
 import { setPageType, setPageTitle } from '../actions/header'
 import AudioList from '../components/AudioList'
 import DocumentMeta from 'react-document-meta'
@@ -27,14 +27,26 @@ class Category extends Component {
   static fetchData({ params, store }) {
 
     switch (params.category) {
-      case 'videohub':
-        return store.dispatch(fetchYoutubePlaylist(MAXRESULT)).then(() => {
+      case 'audio':
+        return store.dispatch( fetchAudios() ).then(() => {
           return store.dispatch( fetchIndexArticles( [ 'sections' ] ) ).then(() => {
             return store.dispatch( fetchTopics() )
           })
         })
-      case 'audio':
-        return store.dispatch( fetchAudios() ).then(() => {
+      case 'author':
+        return store.dispatch( fetchArticleByAuthor({
+          page: PAGE,
+          max_results: MAXRESULT,
+          where: {
+            writers: _.get(params, 'specificId', '')
+          }
+        })).then(() => {
+          return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
+        }).then(() => {
+          return store.dispatch( fetchTopics() )
+        })
+      case 'videohub':
+        return store.dispatch( fetchYoutubePlaylist(MAXRESULT)).then(() => {
           return store.dispatch( fetchIndexArticles( [ 'sections' ] ) ).then(() => {
             return store.dispatch( fetchTopics() )
           })
@@ -64,7 +76,7 @@ class Category extends Component {
   }
 
   componentWillMount() {
-    const { fetchArticlesByUuidIfNeeded, articlesByUuids, fetchIndexArticles, fetchYoutubePlaylist, sectionList, topics, youtubePlaylist } = this.props
+    const { fetchArticleByAuthor, fetchArticlesByUuidIfNeeded, articlesByUuids, fetchIndexArticles, fetchYoutubePlaylist, params, sectionList, topics, youtubePlaylist } = this.props
     let catId = this.state.catId
 
     if ( !_.get(topics, 'fetched', undefined) ) {
@@ -88,11 +100,20 @@ class Category extends Component {
       return
     }
 
-    fetchArticlesByUuidIfNeeded(catId, CATEGORY, {
-      page: PAGE,
-      max_results: MAXRESULT
-    })
-
+    if(catId !== 'author') {
+      fetchArticlesByUuidIfNeeded(catId, CATEGORY, {
+        page: PAGE,
+        max_results: MAXRESULT
+      })
+    } else {
+      fetchArticleByAuthor({
+        page: PAGE,
+        max_results: MAXRESULT,
+        where: {
+          writers: _.get(params, 'specificId', '')
+        }
+      })
+    }
   }
 
   componentDidMount() {
@@ -132,7 +153,7 @@ class Category extends Component {
     let catId = _.get(params, 'category')
 
     // if fetched before, do nothing
-    if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0 || catId == 'videohub' || catId == 'audio') {
+    if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0 || catId === 'author' || catId === 'videohub' || catId === 'audio') {
       return
     }
 
@@ -143,21 +164,33 @@ class Category extends Component {
   }
 
   _loadMore() {
-    const { articlesByUuids, fetchArticlesByUuidIfNeeded, params } = this.props
+    const { articleByAuthor, articlesByUuids, fetchArticleByAuthor, fetchArticlesByUuidIfNeeded, params } = this.props
     let catId = _.get(params, 'category')
 
     let articlesByCat = _.get(articlesByUuids, [ catId ], {})
-    if (_.get(articlesByCat, 'hasMore') === false) {
+    let articlesByAuthor = _.get(articleByAuthor, [ catId ], {})
+
+    if (_.get(articlesByCat, 'hasMore') === false || _.get(articlesByAuthor, 'hasMore') === false) {
       return
     }
 
-    let itemSize = _.get(articlesByCat, 'items.length', 0)
+    let itemSize = _.get((catId !== 'author') ? articlesByCat : articlesByAuthor, 'items.length', 0)
     let page = Math.floor(itemSize / MAXRESULT) + 1
 
-    fetchArticlesByUuidIfNeeded(catId, CATEGORY, {
-      page: page,
-      max_results: MAXRESULT
-    })
+    if(catId !== 'author') {
+      fetchArticlesByUuidIfNeeded(catId, CATEGORY, {
+        page: page,
+        max_results: MAXRESULT
+      })
+    } else {
+      fetchArticleByAuthor({
+        page: page,
+        max_results: MAXRESULT,
+        where: {
+          writers: _.get(params, 'specificId', '')
+        }
+      })
+    }
 
     ga.event({
       category: 'category',
@@ -190,12 +223,11 @@ class Category extends Component {
 
   _renderList() {
     const { articlesByUuids, entities, params, sectionList , youtubePlaylist, audios } = this.props
-    const catId = _.get(params, 'category')
+    const catId = _.get(params, 'category', null)
+    const catName = _.get(sectionList.response, [ 'categories', catId, 'title' ],  _.get(_.find(_.get(entities, [ 'categories' ]), { name: catId }), [ 'title' ], ''))
     const section = _.find(_.get(sectionList, [ 'response', 'sections' ]), function (o) { return _.find(o.categories, { 'name': catId }) })
     const sectionName = _.get(section, 'name', '')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
-    const category = _.get(params, 'category', null)
-    const catName = _.get(sectionList.response, [ 'categories', category, 'title' ],  _.get(_.find(_.get(entities, [ 'categories' ]), { name: catId }), [ 'title' ], null))
 
     switch (catId) {
       case 'videohub':
@@ -217,14 +249,18 @@ class Category extends Component {
           />
         )
       default:
+        const _authorId = _.get(params, 'specificId', '')
+        const _title = (catId !== 'author') ? catName : (_.get(entities, [ 'authors', _authorId, 'name' ], '作者文章') + '<span class=\"author-email\" ><a href=\"mailto:' + _.get(entities, [ 'authors', _authorId, 'email' ], '') + '\">' + _.get(entities, [ 'authors', _authorId, 'email' ], '') + '</a></span>')
+        const _articles = (catId !== 'author') ? articles : denormalizeArticles(_.get(this.props, [ 'articleByAuthor', catId, 'items' ], []), entities)
+        const _hasMore = (catId !== 'author') ? _.get(articlesByUuids, [ catId, 'hasMore' ]) : _.get(this.props, [ 'articleByAuthor', catId, 'hasMore' ])
         return (
           <List
-            articles={articles}
+            articles={_articles}
             categories={entities.categories}
-            section={sectionName}
-            title={catName}
-            hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
+            hasMore={_hasMore}
             loadMore={this.loadMore}
+            section={sectionName}
+            title={_title}
           />
         )
     }
@@ -318,6 +354,7 @@ class Category extends Component {
 
 function mapStateToProps(state) {
   return {
+    articleByAuthor: state.articleByAuthor || {},
     articlesByUuids: state.articlesByUuids || {},
     entities: state.entities || {},
     sectionList: state.sectionList || {},
@@ -333,6 +370,7 @@ Category.contextTypes = {
 
 export { Category }
 export default connect(mapStateToProps, {
+  fetchArticleByAuthor,
   fetchArticlesByUuidIfNeeded,
   fetchIndexArticles,
   fetchYoutubePlaylist,
