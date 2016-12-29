@@ -25,13 +25,13 @@ export default class LatestArticles extends Component {
       <div className="computer-hide" style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '300px' } }>
         <AdSlot sizes={ [ [ 300, 250 ] ] }
           dfpNetworkId={DFPID}
-          slotId={ 'mm_mobile_hp_300x250_L1' } 
-          adUnit={ 'mm_mobile_hp_300x250_L1' } 
+          slotId={ 'mm_mobile_hp_300x250_L1' }
+          adUnit={ 'mm_mobile_hp_300x250_L1' }
           sizeMapping={
-            [ 
+            [
               { viewport: [   1,   1 ], sizes: [ [ 300, 250 ] ] },
               { viewport: [ 970, 200 ], sizes: [ ]  }
-            ] 
+            ]
           }
         />
       </div>
@@ -54,20 +54,20 @@ export default class LatestArticles extends Component {
       <div className="container" style={{ marginTop: '50px' }}>
         <div className="ui text container" style={{ marginBottom: '35px', paddingLeft: '1em !important', marginLeft: '0 !important' }}>
           <div className="article-main" style={{ textAlign: 'center' }}>
-            <h2 className="hot-topic"><div className="colorBlock choice"></div><span>{title}</span><div className="blue-line" style={{ marginLeft: '16px', display:'inline-block' }}></div></h2>
+            <h2 className="hot-topic"><div className="colorBlock choice"></div><span>{title}</span></h2>
           </div>
         </div>
         <div className="latest">
 
           { _.map(_.take(sortedArticles, 5), (a)=>{
-            
+
             let image = imageComposer(a).mobileImage
             let linkStyle = (_.get(a, 'style', '') == 'projects') ? '/projects/' : '/story/'
 
             let brief = sanitizeHtml( _.get(a, [ 'brief','html' ], ''), { allowedTags: [ ] })
             let content = sanitizeHtml( _.get(a, [ 'content','html' ], ''), { allowedTags: [ ] })
             let briefContent = (brief.length >0) ? brief : content
-            
+
             let writers = '文｜' + _.map(a.writers, (n)=> { return _.get(authors, [ n, 'name' ], null) } ).join('、')
             let photographers = ' 攝影｜' + _.map(a.photographers, (n)=>{ return _.get(authors, [ n, 'name' ], null) }).join('、')
             let designers = ' 設計｜' + _.map(a.designers, (n)=>{ return _.get(authors, [ n, 'name' ], null) }).join('、')
@@ -103,7 +103,7 @@ export default class LatestArticles extends Component {
           })}
           {this.renderAD()}
           { _.map(_.slice(sortedArticles, 5), (a)=>{
-            
+
             let image = imageComposer(a).mobileImage
             let linkStyle = (_.get(a, 'style', '') == 'projects') ? '/projects/' : '/story/'
 
