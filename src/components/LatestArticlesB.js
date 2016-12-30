@@ -13,7 +13,7 @@ if (process.env.BROWSER) {
   require('./LatestArticles.css')
 }
 
-export default class LatestArticles extends Component {
+export default class LatestArticlesB extends Component {
   constructor(props, context) {
     super(props, context)
     this._handleClick = this._handleClick.bind(this)
@@ -40,9 +40,9 @@ export default class LatestArticles extends Component {
 
   _handleClick() {
     ga.event({
-      category: 'home',
+      category: 'homeb',
       action: 'click',
-      label: 'latestArticles'
+      label: 'latestArticlesb'
     })
   }
 
@@ -75,12 +75,12 @@ export default class LatestArticles extends Component {
 
             return (
               <div className="latest-block" key={a.id} >
-                <a href={linkStyle+a.slug+'/'} onClick={ this._handleClick } >
+                <a href={linkStyle+a.slug+'/'} onClick={ this._handleClick } target="_blank">
                   <div className="latest-img" style={{ background: 'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
                 </a>
                 <div className="latest-content">
-                  <a href={linkStyle+a.slug+'/'} onClick={ this._handleClick } >
+                  <a href={linkStyle+a.slug+'/'} onClick={ this._handleClick } target="_blank">
                     <h2>
                         {a.title}<div className="cat-label"><div className="separator"></div><span>{ _.get(categories, [ _.first(a.categories), 'title' ]) }</span></div>
                     </h2>
@@ -118,12 +118,12 @@ export default class LatestArticles extends Component {
 
             return (
               <div className="latest-block" key={a.id} >
-                <a href={linkStyle+a.slug+'/'} onClick={ this._handleClick }>
+                <a href={linkStyle+a.slug+'/'} onClick={ this._handleClick } target="_blank">
                   <div className="latest-img" style={{ background: 'url('+image+') no-repeat center center', backgroundSize:'cover' }}>
                   </div>
                 </a>
                 <div className="latest-content">
-                  <a href={linkStyle+a.slug+'/'} onClick={ this._handleClick }>
+                  <a href={linkStyle+a.slug+'/'} onClick={ this._handleClick } target="_blank">
                     <h2>
                         {a.title}<div className="cat-label"><div className="separator"></div><span>{ _.get(categories, [ _.first(a.categories), 'title' ]) }</span></div>
                     </h2>
@@ -151,4 +151,4 @@ export default class LatestArticles extends Component {
   }
 }
 
-export { LatestArticles }
+export { LatestArticlesB }
