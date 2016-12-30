@@ -151,7 +151,7 @@ class Category extends Component {
       return
     }
 
-    let itemSize = articlesByCat
+    let itemSize = _.get(articlesByCat, 'items.length', 0)
     let page = Math.floor(itemSize / MAXRESULT) + 1
 
     fetchArticlesByUuidIfNeeded(catId, CATEGORY, {

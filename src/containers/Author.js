@@ -27,7 +27,13 @@ class Author extends Component {
       page: PAGE,
       max_results: MAXRESULT,
       where: {
-        writers: _.get(params, 'authorId', '')
+        '$or' : [
+          { writers: _.get(params, 'authorId', '') },
+          { photographers: _.get(params, 'authorId', '') },
+          { camera_man: _.get(params, 'authorId', '') },
+          { designers: _.get(params, 'authorId', '') },
+          { engineers: _.get(params, 'authorId', '') }
+        ]
       }
     })).then(() => {
       return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
@@ -63,7 +69,13 @@ class Author extends Component {
       page: PAGE,
       max_results: MAXRESULT,
       where: {
-        writers: _.get(params, 'authorId', '')
+        '$or' : [
+          { writers: _.get(params, 'authorId', '') },
+          { photographers: _.get(params, 'authorId', '') },
+          { camera_man: _.get(params, 'authorId', '') },
+          { designers: _.get(params, 'authorId', '') },
+          { engineers: _.get(params, 'authorId', '') }
+        ]
       }
     })
   }
@@ -107,7 +119,13 @@ class Author extends Component {
       page: page,
       max_results: MAXRESULT,
       where: {
-        writers: _.get(params, 'authorId', '')
+        '$or' : [
+          { writers: _.get(params, 'authorId', '') },
+          { photographers: _.get(params, 'authorId', '') },
+          { camera_man: _.get(params, 'authorId', '') },
+          { designers: _.get(params, 'authorId', '') },
+          { engineers: _.get(params, 'authorId', '') }
+        ]
       }
     })
 
