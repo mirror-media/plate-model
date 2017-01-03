@@ -5,12 +5,15 @@ import { DFPSlotsProvider } from 'react-dfp'
 import { fetchIndexArticles, fetchTopics, fetchTwitterTimeline } from '../actions/articles'
 import { setPageType, setPageTitle } from '../actions/header'
 import DocumentMeta from 'react-document-meta'
-import Footer from '../components/Footer'
-import Header from '../components/Header'
+import FooterFull from '../components/FooterFull'
+import HeaderFull from '../components/HeaderFull'
+import MoreFull from '../components/MoreFull'
 import React, { Component } from 'react'
-import Sidebar from '../components/Sidebar'
+import SidebarFull from '../components/SidebarFull'
 import _ from 'lodash'
+import dateformat from 'dateformat'
 import ga from 'react-ga'
+import twitter from 'twitter-text'
 
 if (process.env.BROWSER) {
   require('./Timeline.css')
@@ -21,7 +24,7 @@ class Timeline extends Component {
     params = params
     return store.dispatch( fetchIndexArticles( [ 'sections' ] ) 
     ).then(() => {
-      return store.dispatch( fetchTopics() )
+      return store.dispatch( fetchTwitterTimeline('MirrorWatchTW', 30) )
     })
   }
 
@@ -31,10 +34,11 @@ class Timeline extends Component {
     this.state = {
       catId: section
     }
+    this.loadMore = this._loadMore.bind(this)
   }
 
   componentWillMount() {
-    const { fetchIndexArticles, sectionList, topics } = this.props
+    const { fetchIndexArticles, sectionList, twitterTimeline } = this.props
 
     //TODO: We should not get all the keys
     let checkSectionList = _.get(sectionList, 'fetched', undefined)
@@ -42,10 +46,9 @@ class Timeline extends Component {
       fetchIndexArticles([ 'sections' ])
     }
 
-    if ( !_.get(topics, 'fetched', undefined) ) {
-      this.props.fetchTopics()
+    if ( !_.get(twitterTimeline, 'fetched', undefined) ) {
+      fetchTwitterTimeline('MirrorWatchTW', 30)
     }
-
   }
 
   componentDidMount() {
@@ -57,9 +60,7 @@ class Timeline extends Component {
     ga.pageview(this.props.location.pathname)
 
     this.props.setPageType(SECTION)
-    this.props.setPageTitle('', catName ? catName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL)
-
-    this.props.fetchTwitterTimeline()
+    this.props.setPageTitle('', 'Timeline' + SITE_NAME.SEPARATOR + SITE_NAME.FULL)
 
   }
 
@@ -74,9 +75,16 @@ class Timeline extends Component {
 
   }
 
+  _loadMore() {
+    const { twitterTimeline } = this.props
+    let lastTweet = _.last(twitterTimeline.items)
+    this.props.fetchTwitterTimeline('MirrorWatchTW', 10, _.get(lastTweet, 'id', 0) )
+  }
+
   render() {
-    const { params, sectionList, topics, location } = this.props
+    const { params, sectionList, location, twitterTimeline } = this.props
     const section = _.get(params, 'section', null)
+    const sectionLogo = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: 'watch' }), [ 'image' ], null)
     const catName = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'title' ], null)
     const catDesc = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'description' ], null)
     const customCSS = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'css' ], null)
@@ -88,59 +96,39 @@ class Timeline extends Component {
       meta: { property: {} },
       auto: { ograph: true }
     }
+
     return (
-      <DFPSlotsProvider dfpNetworkId={DFPID}>
-        <DocumentMeta {...meta}>
-          <Sidebar sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
-          <Header sectionList={sectionList.response} topics={topics} pathName={location.pathname}/>
-
-          <div id="main" className="pusher">
-            <div id="columns">
-              <figure>
-                <img src="//pbs.twimg.com/media/Czc7MNuVIAAAa4Y.jpg" />
-                <figcaption>PATEK PHILIPPE #PatekPhilippe #movement #mirrorwatch #鏡錶誌 https://t.co/soFW9EU8hY</figcaption>
-              </figure>
-
-              <figure>
-                <img src="//pbs.twimg.com/media/Czc3sULUsAITq4k.jpg" />
-                <figcaption>BELL &amp; ROSS https://t.co/TAfbvPBfpB</figcaption>
-              </figure>
-              <figure>
-                <img src="//pbs.twimg.com/media/Czc4NOMVQAA7mz7.jpg" />
-                <figcaption>OMEGA Speedmaster https://t.co/NOtvrvaiIi</figcaption>
-              </figure>
-              <figure>
-                <img src="//pbs.twimg.com/media/Czc7MNuVIAAAa4Y.jpg" />
-                <figcaption>PATEK PHILIPPE #PatekPhilippe #movement #mirrorwatch #鏡錶誌 https://t.co/soFW9EU8hY</figcaption>
-              </figure>
-              <figure>
-                <img src="//pbs.twimg.com/media/Czc3sULUsAITq4k.jpg" />
-                <figcaption>BELL &amp; ROSS https://t.co/TAfbvPBfpB</figcaption>
-              </figure>
-              <figure>
-                <img src="//pbs.twimg.com/media/Czc7MNuVIAAAa4Y.jpg" />
-                <figcaption>PATEK PHILIPPE #PatekPhilippe #movement #mirrorwatch #鏡錶誌 https://t.co/soFW9EU8hY</figcaption>
-              </figure>
-              <figure>
-                <img src="//pbs.twimg.com/media/Czc4NOMVQAA7mz7.jpg" />
-                <figcaption>OMEGA Speedmaster https://t.co/NOtvrvaiIi</figcaption>
-              </figure>
-              <figure>
-                <img src="//pbs.twimg.com/media/Czc4NOMVQAA7mz7.jpg" />
-                <figcaption>OMEGA Speedmaster https://t.co/NOtvrvaiIi</figcaption>
-              </figure>
-              <figure>
-                <img src="//pbs.twimg.com/media/Czc3sULUsAITq4k.jpg" />
-                <figcaption>BELL &amp; ROSS https://t.co/TAfbvPBfpB</figcaption>
-              </figure>
-            </div>
-            {this.props.children}
-            <Footer sectionList={sectionList.response} />
-          </div>
-          <style dangerouslySetInnerHTML={ { __html: customCSS } } />
-          <script dangerouslySetInnerHTML={ { __html: customJS } } />
-        </DocumentMeta>
-      </DFPSlotsProvider>
+          <DFPSlotsProvider dfpNetworkId={DFPID}>
+            <DocumentMeta {...meta}>
+              <SidebarFull pathName={'/section/watch'} sectionList={sectionList.response}/>
+              <HeaderFull pathName={location.pathname} sectionLogo={sectionLogo}/>
+              <div className="leadingFull__gradient"></div>
+              <section>
+                <figure className="post-image" style={ { background: 'url(//pbs.twimg.com/media/Czc7MNuVIAAAa4Y.jpg) center center / cover no-repeat' } }></figure>
+              </section>
+              <div className="timelineWrapper">
+                { _.map(twitterTimeline.items, (t)=>{
+                  return (
+                    <section className="tweet" key={t.id_str}>
+                      <div className="datetime">{ dateformat(t.created_at, 'mm/dd HH:MM') }</div>
+                      <div className="box topLine">
+                        <div className="clock"></div>
+                        <div className="innerBox leftLine">
+                          <div className="heroImg"><a href={'https://twitter.com/MirrorWatchTW/status/'+_.get(t, 'id_str')}><img src={ _.get(t, [ 'extended_entities', 'media', 0, 'media_url_https' ]) }/></a></div>
+                          <div className="content" dangerouslySetInnerHTML={ { __html: twitter.autoLink(t.text, t.entities.urls) } }></div>
+                          <div className="share"></div>
+                        </div>
+                      </div>
+                    </section>
+                  )
+                })}
+                <MoreFull loadMore={this.loadMore} />
+              </div>
+              <FooterFull pathName={location.pathname} sectionList={sectionList.response} sectionLogo={sectionLogo}/>
+              <style dangerouslySetInnerHTML={ { __html: customCSS } } />
+              <script dangerouslySetInnerHTML={ { __html: customJS } } />
+            </DocumentMeta>
+          </DFPSlotsProvider>
     )
   }
 }
@@ -148,7 +136,6 @@ class Timeline extends Component {
 function mapStateToProps(state) {
   return {
     sectionList: state.sectionList || {},
-    topics: state.topics || {},
     twitterTimeline: state.twitterTimeline || {}
   }
 }

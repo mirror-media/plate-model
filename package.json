@@ -179,6 +179,7 @@
     "tls": "0.0.1",
     "truncate": "^2.0.0",
     "twitter": "^1.7.0",
+    "twitter-text": "^1.14.3",
     "url-loader": "^0.5.7",
     "webpack": "^1.9.11",
     "webpack-isomorphic-tools": "^2.3.0"

@@ -444,7 +444,7 @@ export function twitterTimeline(state = {}, action = {}) {
       })
     case types.FETCH_TWITTER_TIMELINE_SUCCESS:
       let orig = _.values(state['items'])
-      let new_array = _.values(action)
+      let new_array = _.get(action, 'response')
       return _.merge({}, state, {
         isFetching: false,
         items: orig.concat(new_array),

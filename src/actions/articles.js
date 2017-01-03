@@ -527,8 +527,10 @@ export function fetchYoutubePlaylist(limit = 10, pageToken = '') {
   }
 }
 
-export function fetchTwitterTimeline(screen_name = 'MirrorWatchTW', count = 10) {
-  let url = formatUrl('twitter?screen_name=' + screen_name + '&count=' + count)
+export function fetchTwitterTimeline(screen_name = 'MirrorWatchTW', count = 10, max_id = 0) {
+
+  let url = max_id ? formatUrl('twitter?screen_name=' + screen_name + '&count=' + count + '&max_id=' + max_id) : formatUrl('twitter?screen_name=' + screen_name + '&count=' + count)
+
   return (dispatch) => {
     dispatch(requestTwitterTimeline(url))
     return _fetchArticles(url)
