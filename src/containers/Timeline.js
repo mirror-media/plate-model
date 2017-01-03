@@ -7,6 +7,7 @@ import { setPageType, setPageTitle } from '../actions/header'
 import DocumentMeta from 'react-document-meta'
 import FooterFull from '../components/FooterFull'
 import HeaderFull from '../components/HeaderFull'
+import MoreFull from '../components/MoreFull'
 import React, { Component } from 'react'
 import SidebarFull from '../components/SidebarFull'
 import _ from 'lodash'
@@ -23,7 +24,7 @@ class Timeline extends Component {
     params = params
     return store.dispatch( fetchIndexArticles( [ 'sections' ] ) 
     ).then(() => {
-      return store.dispatch( fetchTopics() )
+      return store.dispatch( fetchTwitterTimeline('MirrorWatchTW', 30) )
     })
   }
 
@@ -37,7 +38,7 @@ class Timeline extends Component {
   }
 
   componentWillMount() {
-    const { fetchIndexArticles, sectionList, topics } = this.props
+    const { fetchIndexArticles, sectionList, twitterTimeline } = this.props
 
     //TODO: We should not get all the keys
     let checkSectionList = _.get(sectionList, 'fetched', undefined)
@@ -45,10 +46,9 @@ class Timeline extends Component {
       fetchIndexArticles([ 'sections' ])
     }
 
-    if ( !_.get(topics, 'fetched', undefined) ) {
-      this.props.fetchTopics()
+    if ( !_.get(twitterTimeline, 'fetched', undefined) ) {
+      fetchTwitterTimeline('MirrorWatchTW', 30)
     }
-
   }
 
   componentDidMount() {
@@ -60,9 +60,7 @@ class Timeline extends Component {
     ga.pageview(this.props.location.pathname)
 
     this.props.setPageType(SECTION)
-    this.props.setPageTitle('', catName ? catName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL)
-
-    this.props.fetchTwitterTimeline()
+    this.props.setPageTitle('', 'Timeline' + SITE_NAME.SEPARATOR + SITE_NAME.FULL)
 
   }
 
@@ -86,7 +84,7 @@ class Timeline extends Component {
   render() {
     const { params, sectionList, location, twitterTimeline } = this.props
     const section = _.get(params, 'section', null)
-    // const sectionLogo = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'image' ], null)
+    const sectionLogo = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: 'watch' }), [ 'image' ], null)
     const catName = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'title' ], null)
     const catDesc = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'description' ], null)
     const customCSS = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'css' ], null)
@@ -98,75 +96,34 @@ class Timeline extends Component {
       meta: { property: {} },
       auto: { ograph: true }
     }
-    let sectionLogo = {
-      'description': 'section-watch_m',
-      'tags': [],
-      'image': {
-        'gcsDir': 'assets/images/',
-        'url': 'https://storage.googleapis.com/mirrormedia-dev/assets/images/20161219101501-b49754297f3e3e1351e1f4b59eed66ec.png',
-        'filetype': 'image/png',
-        'height': 40,
-        'resizedTargets': {
-          'mobile': {
-            'url':'https://storage.googleapis.com/mirrormedia-dev/assets/images/20161219101501-b49754297f3e3e1351e1f4b59eed66ec-mobile.png',
-            'width': 152,
-            'height': 40
-          },
-          'tiny': {
-            'url': 'https://storage.googleapis.com/mirrormedia-dev/assets/images/20161219101501-b49754297f3e3e1351e1f4b59eed66ec-tiny.png',
-            'width': 150,
-            'height': 39
-          },
-          'tablet': {
-            'url': 'https://storage.googleapis.com/mirrormedia-dev/assets/images/20161219101501-b49754297f3e3e1351e1f4b59eed66ec-tablet.png',
-            'width': 152,
-            'height': 40
-          },
-          'desktop': {
-            'url': 'https://storage.googleapis.com/mirrormedia-dev/assets/images/20161219101501-b49754297f3e3e1351e1f4b59eed66ec-desktop.png',
-            'width': 152,
-            'height': 40
-          }
-        },
-        'width': 152,
-        'iptc': {
-          'keywords': []
-        },
-        'gcsBucket': 'mirrormedia-dev',
-        'filename': '20161219101501-b49754297f3e3e1351e1f4b59eed66ec.png',
-        'size': 5585
-      },
-      'sale': false,
-      'id': '585742a587844cd85a2ff056',
-      'createTime': 'Mon, 19 Dec 2016 02:15:00 GMT'
-    }
+
     return (
           <DFPSlotsProvider dfpNetworkId={DFPID}>
             <DocumentMeta {...meta}>
-              <SidebarFull pathName={location.pathname} sectionList={sectionList.response}/>
+              <SidebarFull pathName={'/section/watch'} sectionList={sectionList.response}/>
               <HeaderFull pathName={location.pathname} sectionLogo={sectionLogo}/>
               <div className="leadingFull__gradient"></div>
               <section>
-                  <a href="/story/57cfaffb81445bef12e8d758/">
-                      <figure className="post-image" style={ { background: 'url(//pbs.twimg.com/media/Czc7MNuVIAAAa4Y.jpg) center center / cover no-repeat' } }></figure>
-                  </a>
+                <figure className="post-image" style={ { background: 'url(//pbs.twimg.com/media/Czc7MNuVIAAAa4Y.jpg) center center / cover no-repeat' } }></figure>
               </section>
-              { _.map(twitterTimeline.items, (t)=>{
-                return (
-                  <section className="tweet" key={t.id_str}>
-                    <div className="datetime">{ dateformat(t.created_at, 'mm/dd HH:MM') }</div>
-                    <div className="box topLine">
-                      <div className="clock"></div>
-                      <div className="innerBox leftLine">
-                        <div className="heroImg"><img src={ _.get(t, [ 'extended_entities', 'media', 0, 'media_url_https' ]) }/></div>
-                        <div className="content" dangerouslySetInnerHTML={ { __html: twitter.autoLink(t.text, t.entities.urls) } }></div>
-                        <div className="share"></div>
+              <div className="timelineWrapper">
+                { _.map(twitterTimeline.items, (t)=>{
+                  return (
+                    <section className="tweet" key={t.id_str}>
+                      <div className="datetime">{ dateformat(t.created_at, 'mm/dd HH:MM') }</div>
+                      <div className="box topLine">
+                        <div className="clock"></div>
+                        <div className="innerBox leftLine">
+                          <div className="heroImg"><a href={'https://twitter.com/MirrorWatchTW/status/'+_.get(t, 'id_str')}><img src={ _.get(t, [ 'extended_entities', 'media', 0, 'media_url_https' ]) }/></a></div>
+                          <div className="content" dangerouslySetInnerHTML={ { __html: twitter.autoLink(t.text, t.entities.urls) } }></div>
+                          <div className="share"></div>
+                        </div>
                       </div>
-                    </div>
-                  </section>
-                )
-              })}
-              <div onClick={this.loadMore}>more</div>
+                    </section>
+                  )
+                })}
+                <MoreFull loadMore={this.loadMore} />
+              </div>
               <FooterFull pathName={location.pathname} sectionList={sectionList.response} sectionLogo={sectionLogo}/>
               <style dangerouslySetInnerHTML={ { __html: customCSS } } />
               <script dangerouslySetInnerHTML={ { __html: customJS } } />
@@ -179,7 +136,6 @@ class Timeline extends Component {
 function mapStateToProps(state) {
   return {
     sectionList: state.sectionList || {},
-    topics: state.topics || {},
     twitterTimeline: state.twitterTimeline || {}
   }
 }
