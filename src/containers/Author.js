@@ -34,7 +34,8 @@ class Author extends Component {
           { designers: _.get(params, 'authorId', '') },
           { engineers: _.get(params, 'authorId', '') }
         ]
-      }
+      },
+      sort: '-publishedDate'
     })).then(() => {
       return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
     }).then(() => {
@@ -76,7 +77,8 @@ class Author extends Component {
           { designers: _.get(params, 'authorId', '') },
           { engineers: _.get(params, 'authorId', '') }
         ]
-      }
+      },
+      sort: '-publishedDate'
     })
   }
 
@@ -126,7 +128,8 @@ class Author extends Component {
           { designers: _.get(params, 'authorId', '') },
           { engineers: _.get(params, 'authorId', '') }
         ]
-      }
+      },
+      sort: '-publishedDate'
     })
 
     ga.event({
