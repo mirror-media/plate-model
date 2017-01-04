@@ -52,7 +52,7 @@ class Section extends Component {
   componentWillMount() {
     const { articlesByUuids, fetchArticlesByUuidIfNeeded, fetchIndexArticles, sectionFeatured, sectionList, topics } = this.props
     let catId = this.state.catId
-    
+
     //TODO: We should not get all the keys
     let checkSectionList = _.get(sectionList, 'fetched', undefined)
     let checkSectionFeatured = _.get(sectionFeatured, 'fetched', undefined)
@@ -92,7 +92,7 @@ class Section extends Component {
           page: PAGE,
           max_results: MAXRESULT
         })
-      
+
     }
   }
 
@@ -305,23 +305,168 @@ class Section extends Component {
         return (
           <DFPSlotsProvider dfpNetworkId={DFPID}>
             <DocumentMeta {...meta}>
+              <div style={ { 'margin': '10px auto', 'maxWidth': '970px', textAlign: 'center' } }>
+                <AdSlot sizes={ [ [ 970, 90 ],  [ 970, 250 ] ] }
+                  dfpNetworkId={DFPID}
+                  slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x250_HD' }
+                  adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x250_HD' }
+                  sizeMapping={
+                    [
+                      { viewport: [   0,   0 ], sizes: [ ] },
+                      { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ] ]  }
+                    ]
+                  }
+                />
+              </div>
+              <div style={ { 'margin': '10px auto', 'maxWidth': '320px', textAlign: 'center' } }>
+                <AdSlot sizes={ [ [ 300, 250 ], [ 320, 100 ] ] }
+                  dfpNetworkId={DFPID}
+                  slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_300x250_HD' }
+                  adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_300x250_HD' }
+                  sizeMapping={
+                    [
+                      { viewport: [   1,   1 ], sizes: [ [ 300, 250 ], [ 320, 100 ] ] },
+                      { viewport: [ 970, 200 ], sizes: [ ]  }
+                    ]
+                  }
+                />
+              </div>
               <SidebarFull pathName={location.pathname} sectionList={sectionList.response}/>
               <HeaderFull pathName={location.pathname} sectionLogo={sectionLogo}/>
-              <LeadingFull 
+              <LeadingFull
                 articles={articles}
                 pathName={location.pathname}
                 section={section}
-                title={catName} />
-              <ChoicesFull 
+                title={catName}>
+                <div style={ { margin: '0 auto', 'maxWidth': '320px', textAlign: 'center', paddingBottom: '20px' } } data-pos="L1">
+                  <AdSlot sizes={ [ [ 300, 250 ] ] }
+                    dfpNetworkId={DFPID}
+                    slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_300x250_L1' }
+                    adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_300x250_L1' }
+                    sizeMapping={
+                      [
+                        { viewport: [   1,   1 ], sizes: [ [ 300, 250 ] ] },
+                        { viewport: [ 970, 200 ], sizes: [ ]  }
+                      ]
+                    }
+                  />
+                </div>
+                <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px', textAlign: 'center' } } data-pos="R1">
+                  <AdSlot sizes={ [ [ 300, 250 ] ] }
+                    dfpNetworkId={DFPID}
+                    slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_300x250_R1' }
+                    adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_300x250_R1' }
+                    sizeMapping={
+                      [
+                        { viewport: [   0,   0 ], sizes: [ ] },
+                        { viewport: [ 970, 200 ], sizes: [ [ 300, 250 ] ] }
+                      ]
+                    }
+                  />
+                </div>
+                <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px', textAlign: 'center' } } data-pos="R2">
+                  <AdSlot sizes={ [ [ 300, 250 ], [ 300, 600 ] ] }
+                    dfpNetworkId={DFPID}
+                    slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_300x600_R2' }
+                    adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_300x600_R2' }
+                    sizeMapping={
+                      [
+                        { viewport: [   0,   0 ], sizes: [ ] },
+                        { viewport: [ 970, 200 ], sizes: [ [ 300, 250 ], [ 300, 600 ] ] }
+                      ]
+                    }
+                  />
+                </div>
+              </LeadingFull>
+              <div style={ { margin: '20px auto 0', 'maxWidth': '320px', textAlign: 'center' } }>
+                <AdSlot sizes={ [ [ 300, 250 ] ] }
+                  dfpNetworkId={DFPID}
+                  slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_300x250_L2' }
+                  adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_300x250_L2' }
+                  sizeMapping={
+                    [
+                      { viewport: [   1,   1 ], sizes: [ [ 300, 250 ] ] },
+                      { viewport: [ 970, 200 ], sizes: [ ]  }
+                    ]
+                  }
+                />
+              </div>
+              <ChoicesFull
                 articles={featured}
                 authors={entities.authors}
                 categories={entities.categories}
                 pathName={location.pathname} />
+              <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px', textAlign: 'center' } }>
+                <AdSlot sizes={ [ [ 300, 250 ] ] }
+                  dfpNetworkId={DFPID}
+                  slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_300x250_L3' }
+                  adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_300x250_L3' }
+                  sizeMapping={
+                    [
+                      { viewport: [   1,   1 ], sizes: [ [ 300, 250 ] ] },
+                      { viewport: [ 970, 200 ], sizes: [ ]  }
+                    ]
+                  }
+                />
+              </div>
               <LatestStories
                 articles={articles}
                 hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
                 loadMore={this.loadMore}
-                pathName={location.pathname} />
+                pathName={location.pathname}>
+                <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px', textAlign: 'center' } }>
+                  <AdSlot sizes={ [ [ 300, 250 ] ] }
+                    dfpNetworkId={DFPID}
+                    slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_300x250_R3' }
+                    adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_300x250_R3' }
+                    sizeMapping={
+                      [
+                        { viewport: [   0,   0 ], sizes: [ ] },
+                        { viewport: [ 970, 200 ], sizes: [ [ 300, 250 ] ] }
+                      ]
+                    }
+                  />
+                </div>
+                <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px', textAlign: 'center' } }>
+                  <AdSlot sizes={ [ [ 300, 250 ], [ 300, 600 ] ] }
+                    dfpNetworkId={DFPID}
+                    slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_300x600_R4' }
+                    adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_300x600_R4' }
+                    sizeMapping={
+                      [
+                        { viewport: [   0,   0 ], sizes: [ ] },
+                        { viewport: [ 970, 200 ], sizes: [ [ 300, 250 ], [ 300, 600 ] ] }
+                      ]
+                    }
+                  />
+                </div>
+              </LatestStories>
+              <div style={ { margin: '10px auto', 'maxWidth': '970px', textAlign: 'center' } }>
+                <AdSlot sizes={ [ [ 970, 90 ] ] }
+                  dfpNetworkId={DFPID}
+                  slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x90_FT' }
+                  adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x90_FT' }
+                  sizeMapping={
+                    [
+                      { viewport: [   0,   0 ], sizes: [ ] },
+                      { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ] ]  }
+                    ]
+                  }
+                />
+              </div>
+              <div style={ { margin: '0 auto', 'marginBottom': '10px', 'maxWidth': '320px', textAlign: 'center' } }>
+                <AdSlot sizes={ [ [ 300, 250 ], [ 320, 100 ] ] }
+                  dfpNetworkId={DFPID}
+                  slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_320x100_FT' }
+                  adUnit={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_320x100_FT' }
+                  sizeMapping={
+                    [
+                      { viewport: [   1,   1 ], sizes: [ [ 300, 250 ], [ 320, 100 ] ] },
+                      { viewport: [ 970, 200 ], sizes: [ ]  }
+                    ]
+                  }
+                />
+              </div>
               <FooterFull pathName={location.pathname} sectionList={sectionList.response} sectionLogo={sectionLogo}/>
               <style dangerouslySetInnerHTML={ { __html: customCSS } } />
               <script dangerouslySetInnerHTML={ { __html: customJS } } />

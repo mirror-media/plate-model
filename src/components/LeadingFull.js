@@ -32,7 +32,7 @@ export default class LeadingFull extends Component {
     return (
       <div>
         <div className="leadingFull__gradient"></div>
-        { _.map(_.take(sortedArticles, 2), (a)=>{
+        { _.map(_.take(sortedArticles, 2), (a, i)=>{
           let image = imageComposer(a).desktopImage
           let title = sanitizeHtml( _.get(a, [ 'title' ], ''), { allowedTags: [ ] })
           let hasRelated = _.difference(a.relateds, [ null, '' ]).length > 0 ? 'static' : 'none'
@@ -44,7 +44,6 @@ export default class LeadingFull extends Component {
 
           let writers = '文｜' + _.map(a.writers, 'name').join('、')
           let relateds = _.filter(a.relateds, 'id')
-          
           return (
             <section className="" key={'choiceFull' + a.id}>
               <a href={linkStyle+a.slug+'/'} onClick={ this._handleClick }>
@@ -68,6 +67,7 @@ export default class LeadingFull extends Component {
                   </div>
                 </div>
                 <div className="post dfp">
+                  { _.find(this.props.children, { props : { 'data-pos' : 'R' + (i + 1) } }) }
                 </div>
               </div>
               <div className="related-post-block" style={{ display: hasRelated }} >
@@ -82,7 +82,7 @@ export default class LeadingFull extends Component {
                       let content = sanitizeHtml( _.get(r, [ 'content','html' ], ''), { allowedTags: [ ] })
                       let briefContent = (brief.length >0) ? brief : content
                       let writers = '文｜' + _.map(r.writers, 'name').join('、')
-                      
+
                       return (
                         <div className="related-post" key={ r.id} >
                           <a href={linkStyle+r.slug+'/'} onClick={ this._handleClick }>
@@ -107,6 +107,7 @@ export default class LeadingFull extends Component {
                     })}
                 </div>
               </div>
+              { (i !== 0) ? null : _.find(this.props.children, { props : { 'data-pos' : 'L1' } }) }
             </section>
           )
         })}
