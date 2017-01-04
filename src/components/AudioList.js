@@ -19,8 +19,8 @@ export default class AudioList extends Component {
 
     return title ? (
         <div className="ui text container" style={{ marginBottom: '35px', paddingLeft: '1em !important', marginLeft: '0 !important' }}>
-          <div className="article-main" style={{ textAlign: 'center' }}>
-            <h2 className="hot-topic"><div className="colorBlock choice"></div>{title}<div className="blue-line" style={{ marginLeft: '16px', display:'inline-block' }}></div></h2>
+          <div className="article-main">
+            <h2 className="hot-topic"><div className="colorBlock choice"></div>{title}</h2>
           </div>
         </div>
     ) : null

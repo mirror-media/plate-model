@@ -38,13 +38,21 @@ export default class HeaderFull extends Component {
   _handleScroll() {
     // Navigation Animation
     $(window).bind('scroll', function () {
-      $('#Header').css('opacity', 1 - window.scrollY/60 )
-      $('#HeaderBlack').css('opacity', window.scrollY/60 )
-      if ($('#Header').css('opacity') == 0) { 
-        $('#Header').hide() 
+      let winTop = $(window).scrollTop()
+      let elTop = $('header').offset().top
+      $('#Header').css('opacity', 1 - winTop/elTop )
+      $('#HeaderBlack').css('opacity', winTop/elTop )
+      if ($('#Header').css('opacity') == 0) {
+        $('#Header').hide()
       }
-      if ($('#Header').css('opacity') != 0) { 
-        $('#Header').show() 
+      if ($('#Header').css('opacity') != 0) {
+        $('#Header').show()
+      }
+
+      if (elTop <= winTop) {
+        $('#HeaderBlack').css({ 'position' : 'fixed', 'top' : '0' })
+      } else {
+        $('#HeaderBlack').css({ 'position' : 'absolute', 'top' : 'auto' })
       }
     })
   }
@@ -73,7 +81,7 @@ export default class HeaderFull extends Component {
   render() {
     const { pathName, sectionLogo } = this.props
     let logoUrl = _.get(sectionLogo, [ 'image', 'url' ]) ? _.get(sectionLogo, [ 'image', 'url' ]) : '/asset/icon/logo@3x.png'
-    
+
     return (
       <header>
         <nav id="Header" className="nav-full">

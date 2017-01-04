@@ -39,7 +39,7 @@ export default class LatestStories extends Component {
           </h2>
         </div>
         <div className="post-block">
-          <div className="latestStories-container">
+          <div className="latestStories-container" style={{ order: '1' }}>
             { _.map(_.take(sortedArticles, 3), (a)=>{
               let image = imageComposer(a).mobileImage
               let linkStyle = (_.get(a, 'style', '') == 'projects') ? '/projects/' : '/story/'
@@ -116,8 +116,11 @@ export default class LatestStories extends Component {
                 </div>
               )
             })}
-          </div>  
-          { hasMore ? <MoreFull loadMore={loadMore} /> : null }
+          </div>
+          <div className="post dfp">
+            { this.props.children }
+          </div>
+          { hasMore ? <div style={{ order: '5', width: '100%' }}><MoreFull loadMore={loadMore} /></div> : null }
         </div>
       </section>
     )

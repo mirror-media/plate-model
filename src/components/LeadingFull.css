@@ -73,7 +73,7 @@ section {
 	order: 4;
 	width: 100%;
 	margin: 0 auto;
-	padding: 30px 0;
+	/*padding: 30px 0;*/
 }
 
 .post-container h2 {
@@ -164,7 +164,7 @@ section {
 }
 
 /* for Monitor */
-@media only screen 
+@media only screen
 	and (min-width: 992px) {
 		.leadingFull__gradient {
 			height: 150px;
@@ -250,7 +250,7 @@ section {
 }
 
 /* for Large Monitor */
-@media only screen 
+@media only screen
 	and (min-width: 1200px) {
 		.post.meta {
 			width: 170px;
