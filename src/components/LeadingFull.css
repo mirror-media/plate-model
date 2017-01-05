@@ -191,12 +191,14 @@ section {
 		.post.title {
 			padding: 0;
 			font-size: 36px;
-			color: #222;
 		}
 
 		.post.brief {
 			padding-top: 20px;
 			font-size: 16px;
+		}
+
+		.post.title h2, .post.brief a {
 			color: #222;
 		}
 
