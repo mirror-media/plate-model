@@ -25,7 +25,7 @@ export default function (history = browserHistory) {
         <Route path="section/:section" component={Section}/>
         <Route path="tag/:tagId" component={Tag} />
         <Route path="topic/:topicId" component={Topic} />
-        <Route path="timeline" component={Timeline}/>
+        <Route path="timeline/watch" component={Timeline}/>
         <Route path="q/:questionnaireId(/:resultIdForOg)" component={Questionnaire} />
       </Route>
     </Router>
