@@ -1,3 +1,18 @@
+div.titleBox {
+  background: url('//storage.googleapis.com/mirrormedia-files/assets/images/20170109161704-a137077c82006e45acd534a14644f2a0.png') 50% 50% no-repeat;
+  background-size: contain;
+  width: 390px;
+  max-width: 80%;
+  height: 200px;
+  z-index: 9;
+  position: absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  margin:auto;
+}
+
 div.timelineWrapper {
     padding: 40px 70px;
 }

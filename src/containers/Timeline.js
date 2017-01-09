@@ -102,9 +102,10 @@ class Timeline extends Component {
             <DocumentMeta {...meta}>
               <SidebarFull pathName={'/section/watch'} sectionList={sectionList.response}/>
               <HeaderFull pathName={location.pathname} sectionLogo={sectionLogo}/>
-              <div className="leadingFull__gradient"></div>
-              <section>
-                <figure className="post-image" style={ { background: 'url(//pbs.twimg.com/media/Czc7MNuVIAAAa4Y.jpg) center center / cover no-repeat' } }></figure>
+              <div className="leadingFull__gradient" style={{ zIndex: '9' }}></div>
+              <section style={{ position: 'relative' }}>
+                <div className="titleBox"/>
+                <figure className="post-image" style={ { background: 'url(//storage.googleapis.com/mirrormedia-files/assets/images/20170109160902-b20ee536a0e884d73159d4846df1d33d.jpg) center center / cover no-repeat' } }></figure>
               </section>
               <div className="timelineWrapper">
                 { _.map(twitterTimeline.items, (t)=>{
