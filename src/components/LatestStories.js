@@ -40,7 +40,7 @@ export default class LatestStories extends Component {
         </div>
         <div className="post-block">
           <div className="latestStories-container" style={{ order: '1' }}>
-            { _.map(_.take(sortedArticles, 3), (a)=>{
+            { _.map(_.slice(sortedArticles, 2, 5), (a)=>{
               let image = imageComposer(a).mobileImage
               let linkStyle = (_.get(a, 'style', '') == 'projects') ? '/projects/' : '/story/'
               let brief = sanitizeHtml( _.get(a, [ 'brief', 'html' ], ''), { allowedTags: [ ] })
