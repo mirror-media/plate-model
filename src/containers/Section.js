@@ -305,7 +305,7 @@ class Section extends Component {
         return (
           <DFPSlotsProvider dfpNetworkId={DFPID}>
             <DocumentMeta {...meta}>
-              <div style={ { 'margin': '10px auto', 'maxWidth': '970px', textAlign: 'center' } }>
+              <div style={ { 'margin': '0 auto;', 'maxWidth': '970px', textAlign: 'center' } } className="section-ad-hd">
                 <AdSlot sizes={ [ [ 970, 90 ],  [ 970, 250 ] ] }
                   dfpNetworkId={DFPID}
                   slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x250_HD' }
@@ -318,7 +318,7 @@ class Section extends Component {
                   }
                 />
               </div>
-              <div style={ { 'margin': '10px auto', 'maxWidth': '320px', textAlign: 'center' } }>
+              <div style={ { 'margin': '0 auto;', 'maxWidth': '320px', textAlign: 'center' } } className="section-ad-hd">
                 <AdSlot sizes={ [ [ 300, 250 ], [ 320, 100 ] ] }
                   dfpNetworkId={DFPID}
                   slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_300x250_HD' }
