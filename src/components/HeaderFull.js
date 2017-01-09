@@ -40,8 +40,9 @@ export default class HeaderFull extends Component {
     $(window).bind('scroll', function () {
       let winTop = $(window).scrollTop()
       let elTop = $('header').offset().top
-      $('#Header').css('opacity', 1 - winTop/elTop )
-      $('#HeaderBlack').css('opacity', winTop/elTop )
+
+      $('#Header').css('opacity', 1 - ((elTop !== 0) ? winTop/elTop : winTop) )
+      $('#HeaderBlack').css('opacity', ((elTop !== 0) ? winTop/elTop : winTop ) )
       if ($('#Header').css('opacity') == 0) {
         $('#Header').hide()
       }
