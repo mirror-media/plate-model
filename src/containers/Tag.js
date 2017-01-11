@@ -172,6 +172,7 @@ class Tag extends Component {
       title: tagName ? tagName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL
     }
     const customCSS = _.get(tag.items, [ 'css' ])
+    const customJS = _.get(tag.items, [ 'javascript' ], null)
     switch (tagStyle) {
       default:
         return (
@@ -195,7 +196,7 @@ class Tag extends Component {
         return (
           <DocumentMeta {...meta}>
             <SidebarFull pathName={location.pathname} section={section} sectionList={sectionListResponse}/>
-            <HeaderFull pathName={location.pathname} sectionLogo={sectionLogo}/>
+            <HeaderFull pathName={location.pathname} section={section} sectionLogo={sectionLogo}/>
             <section className="tag-gallery" style={{ backgroundImage: 'url('+heroImage+')' }}>
               <div className="tag-gallery-headline">
                 <h1 className="tag-gallery-headline__enName"></h1>
@@ -206,26 +207,7 @@ class Tag extends Component {
                 </div>
               </div>
             </section>
-            <section className="subnav">
-            <ul>
-              <li className="sihh"><a href="/tag/57fe7bfa5eb4360e00e6116d">
-                  <span className="mobile-hide">日內瓦國際高級鐘錶沙龍</span>
-                  <span className="mobile-only">SIHH</span>
-              </a></li>
-              <li className="baselworld"><a href="/tag/587496583c1f950d00ce359a">
-                <span className="mobile-hide">巴塞爾世界鐘錶珠寶大展</span>
-                <span className="mobile-only">BASELWORLD</span>
-              </a></li>
-              <li className="wphh"><a href="/tag/587496cf3c1f950d00ce359b">
-                <span className="mobile-hide">WPHH世界高級鐘錶展</span>
-                <span className="mobile-only">WPHH</span>
-              </a></li>
-              <li className="indie"><a href="/tag/5874971a3c1f950d00ce359c">
-                <span className="mobile-hide">獨立製錶師專區</span>
-                <span className="mobile-only">INDIE</span>
-              </a></li>
-            </ul>
-            </section>
+            <section id="subnav"></section>
             <LatestArticlesFull
                 articles={articles}
                 categories={entities.categories}
@@ -234,6 +216,7 @@ class Tag extends Component {
                 pathName={location.pathname} />
             <FooterFull pathName={location.pathname} sectionList={sectionListResponse} sectionLogo={sectionLogo}/>
             <style dangerouslySetInnerHTML={ { __html: customCSS } } />
+            <script dangerouslySetInnerHTML={ { __html: customJS } } />
           </DocumentMeta>
         )
     }
