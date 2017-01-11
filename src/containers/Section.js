@@ -332,7 +332,7 @@ class Section extends Component {
                 />
               </div>
               <SidebarFull pathName={location.pathname} sectionList={sectionList.response}/>
-              <HeaderFull pathName={location.pathname} sectionLogo={sectionLogo}/>
+              <HeaderFull pathName={location.pathname} section={section} sectionLogo={sectionLogo}/>
               <LeadingFull
                 articles={articles}
                 pathName={location.pathname}
