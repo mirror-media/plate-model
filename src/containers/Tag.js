@@ -172,6 +172,7 @@ class Tag extends Component {
       title: tagName ? tagName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL
     }
     const customCSS = _.get(tag.items, [ 'css' ])
+    const customJS = _.get(tag.items, [ 'javascript' ], null)
     switch (tagStyle) {
       default:
         return (
@@ -195,7 +196,7 @@ class Tag extends Component {
         return (
           <DocumentMeta {...meta}>
             <SidebarFull pathName={location.pathname} section={section} sectionList={sectionListResponse}/>
-            <HeaderFull pathName={location.pathname} sectionLogo={sectionLogo}/>
+            <HeaderFull pathName={location.pathname} section={section} sectionLogo={sectionLogo}/>
             <section className="tag-gallery" style={{ backgroundImage: 'url('+heroImage+')' }}>
               <div className="tag-gallery-headline">
                 <h1 className="tag-gallery-headline__enName"></h1>
@@ -206,6 +207,7 @@ class Tag extends Component {
                 </div>
               </div>
             </section>
+            <section id="subnav"></section>
             <LatestArticlesFull
                 articles={articles}
                 categories={entities.categories}
@@ -214,6 +216,7 @@ class Tag extends Component {
                 pathName={location.pathname} />
             <FooterFull pathName={location.pathname} sectionList={sectionListResponse} sectionLogo={sectionLogo}/>
             <style dangerouslySetInnerHTML={ { __html: customCSS } } />
+            <script dangerouslySetInnerHTML={ { __html: customJS } } />
           </DocumentMeta>
         )
     }
