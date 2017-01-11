@@ -100,8 +100,8 @@ class Timeline extends Component {
     return (
           <DFPSlotsProvider dfpNetworkId={DFPID}>
             <DocumentMeta {...meta}>
-              <SidebarFull pathName={'/section/watch'} sectionList={sectionList.response}/>
-              <HeaderFull pathName={'/section/watch'} sectionLogo={sectionLogo}/>
+              <SidebarFull pathName={'/section/watch'} section={'watch'} sectionList={sectionList.response}/>
+              <HeaderFull pathName={'/section/watch'} section={'watch'} sectionLogo={sectionLogo}/>
               <div className="leadingFull__gradient" style={{ zIndex: '9' }}></div>
               <section style={{ position: 'relative' }}>
                 <div className="titleBox"/>

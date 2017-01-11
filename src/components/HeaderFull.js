@@ -80,7 +80,7 @@ export default class HeaderFull extends Component {
   }
 
   render() {
-    const { pathName, section, sectionLogo } = this.props
+    const { section, sectionLogo } = this.props
     let logoUrl = _.get(sectionLogo, [ 'image', 'url' ]) ? _.get(sectionLogo, [ 'image', 'url' ]) : '/asset/icon/logo@3x.png'
 
     return (
@@ -121,7 +121,7 @@ export default class HeaderFull extends Component {
             </a>
           </div>
           <div className="nav-full__logo">
-            <a href={ pathName } >
+            <a href= { '/section/' + section } >
               <img src={ logoUrl } />
             </a>
           </div>
