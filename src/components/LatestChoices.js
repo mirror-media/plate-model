@@ -44,7 +44,7 @@ export default class LatestChoices extends Component {
 
             return (
               <div className="ui column" key={'choice' + a.id} style={{ marginBottom: '20px' }}>
-                <a href={linkStyle + a.slug + '/' } onClick={ this._handleClick }>
+                <a href={linkStyle + a.slug + '/' } onClick={ this._handleClick } target="_blank">
                   <div className="sectionBlock">
                     <div className="section-cat">
                       { _.get(categories, [ _.first(a.categories), 'title' ]) }
@@ -64,23 +64,23 @@ export default class LatestChoices extends Component {
                 <AdSlot sizes={ [ [ 300, 250 ] ] }
                   dfpNetworkId={DFPID}
                   slotId={ 'mm_pc_hp_300x250_1st' }
-                  adUnit={ 'mm_pc_hp_300x250_1st' } 
+                  adUnit={ 'mm_pc_hp_300x250_1st' }
                   sizeMapping={
-                    [ 
+                    [
                       { viewport: [   0,   0 ], sizes: [ ] },
                       { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
-                    ] 
+                    ]
                   }
                 />
                 <AdSlot sizes={ [ [ 300, 250 ] ] }
                   dfpNetworkId={DFPID}
                   slotId={ 'mm_mobile_hp_300x250_1st' }
-                  adUnit={ 'mm_mobile_hp_300x250_1st' } 
+                  adUnit={ 'mm_mobile_hp_300x250_1st' }
                   sizeMapping={
-                    [ 
+                    [
                       { viewport: [   1,   1 ], sizes: [ [ 300, 250 ] ] },
                       { viewport: [ 970, 200 ], sizes: [ ]  }
-                    ] 
+                    ]
                   }
                 />
               </div>
@@ -93,7 +93,7 @@ export default class LatestChoices extends Component {
 
             return (
               <div className="ui column" key={'choice' + a.id}>
-                <a href={linkStyle + a.slug + '/' } onClick={ this._handleClick }>
+                <a href={linkStyle + a.slug + '/' } onClick={ this._handleClick } target="_blank">
                   <div className="sectionBlock">
                     <div className="section-cat">
                       { _.get(categories, [ _.first(a.categories), 'title' ]) }
