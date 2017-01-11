@@ -64,7 +64,7 @@ export default class SidebarFull extends Component {
             <span>CLOSE THE MENU</span>
           </div>
           <div className="ui borderless vertical menu">
-            <Link to={pathName} key={pathName} className="item" onClick={ this._handleClick } >主頁</Link>
+            <Link to={ '/section/' + section } key={pathName} className="item" onClick={ this._handleClick } >主頁</Link>
             <div className="horizDivider"></div>
             { _.map(sidebarList, (s)=>{
               return (
