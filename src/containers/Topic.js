@@ -30,7 +30,9 @@ class Topic extends Component {
     })).then(() => {
       return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
     }).then(() => {
-      return store.dispatch( fetchTopics() )
+      return store.dispatch( fetchTopics({
+        max_results: 30
+      }) )
     })
   }
 
@@ -164,7 +166,7 @@ class Topic extends Component {
                 { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
                 { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ] ]  }
               ]
-            } 
+            }
           />
         </div>
       ) : null
