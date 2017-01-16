@@ -214,6 +214,7 @@ server.get('*', async function (req, res) {
                   <meta name="apple-mobile-web-app-capable" content="yes"/>
                   <meta name="keywords" content="${SITE_META.KEYWORDS}"/>
                   <meta name="description" content="${desc}" data-rdm/>
+                  <meta property="article:publisher" content="https://www.facebook.com/mirrormediamg/">
                   <meta property="og:rich_attachment" content="true"/>
                   <meta property="og:type" content="${ogType}" />
                   <meta property="og:title" content="${title}" data-rdm/>
@@ -247,6 +248,21 @@ server.get('*', async function (req, res) {
                   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
                   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js"></script>
                   ${styles}
+                  <!-- Facebook Pixel Code -->
+                  <script>
+                  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+                  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+                  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+                  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+                  fbq('init', '1166112616809497'); // Insert your pixel ID here.
+                  fbq('track', 'PageView');
+                  </script>
+                  <noscript><img height="1" width="1" style="display:none"
+                  src="https://www.facebook.com/tr?id=1166112616809497&ev=PageView&noscript=1"
+                  /></noscript>
+                  <!-- DO NOT MODIFY -->
+                  <!-- End Facebook Pixel Code -->
               </head>
               <body>
                 <div id="root">${html}</div>
