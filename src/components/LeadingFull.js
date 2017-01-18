@@ -1,3 +1,5 @@
+import { AD_UNIT_PREFIX, DFPID } from '../constants/index'
+import { AdSlot } from 'react-dfp'
 import { imageComposer } from '../utils/index'
 import _ from 'lodash'
 import React, { Component } from 'react'
@@ -26,7 +28,7 @@ export default class LeadingFull extends Component {
   }
 
   render() {
-    const { articles } = this.props
+    const { articles, section } = this.props
     let sortedArticles = _.sortBy(articles, function (o) { return new Date(o.publishedDate) }).reverse()
 
     return (
@@ -67,7 +69,19 @@ export default class LeadingFull extends Component {
                   </div>
                 </div>
                 <div className="post dfp">
-                  { _.find(this.props.children, { props : { 'data-pos' : 'R' + (i + 1) } }) }
+                  <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px', textAlign: 'center' } } data-pos={ 'R' + (i + 1) }>
+                    <AdSlot sizes={ (i === 0 ) ? [ [ 300, 250 ] ] : ((hasRelated === 'none') ? [ [ 300, 250 ] ] : [ [ 300, 250 ], [ 300, 600 ] ]) }
+                      dfpNetworkId={DFPID}
+                      slotId={ 'mm_pc_' + AD_UNIT_PREFIX[ section ] + '_' + ((i === 0 ) ? '300x250' : '300x600') + '_R' + (i + 1) }
+                      adUnit={ 'mm_pc_' + AD_UNIT_PREFIX[ section ] + '_' + ((i === 0 ) ? '300x250' : '300x600') + '_R' + (i + 1) }
+                      sizeMapping={
+                        [
+                          { viewport: [   0,   0 ], sizes: [ ] },
+                          { viewport: [ 970, 200 ], sizes: (i === 0 ) ? [ [ 300, 250 ] ] : ((hasRelated === 'none') ? [ [ 300, 250 ] ] : [ [ 300, 250 ], [ 300, 600 ] ]) }
+                        ]
+                      }
+                    />
+                  </div>
                 </div>
               </div>
               <div className="related-post-block" style={{ display: hasRelated }} >

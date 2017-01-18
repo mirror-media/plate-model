@@ -305,7 +305,7 @@ class Section extends Component {
         return (
           <DFPSlotsProvider dfpNetworkId={DFPID}>
             <DocumentMeta {...meta}>
-              <div style={ { 'margin': '0 auto;', 'maxWidth': '970px', textAlign: 'center' } } className="section-ad-hd">
+              <div style={ { 'margin': '0 auto', 'maxWidth': '970px', textAlign: 'center' } } className="section-ad-hd">
                 <AdSlot sizes={ [ [ 970, 90 ],  [ 970, 250 ] ] }
                   dfpNetworkId={DFPID}
                   slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_970x250_HD' }
@@ -318,7 +318,7 @@ class Section extends Component {
                   }
                 />
               </div>
-              <div style={ { 'margin': '0 auto;', 'maxWidth': '320px', textAlign: 'center' } } className="section-ad-hd">
+              <div style={ { 'margin': '0 auto', 'maxWidth': '320px', textAlign: 'center' } } className="section-ad-hd">
                 <AdSlot sizes={ [ [ 300, 250 ], [ 320, 100 ] ] }
                   dfpNetworkId={DFPID}
                   slotId={ 'mm_mobile_'+AD_UNIT_PREFIX[section]+'_300x250_HD' }
@@ -347,32 +347,6 @@ class Section extends Component {
                       [
                         { viewport: [   1,   1 ], sizes: [ [ 300, 250 ] ] },
                         { viewport: [ 970, 200 ], sizes: [ ]  }
-                      ]
-                    }
-                  />
-                </div>
-                <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px', textAlign: 'center' } } data-pos="R1">
-                  <AdSlot sizes={ [ [ 300, 250 ] ] }
-                    dfpNetworkId={DFPID}
-                    slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_300x250_R1' }
-                    adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_300x250_R1' }
-                    sizeMapping={
-                      [
-                        { viewport: [   0,   0 ], sizes: [ ] },
-                        { viewport: [ 970, 200 ], sizes: [ [ 300, 250 ] ] }
-                      ]
-                    }
-                  />
-                </div>
-                <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px', textAlign: 'center' } } data-pos="R2">
-                  <AdSlot sizes={ [ [ 300, 250 ], [ 300, 600 ] ] }
-                    dfpNetworkId={DFPID}
-                    slotId={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_300x600_R2' }
-                    adUnit={ 'mm_pc_'+AD_UNIT_PREFIX[section]+'_300x600_R2' }
-                    sizeMapping={
-                      [
-                        { viewport: [   0,   0 ], sizes: [ ] },
-                        { viewport: [ 970, 200 ], sizes: [ [ 300, 250 ], [ 300, 600 ] ] }
                       ]
                     }
                   />
