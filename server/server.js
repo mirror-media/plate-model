@@ -38,6 +38,7 @@ server.use(Express.static(path.join(__dirname, '../static')))
 server.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', 'http://www.mirrormedia.mg/')
   res.header('Access-Control-Allow-Headers', 'X-Requested-With')
+  res.header('content-type', 'text/html')
   next()
 })
 
