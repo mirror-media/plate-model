@@ -30,7 +30,9 @@ class Topic extends Component {
     })).then(() => {
       return store.dispatch( fetchIndexArticles( [ 'sections' ] ) )
     }).then(() => {
-      return store.dispatch( fetchTopics() )
+      return store.dispatch( fetchTopics({
+        max_results: 30
+      }) )
     })
   }
 
@@ -149,7 +151,7 @@ class Topic extends Component {
     let dfpCode = _.get(topics, [ 'items', topicUUID, 'dfp' ], '')
     let dfpMobileCode = _.get(topics, [ 'items', topicUUID, 'mobileDfp' ], '')
 
-    let desktopSize = [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]
+    let desktopSize = [ [ 970, 90 ], [ 970, 250 ] ]
     let mobileSize = [ [ 320, 100 ], [ 300, 250 ] ]
 
     if ( dfpCode == dfpMobileCode ) {
@@ -162,9 +164,9 @@ class Topic extends Component {
             sizeMapping={
               [
                 { viewport: [   1,   1 ], sizes: [ [ 320, 100 ], [ 300, 250 ] ] },
-                { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
+                { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ] ]  }
               ]
-            } 
+            }
           />
         </div>
       ) : null
@@ -179,7 +181,7 @@ class Topic extends Component {
               sizeMapping={
                 [
                   { viewport: [   0,   0 ], sizes: [ ] },
-                  { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ], [ 300, 250 ] ]  }
+                  { viewport: [ 970, 200 ], sizes: [ [ 970, 90 ], [ 970, 250 ] ]  }
                 ]
               }
             />

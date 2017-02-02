@@ -409,7 +409,7 @@ class Questionnaire extends Component {
                 }
               })()}
               <div className="shareToolBox" style={ !(_.get(this.state, [ 'openShareBtn' ], false)) ? { display: 'none' } : {} } onClick={ this._closeShareToolBox }>
-                <div className="addthis_inline_share_toolbox"></div>
+                <div className="addthis_inline_share_toolbox_6g3w"></div>
               </div>
             </div>
           </div>

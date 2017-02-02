@@ -137,6 +137,23 @@ function requestAudios(url) {
   }
 }
 
+function requestArticlesByAuthor(url, id) {
+  return {
+    type: types.FETCH_ARTICLES_BY_AUTHOR_REQUEST,
+    id,
+    url
+  }
+}
+
+function receiveArticlesByAuthor(response, id) {
+  return {
+    type: types.FETCH_ARTICLES_BY_AUTHOR_SUCCESS,
+    id,
+    response,
+    receivedAt: Date.now()
+  }
+}
+
 function failToReceiveIndexArticles(error) {
   return {
     type: types.FETCH_INDEX_ARTICLES_FAILURE,
@@ -197,6 +214,15 @@ function failToReceiveAudios(error) {
   return {
     type: types.FETCH_IMAGES_FAILURE,
     error,
+    failedAt: Date.now()
+  }
+}
+
+function failToReceiveArticlesByAuthor(error, id) {
+  return {
+    type: types.FETCH_ARTICLES_BY_AUTHOR_FAILURE,
+    error,
+    id,
     failedAt: Date.now()
   }
 }
@@ -437,7 +463,6 @@ function _buildAudioQueryUrl(params = {}) {
   return formatUrl(`audios?${query}`)
 }
 
-
 function _buildUrl(params = {}, target) {
   params = params || {}
   params.sort = params.sort || '-publishedDate'
@@ -502,8 +527,10 @@ export function fetchYoutubePlaylist(limit = 10, pageToken = '') {
   }
 }
 
-export function fetchTwitterTimeline(screen_name = 'MirrorWatchTW', count = 10) {
-  let url = formatUrl('twitter?screen_name=' + screen_name + '&count=' + count)
+export function fetchTwitterTimeline(screen_name = 'MirrorWatchTW', count = 10, max_id = 0) {
+
+  let url = max_id ? formatUrl('twitter?screen_name=' + screen_name + '&count=' + count + '&max_id=' + max_id) : formatUrl('twitter?screen_name=' + screen_name + '&count=' + count)
+
   return (dispatch) => {
     dispatch(requestTwitterTimeline(url))
     return _fetchArticles(url)
@@ -640,11 +667,27 @@ export function fetchAudios(params = {}) {
   }
 }
 
+export function fetchArticleByAuthor(params = {}) {
+  return (dispatch) => {
+    let url = _buildPostQueryUrl(params)
+    dispatch(requestArticlesByAuthor(url, 'author'))
+    return _fetchArticles(url)
+      .then((response) => {
+        let camelizedJson = camelizeKeys(response)
+        let normalized = normalize(camelizedJson.items, arrayOf(articleSchema))
+        _.merge(normalized, { links: camelizedJson.links, meta: camelizedJson.meta })
+        return dispatch(receiveArticlesByAuthor(normalized, 'author'))
+      }, (error) => {
+        return dispatch(failToReceiveArticlesByAuthor(error, 'author'))
+      })
+  }
+}
+
 export function fetchIndexArticles(endpoints = []) {
   let mapped = _.map(endpoints, (n) => { return 'endpoint=' + n })
   let combo_params = mapped.join('&')
   let url = formatUrl('combo?' + combo_params)
-  
+
   return (dispatch) => {
     dispatch(requestIndexArticles(url))
     return _fetchArticles(url)

@@ -1,5 +1,6 @@
 'use strict'
 import {
+  articleByAuthor,
   articlesByUuids,
   audios,
   choices,
@@ -82,6 +83,7 @@ function fatalError(state = null, action) {
 }
 
 const rootReducer = combineReducers({
+  articleByAuthor,
   articlesByUuids,
   audios,
   categories,

@@ -44,8 +44,8 @@ export default class SidebarFull extends Component {
   }
 
   render() {
-    const { pathName, sectionList } = this.props
-    let currentSection = pathName.split('/')[2]
+    const { pathName, section, sectionList } = this.props
+    let currentSection = pathName.split('/')[1] == 'section' ? pathName.split('/')[2] : section
     let sidebarList = _.result(_.find(sectionList.sections, { 'name': currentSection }), 'categories')
 
     return (
@@ -64,7 +64,7 @@ export default class SidebarFull extends Component {
             <span>CLOSE THE MENU</span>
           </div>
           <div className="ui borderless vertical menu">
-            <Link to={pathName} key={pathName} className="item" onClick={ this._handleClick } >主頁</Link>
+            <Link to={ '/section/' + section } key={pathName} className="item" onClick={ this._handleClick } >主頁</Link>
             <div className="horizDivider"></div>
             { _.map(sidebarList, (s)=>{
               return (

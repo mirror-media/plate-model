@@ -4,7 +4,7 @@ import MoreFull from '../components/MoreFull'
 import React, { Component } from 'react'
 import dateformat from 'dateformat'
 import entities from 'entities'
-//import ga from 'react-ga'
+import ga from 'react-ga'
 import sanitizeHtml from 'sanitize-html'
 import truncate from 'truncate'
 
@@ -15,6 +15,15 @@ if (process.env.BROWSER) {
 export default class LatestArticlesFull extends Component {
   constructor(props, context) {
     super(props, context)
+    this._handleClick = this._handleClick.bind(this)
+  }
+
+  _handleClick() {
+    ga.event({
+      category: this.props.pathName,
+      action: 'click',
+      label: 'LatestArticlesFull'
+    })
   }
 
   render() {
@@ -49,12 +58,12 @@ export default class LatestArticlesFull extends Component {
 
           return (
             <div className="latestArticlesFull-post" key={a.id || a._id}>
-              <a href={ linkStyle+a.slug+'/' }>
+              <a href={ linkStyle+a.slug+'/' } onClick={ this._handleClick }>
                 <div className="latestArticlesFull-post__img" style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }} >
                 </div>
               </a>
               <div className="latestArticlesFull-post__content">
-                <a href={linkStyle+a.slug+'/'}><h2>{ a.title }</h2></a>
+                <a href={linkStyle+a.slug+'/'} onClick={ this._handleClick }><h2>{ a.title }</h2></a>
                 <div className="latestArticlesFull-post-meta">
                   <span className="latestArticlesFull-post-meta__author">{ (_.get(a, [ 'writers', 'length' ], 0) > 0) ? writers+' ' : null }</span>
                   <span className="latestArticlesFull-post-meta__date">{ dateformat(a.publishedDate, 'yyyy.mm.dd') }</span>
@@ -85,12 +94,12 @@ export default class LatestArticlesFull extends Component {
 
           return (
             <div className="latestArticlesFull-post" key={a.id || a._id}>
-              <a href={ linkStyle+a.slug+'/' }>
+              <a href={ linkStyle+a.slug+'/' } onClick={ this._handleClick }>
                 <div className="latestArticlesFull-post__img" style={{ background:'url('+image+') no-repeat center center', backgroundSize:'cover' }} >
                 </div>
               </a>
               <div className="latestArticlesFull-post__content">
-                <a href={linkStyle+a.slug+'/'}><h2>{ a.title }</h2></a>
+                <a href={linkStyle+a.slug+'/'} onClick={ this._handleClick }><h2>{ a.title }</h2></a>
                 <div className="latestArticlesFull-post-meta">
                   <span className="latestArticlesFull-post-meta__author">{ (_.get(a, [ 'writers', 'length' ], 0) > 0) ? writers+' ' : null }</span>
                   <span className="latestArticlesFull-post-meta__date">{ dateformat(a.publishedDate, 'yyyy.mm.dd') }</span>

@@ -3,6 +3,7 @@ import { GAID, SITE_META, SITE_NAME, TAG } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
 import { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchTag, fetchTopics } from '../actions/articles'
+import { imageComposer } from '../utils/index'
 import { setPageTitle, setPageType } from '../actions/header'
 import _ from 'lodash'
 import DocumentMeta from 'react-document-meta'
@@ -156,9 +157,12 @@ class Tag extends Component {
     const { articlesByUuids, entities, location, params, sectionList, tag, topics } = this.props
     const tagId = _.get(params, 'tagId')
     const tagStyle = _.get(tag, [ 'items', 'style' ] ) ? _.get(tag, [ 'items', 'style' ] ) : 'feature'
+    const section = _.get(tag.items, 'sections[0].name', null)
+    const sectionLogo = _.get( _.find( _.get(sectionList, [ 'response', 'sections' ]), { name: section }), [ 'image' ], null)
+
     let articles = denormalizeArticles(_.get(articlesByUuids, [ tagId, 'items' ], []), entities)
     let sectionListResponse = _.get(sectionList, 'response', {})
-    const customCSS = _.get(tag.items, [ 'css' ])
+    let heroImage = imageComposer(tag.items).desktopImage
     let tagName = _.get(entities, [ 'tags', tagId, 'name' ], '')
     const meta = {
       auto: { ograph: true },
@@ -167,6 +171,8 @@ class Tag extends Component {
       meta: { property: {} },
       title: tagName ? tagName + SITE_NAME.SEPARATOR + SITE_NAME.FULL : SITE_NAME.FULL
     }
+    const customCSS = _.get(tag.items, [ 'css' ])
+    const customJS = _.get(tag.items, [ 'javascript' ], null)
     switch (tagStyle) {
       default:
         return (
@@ -189,9 +195,9 @@ class Tag extends Component {
       case 'full':
         return (
           <DocumentMeta {...meta}>
-            <SidebarFull pathName={location.pathname} sectionList={sectionListResponse}/>
-            <HeaderFull pathName={location.pathname} />
-            <section className="tag-gallery">
+            <SidebarFull pathName={location.pathname} section={section} sectionList={sectionListResponse}/>
+            <HeaderFull pathName={location.pathname} section={section} sectionLogo={sectionLogo}/>
+            <section className="tag-gallery" style={{ backgroundImage: 'url('+heroImage+')' }}>
               <div className="tag-gallery-headline">
                 <h1 className="tag-gallery-headline__enName"></h1>
                 <h3 className="tag-gallery-headline__zhName"></h3>
@@ -201,13 +207,16 @@ class Tag extends Component {
                 </div>
               </div>
             </section>
+            <section id="subnav"></section>
             <LatestArticlesFull
                 articles={articles}
                 categories={entities.categories}
                 hasMore={ _.get(articlesByUuids, [ tagId, 'hasMore' ])}
-                loadMore={this.loadMore}/>
-            <FooterFull pathName={location.pathname} sectionList={sectionListResponse} />
+                loadMore={this.loadMore}
+                pathName={location.pathname} />
+            <FooterFull pathName={location.pathname} sectionList={sectionListResponse} sectionLogo={sectionLogo}/>
             <style dangerouslySetInnerHTML={ { __html: customCSS } } />
+            <script dangerouslySetInnerHTML={ { __html: customJS } } />
           </DocumentMeta>
         )
     }

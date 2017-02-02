@@ -13,7 +13,7 @@ if (process.env.BROWSER) {
   require('./LatestArticles.css')
 }
 
-export default class LatestArticles extends Component {
+export default class LatestArticlesB extends Component {
   constructor(props, context) {
     super(props, context)
     this._handleClick = this._handleClick.bind(this)
@@ -40,9 +40,9 @@ export default class LatestArticles extends Component {
 
   _handleClick() {
     ga.event({
-      category: 'home',
+      category: 'homeb',
       action: 'click',
-      label: 'latestArticles'
+      label: 'latestArticlesb'
     })
   }
 
@@ -151,4 +151,4 @@ export default class LatestArticles extends Component {
   }
 }
 
-export { LatestArticles }
+export { LatestArticlesB }

@@ -38,6 +38,7 @@ server.use(Express.static(path.join(__dirname, '../static')))
 server.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', 'http://www.mirrormedia.mg/')
   res.header('Access-Control-Allow-Headers', 'X-Requested-With')
+  res.header('content-type', 'text/html')
   next()
 })
 
@@ -172,10 +173,10 @@ server.get('*', async function (req, res) {
           ogImage = _.get(_.find(_.get(setting, [ 'results' ], []), { id : resultIdForOg }), [ 'image', 'url' ]) ? _.get(_.find(_.get(setting, [ 'results' ], []), { id : resultIdForOg }), [ 'image', 'url' ]) : _.get(setting, [ 'image', 'url' ], SITE_META.LOGO)
         }
 
-        let expGA = ''
-        if ( location.pathname == '/' ) {
-          expGA = '<!-- Google Analytics Content Experiment code --><script>function utmx_section(){}function utmx(){}(function(){var k=\'129051472-2\',d=document,l=d.location,c=d.cookie;if(l.search.indexOf(\'utm_expid=\'+k)>0)return;function f(n){if(c){var i=c.indexOf(n+\'=\');if(i>-1){var j=c.indexOf(\';\',i);return escape(c.substring(i+n.length+1,j<0?c.length:j))}}}var x=f(\'__utmx\'),xx=f(\'__utmxx\'),h=l.hash;d.write(\'<sc\'+\'ript src="\'+\'http\'+(l.protocol==\'https:\'?\'s://ssl\':\'://www\')+\'.google-analytics.com/ga_exp.js?\'+\'utmxkey=\'+k+\'&utmx=\'+(x?x:\'\')+\'&utmxx=\'+(xx?xx:\'\')+\'&utmxtime=\'+new Date().valueOf()+(h?\'&utmxhash=\'+escape(h.substr(1)):\'\')+\'" type="text/javascript" charset="utf-8"><\/sc\'+\'ript>\')})();</script><script>utmx(\'url\',\'A/B\');</script><!-- End of Google Analytics Content Experiment code -->'
-        }
+        // let expGA = ''
+        // if ( location.pathname == '/' ) {
+        //   expGA = '<!-- Google Analytics Content Experiment code --><script>function utmx_section(){}function utmx(){}(function(){var k=\'129051472-1\',d=document,l=d.location,c=d.cookie;if(l.search.indexOf(\'utm_expid=\'+k)>0)return;function f(n){if(c){var i=c.indexOf(n+\'=\');if(i>-1){var j=c.indexOf(\';\',i);return escape(c.substring(i+n.length+1,j<0?c.length:j))}}}var x=f(\'__utmx\'),xx=f(\'__utmxx\'),h=l.hash;d.write(\'<sc\'+\'ript src="\'+\'http\'+(l.protocol==\'https:\'?\'s://ssl\':\'://www\')+\'.google-analytics.com/ga_exp.js?\'+\'utmxkey=\'+k+\'&utmx=\'+(x?x:\'\')+\'&utmxx=\'+(xx?xx:\'\')+\'&utmxtime=\'+new Date().valueOf()+(h?\'&utmxhash=\'+escape(h.substr(1)):\'\')+\'" type="text/javascript" charset="utf-8"><\/sc\'+\'ript>\')})();</script><script>utmx(\'url\',\'A/B\');</script><!-- End of Google Analytics Content Experiment code -->'
+        // }
 
         // if (pageState['selectedArticle']['id']) {
         //   let currentArticle = _.get(pageState, [ 'entities', 'articles', _.get(pageState, 'selectedArticle.id') ], null)
@@ -206,7 +207,6 @@ server.get('*', async function (req, res) {
             <!DOCTYPE html>
             <html lang="zh-Hant-TW">
               <head>
-                  ${expGA}
                   <title>${title}</title>
                   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
                   <meta http-equiv="Cache-control" content="public">
@@ -214,6 +214,8 @@ server.get('*', async function (req, res) {
                   <meta name="apple-mobile-web-app-capable" content="yes"/>
                   <meta name="keywords" content="${SITE_META.KEYWORDS}"/>
                   <meta name="description" content="${desc}" data-rdm/>
+                  <meta property="article:author" content="https://www.facebook.com/mirrormediamg/">
+                  <meta property="article:publisher" content="https://www.facebook.com/mirrormediamg/">
                   <meta property="og:rich_attachment" content="true"/>
                   <meta property="og:type" content="${ogType}" />
                   <meta property="og:title" content="${title}" data-rdm/>
@@ -247,6 +249,21 @@ server.get('*', async function (req, res) {
                   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
                   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js"></script>
                   ${styles}
+                  <!-- Facebook Pixel Code -->
+                  <script>
+                    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+                    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+                    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+                    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+                    fbq('init', '1166112616809497'); // Insert your pixel ID here.
+                    fbq('track', 'PageView');
+                  </script>
+                  <noscript><img height="1" width="1" style="display:none"
+                  src="https://www.facebook.com/tr?id=1166112616809497&ev=PageView&noscript=1"
+                  /></noscript>
+                  <!-- DO NOT MODIFY -->
+                  <!-- End Facebook Pixel Code -->
               </head>
               <body>
                 <div id="root">${html}</div>

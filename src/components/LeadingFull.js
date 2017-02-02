@@ -1,3 +1,5 @@
+import { AD_UNIT_PREFIX, DFPID } from '../constants/index'
+import { AdSlot } from 'react-dfp'
 import { imageComposer } from '../utils/index'
 import _ from 'lodash'
 import React, { Component } from 'react'
@@ -26,13 +28,13 @@ export default class LeadingFull extends Component {
   }
 
   render() {
-    const { articles } = this.props
+    const { articles, section } = this.props
     let sortedArticles = _.sortBy(articles, function (o) { return new Date(o.publishedDate) }).reverse()
 
     return (
       <div>
         <div className="leadingFull__gradient"></div>
-        { _.map(_.take(sortedArticles, 2), (a)=>{
+        { _.map(_.take(sortedArticles, 2), (a, i)=>{
           let image = imageComposer(a).desktopImage
           let title = sanitizeHtml( _.get(a, [ 'title' ], ''), { allowedTags: [ ] })
           let hasRelated = _.difference(a.relateds, [ null, '' ]).length > 0 ? 'static' : 'none'
@@ -44,7 +46,6 @@ export default class LeadingFull extends Component {
 
           let writers = '文｜' + _.map(a.writers, 'name').join('、')
           let relateds = _.filter(a.relateds, 'id')
-          
           return (
             <section className="" key={'choiceFull' + a.id}>
               <a href={linkStyle+a.slug+'/'} onClick={ this._handleClick }>
@@ -64,10 +65,23 @@ export default class LeadingFull extends Component {
                     </div>
                   </a>
                   <div className="post brief">
-                    { truncate(entities.decodeHTML(briefContent), 200) }
+                    <a href={linkStyle+a.slug+'/'} onClick={ this._handleClick }>{ truncate(entities.decodeHTML(briefContent), 100) + ' <more>'}</a>
                   </div>
                 </div>
                 <div className="post dfp">
+                  <div style={ { margin: '0 auto', 'marginBottom': '20px', 'maxWidth': '320px', textAlign: 'center' } } data-pos={ 'R' + (i + 1) }>
+                    <AdSlot sizes={ (i === 0 ) ? [ [ 300, 250 ] ] : ((hasRelated === 'none') ? [ [ 300, 250 ] ] : [ [ 300, 250 ], [ 300, 600 ] ]) }
+                      dfpNetworkId={DFPID}
+                      slotId={ 'mm_pc_' + AD_UNIT_PREFIX[ section ] + '_' + ((i === 0 ) ? '300x250' : '300x600') + '_R' + (i + 1) }
+                      adUnit={ 'mm_pc_' + AD_UNIT_PREFIX[ section ] + '_' + ((i === 0 ) ? '300x250' : '300x600') + '_R' + (i + 1) }
+                      sizeMapping={
+                        [
+                          { viewport: [   0,   0 ], sizes: [ ] },
+                          { viewport: [ 970, 200 ], sizes: (i === 0 ) ? [ [ 300, 250 ] ] : ((hasRelated === 'none') ? [ [ 300, 250 ] ] : [ [ 300, 250 ], [ 300, 600 ] ]) }
+                        ]
+                      }
+                    />
+                  </div>
                 </div>
               </div>
               <div className="related-post-block" style={{ display: hasRelated }} >
@@ -82,7 +96,7 @@ export default class LeadingFull extends Component {
                       let content = sanitizeHtml( _.get(r, [ 'content','html' ], ''), { allowedTags: [ ] })
                       let briefContent = (brief.length >0) ? brief : content
                       let writers = '文｜' + _.map(r.writers, 'name').join('、')
-                      
+
                       return (
                         <div className="related-post" key={ r.id} >
                           <a href={linkStyle+r.slug+'/'} onClick={ this._handleClick }>
@@ -93,7 +107,7 @@ export default class LeadingFull extends Component {
                               <div className="related-post__title"> { r.title }</div>
                             </a>
                             <div className="related-post__brief">
-                              { truncate(entities.decodeHTML(briefContent), 55) }
+                              <a href={linkStyle+r.slug+'/'} onClick={ this._handleClick }>{ truncate(entities.decodeHTML(briefContent), 55) }</a>
                             </div>
                             <div className="related-post__meta">
                               <div className="related-post__author">
@@ -107,6 +121,7 @@ export default class LeadingFull extends Component {
                     })}
                 </div>
               </div>
+              { (i !== 0) ? null : _.find(this.props.children, { props : { 'data-pos' : 'L1' } }) }
             </section>
           )
         })}

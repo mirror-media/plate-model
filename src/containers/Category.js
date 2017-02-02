@@ -1,9 +1,9 @@
 /* global __DEVELOPMENT__ */
-import { CATEGORY, SITE_META, SITE_NAME, GAID, AD_UNIT_PREFIX, DFPID } from '../constants/index'
+import { AdSlot, DFPSlotsProvider, DFPManager } from 'react-dfp'
+import { AD_UNIT_PREFIX, CATEGORY, DFPID, GAID, SITE_META, SITE_NAME } from '../constants/index'
 import { connect } from 'react-redux'
 import { denormalizeArticles } from '../utils/index'
-import { DFPSlotsProvider, DFPManager, AdSlot } from 'react-dfp'
-import { fetchIndexArticles, fetchArticlesByUuidIfNeeded, fetchYoutubePlaylist, fetchTopics, fetchAudios } from '../actions/articles'
+import { fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchYoutubePlaylist, fetchTopics, fetchAudios } from '../actions/articles'
 import { setPageType, setPageTitle } from '../actions/header'
 import AudioList from '../components/AudioList'
 import DocumentMeta from 'react-document-meta'
@@ -27,14 +27,14 @@ class Category extends Component {
   static fetchData({ params, store }) {
 
     switch (params.category) {
-      case 'videohub':
-        return store.dispatch(fetchYoutubePlaylist(MAXRESULT)).then(() => {
+      case 'audio':
+        return store.dispatch( fetchAudios() ).then(() => {
           return store.dispatch( fetchIndexArticles( [ 'sections' ] ) ).then(() => {
             return store.dispatch( fetchTopics() )
           })
         })
-      case 'audio':
-        return store.dispatch( fetchAudios() ).then(() => {
+      case 'videohub':
+        return store.dispatch( fetchYoutubePlaylist(MAXRESULT)).then(() => {
           return store.dispatch( fetchIndexArticles( [ 'sections' ] ) ).then(() => {
             return store.dispatch( fetchTopics() )
           })
@@ -64,7 +64,7 @@ class Category extends Component {
   }
 
   componentWillMount() {
-    const { fetchArticlesByUuidIfNeeded, articlesByUuids, fetchIndexArticles, fetchYoutubePlaylist, sectionList, topics, youtubePlaylist } = this.props
+    const { articlesByUuids, fetchArticlesByUuidIfNeeded, fetchIndexArticles, fetchYoutubePlaylist, sectionList, topics, youtubePlaylist } = this.props
     let catId = this.state.catId
 
     if ( !_.get(topics, 'fetched', undefined) ) {
@@ -92,7 +92,6 @@ class Category extends Component {
       page: PAGE,
       max_results: MAXRESULT
     })
-
   }
 
   componentDidMount() {
@@ -132,7 +131,7 @@ class Category extends Component {
     let catId = _.get(params, 'category')
 
     // if fetched before, do nothing
-    if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0 || catId == 'videohub' || catId == 'audio') {
+    if (_.get(articlesByUuids, [ catId, 'items', 'length' ], 0) > 0 || catId === 'videohub' || catId === 'audio') {
       return
     }
 
@@ -147,6 +146,7 @@ class Category extends Component {
     let catId = _.get(params, 'category')
 
     let articlesByCat = _.get(articlesByUuids, [ catId ], {})
+
     if (_.get(articlesByCat, 'hasMore') === false) {
       return
     }
@@ -190,12 +190,11 @@ class Category extends Component {
 
   _renderList() {
     const { articlesByUuids, entities, params, sectionList , youtubePlaylist, audios } = this.props
-    const catId = _.get(params, 'category')
+    const catId = _.get(params, 'category', null)
+    const catName = _.get(sectionList.response, [ 'categories', catId, 'title' ],  _.get(_.find(_.get(entities, [ 'categories' ]), { name: catId }), [ 'title' ], ''))
     const section = _.find(_.get(sectionList, [ 'response', 'sections' ]), function (o) { return _.find(o.categories, { 'name': catId }) })
     const sectionName = _.get(section, 'name', '')
     let articles = denormalizeArticles(_.get(articlesByUuids, [ catId, 'items' ], []), entities)
-    const category = _.get(params, 'category', null)
-    const catName = _.get(sectionList.response, [ 'categories', category, 'title' ],  _.get(_.find(_.get(entities, [ 'categories' ]), { name: catId }), [ 'title' ], null))
 
     switch (catId) {
       case 'videohub':
@@ -217,14 +216,17 @@ class Category extends Component {
           />
         )
       default:
+        const _title = catName
+        const _articles = articles
+        const _hasMore = _.get(articlesByUuids, [ catId, 'hasMore' ])
         return (
           <List
-            articles={articles}
+            articles={_articles}
             categories={entities.categories}
-            section={sectionName}
-            title={catName}
-            hasMore={ _.get(articlesByUuids, [ catId, 'hasMore' ])}
+            hasMore={_hasMore}
             loadMore={this.loadMore}
+            section={sectionName}
+            title={_title}
           />
         )
     }

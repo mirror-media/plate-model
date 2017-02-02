@@ -73,7 +73,7 @@ section {
 	order: 4;
 	width: 100%;
 	margin: 0 auto;
-	padding: 30px 0;
+	/*padding: 30px 0;*/
 }
 
 .post-container h2 {
@@ -126,6 +126,7 @@ section {
 	margin-bottom: 15px;
 	font-size: 18px;
 	font-weight: 700;
+	line-height: 24px;
 	color: #222;
 }
 
@@ -163,7 +164,7 @@ section {
 }
 
 /* for Monitor */
-@media only screen 
+@media only screen
 	and (min-width: 992px) {
 		.leadingFull__gradient {
 			height: 150px;
@@ -190,12 +191,14 @@ section {
 		.post.title {
 			padding: 0;
 			font-size: 36px;
-			color: #222;
 		}
 
 		.post.brief {
 			padding-top: 20px;
 			font-size: 16px;
+		}
+
+		.post.title h2, .post.brief a {
 			color: #222;
 		}
 
@@ -249,7 +252,7 @@ section {
 }
 
 /* for Large Monitor */
-@media only screen 
+@media only screen
 	and (min-width: 1200px) {
 		.post.meta {
 			width: 170px;

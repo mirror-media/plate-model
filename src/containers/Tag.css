@@ -7,7 +7,9 @@
   align-items: center;
   width: 100vw;
   height: calc(100vw * 0.77);
-  background-color: blue;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .tag-gallery-headline {
@@ -60,6 +62,44 @@
 .tag-gallery-intro > img {
   vertical-align: middle;
   height: 8px;
+}
+
+.subnav {
+  background-color: #000;
+  color: #fff;
+  height: 48px;
+}
+
+.subnav > ul {
+  display: flex;
+  height: 100%;
+}
+
+.subnav > ul li {
+  display: inline-block;
+  flex: 1;
+  padding: 15px 10px;
+  border: 1px solid #fff;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.subnav a {
+  color: #fff;
+}
+
+/* for Monitor */
+@media only screen 
+  and (min-width: 768px) {
+    .subnav {
+      font-size: 1.1em;
+      height: 52px;
+    }
+
+    .subnav > ul li {
+      font-size: 15px;
+    }
 }
 
 /* for Monitor */

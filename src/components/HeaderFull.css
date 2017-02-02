@@ -3,7 +3,7 @@
 }
 
 .nav-full {
-	position: fixed;
+	position: absolute;;
 	z-index: 101;
 	width: 100%;
 	height: 55px;
@@ -74,13 +74,13 @@
 .headerFull-icon.line,
 .headerFull-icon.logo,
 .headerFull-icon.search,
-.headerFull-icon.weibo { 
-  height: 20px; 
+.headerFull-icon.weibo {
+  height: 20px;
 }
 
 /* for Monitor */
 
-@media only screen 
+@media only screen
   and (min-width: 992px) {
   	.nav-full {
   		height: 60px;

@@ -98,6 +98,7 @@
 	max-width: -moz-calc(100% - 57.55px);
 	margin: 0 auto;
 	justify-content: center;
+  align-items: center;
 }
 
 .nav-item {

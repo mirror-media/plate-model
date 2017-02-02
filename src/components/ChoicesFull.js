@@ -60,7 +60,7 @@ export default class ChoicesFull extends Component {
                     <h2>{ a.title }</h2>
                   </a>
                   <div className="choice-brief">
-                    { truncate(entities.decodeHTML(briefContent), 70) }
+                    <a href={linkStyle + a.slug + '/'} onClick={ this._handleClick }>{ truncate(entities.decodeHTML(briefContent), 70) }</a>
                   </div>
                   <div className="choice meta">
                     <div className="choice-author">{ (_.get(a, [ 'writers', 'length' ], 0) > 0) ? writers+' ' : null }</div>
