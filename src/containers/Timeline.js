@@ -105,7 +105,7 @@ class Timeline extends Component {
               <div className="leadingFull__gradient" style={{ zIndex: '9' }}></div>
               <section style={{ position: 'relative' }}>
                 <div className="titleBox"/>
-                <figure className="post-image" style={ { background: 'url(//storage.googleapis.com/mirrormedia-files/assets/images/20170109160902-b20ee536a0e884d73159d4846df1d33d.jpg) center center / cover no-repeat' } }></figure>
+                <figure className="post-image" style={ { background: 'url(//www.mirrormedia.mg/assets/images/20170320141850-acc898b5c64351723a13f93a9981fdf5.jpg) center center / cover no-repeat' } }></figure>
               </section>
               <div className="timelineWrapper">
                 { _.map(twitterTimeline.items, (t)=>{
